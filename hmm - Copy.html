@@ -74,9 +74,7 @@
  */
 
 
-
 main_dict = {}
-main_dict.size = 8
 
 var i,
     s,
@@ -102,7 +100,7 @@ var i,
 
   g.edges.push(create_edge(3, 2, 1 ));
 
-  // g.edges.push(create_edge(4, 2, 2 ));
+  g.edges.push(create_edge(4, 2, 2 ));
 
   
 
@@ -145,8 +143,6 @@ s = new sigma({
   }
 });
 
-// s.settings('zoomingRatio', 5);
-
   
 
 
@@ -155,8 +151,6 @@ var q = 0;
     var direction = 0;
 
 window.setInterval(function(){
-
-  console.log(main_dict);
 
 
 
@@ -177,41 +171,20 @@ window.setInterval(function(){
   var p2 = s.graph.nodes()[1];
   var p3 = s.graph.nodes()[2];
 
-  // var cp = sigma.utils.getQuadraticControlPoint(p1.x,p1.y,p2.x,p2.y);
+  var cp = sigma.utils.getQuadraticControlPoint(p1.x,p1.y,p2.x,p2.y);
 
-  // console.log(p1.size)
-
-  var cps = sigma.utils.getSelfLoopControlPoints(p1.x,p1.y, 1);
-
-  var cp1 = {}
-  cp1.x = cps.x1;
-  cp1.y = cps.y1;
-
-  var cp2 = {}
-  cp2.x = cps.x2;
-  cp2.y = cps.y2;
+  // var cp = sigma.utils.getSelfLoopControlPoints(p1.x,p1.y, p1.size);
 
 
-  
 
-  console.log(cp1.x,cp1.y, cp2.x, cp2.y);
 
-  // console.log(cp1,cp2);
+  console.log(cp,p1,p2,p3);
 
-  // var new_point = getQuadraticBezierXYatPercent(p1,cp,p2,q)
-  // t, x1, y1, x2, y2, cx, cy, dx, dy
+  var new_point = getQuadraticBezierXYatPercent(p1,cp,p2,q)
+  // var new_point = getQuadraticBezierXYatPercent(p1,cp,p1,q)
 
-  // var new_point = sigma.utils.getPointOnBezierCurve(0, p1.x, p1.y, p2.x, p2.y, cp1.x,cp1.y, cp2.x,cp2.y)
 
-  // // console.log(new_point)
 
-  // var new_point = sigma.utils.getPointOnBezierCurve(1, p1.x, p1.y, p2.x, p2.y, cp1.x,cp1.y, cp2.x,cp2.y)
-
-  // // console.log(new_point)
-
-  // var new_point = sigma.utils.getPointOnBezierCurve(q, p1.x, p1.y, p1.x, p1.y, cp1.x,cp1.y, cp2.x,cp2.y)
-
-  var new_point = getCubicBezierXYatPercent(p1, cp1, cp2, p1, q)
 
     s.graph.nodes().forEach(function(n){
           
@@ -236,13 +209,11 @@ window.setInterval(function(){
               q-=0.01
             }
 
-            // `console.log("`yeah");
+            // console.log("yeah");
             // console.log(new_point);
-            // n.x = new_point.x;
-            // n.y = new_point.y;
-            
-            // console.log(n);
-
+            n.x = new_point.x;
+            n.y = new_point.y;
+             
           }
 
 
@@ -250,11 +221,11 @@ window.setInterval(function(){
 
 
 
-  
+  console.log();
 
     
 
-}, 1000);
+}, 100);
 
 
 

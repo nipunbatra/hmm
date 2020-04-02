@@ -73,10 +73,9 @@
  * the screen, since the graph is given directly to the constructor.
  */
 
-
-
 main_dict = {}
-main_dict.size = 8
+
+
 
 var i,
     s,
@@ -88,46 +87,48 @@ var i,
     };
 
 // Generate a random graph:
-  g.nodes.push(create_node(1, 0.1,0.1));
 
-  g.nodes.push(create_node(2, 0.1,0.12));
+  
+  var x = 0;
 
-  var node =  create_node(5,0.1,0.3);
+  var n = 0;
 
-  g.nodes.push(node);
+  var e = 0;
 
-  g.edges.push(create_edge(1, 1, 2 ));
 
-  g.edges.push(create_edge(2, 1, 1 ));
+  g.nodes.push(create_node(n, x,0.1));
 
-  g.edges.push(create_edge(3, 2, 1 ));
+  // g.nodes.push(create_node(n+1, x,0.12));
 
-  // g.edges.push(create_edge(4, 2, 2 ));
+
+  // x+=0.1;
+  // n+=2;
+  // e+=4;;
+
+  // g.nodes.push(create_node(n, x,0.1));
+
+  // g.nodes.push(create_node(n+1, x,0.12));
+
+
+  // g.edges.push(create_edge(e, n-2, n , 'arrow'));
+
+  // g.edges.push(create_edge(e+1, n-2, n+1  , 'arrow'));
+
+  // g.edges.push(create_edge(e+2, n-1, n  , 'arrow'));
+
+  // g.edges.push(create_edge(e+3, n-1, n+1  , 'arrow'));
+
+
+
+
+  // g.edges.push(create_edge(e+1, n-2, n+1 ));
+
+  // g.edges.push(create_edge(e+2, n-2, n ));
+
+  // g.edges.push(create_edge(e+3, 2, 1 ));
 
   
 
-
-//   g.edges.push()
-
-
-// g.edges.push({
-//     id: 'e' + 1,
-//     source: 'n1' ,
-//     target: 'n2' ,
-//     size: 1,
-//     type: 'curvedArrow',
-//     color: '#ccc'
-//   })
-  
-// g.edges.push({
-//     id: 'e' + 3,
-//     source: 'n2' ,
-//     target: 'n2' ,
-//     size: 1,
-//     type: 'curvedArrow',
-//     color: '#ccc'
-//   })
-  
 
 
 // Instantiate sigma:
@@ -145,114 +146,93 @@ s = new sigma({
   }
 });
 
-// s.settings('zoomingRatio', 5);
+
 
   
 
+var mode = 1;
 
-var q = 0;
-  
-    var direction = 0;
+var node_id = 1;
+
+var edge_id=0;
 
 window.setInterval(function(){
 
-  console.log(main_dict);
+
+  // console.log(s.graph.nodes());
+
+  if (mode==1){
+
+      x+=0.1;
+      n+=2;
+      
+
+    var node = create_node(node_id, x,0.1);
+
+    var color = ['red','blue'][Math.round(Math.random())]
+
+    node.color = color;
+
+    s.graph.addNode(node)
+
+    mode = 0;
+
+    if (node_id!=1){
+      var edge = create_edge(edge_id, node_id-2, node_id,'arrow')  
+    }
+    else{
+      var edge = create_edge(edge_id, node_id-1, node_id,'arrow')  
+    }
+    
+    edge.color = getRandomColor();
+
+    s.graph.addEdge(edge)
+
+
+  }
+
+
+  else if(mode==0){
+
+    var node = create_node(node_id, x,0.2);
 
 
 
-  // var edge  = create_edge(q+10,1,q);
+    var color = ['orange','yellow'][Math.round(Math.random())]
+    
+    node.color = color;
 
 
+
+    s.graph.addNode(node)
+
+    mode = 1;
+
+
+    var edge = create_edge(edge_id, node_id-1, node_id,'arrow')
+
+    edge.color = getRandomColor();
+
+
+    s.graph.addEdge(edge)
+
+
+
+  }
+
+  node_id+=1;
+
+  edge_id+=1;
+
+  // s.graph.edges().forEach(function(n){
+  //         n.color = getRandomColor();
+  //       });
 
   
-  
-  // s.graph.addNode(node);
-  // s.graph.addEdge(edge);
+
   s.refresh();
 
-  // console.log(s.graph.edges()[0]);
-  // console.log((s.graph.edges()[0]));
-
-  var p1 = s.graph.nodes()[0];
-  var p2 = s.graph.nodes()[1];
-  var p3 = s.graph.nodes()[2];
-
-  // var cp = sigma.utils.getQuadraticControlPoint(p1.x,p1.y,p2.x,p2.y);
-
-  // console.log(p1.size)
-
-  var cps = sigma.utils.getSelfLoopControlPoints(p1.x,p1.y, 1);
-
-  var cp1 = {}
-  cp1.x = cps.x1;
-  cp1.y = cps.y1;
-
-  var cp2 = {}
-  cp2.x = cps.x2;
-  cp2.y = cps.y2;
-
-
-  
-
-  console.log(cp1.x,cp1.y, cp2.x, cp2.y);
-
-  // console.log(cp1,cp2);
-
-  // var new_point = getQuadraticBezierXYatPercent(p1,cp,p2,q)
-  // t, x1, y1, x2, y2, cx, cy, dx, dy
-
-  // var new_point = sigma.utils.getPointOnBezierCurve(0, p1.x, p1.y, p2.x, p2.y, cp1.x,cp1.y, cp2.x,cp2.y)
-
-  // // console.log(new_point)
-
-  // var new_point = sigma.utils.getPointOnBezierCurve(1, p1.x, p1.y, p2.x, p2.y, cp1.x,cp1.y, cp2.x,cp2.y)
-
-  // // console.log(new_point)
-
-  // var new_point = sigma.utils.getPointOnBezierCurve(q, p1.x, p1.y, p1.x, p1.y, cp1.x,cp1.y, cp2.x,cp2.y)
-
-  var new_point = getCubicBezierXYatPercent(p1, cp1, cp2, p1, q)
-
-    s.graph.nodes().forEach(function(n){
-          
-
-          if (n.id=='n5'){
-
-            
-
-            if (q>1){
-              direction = 1;
-            }
-            
-            if (q<0){
-              direction = 0;
-            }
-
-            if (direction==0){
-              q+=0.01
-            }
-
-            else{
-              q-=0.01
-            }
-
-            // `console.log("`yeah");
-            // console.log(new_point);
-            // n.x = new_point.x;
-            // n.y = new_point.y;
-            
-            // console.log(n);
-
-          }
-
-
-        });
-
-
-
-  
-
-    
+  // console.log(node);
 
 }, 1000);
 

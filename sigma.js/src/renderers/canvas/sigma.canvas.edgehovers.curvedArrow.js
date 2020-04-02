@@ -12,6 +12,9 @@
    * @param  {CanvasRenderingContext2D} context      The canvas context.
    * @param  {configurable}             settings     The settings function.
    */
+
+
+
   sigma.canvas.edgehovers.curvedArrow =
     function(edge, source, target, context, settings) {
       console.log('called')
@@ -35,7 +38,7 @@
         vY;
 
     cp = (source.id === target.id) ?
-      sigma.utils.getSelfLoopControlPoints(sX, sY, tSize) :
+      sigma.utils.getSelfLoopControlPoints(sX, sY, 100) :
       sigma.utils.getQuadraticControlPoint(sX, sY, tX, tY);
 
     if (source.id === target.id) {
@@ -79,7 +82,7 @@
     context.beginPath();
     context.moveTo(sX, sY);
     if (source.id === target.id) {
-      console.log
+      
       context.bezierCurveTo(cp.x2, cp.y2, cp.x1, cp.y1, aX, aY);
     } else {
       context.quadraticCurveTo(cp.x, cp.y, aX, aY);

@@ -76,6 +76,9 @@
 
 
 
+var edge_index_to_color = 3;
+
+
 var i,
     s,
     N = 2,
@@ -85,70 +88,6 @@ var i,
       edges: []
     };
 
-// Generate a random graph:
-
-  
-  var x = 0;
-
-  var n = 0;
-
-  var e = 0;
-
-
-  g.nodes.push(create_node(n, x,0.1));
-
-  g.nodes.push(create_node(n+1, x,0.12));
-
-
-  x+=0.1;
-  n+=2;
-  e+=4;;
-
-  g.nodes.push(create_node(n, x,0.1));
-
-  g.nodes.push(create_node(n+1, x,0.12));
-
-
-  g.edges.push(create_edge(e, n-2, n , 'arrow'));
-
-  g.edges.push(create_edge(e+1, n-2, n+1  , 'arrow'));
-
-  g.edges.push(create_edge(e+2, n-1, n  , 'arrow'));
-
-  g.edges.push(create_edge(e+3, n-1, n+1  , 'arrow'));
-
-
-
-  x+=0.1;
-  n+=2;
-  e+=4;;
-
-  g.nodes.push(create_node(n, x,0.1));
-
-  g.nodes.push(create_node(n+1, x,0.12));
-
-
-  g.edges.push(create_edge(e, n-2, n , 'arrow'));
-
-  g.edges.push(create_edge(e+1, n-2, n+1  , 'arrow'));
-
-  g.edges.push(create_edge(e+2, n-1, n  , 'arrow'));
-
-  g.edges.push(create_edge(e+3, n-1, n+1  , 'arrow'));
-
-
-
-  // g.edges.push(create_edge(e+1, n-2, n+1 ));
-
-  // g.edges.push(create_edge(e+2, n-2, n ));
-
-  // g.edges.push(create_edge(e+3, 2, 1 ));
-
-  
-
-
-
-// Instantiate sigma:
 
 s = new sigma({
   graph: g,
@@ -164,26 +103,92 @@ s = new sigma({
 });
 
 
-
   
+  var x = 0;
 
+  var n = 0;
+
+  var e = 0;
+
+  var node1  = create_node(n, x,0.1)
+
+  var node2 = create_node(n+1, x, 0.2)
+
+  node1.color = "red"
+
+  node2.color = "orange"
+  
+  s.graph.addNode(node1);
+
+  s.graph.addNode(node2);
+
+
+
+
+
+
+
+
+
+var node_chosen = 0;
 
 window.setInterval(function(){
 
 
   // console.log(s.graph.nodes());
 
-  s.graph.edges().forEach(function(n){
-          n.color = getRandomColor();
-        });
+
+  x+=0.1;
+  n+=2;
+  e+=4;;
+
+  var node1  = create_node(n, x,0.1)
+
+  var node2 = create_node(n+1, x, 0.2)
+
+  node1.color = "red"
+
+  node2.color = "orange"
+
+  s.graph.addNode(node1);
+
+  s.graph.addNode(node2);
+
+
+  var edge1 = create_edge(e, n-2, n , 'arrow');
+
+  var edge2 = create_edge(e+1, n-2, n+1  , 'arrow');
+
+  var edge3 = create_edge(e+2, n-1, n  , 'arrow')
+
+  var edge4 = create_edge(e+3, n-1, n+1  , 'arrow');
 
   
+
+  var new_node = Math.floor(Math.random()*2);
+
+  var edge_index_to_color = 2*node_chosen + new_node
+
+  var edge_to_color = [edge1,edge2,edge3,edge4][edge_index_to_color]
+
+  node_chosen = new_node
+
+
+  edge_to_color.color = 'green';
+
+  s.graph.addEdge(edge1);
+
+  s.graph.addEdge(edge2);
+
+  s.graph.addEdge(edge3);
+
+  s.graph.addEdge(edge4);
 
   s.refresh();
 
   // console.log(node);
 
-}, 1000);
+}, 2000);
 
 
 

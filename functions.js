@@ -4,7 +4,7 @@
     label: 'Node ' + id,
     x: x,
     y: y,
-    size: 1,
+    size: 50,
     color: '#666'}
  }
 
@@ -15,7 +15,7 @@ function create_edge(edge_id, node_1, node_2, curvetype='curvedArrow'){
     id: 'e'+edge_id,
     source: 'n'+node_1 ,
     target: 'n'+node_2 ,
-    size: 1,
+    size: 5,
     type: curvetype,
     color: '#ccc'
   }
