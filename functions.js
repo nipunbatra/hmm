@@ -15,7 +15,7 @@ function create_edge(edge_id, node_1, node_2, curvetype='curvedArrow'){
     id: 'e'+edge_id,
     source: 'n'+node_1 ,
     target: 'n'+node_2 ,
-    size: 5,
+    size: 10,
     type: curvetype,
     color: '#ccc'
   }
@@ -62,3 +62,39 @@ function getCubicBezierXYatPercent(startPt, controlPt1, controlPt2, endPt, perce
         y: y
     });
 }
+
+
+function sample_with_probablities(values, weights){
+  var list = [];
+  for(var i=0;i<weights.length;i++){
+    for(var j=0;j<weights[i]*100;j++){
+      list.push(values[i])
+    }
+  }
+  
+  var value = Math.floor(Math.random()*100)
+  return list[value]
+
+}
+
+
+function return_coin_node(node_id, x, y, coin_type){
+  var node = create_node(node_id, x, y)
+  
+  if (coin_type=='fair'){
+    node.color = 'pink'
+    node.label = "Fair"
+  }
+  else if(coin_type=='biased'){
+    node.color= 'orange'
+    node.label = "Biased"
+  }
+  else{
+    node.color= 'black'
+    node.label = "Start state" 
+  }
+
+  return node;
+
+}
+

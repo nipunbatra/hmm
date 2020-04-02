@@ -149,6 +149,37 @@ h6 {
   }
 
 
+  .custom-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;  
+  background: white ;
+  outline: none;
+  opacity: 1;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: black;
+  cursor: pointer;
+}
+
+.custom-range::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+}
+
+
 </style>
 </head>
 
@@ -169,6 +200,7 @@ h6 {
   <p>Explain A, Pi</p>
 
  
+  <div id="fsm" style="width: 100%;height: 12em;"></div>
 
 
   <table class="table text-center">
@@ -268,6 +300,10 @@ h6 {
 
 var main_dict = {}
 
+
+var colors = ['#0af30a','#ff4444','#a5f3ff','#ffa4f0','#ffeb00','#8b84ff']
+
+
 var g = {
       nodes: [],
       edges: []
@@ -286,16 +322,17 @@ graph_1 = new sigma({
   settings : {
         minArrowSize: 10,
         maxNodeSize: 32,
+        
   }
 });
 
 
-var node_1 = create_node(0, -2, 2)
+var node_1 = create_node(0, -1, 2)
 
 node_1.color= 'orange'
 node_1.label = "Biased"
 
-var node_2 = create_node(1, 2, 2)
+var node_2 = create_node(1, 1, 2)
 
 node_2.color = 'pink'
 node_2.label = "Fair"
@@ -322,7 +359,15 @@ graph_2 = new sigma({
 });
 
 
-var x = -2.5;
+var x = -3;
+
+
+var node = create_node(-1, x, 2)
+node.color= 'black'
+node.label = "Start State"
+graph_2.graph.addNode(node)
+x+=1
+
 
 var node = create_node(0, x, 2)
 node.color= 'orange'
@@ -363,6 +408,60 @@ x+=1
 
 
 graph_2.refresh()
+
+
+
+
+
+
+fsm = new sigma({
+  graph: g,
+  container: 'fsm',
+  renderer: {
+    container: document.getElementById('fsm'),
+    type: sigma.renderers.canvas
+  },
+  settings : {
+        minArrowSize: 10,
+        maxNodeSize: 32,
+        maxEdgeSize: 4,
+        minEdgeSize: 0,
+  }
+});
+
+var node_1 = return_coin_node(0, -1, 0 , 'fair')
+
+
+var node_2 = return_coin_node(1, 1, 0 , 'biased')
+
+
+fsm.graph.addNode(node_1)
+fsm.graph.addNode(node_2)
+
+
+
+var edge = create_edge(0, 0, 0 )
+edge.color = colors[0]
+fsm.graph.addEdge(edge)
+
+var edge = create_edge(1, 0, 1 )
+edge.color = colors[1]
+fsm.graph.addEdge(edge)
+
+var edge = create_edge(2, 1, 0 )
+edge.color = colors[2]
+fsm.graph.addEdge(edge)
+
+var edge = create_edge(3, 1, 1 )
+edge.color = colors[3]
+fsm.graph.addEdge(edge)
+
+
+
+fsm.refresh()
+
+
+
 
 
 function change_value(slider_id){
@@ -462,48 +561,15 @@ slider_6.oninput = function() {
 }
 
 
-
-var colors = ['#0af30a','#ff4444','#a5f3ff','#ffa4f0','#ffeb00','#8b84ff']
-
 for(var q=1;q<colors.length+1;q++){
 
   var elem  = document.getElementById('custom-range-'+q)
 
-  console.log(elem.parentElement)
+  // console.log(elem.parentElement)
 
   elem.parentElement.style.background = colors[q-1];
 }
 
-function sample_with_probablities(values, weights){
-  var list = [];
-  for(var i=0;i<weights.length;i++){
-    for(var j=0;j<weights[i]*100;j++){
-      list.push(values[i])
-    }
-  }
-  
-  var value = Math.floor(Math.random()*100)
-  return list[value]
-
-}
-
-
-function return_coin_node(node_id, x, y, coin_type){
-  var node = create_node(node_id, x, y)
-  
-  if (coin_type=='fair'){
-    node.color = 'pink'
-    node.label = "Fair"
-  }
-  else{
-    node.color= 'orange'
-    node.label = "Biased"
-  
-  }
-
-  return node;
-
-}
 
 function render_markov_chain_1(){
 
@@ -516,6 +582,24 @@ function render_markov_chain_1(){
   var b_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
   var b_b  = parseFloat(document.getElementById('custom-range-4-probability').innerHTML)
 
+  var size = 4;
+
+  edges_sizes = [a_a*size, a_b*size, b_a*size, b_b*size]
+
+  console.log(edges_sizes)
+
+  for(var i=0;i<4;i++){
+    if (edges_sizes[i]==0){
+      fsm.graph.edges()[i].hidden=true;
+    }
+    else{
+     fsm.graph.edges()[i].hidden=false;
+     fsm.graph.edges()[i].size=edges_sizes[i]; 
+    }
+  }
+
+
+  fsm.refresh()
   // console.log(document.getElementById('custom-range-5-probability').innerHTML)
   // console.log(pi_a)
   
@@ -527,11 +611,19 @@ function render_markov_chain_1(){
 
   var prev_index;
 
-  var x = -7.5;
+  var x = -6;
 
   var node_id = 0;
 
   var prev_node;
+
+
+  var node = return_coin_node(-1,x,2,"empty")
+
+  markov_chain_1.graph.addNode(node)
+
+  x+=2;
+
 
   for(var i=0;i<6;i++){
     if (i==0){
@@ -552,18 +644,26 @@ function render_markov_chain_1(){
     var node = return_coin_node(node_id,x,2,coin_types[chosen_index])
     markov_chain_1.graph.addNode(node)
 
+    if (i==0){
+
+      var edge = create_edge(-1, -1, node_id, 'arrow')
+      edge.color = colors[4+chosen_index]
+
+    }
     if (i>0){
       var edge = create_edge(node_id, node_id-1, node_id, 'arrow');
       edge.color = colors[2*prev_index+chosen_index]
-      markov_chain_1.graph.addEdge(edge) 
+      
     }
+
+    markov_chain_1.graph.addEdge(edge) 
 
     node_id+=1
     x+=2;
 
   }
 
-  console.log(markov_chain_1.graph.nodes())
+  // console.log(markov_chain_1.graph.nodes())
   markov_chain_1.refresh()
 
 }
