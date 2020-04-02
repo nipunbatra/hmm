@@ -16,6 +16,8 @@
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 
   <script type="text/bibliography">
   </script>
@@ -126,7 +128,13 @@ h6 {
 
   };
 
-
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
 
 
 
@@ -134,6 +142,10 @@ h6 {
 
   svg{
     z-index: -1;
+  }
+
+  th{
+    text-align: center!important;
   }
 
 
@@ -144,11 +156,96 @@ h6 {
 
 
 
-  <h1>Visualization 1</h1>
+  <h1>Unrolled Trellis</h1>
 
 
-  <div id="graph-container" style="width: 100%;height: 10em;"></div>
+  <div id="unrolled-markov-trellis-label" style="width: 100%;height: 4em;"></div>
 
+
+  <div id="unrolled-markov-trellis" style="width: 100%;height: 10em;"></div>
+
+  <h1>Markov Parameters</h1>
+  <br>
+  <p>Explain A, Pi</p>
+
+ 
+
+
+  <table class="table text-center">
+    <thead>
+      <tr>
+        <th>Transition Matrix</th>
+        <th>Fair</th>
+        <th>Biased</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Fair</td>
+        <td><p id="custom-range-1-probability">0.5</p> <input type="range" id="custom-range-1" min="0" max="100" class="custom-range"></td>
+        <td><p id="custom-range-2-probability">0.5</p> <input type="range" id="custom-range-2" min="0" max="100" class="custom-range"></td>
+      </tr>
+      <tr>
+        <td>Biased</td>
+        <td><p id="custom-range-3-probability">0.5</p> <input type="range" id="custom-range-3" min="0" max="100" class="custom-range"></td>
+        <td><p id="custom-range-4-probability">0.5</p> <input type="range" id="custom-range-4" min="0" max="100" class="custom-range"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- <table class="table text-center">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Fair</th>
+        <th>Biased</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Fair</td>
+        <td></td>
+        <td><input type="range" id="custom-range-2" min="0" max="100" class="custom-range"></td>
+      </tr>
+      <tr>
+        <td>Biased</td>
+        <td><input type="range" id="custom-range-3" min="0" max="100" class="custom-range"></td>
+        <td><input type="range" id="custom-range-4" min="0" max="100" class="custom-range"></td>
+      </tr>
+      
+    </tbody>
+  </table> -->
+
+
+  <table class="table text-center">
+    <thead>
+      <tr>
+        <th>Pi</th>
+        <th>Coin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Fair</td>
+        <td><p id="custom-range-5-probability">0.5</p> <input type="range" id="custom-range-5" min="0" max="100" class="custom-range"></td>
+       
+      </tr>
+      <tr>
+        <td>Biased</td>
+        <td><p id="custom-range-6-probability">0.5</p> <input type="range" id="custom-range-6" min="0" max="100" class="custom-range"></td>
+       
+      </tr>
+      
+    </tbody>
+  </table>
+
+
+    <div id="markov-chain-1" style="width: 100%;height: 4em;"></div>
+
+    
+      <button type="button" class="btn" style="margin:0 auto;display:block;font-size: 1.5em;background: #4d6bff;color: white" onclick="render_markov_chain_1()">Resample using above</button>
+    
+    
 
   
 </dt-article>
@@ -169,101 +266,323 @@ h6 {
  */
 
 
+var main_dict = {}
 
-
-var i,
-    s,
-    N = 2,
-    E = 10,
-    g = {
+var g = {
       nodes: [],
       edges: []
     };
 
-// Generate a random graph:
-
-  
-  var x = 0;
-
-  var n = 0;
-
-  var e = 0;
 
 
 
-  g.nodes.push(create_node(n, x,1));
-
-  g.nodes.push(create_node(n+1, x,5));
-
-
-  x+=3;
-  n+=2;
-  e+=4;;
-
-  g.nodes.push(create_node(n, x,1));
-
-  g.nodes.push(create_node(n+1, x,5));
-
-
-  g.edges.push(create_edge(e, n-2, n , 'arrow'));
-
-  g.edges.push(create_edge(e+1, n-2, n+1  , 'arrow'));
-
-  g.edges.push(create_edge(e+2, n-1, n  , 'arrow'));
-
-  g.edges.push(create_edge(e+3, n-1, n+1  , 'arrow'));
-
-
-
-
-  // g.edges.push(create_edge(e+1, n-2, n+1 ));
-
-  // g.edges.push(create_edge(e+2, n-2, n ));
-
-  // g.edges.push(create_edge(e+3, 2, 1 ));
-
-  
-
-
-
-// Instantiate sigma:
-
-s = new sigma({
+graph_1 = new sigma({
   graph: g,
-  container: 'graph-container',
+  container: 'unrolled-markov-trellis-label',
   renderer: {
-    container: document.getElementById('graph-container'),
+    container: document.getElementById('unrolled-markov-trellis-label'),
     type: sigma.renderers.canvas
   },
   settings : {
         minArrowSize: 10,
-
+        maxNodeSize: 32,
   }
 });
 
 
+var node_1 = create_node(0, -2, 2)
 
+node_1.color= 'orange'
+node_1.label = "Biased"
+
+var node_2 = create_node(1, 2, 2)
+
+node_2.color = 'pink'
+node_2.label = "Fair"
+
+graph_1.graph.addNode(node_1)
+
+graph_1.graph.addNode(node_2)
+
+graph_1.refresh()
+
+
+
+graph_2 = new sigma({
+  graph: g,
+  container: 'unrolled-markov-trellis',
+  renderer: {
+    container: document.getElementById('unrolled-markov-trellis'),
+    type: sigma.renderers.canvas
+  },
+  settings : {
+        minArrowSize: 10,
+        maxNodeSize: 32,
+  }
+});
+
+
+var x = -2.5;
+
+var node = create_node(0, x, 2)
+node.color= 'orange'
+node.label = "Biased"
+graph_2.graph.addNode(node)
+x+=1
+
+var node = create_node(1, x, 2)
+node.color= 'orange'
+node.label = "Biased"
+graph_2.graph.addNode(node)
+x+=1
+
+var node = create_node(2, x, 2)
+node.color= 'orange'
+node.label = "Biased"
+graph_2.graph.addNode(node)
+x+=1
+
+
+var node = create_node(3, x, 2)
+node.color= 'orange'
+node.label = "Biased"
+graph_2.graph.addNode(node)
+x+=1
+
+var node = create_node(4, x, 2)
+node.color= 'orange'
+node.label = "Biased"
+graph_2.graph.addNode(node)
+x+=1
+
+var node = create_node(5, x, 2)
+node.color= 'orange'
+node.label = "Biased"
+graph_2.graph.addNode(node)
+x+=1
+
+
+graph_2.refresh()
+
+
+function change_value(slider_id){
+
+
+
+  var other_slider_id;
+
+  if (slider_id=="custom-range-1"){
+    other_slider_id="custom-range-2"
+  }
+
+  if (slider_id=="custom-range-2"){
+    other_slider_id="custom-range-1"
+  }
   
 
-
-window.setInterval(function(){
-
-
-  // console.log(s.graph.nodes());
-
-  s.graph.edges().forEach(function(n){
-          n.color = getRandomColor();
-        });
-
+  if (slider_id=="custom-range-3"){
+    other_slider_id="custom-range-4"
+  }
   
 
-  s.refresh();
+  if (slider_id=="custom-range-4"){
+    other_slider_id="custom-range-3"
+  }
 
-  // console.log(node);
+  if (slider_id=="custom-range-5"){
+    other_slider_id="custom-range-6"
+  }
 
-}, 1000);
+
+  if (slider_id=="custom-range-6"){
+    other_slider_id="custom-range-5"
+  }
 
 
+    
+  var main_slider = document.getElementById(slider_id)
+  var other_slider = document.getElementById(other_slider_id)
+
+  other_slider.value = 100 - parseInt(main_slider.value)
+
+  var entry_1 = document.getElementById(slider_id+'-probability')
+  var entry_2 = document.getElementById(other_slider_id+'-probability')
+
+  entry_1.innerHTML= (parseFloat(main_slider.value)/100).toFixed(2)
+  entry_2.innerHTML= (parseFloat(other_slider.value)/100).toFixed(2)
+
+
+  // console.log(main_slider, other_slider_id, parseInt(main_slider.value))
+
+  render_markov_chain_1()
+
+}
+
+
+var slider_1 = document.getElementById('custom-range-1')
+
+var slider_2 = document.getElementById('custom-range-2')
+
+var slider_3 = document.getElementById('custom-range-3')
+
+var slider_4 = document.getElementById('custom-range-4')
+
+var slider_5 = document.getElementById('custom-range-5')
+
+var slider_6 = document.getElementById('custom-range-6')
+
+
+
+slider_1.oninput = function() {
+  change_value('custom-range-1')
+}
+
+
+slider_2.oninput = function() {
+  change_value('custom-range-2')
+}
+
+
+slider_3.oninput = function() {
+  change_value('custom-range-3')
+}
+
+slider_4.oninput = function() {
+  change_value('custom-range-4')
+}
+
+
+slider_5.oninput = function() {
+  change_value('custom-range-5')
+}
+
+
+slider_6.oninput = function() {
+  change_value('custom-range-6')
+}
+
+
+
+var colors = ['#0af30a','#ff4444','#a5f3ff','#ffa4f0','#ffeb00','#8b84ff']
+
+for(var q=1;q<colors.length+1;q++){
+
+  var elem  = document.getElementById('custom-range-'+q)
+
+  console.log(elem.parentElement)
+
+  elem.parentElement.style.background = colors[q-1];
+}
+
+function sample_with_probablities(values, weights){
+  var list = [];
+  for(var i=0;i<weights.length;i++){
+    for(var j=0;j<weights[i]*100;j++){
+      list.push(values[i])
+    }
+  }
+  
+  var value = Math.floor(Math.random()*100)
+  return list[value]
+
+}
+
+
+function return_coin_node(node_id, x, y, coin_type){
+  var node = create_node(node_id, x, y)
+  
+  if (coin_type=='fair'){
+    node.color = 'pink'
+    node.label = "Fair"
+  }
+  else{
+    node.color= 'orange'
+    node.label = "Biased"
+  
+  }
+
+  return node;
+
+}
+
+function render_markov_chain_1(){
+
+  var pi_a = parseFloat(document.getElementById('custom-range-5-probability').innerHTML)
+  var pi_b = parseFloat(document.getElementById('custom-range-6-probability').innerHTML)
+
+  var a_a  = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
+  var a_b  = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
+
+  var b_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
+  var b_b  = parseFloat(document.getElementById('custom-range-4-probability').innerHTML)
+
+  // console.log(document.getElementById('custom-range-5-probability').innerHTML)
+  // console.log(pi_a)
+  
+  markov_chain_1.graph.clear()
+
+  var coin_types = ['fair','biased']
+
+  var coins = [0,1]
+
+  var prev_index;
+
+  var x = -7.5;
+
+  var node_id = 0;
+
+  var prev_node;
+
+  for(var i=0;i<6;i++){
+    if (i==0){
+      chosen_index = sample_with_probablities(coins, [pi_a,pi_b])
+    }
+    else{
+      prev_index = chosen_index;
+      if (chosen_index==0){
+        chosen_index = sample_with_probablities(coins, [a_a,a_b])
+      }
+
+      else{
+        chosen_index = sample_with_probablities(coins, [b_a,b_a])
+      }
+
+    }
+
+    var node = return_coin_node(node_id,x,2,coin_types[chosen_index])
+    markov_chain_1.graph.addNode(node)
+
+    if (i>0){
+      var edge = create_edge(node_id, node_id-1, node_id, 'arrow');
+      edge.color = colors[2*prev_index+chosen_index]
+      markov_chain_1.graph.addEdge(edge) 
+    }
+
+    node_id+=1
+    x+=2;
+
+  }
+
+  console.log(markov_chain_1.graph.nodes())
+  markov_chain_1.refresh()
+
+}
+
+markov_chain_1 = new sigma({
+  graph: g,
+  container: 'markov-chain-1',
+  renderer: {
+    container: document.getElementById('markov-chain-1'),
+    type: sigma.renderers.canvas
+  },
+  settings : {
+        minArrowSize: 10,
+        maxNodeSize: 32,
+        maxEdgeSize: 4,
+  }
+});
+
+render_markov_chain_1();
 
 </script>
 
