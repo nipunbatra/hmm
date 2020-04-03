@@ -636,11 +636,11 @@ function render_markov_chain_1(){
       }
 
       else{
-        chosen_index = sample_with_probablities(coins, [b_a,b_a])
+        chosen_index = sample_with_probablities(coins, [b_a,b_b])
       }
 
     }
-
+    console.log(chosen_index)
     var node = return_coin_node(node_id,x,2,coin_types[chosen_index])
     markov_chain_1.graph.addNode(node)
 

@@ -73,12 +73,16 @@ function sample_with_probablities(values, weights){
   }
   
   var value = Math.floor(Math.random()*100)
+  console.log(list.length, value)
   return list[value]
 
 }
 
 
 function return_coin_node(node_id, x, y, coin_type){
+
+    console.log(coin_type)
+
   var node = create_node(node_id, x, y)
   
   if (coin_type=='fair'){
