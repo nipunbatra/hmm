@@ -17,7 +17,7 @@ function create_edge(edge_id, node_1, node_2, curvetype='curvedArrow'){
     target: 'n'+node_2 ,
     size: 10,
     type: curvetype,
-    color: '#ccc'
+    color: 'rgb(23,190,207)'
   }
  }
  
@@ -86,15 +86,26 @@ function return_coin_node(node_id, x, y, coin_type){
   var node = create_node(node_id, x, y)
   
   if (coin_type=='fair'){
-    node.color = 'pink'
+    node.color = 'rgb(214, 39,40)'
     node.label = "Fair"
   }
   else if(coin_type=='biased'){
-    node.color= 'orange'
+    node.color= 'rgb(255,125,150)'
     node.label = "Biased"
   }
+
+  else if (coin_type=="head"){
+   node.color= 'maroon'
+   node.label = "Head" 
+  }
+
+  else if (coin_type=="tail"){
+   node.color= 'purple'
+   node.label = "Tail" 
+  }
+  
   else{
-    node.color= 'black'
+    node.color= 'rgb(148,103,189)'
     node.label = "Start state" 
   }
 
