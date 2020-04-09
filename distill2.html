@@ -1,22 +1,19 @@
-<!doctype html>
-<meta charset="utf-8">
-<head>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-<script src="https://distill.pub/template.v1.js"></script>
-               <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exploring Hidden Markov Models</title>
+  <script defer src="js/template.v2.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 
   <script type="text/bibliography">
@@ -83,60 +80,11 @@
 
 
   body {
+    overflow-x: hidden;
 
     font-family: Roboto!important;
 
   }
-
-  p {
-
-    font-family: Roboto!important;
-
-  };
-  h1 {
-
-    font-family: Roboto!important;
-
-  };
-  h2 {
-
-    font-family: Roboto!important;
-
-  };
-
-   h3  {
-
-    font-family: Roboto!important;
-
-  };
-
-h4  {
-
-    font-family: Roboto!important;
-
-  };
-
-h5  {
-
-    font-family: Roboto!important;
-
-  };
-
-h6 {
-
-    font-family: Roboto!important;
-
-  };
-
-.vertical-center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
-
 
 
 
@@ -180,14 +128,63 @@ h6 {
 }
 
 
+
 </style>
 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 
 </head>
 
-<dt-article class="centered" style="text-align: justify;"> 
+<body >
+
+  <d-front-matter>
+    <script id='distill-front-matter' type="text/json">
+      {
+        "title": "Exploring Bayesian Optimization",
+        "description": "Hidden Markov Models - An interactive illustration",
+        "authors": [{
+            "author": "Kukunuri Rithwik",
+            "authorURL": "https://rithwikksvr.github.io/",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          },
+          {
+            "author": "Rishiraj Adhikary",
+            "authorURL": "https://rishi.github.io/",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          },
+          {
+            "author": "Nipun Batra",
+            "authorURL": "https://nipunbatra.github.io/",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          }
+        ],
+        "katex": {
+          "delimiters": [{
+            "left": "$$",
+            "right": "$$",
+            "display": false
+          }]
+        }
+      }
+    </script>
+  </d-front-matter>
+
+  <d-title style="padding-bottom: 0">
+    <p>Hidden Markov Models - An interactive illustration</p>
+  </d-title>
+
+  <d-byline></d-byline>
+
+ <dt-article > 
 
 
 
@@ -289,6 +286,7 @@ h6 {
 
 <div class='l-screen'>
   <div id="fsm" style="width: 100%;height: 12em;"></div>
+
 </div>
 <div class='l-screen'>
 
@@ -480,692 +478,9 @@ h6 {
 
 </dt-article>
 
-<dt-appendix>
-</dt-appendix>
+ 
 
+</body>
 
-
-<script>
-/**
- * This is a basic example on how to instantiate sigma. A random graph is
- * generated and stored in the "graph" variable, and then sigma is instantiated
- * directly with the graph.
- *
- * The simple instance of sigma is enough to make it render the graph on the on
- * the screen, since the graph is given directly to the constructor.
- */
-
-
-var main_dict = {}
-
-var colors = ['rgb(31,119,180)',
-              'rgb(255,127,14)',
-              'rgb(44,160,44)',
-              'rgb(214,39,40)',
-              'rgb(148,103,189)',
-              'rgb(140,86,75)',
-              'rgb(227,119,194)',
-              'rgb(127,127,127)',
-              'rgb(188,189,34)',
-              'rgb(158,218,229)',
-              ]
-
-var g = {
-      nodes: [],
-      edges: []
-    };
-
-
-
-
-// graph_1 = new sigma({
-//   graph: g,
-//   container: 'unrolled-markov-trellis-label',
-//   renderer: {
-//     container: document.getElementById('unrolled-markov-trellis-label'),
-//     type: sigma.renderers.canvas
-//   },
-//   settings : {
-//         minArrowSize: 10,
-//         maxNodeSize: 32,
-//         mouseEnabled:false,
-
-        
-//   }
-// });
-
-
-// var node_1 = create_node(0, -1, 2)
-
-// node_1.color= 'orange'
-// node_1.label = "Biased"
-
-// var node_2 = create_node(1, 1, 2)
-
-// node_2.color = 'pink'
-// node_2.label = "Fair"
-
-// graph_1.graph.addNode(node_1)
-
-// graph_1.graph.addNode(node_2)
-
-// graph_1.refresh()
-
-
-
-// graph_2 = new sigma({
-//   graph: g,
-//   container: 'unrolled-markov-trellis',
-//   renderer: {
-//     container: document.getElementById('unrolled-markov-trellis'),
-//     type: sigma.renderers.canvas
-//   },
-//   settings : {
-//         minArrowSize: 10,
-//         maxNodeSize: 32,
-//         mouseEnabled:false,
-//   }
-// });
-
-
-// var x = -3;
-
-
-// var node = create_node(-1, x, 2)
-// node.color= 'rgb(148,103,189)'
-// node.label = "x_0"
-// graph_2.graph.addNode(node)
-// x+=1
-
-
-// var node = create_node(0, x, 2)
-// node.color= 'rgb(148,103,189)'
-// node.label = "x_1"
-// graph_2.graph.addNode(node)
-// x+=1
-
-
-// var node = create_node(1, x, 2)
-// node.color= 'rgb(148,103,189)'
-// node.label = "x_2"
-// graph_2.graph.addNode(node)
-// x+=1
-
-// var node = create_node(2, x, 2)
-// node.color= 'rgb(148,103,189)'
-// node.label = "...."
-// graph_2.graph.addNode(node)
-// x+=1
-
-
-// var node = create_node(3, x, 2)
-// node.color= 'rgb(148,103,189)'
-// node.label = "...."
-// graph_2.graph.addNode(node)
-// x+=1
-
-// var node = create_node(4, x, 2)
-// node.color= 'rgb(148,103,189)'
-// node.label = "x_t-1"
-// graph_2.graph.addNode(node)
-// x+=1
-
-
-// var node = create_node(5, x, 2)
-// node.color= 'rgb(148,103,189)'
-// node.label = "x_t"
-// graph_2.graph.addNode(node)
-// x+=1
-
-
-// var edge = create_edge(-1,-1,0,'arrow')
-// graph_2.graph.addEdge(edge)
-// graph_2.refresh()
-
-
-// var edge = create_edge(0,0,1,'arrow')
-// graph_2.graph.addEdge(edge)
-// graph_2.refresh()
-
-
-// var edge = create_edge(2,1,2,'arrow')
-// graph_2.graph.addEdge(edge)
-// graph_2.refresh()
-
-
-// var edge = create_edge(3,2,3,'arrow')
-// graph_2.graph.addEdge(edge)
-// graph_2.refresh()
-
-
-// var edge = create_edge(4,3,4,'arrow')
-// graph_2.graph.addEdge(edge)
-// graph_2.refresh()
-
-// var edge = create_edge(5,4,5,'arrow')
-// graph_2.graph.addEdge(edge)
-// graph_2.refresh()
-
-
-
-
-
-
-fsm = new sigma({
-  graph: g,
-  container: 'fsm',
-  renderer: {
-    container: document.getElementById('fsm'),
-    type: sigma.renderers.canvas
-  },
-  settings : {
-        minArrowSize: 10,
-        maxNodeSize: 32,
-        maxEdgeSize: 4,
-        minEdgeSize: 0,
-        mouseEnabled:false,
-  }
-});
-
-var node_1 = return_coin_node(0, -1, 0 , 'fair')
-
-
-var node_2 = return_coin_node(1, 1, 0 , 'biased')
-
-
-fsm.graph.addNode(node_1)
-fsm.graph.addNode(node_2)
-
-
-
-var edge = create_edge(0, 0, 0 )
-edge.color = colors[0]
-fsm.graph.addEdge(edge)
-
-var edge = create_edge(1, 0, 1 )
-edge.color = colors[1]
-fsm.graph.addEdge(edge)
-
-var edge = create_edge(2, 1, 0 )
-edge.color = colors[2]
-fsm.graph.addEdge(edge)
-
-var edge = create_edge(3, 1, 1 )
-edge.color = colors[3]
-fsm.graph.addEdge(edge)
-
-
-
-fsm.refresh()
-
-
-
-
-
-function change_value(slider_id,mode='hmm'){
-
-  console.log(slider_id)
-
-  var other_slider_id;
-
-  var splits = slider_id.split("-");
-
-  var num = parseInt(splits[splits.length - 1])
-
-  other_slider_id = "custom-range-"
-  if (num%2==0){
-    other_slider_id+=(num-1);
-  }
-  else{
-    other_slider_id+=(num+1)
-  }
-  // if (slider_id=="custom-range-1"){
-  //   other_slider_id="custom-range-2"
-  // }
-
-  // if (slider_id=="custom-range-2"){
-  //   other_slider_id="custom-range-1"
-  // }
-  
-
-  // if (slider_id=="custom-range-3"){
-  //   other_slider_id="custom-range-4"
-  // }
-  
-
-  // if (slider_id=="custom-range-4"){
-  //   other_slider_id="custom-range-3"
-  // }
-
-  // if (slider_id=="custom-range-5"){
-  //   other_slider_id="custom-range-6"
-  // }
-
-
-  // if (slider_id=="custom-range-6"){
-  //   other_slider_id="custom-range-5"
-  // }
-
-
-    
-  var main_slider = document.getElementById(slider_id)
-  var other_slider = document.getElementById(other_slider_id)
-
-
-
-  other_slider.value = 100 - parseInt(main_slider.value)
-
-  var entry_1 = document.getElementById(slider_id+'-probability')
-  var entry_2 = document.getElementById(other_slider_id+'-probability')
-
-  entry_1.innerHTML= (parseFloat(main_slider.value)/100).toFixed(2)
-  entry_2.innerHTML= (parseFloat(other_slider.value)/100).toFixed(2)
-
-
-  // console.log(main_slider, other_slider_id, parseInt(main_slider.value))
-
-  if (mode=='mm'){
-
-    render_markov_chain_1()
-
-  }
-
-  else{
-    render_hmm_chain_1()
-  }
-  
-
-}
-
-
-
-
-
-
-
-var slider_1 = document.getElementById('custom-range-1')
-
-var slider_2 = document.getElementById('custom-range-2')
-
-var slider_3 = document.getElementById('custom-range-3')
-
-var slider_4 = document.getElementById('custom-range-4')
-
-var slider_5 = document.getElementById('custom-range-5')
-
-var slider_6 = document.getElementById('custom-range-6')
-
-var slider_7 = document.getElementById('custom-range-7')
-
-var slider_8 = document.getElementById('custom-range-8')
-
-var slider_9 = document.getElementById('custom-range-9')
-
-var slider_10 = document.getElementById('custom-range-10')
-
-var slider_11 = document.getElementById('custom-range-11')
-
-var slider_12 = document.getElementById('custom-range-12')
-
-var slider_13 = document.getElementById('custom-range-13')
-
-var slider_14 = document.getElementById('custom-range-14')
-
-var slider_15 = document.getElementById('custom-range-15')
-
-var slider_16 = document.getElementById('custom-range-16')
-
-
-
-slider_1.oninput = function() {
-  change_value('custom-range-1','mm')
-}
-
-
-slider_2.oninput = function() {
-  change_value('custom-range-2','mm')
-}
-
-
-slider_3.oninput = function() {
-  change_value('custom-range-3','mm')
-}
-
-slider_4.oninput = function() {
-  change_value('custom-range-4','mm')
-}
-
-
-slider_5.oninput = function() {
-  change_value('custom-range-5','mm')
-}
-
-
-slider_6.oninput = function() {
-  change_value('custom-range-6','mm')
-}
-
-slider_7.oninput = function() {
-  change_value('custom-range-7')
-}
-
-slider_8.oninput = function() {
-  change_value('custom-range-8')
-}
-
-slider_9.oninput = function() {
-  change_value('custom-range-9')
-}
-
-slider_10.oninput = function() {
-  change_value('custom-range-10')
-}
-
-slider_11.oninput = function() {
-  change_value('custom-range-11')
-}
-
-slider_12.oninput = function() {
-  change_value('custom-range-12')
-}
-
-slider_13.oninput = function() {
-  change_value('custom-range-13')
-}
-
-slider_14.oninput = function() {
-  change_value('custom-range-14')
-}
-
-
-slider_15.oninput = function() {
-  change_value('custom-range-15')
-}
-
-
-slider_16.oninput = function() {
-  change_value('custom-range-16')
-}
-
-
-for(var q=1;q<7;q++){
-
-  var elem  = document.getElementById('custom-range-'+q)
-
-  elem.parentElement.style.background = colors[q-1];
-}
-
-
-for(var q=1;q<11;q++){
-
-  var elem  = document.getElementById('custom-range-'+(q+6))
-
-  elem.parentElement.style.background = colors[q-1];
-}
-
-
-
-
-function render_markov_chain_1(){
-
-  var pi_a = parseFloat(document.getElementById('custom-range-5-probability').innerHTML)
-  var pi_b = parseFloat(document.getElementById('custom-range-6-probability').innerHTML)
-
-  var a_a  = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
-  var a_b  = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
-
-  var b_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
-  var b_b  = parseFloat(document.getElementById('custom-range-4-probability').innerHTML)
-
-  var size = 4;
-
-  edges_sizes = [a_a*size, a_b*size, b_a*size, b_b*size]
-
-  console.log(edges_sizes)
-
-  for(var i=0;i<4;i++){
-    if (edges_sizes[i]==0){
-      fsm.graph.edges()[i].hidden=true;
-    }
-    else{
-     fsm.graph.edges()[i].hidden=false;
-     fsm.graph.edges()[i].size=edges_sizes[i]; 
-    }
-  }
-
-
-  fsm.refresh()
-  // console.log(document.getElementById('custom-range-5-probability').innerHTML)
-  // console.log(pi_a)
-  
-  markov_chain_1.graph.clear()
-
-  var coin_types = ['fair','biased']
-
-  var coins = [0,1]
-
-  var prev_index;
-
-  var x = -3;
-
-  var node_id = 0;
-
-  var prev_node;
-
-
-  var node = return_coin_node(-1,x,2,"empty")
-
-  markov_chain_1.graph.addNode(node)
-
-  x+=2;
-
-
-  for(var i=0;i<6;i++){
-    if (i==0){
-      chosen_index = sample_with_probablities(coins, [pi_a,pi_b])
-    }
-    else{
-      prev_index = chosen_index;
-      if (prev_index==0){
-        chosen_index = sample_with_probablities(coins, [a_a,a_b])
-      }
-
-      else{
-        chosen_index = sample_with_probablities(coins, [b_a,b_b])
-      }
-    }
-    console.log(chosen_index)
-    var node = return_coin_node(node_id,x,2,coin_types[chosen_index])
-    markov_chain_1.graph.addNode(node)
-
-    if (i==0){
-
-      var edge = create_edge(-1, -1, node_id, )
-      edge.color = colors[4+chosen_index]
-
-    }
-    if (i>0){
-      var edge = create_edge(node_id, node_id-1, node_id);
-      edge.color = colors[2*prev_index+chosen_index]
-      
-    }
-
-    markov_chain_1.graph.addEdge(edge) 
-
-    node_id+=1
-    x+=2;
-
-  }
-
-  // console.log(markov_chain_1.graph.nodes())
-  markov_chain_1.refresh()
-
-}
-
-markov_chain_1 = new sigma({
-  graph: g,
-  container: 'markov-chain-1',
-  renderer: {
-    container: document.getElementById('markov-chain-1'),
-    type: sigma.renderers.canvas
-  },
-  settings : {
-        minArrowSize: 10,
-        maxNodeSize: 32,
-        maxEdgeSize: 4,
-        mouseEnabled:false,
-  }
-});
-
-markov_chain_1.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1 });
-
-
-
-
-render_markov_chain_1();
-
-
-
-
-
-hmm = new sigma({
-  graph: g,
-  container: 'hmm',
-  renderer: {
-    container: document.getElementById('hmm'),
-    type: sigma.renderers.canvas
-  },
-  settings : {
-        minArrowSize: 10,
-        maxNodeSize: 32,
-        maxEdgeSize: 4,
-        mouseEnabled:false,
-  }
-});
-
-
-
-var pos=-1;
-var x=-1.5;
-var hidden=true;
-
-
-var nodes_to_display = -1;
-
-function render_hmm_chain_1(mode='slow-sample'){
-
-    hmm.graph.clear()
-
-
-
-  var pi_a = parseFloat(document.getElementById('custom-range-7-probability').innerHTML)
-  var pi_b = parseFloat(document.getElementById('custom-range-8-probability').innerHTML)
-
-  var a_a  = parseFloat(document.getElementById('custom-range-9-probability').innerHTML)
-  var a_b  = parseFloat(document.getElementById('custom-range-10-probability').innerHTML)
-
-  var b_a  = parseFloat(document.getElementById('custom-range-11-probability').innerHTML)
-  var b_b  = parseFloat(document.getElementById('custom-range-12-probability').innerHTML)
-
-  var f_h  = parseFloat(document.getElementById('custom-range-13-probability').innerHTML)
-  var f_t  = parseFloat(document.getElementById('custom-range-14-probability').innerHTML)
-
-  var b_h  = parseFloat(document.getElementById('custom-range-15-probability').innerHTML)
-  var b_t  = parseFloat(document.getElementById('custom-range-16-probability').innerHTML)
-
-
-  var coins = [0,1]
-
-  var coin_types = ['fair','biased']
-  
-  var node = return_coin_node(-1,x,-0.25,"empty")
-  hmm.graph.addNode(node)
-  x+=0.5
-
-  var chosen_hidden_node;
-  var previous_hidden_node;
-
-  var node_id=0;
-
-  for(var i=0;i<6;i++){
-    if (i==0){
-      chosen_hidden_node = sample_with_probablities(coins, [pi_a,pi_b])
-    }
-    else{
-      previous_hidden_node = chosen_hidden_node;
-      if (previous_hidden_node==0){
-        chosen_hidden_node = sample_with_probablities(coins, [a_a,a_b])
-      }
-      else{
-        chosen_hidden_node = sample_with_probablities(coins, [b_a,b_b])
-      }
-    }
-
-
-    var node = return_coin_node(node_id,x,-0.25,coin_types[chosen_hidden_node])
-    hmm.graph.addNode(node)
-
-
-
-    if (i==0){
-
-      var edge = create_edge(-1, -1, node_id, )
-      edge.color = colors[chosen_hidden_node]
-    }
-
-
-    if (i>0){
-      var edge = create_edge(node_id, node_id-2, node_id);
-      edge.color = colors[2+2*previous_hidden_node+chosen_hidden_node]
-      
-    }
-    hmm.graph.addEdge(edge) 
-    node_id+=1;
-
-    /// Observation
-
-    if (chosen_hidden_node==0){
-      var observation = sample_with_probablities(coins, [f_h,f_t])
-    }
-    else{
-      var observation = sample_with_probablities(coins, [b_h,b_t])
-    }
-
-    var c = ['head','tail']
-    var node = return_coin_node(node_id, x, 0.25, c[observation])
-    hmm.graph.addNode(node)
-
-
-    var edge = create_edge(node_id, node_id-1, node_id);
-    edge.color = colors[6+2*chosen_hidden_node+observation]
-    hmm.graph.addEdge(edge)
-    x+=0.5;
-    node_id+=1
-    }
-
-  
-
-  hmm.refresh()
-
-
-}
-
-
-render_hmm_chain_1()
-
-hmm.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1 });
-
-
-// var x = -3;
-
-// var node = create_node(-1, x, -0.5)
-// node.color= 'rgb(148,103,189)'
-// node.label = "x_0"
-// graph_2.graph.addNode(node)
-// x+=1
-
-
-
-
-</script>
+</html>
 
