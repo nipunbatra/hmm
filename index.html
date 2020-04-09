@@ -194,24 +194,27 @@ h6 {
 
   <h1>Towards an Intuitive Understanding of Hidden Markov Model</h1>
 
-  <p>Ever wondered how the voice assistant in your phone works? Ever wondered how part of speech tagging in sentences takes place. How about how your smartwatch or smart wristband counts the number of steps you have taken? Each of these are examples of time-series data. Hidden Markov Model (HMM) are a popular machine learning model for time-series data and have been used for various time series applications. We look at intuitive and visual ways of understanding how these powerful algorithms work.
-  <br><br>
-  The Hidden Markov Model is based on the idea that most things in the physical world are clearly dependent on prior outcomes, such as our life expectancy or the weather today. When the probability of some event is conditional or depends on previous events we say that they are dependent event. Hence, to model data that are dependent on prior outcomes we need something knows as sequential models
+  <p>Ever wondered how the voice assistant in your phone works? or how does speech tagging in sentences takes place? or how your smartwatch or smart wristband counts the number of steps you have taken? Each of these are examples of time-series machine learning. Hidden Markov Model (HMM) are a popular machine learning model for time-series data and have been used for various time series applications. We look at intuitive and visual ways of understanding how these powerful algorithms work. The Hidden Markov Model is based on the idea that most things in the physical world are clearly dependent on prior outcomes, such as our life expectancy or the weather today.
+  <br>
+
   </p>
  
   <h1>Sequential Model</h1>
 
-  <p>Imagine that it has been raining since the past few days and someone asks you - “how likely is it that it will rain tomorrow”? What is your guess? You might say that given that it has been raining since the last few days, I think it will rain tomorrow. The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached with rainfall.
+  <p>Imagine that it has been raining since the past few days and someone asks you - “How likely is it that it will rain tomorrow”? What is your guess? You might say that, "Given that it has been raining since the last few days, I think it will rain tomorrow". The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached with rainfall. We might have a sequence of events as shown below.
+  
   <br><br>
-  We might have a sequence of events as follows where R indicates rain and S indicates sunny.
+  
+  <img src="images/img0.png" style="  display: block;
+  margin-left: auto;
+  margin-right: auto;">
+  <br><br>
+
+  If we simply use a classification model which does not take into account the notion of time, then we are effectively saying that today's weather will be independent of the weather of the past few days. Thus, effectively we are assuming that our data is independent and identically distributed (IID).
 
   <br><br>
 
-  If we simply use a classification model which does not take into account the notion of time, then we are effectively saying that today's weather will be independent of the weather of the past few days. Thus effectively we are assuming that our data is independent and identically distributed (IID).
-
-  <br><br>
-
-  Instead if we use a model that utilizes the time series component, we can build a model that considers the past days weather for predicting today's weather
+  Instead if we use a system that utilizes the time series component, we can build a model that considers the past days weather for predicting today's weather.
 
   </p>
 
@@ -219,10 +222,10 @@ h6 {
 
   <p>
 
-  As explained before, the Markov Model considers that the future data (or predicted output) is dependent on the past and the present. When the future prediction depends only on the present then we define the Markov Model as a first order markov chain. 
+ A Markov Model considers that the future data (or predicted output) is dependent on the past and the present. When the future prediction depends only on the present then we define the Markov Model as a first order markov chain. 
 
   <br><br>
-  Mathematically, we define the conditional probability of future prediction of future obeservation \(x_{t+1}\), given the past observation \(x_1, x_2 \dots x_{t-1}\) and the present \(x_t\)  as \(P(x_{t+1}\vert x_1, x_2, \ldots x_t) = P(x_{t+1} \vert x_t)\)
+  Mathematically, we define the conditional probability of future prediction \(x_{t+1}\), given the past observation \(x_1, x_2 \dots x_{t-1}\) and the present \(x_t\)  as \(P(x_{t+1}\vert x_1, x_2, \ldots x_t) = P(x_{t+1} \vert x_t)\)
 
   <br><br>
   Joint Probability is calculated using the formula specified below \(P(x_{t+1} \vert x_t, x_{t-1}) = P(x_1)*P(x_2 \vert x_1) P(x_3 \vert x_2) \dots P(x_T \vert x_{T-1})\)
@@ -241,12 +244,12 @@ h6 {
 
   <p>
 
-  Similarly, a second order Markov chain is the one where the conditional probability of future prediction for observation of \(x_{t+1}\), is dependent on the present \(x_t\) and one timestamp on the past \(X_{t-1}\). Thus, we can represent the joint probability distribution of second order markov chain can be written as \(P(x_{t+1}\vert x_1, x_2, \ldots x_t) = P(x_{t+1} \vert x_t, x_{t-1})\).
+  Similarly, a second order Markov chain is the one where the conditional probability of future prediction for observation of \(x_{t+1}\), is dependent on the present \(x_t\) and one timestamp on the past \(x_{t-1}\). Thus, we can represent the joint probability distribution of second order markov chain can be written as \(P(x_{t+1}\vert x_1, x_2, \ldots x_t) = P(x_{t+1} \vert x_t, x_{t-1})\).
 
   <br><br>
-  Joint Probability is calculated using the formula specified below  \(P(x_{t+1} \vert x_t, x_{t-1}) = P(x_1)*P(x_2 \vert x_1) \prod_{n=3}^{n=T} P(x_n \vert x_{n-1},x_{n-2})\)
+  Joint Probability is calculated using the formula specified below  \(P(x_{t+1} \vert x_t, x_{t-1}) = P(x_1)*P(x_2 \vert x_1) \prod_{t=3}^{t=T} P(x_t \vert x_{t-1},x_{t-2})\)
   <br><br>
-  Here, \(n=T\) represents the last observations made in the time series.
+  Here, \(t=T\) represents the last observations made in the time series.
     
   </p>
 
@@ -354,7 +357,7 @@ h6 {
 <h1>What is hidden in a hidden markov model?</h1>
 
     <p>
-      We will understand this hidden component by taking an example of two coins. One of the coin is fair with the same probability of head and tail i.e. 0.5. The other coin is biased towards head by a probability of 0.7. The sequence of observation which we observe is \(\{H,T \ldots\}\) but what we do not know is which coin was responsible for the observation at a timestamp \(t\). We will use the notation \(x_i\) to represent the observations (which in this case is Head or Tail), \(Z_i\) to represent the states (which in this case is Fair or Biased coin).
+      We will understand this hidden component by taking an example of two coins. One of the coin is fair with the same probability of head and tail i.e. 0.5. The other coin is biased towards head by a probability of 0.7. The sequence of observation which we observe is \(\{H,T \ldots\}\) but what we do not know is which coin was responsible for the observation at a timestamp \(t\). We will use the notation \(x_t\) to represent the observations (which in this case is Head or Tail), \(Z_t\) to represent the states (which in this case is Fair or Biased coin).
       <br><br>
       See the diagram below. It is worth noting that there is a link between the states but not between the observations.
     </p>
@@ -370,12 +373,12 @@ h6 {
 
     <ol>
 
-      <li><b>Transition Matrix A</b>: The conditional probability \(A_{jk}\) of moving to state \(k\) from state \(j\) is given by: \(A_{jk} = P(z_n=k \vert z_{n-1}=j)\)
+      <li><b>Transition Matrix A</b>: The conditional probability \(A_{jk}\) of moving to state \(k\) from state \(j\) is given by: \(A_{jk} = P(z_t=k \vert z_{t-1}=j)\)
       </li>
       <li>
     <b>Prior Probability \(\pi\)</b>: The probability of starting from one of the \(k\) available state on the first timestamp i.e. \(t=1\) given by \(\pi_k = P(z_1=k)\)</li>
       <li>
-    <b>Emission Probability</b>: The conditional probability of observing a discrete or continuous value \(x\) from a state \(z\) given the transition matrix and the prior probability is given as \(phi_n = P(x_n \vert z_n, A, \pi)\)
+    <b>Emission Probability</b>: The conditional probability of observing a discrete or continuous value \(x\) from a state \(z\) given the transition matrix and the prior probability is given as \(\phi_t = P(x_t \vert z_t, A, \pi)\)
 </li>
     </ol>
   
