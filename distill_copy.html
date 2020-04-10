@@ -156,7 +156,7 @@
 
 </head>
 
-<body>
+<body >
 
   <d-front-matter>
     <script id='distill-front-matter' type="text/json">
@@ -365,9 +365,7 @@
     </div>
 
     
-      <button type="button" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto" onclick="render_markov_chain_1()">Sample Next Node</button>
-    
-        <button type="button" id="resetbtn" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto" onclick="reset_markov_chain()">Reset</button>
+      <button type="button" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto" onclick="render_markov_chain_1()">Resample using above</button>
     
     
 
@@ -788,13 +786,13 @@ function change_value(slider_id,mode='hmm'){
 
   if (mode=='mm'){
 
-    change_fsm()
+    render_markov_chain_1()
 
   }
 
-  // else{
-  //   render_hmm_chain_1()
-  // }
+  else{
+    render_hmm_chain_1()
+  }
   
 
 }
@@ -926,15 +924,11 @@ for(var q=1;q<11;q++){
 }
 
 
-function reset_markov_chain(){
-  markov_chain_1.graph.clear();
-  markov_chain_1.refresh()
-  markov_chain_pos=-1;
-  render_markov_chain_1();
-}
 
-function change_fsm(){
-    var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
+
+function render_markov_chain_1(){
+
+  var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
   var pi_b = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
 
   var a_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
@@ -961,26 +955,10 @@ function change_fsm(){
 
 
   fsm.refresh()
-}
-
-function render_markov_chain_1(){
-
-  change_fsm()
-
-      var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
-  var pi_b = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
-
-  var a_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
-  var a_b  = parseFloat(document.getElementById('custom-range-4-probability').innerHTML)
-
-  var b_a  = parseFloat(document.getElementById('custom-range-5-probability').innerHTML)
-  var b_b  = parseFloat(document.getElementById('custom-range-6-probability').innerHTML)
-
-
   // console.log(document.getElementById('custom-range-5-probability').innerHTML)
   // console.log(pi_a)
   
-  // markov_chain_1.graph.clear()
+  markov_chain_1.graph.clear()
 
   var coin_types = ['fair','biased']
 
@@ -995,44 +973,15 @@ function render_markov_chain_1(){
   var prev_node;
 
 
-  // var node = return_coin_node(-1,x,2,"empty")
-
-  // markov_chain_1.graph.addNode(node)
-
-  // x+=2;
-
-if (markov_chain_pos==-1){
-  
   var node = return_coin_node(-1,x,2,"empty")
+
   markov_chain_1.graph.addNode(node)
+
   x+=2;
+
+
   for(var i=0;i<6;i++){
-    var node = create_node(i, x, 2, "")
-    node.color="transparent"
-    node.label=""
-    markov_chain_1.graph.addNode(node)
-    x+=2;
-  }
-
-  for(var i=-1;i<5;i++){
-    var edge = create_edge(i,i,i+1)
-    edge.color='transparent'
-    edge.label=""
-    markov_chain_1.graph.addEdge(edge)
-  }
-}
-
-  
-  var i = markov_chain_pos;
-
-
-    if (i==-1){
-      var q=0;
-
-    }
-
-    else{
-      if (i==0){
+    if (i==0){
       chosen_index = sample_with_probablities(coins, [pi_a,pi_b])
     }
     else{
@@ -1045,42 +994,31 @@ if (markov_chain_pos==-1){
         chosen_index = sample_with_probablities(coins, [b_a,b_b])
       }
     }
-    // console.log(chosen_index)
+    console.log(chosen_index)
     var node = return_coin_node(node_id,x,2,coin_types[chosen_index])
-    console.log(markov_chain_1.graph.nodes(), i+1)
-    markov_chain_1.graph.nodes()[i+1].color = node.color
-    markov_chain_1.graph.nodes()[i+1].label = node.label
-    }
-    
-    // markov_chain_1.graph.nodes[i].color = node.color
+    markov_chain_1.graph.addNode(node)
 
     if (i==0){
 
       var edge = create_edge(-1, -1, node_id, )
       edge.color = colors[chosen_index]
-      markov_chain_1.graph.edges()[i].color = edge.color      
+
     }
-
-
     if (i>0){
       var edge = create_edge(node_id, node_id-1, node_id);
       edge.color = colors[2+2*prev_index+chosen_index]
-      markov_chain_1.graph.edges()[i].color = edge.color      
+      
     }
 
-
+    markov_chain_1.graph.addEdge(edge) 
 
     node_id+=1
     x+=2;
 
-  
-
-  // markov_chain_1.graph.nodes()[i].color = node.color; 
-  // markov_chain_1.graph.nodes()[i].label = node.label; 
+  }
 
   // console.log(markov_chain_1.graph.nodes())
   markov_chain_1.refresh()
-  markov_chain_pos+=1;
 
 }
 
@@ -1102,12 +1040,9 @@ markov_chain_1 = new sigma({
 markov_chain_1.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1.5 });
 
 
-var markov_chain_pos=-1;
 
-reset_markov_chain();
-reset_markov_chain();
-reset_markov_chain();
-reset_markov_chain();
+
+render_markov_chain_1();
 
 
 
@@ -1137,10 +1072,8 @@ var hidden=true;
 
 var nodes_to_display = -1;
 
-
-
 function render_hmm_chain_1(mode='slow-sample'){
-  console.log("Rerender HMm")
+
     hmm.graph.clear()
 
 
@@ -1238,9 +1171,7 @@ function render_hmm_chain_1(mode='slow-sample'){
 }
 
 
-document.getElementById('resetbtn').click();
-document.getElementById('resetbtn').click();
-document.getElementById('resetbtn').click();
+render_hmm_chain_1()
 
 hmm.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1 });
 
