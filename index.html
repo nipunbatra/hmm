@@ -77,7 +77,11 @@
 
 <style type="text/css">
   
+.btn{
 
+  float:clear;font-size: 1em;background: #4d6bff;color: white;width:30%;padding:1em!important; margin: 1em;
+
+}
 
   body {
 
@@ -316,7 +320,7 @@
 
     </div>
     
-    <div class="l-screen" style="z-index: 1000">
+    <div class="l-screen" style="z-index: 1000; padding-left: 10em; padding-right: 10em;">
 
       <div class='half-div'>
       <table class="" style="">          
@@ -372,12 +376,17 @@
 
     </div>
 
+    <div class="l-screen" style="padding-left: 20em;padding-right: 20em;">
+      <div style="display: flex; justify-content: center;">
+
+      <button type="button" class="btn"  onclick="render_markov_chain_1()">Sample Next</button>
     
-      <button type="button" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto" onclick="render_markov_chain_1()">Sample Next</button>
+        <button type="button" id="resetbtn" class="btn" onclick="reset_markov_chain()">Reset</button>
+      </div>
+      </div>
     
-        <button type="button" id="resetbtn" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto" onclick="reset_markov_chain()">Reset</button>
-    
-    
+    <h1>Text Generation using Markov Chains</h1>
+    <p id="generated_text" style="background: orange; color: white"></p>
 
 <h1>What is hidden in a hidden markov model?</h1>
 
@@ -1262,7 +1271,26 @@ hmm.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1 });
 // x+=1
 
 
+var generated_text=  document.getElementById('generated_text')
 
+var words = ["Rithwik","is","a ",'good','boy']
+
+var cnt = 0;
+
+window.setInterval(function(){
+  
+  if (cnt==10){
+    cnt=0;
+    generated_text.innerHTML=" ";
+  }  
+  else{
+    cnt+=1;
+    generated_text.innerHTML+=words[Math.floor(Math.random()*5)]+' '
+  }
+
+
+
+}, 1000);
 
 </script>
 
