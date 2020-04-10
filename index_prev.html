@@ -1,19 +1,22 @@
-
-<!DOCTYPE html>
-<html>
-
+<!doctype html>
+<meta charset="utf-8">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Exploring Hidden Markov Models</title>
-  <script defer src="js/template.v2.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
-  
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src="https://distill.pub/template.v1.js"></script>
+               <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 
   <script type="text/bibliography">
@@ -85,17 +88,56 @@
 
   }
 
+  p {
 
-  canvas{
-    position: relative!important;
-  }
-  table{
-    margin: auto;
-  }
+    font-family: Roboto!important;
 
-  button{
-    cursor: pointer!important;
-  }
+  };
+  h1 {
+
+    font-family: Roboto!important;
+
+  };
+  h2 {
+
+    font-family: Roboto!important;
+
+  };
+
+   h3  {
+
+    font-family: Roboto!important;
+
+  };
+
+h4  {
+
+    font-family: Roboto!important;
+
+  };
+
+h5  {
+
+    font-family: Roboto!important;
+
+  };
+
+h6 {
+
+    font-family: Roboto!important;
+
+  };
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+
+
 
 
   svg{
@@ -137,76 +179,15 @@
   cursor: pointer;
 }
 
-.half-div{
-
-   /*display: inline-block;vertical-align: top;width: 50%;padding: 1rem;*/
-   float: left; width: 50% 
-}
-
-.one-third-div{
-
-   /*display: inline-block;vertical-align: top;width: 50%;padding: 1rem;*/
-   float: left; width: 33% 
-}
-
 
 </style>
 
-
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </head>
 
-<body >
-
-  <d-front-matter>
-    <script id='distill-front-matter' type="text/json">
-      {
-        "title": "Exploring Bayesian Optimization",
-        "description": "Hidden Markov Models - An interactive illustration",
-        "authors": [{
-            "author": "Kukunuri Rithwik",
-            "authorURL": "https://rithwikksvr.github.io/",
-            "affiliations": [{
-              "name": "Indian Insitute of Technology Gandhinagar",
-              "affiliationURL": "https://www.iitgn.ac.in/"
-            }]
-          },
-          {
-            "author": "Rishiraj Adhikary",
-            "authorURL": "https://rishi.github.io/",
-            "affiliations": [{
-              "name": "Indian Insitute of Technology Gandhinagar",
-              "affiliationURL": "https://www.iitgn.ac.in/"
-            }]
-          },
-          {
-            "author": "Nipun Batra",
-            "authorURL": "https://nipunbatra.github.io/",
-            "affiliations": [{
-              "name": "Indian Insitute of Technology Gandhinagar",
-              "affiliationURL": "https://www.iitgn.ac.in/"
-            }]
-          }
-        ],
-        "katex": {
-          "delimiters": [{
-            "left": "$$",
-            "right": "$$",
-            "display": false
-          }]
-        }
-      }
-    </script>
-  </d-front-matter>
-
-  <d-title style="padding-bottom: 0">
-    <p>Hidden Markov Models - An interactive illustration</p>
-  </d-title>
-
-  <d-byline></d-byline>
-
-  <d-article style="overflow-x: unset;">
-
+<dt-article class="centered" style="text-align: justify;"> 
 
 
 
@@ -216,13 +197,13 @@
   <br>
 
   </p>
-
+ 
   <h1>Sequential Model</h1>
 
   <p>Imagine that it has been raining since the past few days and someone asks you - “How likely is it that it will rain tomorrow”? What is your guess? You might say that, "Given that it has been raining since the last few days, I think it will rain tomorrow". The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached with rainfall. We might have a sequence of events as shown below.
   
   <br><br>
-
+  
   <img src="images/img0.png" style="  display: block;
   margin-left: auto;
   margin-right: auto;">
@@ -256,7 +237,9 @@
     
   </div> -->
 
-  <img src="images/img1.png" style="width: 100%;height: auto">
+  <img src="images/img1.png" style="  display: block;
+  margin-left: auto;
+  margin-right: auto;">
 
   <p>
 
@@ -269,7 +252,9 @@
     
   </p>
 
-  <img src="images/img2.png" style="width: 100%;height: auto">
+  <img src="images/img2.png" style="  display: block;
+  margin-left: auto;
+  margin-right: auto;">
 
 
   <h1>  Parameters of First Order Markov Chain</h1>
@@ -298,47 +283,23 @@
   <h1>Interactive Example of Markov Chain</h1>
 
 
-    <div class='l-screen'>
-      <div id="fsm" style="height: 14em;"></div>
+<!--   <div id="unrolled-markov-trellis-label" style="width: 100%;height: 4em;"></div>
+
+ -->
+
+<div class='l-screen'>
+  <div id="fsm" style="width: 100%;height: 12em;"></div>
+</div>
+<div class='l-screen'>
+
+    <div id="markov-chain-1" style="width: 100%;height: 4em;clear: both;margin-top: 1em;">
+      
     </div>
-    <div class='l-screen' style="">
 
-          <div id="markov-chain-1"  style="height: 12em;">
-          </div>
+</div>
 
-    </div>
-    
-    <div class="l-screen" style="z-index: 1000">
-
-      <div class='half-div'>
-      <table class="" style="">          
-        <thead>
-                  <tr>
-                    <th>Pi</th>
-                    <th>Coin</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Fair</td>
-                    <td><p id="custom-range-1-probability">0.5</p> <input type="range" id="custom-range-1" min="0" max="100" class="custom-range"></td>
-                   
-                  </tr>
-                  <tr>
-                    <td>Biased</td>
-                    <td><p id="custom-range-2-probability">0.5</p> <input type="range" id="custom-range-2" min="0" max="100" class="custom-range"></td>
-                   
-                  </tr>
-                  
-                </tbody>
-              </table>
-
-
-      </div>
-
-
-      <div class="half-div">
-      <table class="" style="">
+      <div class="table-responsive col-md-6">
+      <table class="table text-center" style="">
           <thead>
             <tr>
               <th>Transition Matrix</th>
@@ -349,23 +310,45 @@
           <tbody>
             <tr>
               <td>Fair</td>
-              <td><p id="custom-range-3-probability">0.5</p> <input type="range" id="custom-range-3" min="0" max="100" class="custom-range"></td>
-              <td><p id="custom-range-4-probability">0.5</p> <input type="range" id="custom-range-4" min="0" max="100" class="custom-range"></td>
+              <td><p id="custom-range-1-probability">0.5</p> <input type="range" id="custom-range-1" min="0" max="100" class="custom-range"></td>
+              <td><p id="custom-range-2-probability">0.5</p> <input type="range" id="custom-range-2" min="0" max="100" class="custom-range"></td>
             </tr>
             <tr>
               <td>Biased</td>
-              <td><p id="custom-range-5-probability">0.5</p> <input type="range" id="custom-range-5" min="0" max="100" class="custom-range"></td>
-              <td><p id="custom-range-6-probability">0.5</p> <input type="range" id="custom-range-6" min="0" max="100" class="custom-range"></td>
+              <td><p id="custom-range-3-probability">0.5</p> <input type="range" id="custom-range-3" min="0" max="100" class="custom-range"></td>
+              <td><p id="custom-range-4-probability">0.5</p> <input type="range" id="custom-range-4" min="0" max="100" class="custom-range"></td>
             </tr>
           </tbody>
         </table>
       </div>
+      <div class="table-responsive col-md-6">
+      <table class="table text-center" style="">          
+        <thead>
+                  <tr>
+                    <th>Pi</th>
+                    <th>Coin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fair</td>
+                    <td><p id="custom-range-5-probability">0.5</p> <input type="range" id="custom-range-5" min="0" max="100" class="custom-range"></td>
+                   
+                  </tr>
+                  <tr>
+                    <td>Biased</td>
+                    <td><p id="custom-range-6-probability">0.5</p> <input type="range" id="custom-range-6" min="0" max="100" class="custom-range"></td>
+                   
+                  </tr>
+                  
+                </tbody>
+              </table>
+      </div>
 
 
-    </div>
 
     
-      <button type="button" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto" onclick="render_markov_chain_1()">Resample using above</button>
+      <button type="button" class="btn" style="margin:0 auto;display:block;margin-top:1em;font-size: 1.5em;background: #4d6bff;color: white" onclick="render_markov_chain_1()">Resample using above</button>
     
     
 
@@ -377,7 +360,9 @@
       See the diagram below. It is worth noting that there is a link between the states but not between the observations.
     </p>
 
-    <img src="https://avikdas.com/assets/images/2019-06-24-dynamic-programming-for-machine-learning-hidden-markov-models/hmm-bare.png" style="width: 100%;height: auto">
+    <img src="https://avikdas.com/assets/images/2019-06-24-dynamic-programming-for-machine-learning-hidden-markov-models/hmm-bare.png" style="display: block;
+  margin-left: auto;
+  margin-right: auto;">
 
 
     <h1>Hidden Markov Model Parameters</h1>
@@ -398,12 +383,13 @@
 </p>
 
 <div class='l-screen' >
+
     <div id="hmm" style="width: 100%;height: 15em;"></div>
 </div>
 
 
-  <div class='l-screen' style="z-index: 1000">
-      <div class="one-third-div">
+  <div class='l-screen' style="padding-left: 1em;padding-right: 1em">
+         <div class="table-responsive col-md-4">
       <table class="table text-center" style="">          
         <thead>
                   <tr>
@@ -426,7 +412,7 @@
       </div>
 
 
-    <div class="one-third-div">
+    <div class="table-responsive col-md-4">
       <table class="table text-center" style="">
           <thead>
             <tr>
@@ -451,7 +437,7 @@
       </div>
  
 
-    <div class="one-third-div">
+    <div class="table-responsive col-md-4">
       <table class="table text-center" style="">
           <thead>
             <tr>
@@ -487,22 +473,16 @@
 <!--       <button type="button" class="btn" style="margin:0 auto;display:block;margin-top:1em;font-size: 1.5em;background: #4d6bff;color: white" onclick="render_hmm_chain_1('slow-sample')">Slow Sampling</button>
  -->
 
-<!--       <button type="button" class="btn" style="margin-top:1em;font-size: 1.5em;background: #4d6bff;color: white" onclick="render_hmm_chain_1('resample')">Resample</button>
-    
-     -->
-
-    
-      <button type="button" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto;z-index: 100;" onclick="render_hmm_chain_1('resample')">Resample using above</button>
+      <button type="button" class="btn" style="margin:0 auto;display:block;margin-top:1em;font-size: 1.5em;background: #4d6bff;color: white" onclick="render_hmm_chain_1('resample')">Resample</button>
     
     
 
-  </d-article>
 
- 
+</dt-article>
 
-</body>
+<dt-appendix>
+</dt-appendix>
 
-</html>
 
 
 <script>
@@ -928,14 +908,14 @@ for(var q=1;q<11;q++){
 
 function render_markov_chain_1(){
 
-  var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
-  var pi_b = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
+  var pi_a = parseFloat(document.getElementById('custom-range-5-probability').innerHTML)
+  var pi_b = parseFloat(document.getElementById('custom-range-6-probability').innerHTML)
 
-  var a_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
-  var a_b  = parseFloat(document.getElementById('custom-range-4-probability').innerHTML)
+  var a_a  = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
+  var a_b  = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
 
-  var b_a  = parseFloat(document.getElementById('custom-range-5-probability').innerHTML)
-  var b_b  = parseFloat(document.getElementById('custom-range-6-probability').innerHTML)
+  var b_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
+  var b_b  = parseFloat(document.getElementById('custom-range-4-probability').innerHTML)
 
   var size = 4;
 
@@ -1001,12 +981,12 @@ function render_markov_chain_1(){
     if (i==0){
 
       var edge = create_edge(-1, -1, node_id, )
-      edge.color = colors[chosen_index]
+      edge.color = colors[4+chosen_index]
 
     }
     if (i>0){
       var edge = create_edge(node_id, node_id-1, node_id);
-      edge.color = colors[2+2*prev_index+chosen_index]
+      edge.color = colors[2*prev_index+chosen_index]
       
     }
 
@@ -1037,7 +1017,7 @@ markov_chain_1 = new sigma({
   }
 });
 
-markov_chain_1.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1.5 });
+markov_chain_1.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1 });
 
 
 
