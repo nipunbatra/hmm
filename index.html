@@ -386,7 +386,7 @@
       </div>
     
     <h1>Text Generation using Markov Chains</h1>
-    <p id="generated_text" style="background: orange; color: white;min-height: 2em;"></p>
+    <p id="generated_text" style="background: orange; color: white;min-height: 4em;padding:1em;"></p>
 
 <h1>What is hidden in a hidden markov model?</h1>
 
@@ -809,9 +809,10 @@ function change_value(slider_id,mode='hmm'){
 
   }
 
-  // else{
-  //   render_hmm_chain_1()
-  // }
+
+  else{
+    render_hmm_chain_1()
+  }
   
 
 }
@@ -1254,6 +1255,7 @@ function render_hmm_chain_1(mode='slow-sample'){
 
 }
 
+render_hmm_chain_1()
 
 document.getElementById('resetbtn').click();
 document.getElementById('resetbtn').click();
