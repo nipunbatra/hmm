@@ -80,7 +80,7 @@
 .btn{
 
   float:clear;font-size: 1em;background: #4d6bff;color: white;width:30%;padding:1em!important; margin: 1em;
-
+z-index: 1000;
 }
 
   body {
@@ -510,8 +510,16 @@
     
      -->
 
-    
-      <button type="button" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto;z-index: 100;" onclick="render_hmm_chain_1('resample')">Resample using above</button>
+        <div class="l-screen" style="padding-left: 20em;padding-right: 20em;">
+      <div style="display: flex; justify-content: center;">
+
+      <button type="button" class="btn"  onclick="render_hmm_chain_1('resample')">Resample</button>
+
+      </div>
+      </div>
+
+<!-- 
+      <button type="button" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto;z-index: 100;" onclick="render_hmm_chain_1('resample')">Resample using above</button> -->
     
     
 
@@ -1006,7 +1014,7 @@ function render_markov_chain_1(){
 
   var prev_index;
 
-  var x = -3;
+  var x = -6;
 
   var node_id = 0;
 
@@ -1261,7 +1269,7 @@ document.getElementById('resetbtn').click();
 document.getElementById('resetbtn').click();
 document.getElementById('resetbtn').click();
 
-hmm.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1 });
+hmm.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: .8 });
 
 
 // var x = -3;
