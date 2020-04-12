@@ -704,26 +704,26 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
     <br><br>
     <div class="l-screen">
       <h1>Viterbi Algorithm</h1>
-      <div style="float: left; width: 40% ; text-align: left;padding: 1em">
+      <div style="float: left; width: 50% ; text-align: left;padding: 3em">
         <div>
         <h4>Initialization</h4>
-        <p style="margin-left: 1em; border: solid; border-color: transparent;" id="for-loop-1">FOR \(i\) in 1 to \(K\):</p>
-        <div style="margin-left: 2em;border: solid; border-color: transparent;" id="for-loop-1-content">
+        <p style="margin-left: 2em; border: solid; border-color: transparent;" id="for-loop-1">FOR \(i\) in 1 to \(K\):</p>
+        <div style="margin-left: 4em;border: solid; border-color: transparent;" id="for-loop-1-content">
           <p>\(\delta_{1}(i) = \pi_{i} * \phi_{1}(x_{1})\)</p>
           <p>\(\psi_{1}(i) = 0\)</p>
         </div>
       </div>
         <h4>Recursion</h4>
-          <div style="margin-left: 1em">
+          <div style="margin-left: 2em">
           <p style="margin-left: 0em;border: solid; border-color: transparent;" id="for-loop-2" >FOR \(t\) in 2 to \(T\):</p>
-            <p style="margin-left: 2em;border: solid; border-color: transparent;" id="for-loop-3" >FOR \(j\) in 1 to \(K\):</p>
+            <p style="margin-left: 4em;border: solid; border-color: transparent;" id="for-loop-3" >FOR \(j\) in 1 to \(K\):</p>
             <div id="for-loop-3-content" style="border: solid; border-color: transparent;">
-                <p style="margin-left: 3em;" >\(\delta_{t}(j) = \Bigg( \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \Bigg) * \phi_{j}(x_{t})\)</p>
-                <p style="margin-left: 3em;">\(\psi_{t}(j) =  \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \)</p>
+                <p style="margin-left: 6em;" >\(\delta_{t}(j) = \Bigg( \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \Bigg) * \phi_{j}(x_{t})\)</p>
+                <p style="margin-left: 6em;">\(\psi_{t}(j) =  \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \)</p>
             </div>
          </div>       
       </div>
-      <div style="float: left; width: 60%;">
+      <div style="float: left; width: 50%;">
         <h4>Recursion</h4>
         <div class="half-div" style="padding: 1em">
         <table id="probability-table" >
@@ -1655,7 +1655,7 @@ function add_variable(name,value, color=''){
   para.innerHTML = name + " = " + value;
   para.id="variable-"+name;
   para.classList.add("btn");
-  para.style.width='10%';;
+  para.style.width='20%';;
   para.style.background = color;  
   
   div.appendChild(para);
@@ -1714,11 +1714,28 @@ function show_output(t,s){
 
   var pi_dict_colors = {};
 
+  var trans_dict_values = {};
+
+  var trans_dict_colors = {};
+
   pi_dict_colors[0] = colors[0];
   pi_dict_colors[1] = colors[1];
 
   pi_dict_values[0] = pi_a;
   pi_dict_values[1] = pi_b;
+
+
+  trans_dict_colors[0] = colors[2]
+  trans_dict_colors[1] = colors[3]
+  trans_dict_colors[2] = colors[4]
+  trans_dict_colors[3] = colors[5]
+
+  trans_dict_values[0] = a_a;
+  trans_dict_values[1] = a_b;
+  trans_dict_values[2] = b_a;
+  trans_dict_values[3] = b_b;
+
+
 
   phi_dict_colors[0] = colors[6]
   phi_dict_colors[1] = colors[7]
@@ -1755,20 +1772,51 @@ function show_output(t,s){
 
   // console.log(phi_dict_values[coin_type,out])
   // console.log()
+
+  var types_of_coins = ['fair','biased']
+
+  var key_value = 2*coin_type+out
+
   if(t_==1){
 
-    var key_value = 2*coin_type+out
+    
 
     console.log(key_value)
       
     var elem_1 = create_span_tag(pi_dict_values[coin_type], pi_dict_colors[coin_type])
     var elem_2 = create_span_tag(phi_dict_values[key_value], phi_dict_colors[key_value])
     var result = create_span_tag(phi_dict_values[key_value] * pi_dict_values[coin_type], 'transparent')
+
+
     main_elem.appendChild(elem_1)
     main_elem.appendChild(multiply_operator)
     main_elem.appendChild(elem_2)
     main_elem.appendChild(equal_operator)
     main_elem.appendChild(result)
+
+    var type_of_coin = types_of_coins[coin_type];
+
+    var elem = document.getElementById('probability-of-'+t+'-'+type_of_coin)
+    elem.innerHTML = phi_dict_values[key_value] * pi_dict_values[coin_type];
+
+
+    var elem = document.getElementById('psi-of-'+t+'-'+type_of_coin)
+    elem.innerHTML = 0;
+
+  }
+
+  else{
+
+    var state_key = coin_type;
+    var elem_1 = create_span_tag(trans_dict_values[state_key], trans_dict_colors[state_key])
+    var elem_2 = create_span_tag(phi_dict_values[key_value], phi_dict_colors[key_value])
+    var result = create_span_tag(phi_dict_values[key_value] * pi_dict_values[coin_type], 'transparent')
+
+
+
+
+
+
 
   }
 
