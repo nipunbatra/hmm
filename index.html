@@ -751,12 +751,12 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
         </table>
         </div>
 
-        <div id="explanation">
-          <div id="variables" style="display: flex; justify-content: center; clear: both">
+        <div >
+          <div id="variables" style=" clear: both">
 
           </div>
-          <div id="expression">
-            <p>Solution = <span class="elem" id="elem-1">0.4</span> X <span class='elem' id="elem-2">0.5</span> = 0.20 </p>
+          <div id="explanation" style="clear: both; margin: 1em;text-align: left; padding-top: 1em">
+            <!-- <p>Solution = <span class="elem" id="elem-1" >0.4</span> X <span class='elem' id="elem-2">0.5</span> = 0.20 </p> -->
           </div>
 
         </div>
@@ -1662,23 +1662,116 @@ function add_variable(name,value, color=''){
 
 }
 
+function create_span_tag(value, color){
+
+  var span = document.createElement("span");
+  span.innerHTML = value;
+  span.style.padding = "1em";
+  span.style.background = color;
+  return span;
+ 
+
+}
+
 
 function show_output(t,s){
 
   var t_ = t;
   var s_ = s;
 
-  console.log(t_,s_)
 
 
-  if(t_==1){
+
+  var main_elem = document.getElementById('explanation');
+
+  main_elem.innerHTML=""
 
 
+  var pi_a = parseFloat(document.getElementById('custom-range-17-probability').innerHTML)
+  var pi_b = parseFloat(document.getElementById('custom-range-18-probability').innerHTML)
+
+  var a_a  = parseFloat(document.getElementById('custom-range-19-probability').innerHTML)
+  var a_b  = parseFloat(document.getElementById('custom-range-20-probability').innerHTML)
+
+  var b_a  = parseFloat(document.getElementById('custom-range-21-probability').innerHTML)
+  var b_b  = parseFloat(document.getElementById('custom-range-22-probability').innerHTML)
+
+  var f_h  = parseFloat(document.getElementById('custom-range-23-probability').innerHTML)
+  var f_t  = parseFloat(document.getElementById('custom-range-24-probability').innerHTML)
+
+  var b_h  = parseFloat(document.getElementById('custom-range-25-probability').innerHTML)
+  var b_t  = parseFloat(document.getElementById('custom-range-26-probability').innerHTML)
+
+  var coin_type = s_-1;
+
+  var out;
+
+  var phi_dict_colors = {};
+
+  var phi_dict_values = {};
+
+  var pi_dict_values = {};
+
+  var pi_dict_colors = {};
+
+  pi_dict_colors[0] = colors[0];
+  pi_dict_colors[1] = colors[1];
+
+  pi_dict_values[0] = pi_a;
+  pi_dict_values[1] = pi_b;
+
+  phi_dict_colors[0] = colors[6]
+  phi_dict_colors[1] = colors[7]
+  phi_dict_colors[2] = colors[8]
+  phi_dict_colors[3] = colors[9]
+
+  phi_dict_values[0] = f_h;
+  phi_dict_values[1] = f_t;
+  phi_dict_values[2] = b_h;
+  phi_dict_values[3] = b_t;
+
+
+
+  if (sequence[t-1]=="H"){
+    out=0
   }
 
   else{
+    out=1
+  }
+
+  console.log(coin_type, out)
+
+  var multiply_operator = create_span_tag("X",'transparent');
+  var addition_operator = create_span_tag("+",'transparent');
+  var equal_operator = create_span_tag("=",'transparent');
+
+
+  console.log(phi_dict_colors)
+  console.log(phi_dict_values)
+
+
+
+
+  // console.log(phi_dict_values[coin_type,out])
+  // console.log()
+  if(t_==1){
+
+    var key_value = 2*coin_type+out
+
+    console.log(key_value)
+      
+    var elem_1 = create_span_tag(pi_dict_values[coin_type], pi_dict_colors[coin_type])
+    var elem_2 = create_span_tag(phi_dict_values[key_value], phi_dict_colors[key_value])
+    var result = create_span_tag(phi_dict_values[key_value] * pi_dict_values[coin_type], 'transparent')
+    main_elem.appendChild(elem_1)
+    main_elem.appendChild(multiply_operator)
+    main_elem.appendChild(elem_2)
+    main_elem.appendChild(equal_operator)
+    main_elem.appendChild(result)
 
   }
+
 
 
 
@@ -1714,6 +1807,11 @@ function disable_all_backgrounds(){
 
 
 function psuedo_code_highlighter(){
+
+
+  var main_elem = document.getElementById('explanation');
+
+  main_elem.innerHTML=""
 
   // console.log(t,s,algo_mode)
 
