@@ -77,10 +77,26 @@
 
 <style type="text/css">
   
+  .border-disabled{
+    border-top:none;
+    border-left: none;
+    border-right: none;
+  }  
+
+  .border-enabled{
+    border: solid!important;;
+  }
+
+  .red{
+
+    color: orange;
+  }
+
 .btn{
 
   float:clear;font-size: 1em;background: #4d6bff;color: white;width:30%;padding:1em!important; margin: 1em;
-z-index: 1000;
+  z-index: 1000;
+
 }
 
   body {
@@ -93,8 +109,24 @@ z-index: 1000;
   canvas{
     position: relative!important;
   }
+
   table{
     margin: auto;
+    width: 100%;
+  }
+
+  table th{
+
+    width: 33%;
+
+  }
+
+  l-screen{
+    padding: 2em;
+  }
+
+  .pi-div th{
+    width: 50%!important;
   }
 
   button{
@@ -108,6 +140,11 @@ z-index: 1000;
 
   th{
     text-align: center!important;
+  }
+
+
+  td{
+    text-align: center!important
   }
 
 
@@ -141,6 +178,7 @@ z-index: 1000;
   cursor: pointer;
 }
 
+
 .half-div{
 
    /*display: inline-block;vertical-align: top;width: 50%;padding: 1rem;*/
@@ -154,8 +192,26 @@ z-index: 1000;
 }
 
 
+.small-padding{
+  padding: 1em;
+}
+
 </style>
 
+
+  <script>
+
+  </script>
+
+
+
+<script type="text/javascript">
+MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
+     MathJax.Extension["TeX/color"].colors["somecolor"] = 'green';
+});
+
+
+</script>
 
 
 </head>
@@ -379,8 +435,7 @@ z-index: 1000;
     <div class="l-screen" style="padding-left: 20em;padding-right: 20em;">
       <div style="display: flex; justify-content: center;">
 
-      <button type="button" class="btn"  onclick="render_markov_chain_1()">Sample Next</button>
-    
+        <button type="button" class="btn"  onclick="render_markov_chain_1()">Sample Next</button>
         <button type="button" id="resetbtn" class="btn" onclick="reset_markov_chain()">Reset</button>
       </div>
       </div>
@@ -423,7 +478,7 @@ z-index: 1000;
 
   <div class='l-screen' style="z-index: 1000">
       <div class="one-third-div">
-      <table class="table text-center" style="">          
+      <table class="table text-center pi-div" style="">          
         <thead>
                   <tr>
                     <th>Pi</th>
@@ -518,6 +573,209 @@ z-index: 1000;
       </div>
       </div>
 
+
+      <h1>Hidden Markov Model Sampling</h1>
+      <p>
+      The objective of Hidden Markov Model Sampling is to generate a sequence of observation \(\{x_1, x_2 \ldots x_n\}\) and a sequence of states \(\{z_1, z_2 \ldots z_n\}\) given the parameters, prior probability \(\pi\), transition matrix \(A\) and emission matrix \(\phi\). The algorithm for HMM sampling is as stated below.
+
+      <ul style="margin-left: 3em">
+      <li>Choose \(z_1\) as per \(\pi\)</li>
+      <li>Sample \(x_1\) using \(\phi\) and \(z_1\)</li>
+      <li>For each value of \(n = 2:N\)</li>
+      <li>Sample \(Z_n\) from \(Z_{n-1}\) using \(A\) and \(Z_{n-1}\)</li>
+      <li>      Sample \(x_n\) from \(z_n\) using \(\phi\) and \(z_n\)</li>
+      </ul>
+
+
+      Observe that to calculate the hidden sequence we do not consider the observation sequence. But to calculate the observation sequence, we do need the hidden sequence
+      <br><br><br>
+      </p>
+      <p>
+      The next problem in HMM is the likelihood of the evidence. The evidence is the sequence of observation that we have i.e. <span style="color:yellow"> \(\{x_1, x_2 \ldots x_T\}\)</span>, \(T\) here represents the last observation at the end of time \(T\). 
+      </p>
+      <h1>Forward Algorithm</h1>
+
+      <p>
+      Forward procedure is defined as the joint probability of being in state \(i\) at time \(t\) and observation \(x_{1:t}\). Mathematically, \(\alpha_t(i) = P(x_{1:t},z_t=i)\).
+
+      Building upon the two state (Bias and Fair) coin example that we saw before, we see that: 
+
+        </p>
+
+      <div class='l-screen' style="z-index: 1000">
+      <div class="one-third-div">
+      <table class="table text-center" style="">          
+        <thead>
+                  <tr>
+                    <th>Pi</th>
+                    <th>Coin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fair</td>
+                    <td><p id="custom-range-17-probability">0.4</p></td>
+
+                  </tr>
+                  <tr>
+                    <td>Biased</td>
+                    <td><p id="custom-range-18-probability">0.6</p></td>
+                  </tr>
+                </tbody>
+              </table>
+      </div>
+
+
+    <div class="one-third-div">
+      <table class="table text-center" style="">
+          <thead>
+            <tr>
+              <th>A</th>
+              <th>Fair</th>
+              <th>Biased</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-19-probability">0.9</p></td>
+              <td><p id="custom-range-20-probability">0.1</p></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-21-probability">0.1</p></td>
+              <td><p id="custom-range-22-probability">0.9</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+ 
+
+    <div class="one-third-div">
+      <table class="table text-center" style="">
+          <thead>
+            <tr>
+              <th>Phi</th>
+              <th>Head</th>
+              <th>Tails</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-23-probability">0.5</p></td>
+              <td><p id="custom-range-24-probability">0.5</p></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-25-probability">0.7</p></td>
+              <td><p id="custom-range-26-probability">0.3</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+</div>
+    <p>
+      
+      \( \alpha_1(F) = P(x_{1},z_1=F)  = \pi_{F}.P(x_1=H \vert z_1=F)\) = <span class="elem" id="elem-1">0.4</span> X <span class='elem' id="elem-2">0.5</span> = 0.20
+      <br><br>
+      
+      \( \alpha_1(B) =  P(x_{1},z_1=B) = \pi_{B}.P(x_1=H \vert z_1=B)\) = <span class="elem" id="elem-3">0.6</span> X <span class='elem' id="elem-4">0.7</span> = 0.42    
+      
+      </p>
+      <div class="l-screen">
+
+      <br><br>
+     \( \alpha_2(B) = P(x_{1}=H,x_{2}=H, z_2=B)= [P(x_1=H,z_1=B).A_{BB}]P(H \vert B)+[P(x_1=H,z_1=F).A_{FB}]P(H \vert B) \)
+      <br><br>
+     \( \alpha_2(B) = P(x_{1}=H,x_{2}=H, z_2=B) \) = <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> + <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> = 0.28
+     </div>
+
+      <!-- <span style="font-style: italic;  letter-spacing: 2px;"> P(x<sub>1</sub> = H) </span>
+      <br><br> -->
+
+      
+
+
+    </p>
+
+    <br><br>
+    <div class="l-screen">
+      <h1>Viterbi Algorithm</h1>
+      <div style="float: left; width: 40% ; text-align: left;padding: 1em">
+        <div>
+        <h4>Initialization</h4>
+        <p style="margin-left: 1em; border: solid; border-color: transparent;" id="for-loop-1">FOR \(i\) in 1 to \(K\):</p>
+        <div style="margin-left: 2em;border: solid; border-color: transparent;" id="for-loop-1-content">
+          <p>\(\delta_{1}(i) = \pi_{i} * \phi_{1}(x_{1})\)</p>
+          <p>\(\psi_{1}(i) = 0\)</p>
+        </div>
+      </div>
+        <h4>Recursion</h4>
+          <div style="margin-left: 1em">
+          <p style="margin-left: 0em;border: solid; border-color: transparent;" id="for-loop-2" >FOR \(t\) in 2 to \(T\):</p>
+            <p style="margin-left: 2em;border: solid; border-color: transparent;" id="for-loop-3" >FOR \(j\) in 1 to \(K\):</p>
+            <div id="for-loop-3-content" style="border: solid; border-color: transparent;">
+                <p style="margin-left: 3em;" >\(\delta_{t}(j) = \Bigg( \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \Bigg) * \phi_{j}(x_{t})\)</p>
+                <p style="margin-left: 3em;">\(\psi_{t}(j) =  \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \)</p>
+            </div>
+         </div>       
+      </div>
+      <div style="float: left; width: 60%;">
+        <h4>Recursion</h4>
+        <div class="half-div" style="padding: 1em">
+        <table id="probability-table" >
+            <thead>
+            <tr>
+              <th>\( \delta \)</th>
+              <th>Fair</th>
+              <th>Biased</th>
+            </tr>
+          </thead>
+
+        </table>
+        </div>
+
+        <div class="half-div" style="padding: 1em">
+        <table id="psi-table" >
+            <thead>
+            <tr>
+              <th>\( \psi \)</th>
+              <th>Fair</th>
+              <th>Biased</th>
+            </tr>
+          </thead>
+
+        </table>
+        </div>
+
+        <div id="explanation">
+          <div id="variables" style="display: flex; justify-content: center; clear: both">
+
+          </div>
+          <div id="expression">
+            <p>Solution = <span class="elem" id="elem-1">0.4</span> X <span class='elem' id="elem-2">0.5</span> = 0.20 </p>
+          </div>
+
+        </div>
+
+          
+        </div>
+
+      </div>
+    </div>
+
+    <div class="l-screen" style="padding-left: 20em;padding-right: 20em;">
+      <div style="display: flex; justify-content: center;">
+
+      <button type="button" class="btn"  onclick="viterbi_previous()">Previous Step</button>
+    
+        <button type="button" id="resetbtn" class="btn" onclick="viterbi_next()">Next Step</button>
+      </div>
+      </div>
+
 <!-- 
       <button type="button" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto;z-index: 100;" onclick="render_hmm_chain_1('resample')">Resample using above</button> -->
     
@@ -530,6 +788,7 @@ z-index: 1000;
 </body>
 
 </html>
+
 
 
 <script>
@@ -556,6 +815,14 @@ var colors = ['rgb(31,119,180)',
               'rgb(188,189,34)',
               'rgb(158,218,229)',
               ]
+
+// var sheet = window.document.styleSheets[0];
+// for(var i=1;i<colors.length+1;i++){
+//     sheet.insertRule('.color'+i+': { color:' + colors[i]+ ' ; }', sheet.cssRules.length);  
+// }
+
+
+
 
 var g = {
       nodes: [],
@@ -745,7 +1012,23 @@ fsm.graph.addEdge(edge)
 
 fsm.refresh()
 
+function set_color(elem_id, color_index){
+  document.getElementById(elem_id).style.color = colors[color_index-1];
+}
 
+
+set_color('elem-1',1)
+set_color('elem-2',7)
+
+
+
+// set_color('elem-3',2)
+// set_color('elem-4',9)
+
+
+// set_color('elem-5',2)
+// set_color('elem-6',9)
+// set_color('elem-',2)
 
 
 
@@ -938,7 +1221,7 @@ slider_16.oninput = function() {
 
 for(var q=1;q<7;q++){
 
-  var elem  = document.getElementById('custom-range-'+q)
+  var elem  = document.getElementById('custom-range-'+q+"-probability")
 
   elem.parentElement.style.background = colors[q-1];
 }
@@ -946,10 +1229,19 @@ for(var q=1;q<7;q++){
 
 for(var q=1;q<11;q++){
 
-  var elem  = document.getElementById('custom-range-'+(q+6))
+  var elem  = document.getElementById('custom-range-'+(q+6)+"-probability")
 
   elem.parentElement.style.background = colors[q-1];
 }
+
+for(var q=17;q<27;q++){
+
+  var elem  = document.getElementById('custom-range-'+(q)+"-probability")
+
+  elem.parentElement.style.background = colors[q-17];
+}
+
+
 
 
 function reset_markov_chain(){
@@ -1301,6 +1593,380 @@ window.setInterval(function(){
 
 
 }, 1000);
+
+
+
+var T = 5;
+
+for(var i=0;i<5;i++){
+
+  var table = document.getElementById("probability-table");
+  var row = table.insertRow(i+1);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  cell2.id = "probability-of-"+(i+1)+"-"+"fair"
+  var cell3 = row.insertCell(2);
+  cell3.id = "probability-of-"+(i+1)+"-"+"biased"
+  cell1.innerHTML = i+1;//"\( \delta_{ "+ (i+1) + " }\)";
+  cell2.innerHTML = "";
+  cell3.innerHTML = "";
+
+
+  
+  var table = document.getElementById("psi-table");
+  var row = table.insertRow(i+1);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  cell2.id = "psi-of-"+(i+1)+"-"+"fair"
+  var cell3 = row.insertCell(2);
+  cell3.id = "psi-of-"+(i+1)+"-"+"biased"
+  cell1.innerHTML = i+1;//"\( \delta_{ "+ (i+1) + " }\)";
+  cell2.innerHTML = "";
+  cell3.innerHTML = "";
+
+
+  
+
+
+}
+  
+
+function viterbi_next(){
+  
+  psuedo_code_highlighter();
+
+}
+
+function viterbi_previous(){
+  
+  psuedo_code_highlighter()
+}
+
+
+function change_variable(name, value){
+  var elem = document.getElementById('variable-'+name)
+  elem.innerHTML = name + " = "+value
+}
+
+function add_variable(name,value, color=''){
+    
+  var div = document.getElementById('variables')
+  var para = document.createElement("button");
+  para.innerHTML = name + " = " + value;
+  para.id="variable-"+name;
+  para.classList.add("btn");
+  para.style.width='10%';;
+  para.style.background = color;  
+  
+  div.appendChild(para);
+
+}
+
+
+function show_output(t,s){
+
+  var t_ = t;
+  var s_ = s;
+
+  console.log(t_,s_)
+
+
+  if(t_==1){
+
+
+  }
+
+  else{
+
+  }
+
+
+
+}
+
+function disable_background(id){
+  var elem = document.getElementById(id);
+  elem.style.background = 'white';
+}
+
+function enable_background(id){
+  var elem = document.getElementById(id);
+  elem.style.background = '#7171d680';
+}
+
+
+
+function disable_all_backgrounds(){
+    for(var q=1;q<T+1;q++){
+    for(var r=1;r<3;r++){
+        var coin_type = coins[r-1];
+        
+        disable_background("probability-of-"+q+"-"+coin_type)     
+        disable_background("psi-of-"+q+"-"+coin_type)     
+
+
+    }
+
+  }
+    
+}
+
+
+
+function psuedo_code_highlighter(){
+
+  // console.log(t,s,algo_mode)
+
+
+  if(t==1 && s<3){
+    if (algo_mode==0){
+      
+      enable_borders('for-loop-1');
+      disable_borders('for-loop-1-content')
+      disable_all_backgrounds()
+
+      if(s==1){
+        add_variable('i',1,"green")
+      }
+      if(s==2){
+        change_variable('i',2) 
+      }
+      algo_mode=1;
+    }
+
+    else if(algo_mode==1){
+
+      disable_borders('for-loop-1');
+      enable_borders('for-loop-1-content')
+
+      if(s==1){
+        
+       [s,t] =  viterbi(1,1)
+
+       
+      algo_mode=0;
+      }
+
+      else{
+           
+       [s,t] =  viterbi(2,1)
+        algo_mode=0;
+
+        }
+    
+    }
+  }
+
+  else if (t==1 && s==3){
+    t=2;
+    s=1;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if(t!=1){
+
+    if(t==2 && s==3){
+      s=1;
+    }
+
+    
+    if(t==2){
+
+        if (algo_mode==0){
+          var elem = document.getElementById('variables')
+          elem.innerHTML = "";
+          add_variable('t',t,'blue')    
+        }
+
+        else if(algo_mode==1 && s==1){
+
+             add_variable('j',s,'green')
+        }
+       
+        else if (algo_mode==1 && s==2){
+
+            change_variable('j',s)
+
+        }
+    }
+
+
+
+    else{
+
+      if (algo_mode==0){
+        change_variable('t',t)
+      }
+
+      if (algo_mode==1){
+        change_variable('j',s)
+      }
+
+    }
+
+
+
+
+
+
+      if(algo_mode==0){
+          enable_borders('for-loop-2');
+          disable_borders('for-loop-1-content')
+          disable_borders('for-loop-3')
+          disable_borders('for-loop-3-content')
+          disable_all_backgrounds()
+          algo_mode=1
+      }
+
+      else if(algo_mode==1){
+          disable_borders('for-loop-2');
+          disable_borders('for-loop-1-content')
+          enable_borders('for-loop-3')
+          disable_borders('for-loop-3-content')
+          disable_all_backgrounds()
+          algo_mode=2
+      }
+      else if(algo_mode==2){
+          disable_borders('for-loop-2');
+          disable_borders('for-loop-1-content')
+          disable_borders('for-loop-3')
+          enable_borders('for-loop-3-content')
+          var res= viterbi(s,t)
+          s = res[0];
+          t = res[1];
+          algo_mode=1
+      }
+
+
+    if (s==3){
+        algo_mode=0;
+        s=1;
+        t+=1;
+
+    }
+
+
+
+
+    }
+
+
+    
+    }
+
+
+
+
+function viterbi(s,t){
+
+  show_output(t,s)
+// console.log(t,s)
+
+  if(t<1){
+    t+=1;
+  }
+
+  else{
+      
+        // console.log("coin ",s)      
+        var coin_type = coins[s-1];
+        disable_all_backgrounds()
+        enable_background("probability-of-"+t+"-"+coin_type)     
+        enable_background("psi-of-"+t+"-"+coin_type)     
+
+
+        s+=1;
+
+
+  }
+
+
+
+return [s,t]
+
+
+  
+}
+
+var algo_mode=0;
+var t=1;
+var s = 1;
+var sequence = ["H","T","T","H","T"]
+
+
+
+// for(var t=1;t<T+1;t++){
+//   for(var s=1;s<3;s++){
+//     var type;
+//     if (s==1){
+//       type= 'fair'
+//     }
+//     else{
+//       type= 'biased'
+//     }
+//       var elem = document.getElementById("probability-of-"+t+"-"+type);
+//       elem.style.bordorColor = 'green'
+//       elem.style.border= 'solid'
+
+//   }
+// }
+
+function disable_borders(id){
+
+  var elem = document.getElementById(id)
+  elem.style.border = "solid";
+  elem.style.borderTopColor = 'transparent';
+  elem.style.borderLeftColor = 'transparent';
+  elem.style.borderRightColor = 'transparent';
+  elem.style.borderBottomColor = 'transparent';
+}
+
+function enable_borders(id){
+  // console.log(id)
+
+  var elem = document.getElementById(id)
+  elem.style.border = "solid";
+  elem.style.borderTopColor = 'black';
+  elem.style.borderLeftColor = 'black';
+  elem.style.borderRightColor = 'black';
+  elem.style.borderBottomColor = 'black';
+}
+
+
+
+var coins = ['fair','biased']
+
+
+
+
+
+// window.setInterval(function(){
+//   // console.log('yo',t,s)
+
+  
+
+
+
+
+// }, 2000);
+
+
+
+
+
 
 </script>
 
