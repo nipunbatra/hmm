@@ -209,6 +209,66 @@ p{
   padding: 1em;
 }
 
+
+
+.color-0{
+  background :transparent;
+padding:1em;
+}
+
+
+
+.color-1{
+  background :rgb(31,119,180);
+padding:1em;
+}
+.color-2{
+  background :rgb(255,127,14);
+padding:1em;
+}
+
+
+.color-3{
+  background :rgb(44,160,44);
+padding:1em;
+}
+
+.color-4{
+  background :rgb(214,39,40);
+padding:1em;
+}
+
+.color-5{
+  background :rgb(148,103,189);
+padding:1em;
+}
+
+.color-6{
+  background :rgb(140,86,75);
+padding:1em;
+}
+
+.color-7{
+  background :rgb(227,119,194);
+padding:1em;
+}
+
+.color-8{
+  background :rgb(127,127,127);
+padding:1em;
+}
+
+.color-9{
+  background :rgb(188,189,34);
+padding:1em;
+}
+
+.color-10{
+  background :rgb(158,218,229);
+  padding:1em;
+}
+
+
 </style>
 
 
@@ -690,22 +750,27 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
 
 
 </div>
-    <p>
+<div class="l-screen"> 
+
+      <p>
       
-      \( \alpha_1(F) = P(x_{1},z_1=F)  = \pi_{F}.P(x_1=H \vert z_1=F)\) = <span class="elem" id="elem-1">0.4</span> X <span class='elem' id="elem-2">0.5</span> = 0.20
+      \( \alpha_1(F) = P(x_{1},z_1=F) \) = <span class="color-1">\(\pi_{F}\)</span> X <span class="color-7">\(P(x_1=H \vert z_1=F)\)</span> = <span class="color-1">0.4</span> X <span class="color-7">0.5</span> = 0.20
       <br><br>
       
-      \( \alpha_1(B) =  P(x_{1},z_1=B) = \pi_{B}.P(x_1=H \vert z_1=B)\) = <span class="elem" id="elem-3">0.6</span> X <span class='elem' id="elem-4">0.7</span> = 0.42    
+      \( \alpha_1(B) =  P(x_{1},z_1=B) \) = <span class="color-2">\(\pi_{B}\)</span>  X <span class="color-9">\(P(x_1=H \vert z_1=B)\)</span> = <span class="color-2">0.6</span> X <span class="color-9">0.7</span> = 0.42    
       
       </p>
-      <div class="l-screen">
+
+
+</div>
+<!--       <div class="l-screen">
 
       <br><br>
      \( \alpha_2(B) = P(x_{1}=H,x_{2}=H, z_2=B)= [P(x_1=H,z_1=B).A_{BB}]P(H \vert B)+[P(x_1=H,z_1=F).A_{FB}]P(H \vert B) \)
       <br><br>
      \( \alpha_2(B) = P(x_{1}=H,x_{2}=H, z_2=B) \) = <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> + <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> = 0.28
      </div>
-
+ -->
       <!-- <span style="font-style: italic;  letter-spacing: 2px;"> P(x<sub>1</sub> = H) </span>
       <br><br> -->
 
@@ -1031,19 +1096,21 @@ fsm.graph.addEdge(edge)
 
 fsm.refresh()
 
-function set_color(elem_id, color_index){
-  document.getElementById(elem_id).style.color = colors[color_index-1];
-}
+// function set_color(elem, color_index){
+//   console.log("ind: ",elem)
+//   elem.style.background = colors[color_index-1];
+//   elem.style.padding = '1em';
+// }
 
 
-set_color('elem-1',1)
-set_color('elem-2',7)
+// for(var i=1;i<11;i++){
+//   var elements = document.getElementsByClassName('color-'+i);
+//   console.log("Elem: ",elements)
+//   for (var elem in elements){
+//     set_color(elem, i)
+//   }
 
-
-
-// set_color('elem-3',2)
-// set_color('elem-4',9)
-
+// }
 
 // set_color('elem-5',2)
 // set_color('elem-6',9)
