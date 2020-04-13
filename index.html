@@ -92,6 +92,19 @@
     color: orange;
   }
 
+
+table td {
+    text-align: center;
+    vertical-align: middle;
+
+    position: relative;
+}
+
+
+p{
+  margin-top: 1em
+}
+
 .btn{
 
   float:clear;font-size: 1em;background: #4d6bff;color: white;width:30%;padding:1em!important; margin: 1em;
@@ -591,7 +604,7 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
       <br><br><br>
       </p>
       <p>
-      The next problem in HMM is the likelihood of the evidence. The evidence is the sequence of observation that we have i.e. <span style="color:yellow"> \(\{x_1, x_2 \ldots x_T\}\)</span>, \(T\) here represents the last observation at the end of time \(T\). 
+      The next problem in HMM is the likelihood of the evidence. The evidence is the sequence of observation that we have i.e. \(\{x_1, x_2 \ldots x_T\}\), \(T\) here represents the last observation at the end of time \(T\). 
       </p>
       <h1>Forward Algorithm</h1>
 
@@ -704,20 +717,20 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
     <br><br>
     <div class="l-screen">
       <h1>Viterbi Algorithm</h1>
-      <div style="float: left; width: 50% ; text-align: left;padding: 3em">
+      <div style="float: left; width: 50% ; text-align: left;padding-left: 3em; padding-right: 3em; ">
         <div>
         <h4>Initialization</h4>
-        <p style="margin-left: 2em; border: solid; border-color: transparent;" id="for-loop-1">FOR \(i\) in 1 to \(K\):</p>
-        <div style="margin-left: 4em;border: solid; border-color: transparent;" id="for-loop-1-content">
+        <p style="margin-left: 2em; padding:0.25em!important;  border: solid; border-color: transparent;" id="for-loop-1">FOR \(i\) in 1 to \(K\):</p>
+        <div style="margin-left: 4em; padding:0.25em!important;  border: solid; border-color: transparent;" id="for-loop-1-content">
           <p>\(\delta_{1}(i) = \pi_{i} * \phi_{1}(x_{1})\)</p>
           <p>\(\psi_{1}(i) = 0\)</p>
         </div>
       </div>
         <h4>Recursion</h4>
-          <div style="margin-left: 2em">
-          <p style="margin-left: 0em;border: solid; border-color: transparent;" id="for-loop-2" >FOR \(t\) in 2 to \(T\):</p>
-            <p style="margin-left: 4em;border: solid; border-color: transparent;" id="for-loop-3" >FOR \(j\) in 1 to \(K\):</p>
-            <div id="for-loop-3-content" style="border: solid; border-color: transparent;">
+          <div style="margin-left: 2em;padding:0.25em!important;  ">
+          <p style="margin-left: 0em;padding:0.25em!important;  ;border: solid; border-color: transparent;" id="for-loop-2" >FOR \(t\) in 2 to \(T\):</p>
+            <p style="margin-left: 4em;padding:0.25em!important;  ;border: solid; border-color: transparent;" id="for-loop-3" >FOR \(j\) in 1 to \(K\):</p>
+            <div id="for-loop-3-content" style="padding:0.25em!important;  border: solid; border-color: transparent;">
                 <p style="margin-left: 6em;" >\(\delta_{t}(j) = \Bigg( \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \Bigg) * \phi_{j}(x_{t})\)</p>
                 <p style="margin-left: 6em;">\(\psi_{t}(j) =  \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \)</p>
             </div>
@@ -755,8 +768,14 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
           <div id="variables" style=" clear: both">
 
           </div>
-          <div id="explanation" style="clear: both; margin: 1em;text-align: left; padding-top: 1em">
+          <div id="explanation-1" style="clear: both; margin: 1em;text-align: left; padding-top: 1em">
+
+
             <!-- <p>Solution = <span class="elem" id="elem-1" >0.4</span> X <span class='elem' id="elem-2">0.5</span> = 0.20 </p> -->
+          </div>
+
+          <div id="explanation-2" style="clear: both; margin: 1em;text-align: left; padding-top: 1em">
+
           </div>
 
         </div>
@@ -770,7 +789,7 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
     <div class="l-screen" style="padding-left: 20em;padding-right: 20em;">
       <div style="display: flex; justify-content: center;">
 
-      <button type="button" class="btn"  onclick="viterbi_previous()">Previous Step</button>
+      <!-- <button type="button" class="btn"  onclick="viterbi_previous()">Previous Step</button> -->
     
         <button type="button" id="resetbtn" class="btn" onclick="viterbi_next()">Next Step</button>
       </div>
@@ -1645,14 +1664,14 @@ function viterbi_previous(){
 
 function change_variable(name, value){
   var elem = document.getElementById('variable-'+name)
-  elem.innerHTML = name + " = "+value
+  elem.innerHTML = "var " +name + " = "+value
 }
 
 function add_variable(name,value, color=''){
     
   var div = document.getElementById('variables')
   var para = document.createElement("button");
-  para.innerHTML = name + " = " + value;
+  para.innerHTML ="var " +name + " = " + value;
   para.id="variable-"+name;
   para.classList.add("btn");
   para.style.width='20%';;
@@ -1666,7 +1685,7 @@ function create_span_tag(value, color){
 
   var span = document.createElement("span");
   span.innerHTML = value;
-  span.style.padding = "1em";
+  span.style.padding = "0.5em";
   span.style.background = color;
   return span;
  
@@ -1680,11 +1699,15 @@ function show_output(t,s){
   var s_ = s;
 
 
-
-
-  var main_elem = document.getElementById('explanation');
+  var main_elem = document.getElementById('explanation-1');
 
   main_elem.innerHTML=""
+
+  var main_elem_2 = document.getElementById('explanation-2')
+
+  main_elem_2.innerHTML=""
+
+
 
 
   var pi_a = parseFloat(document.getElementById('custom-range-17-probability').innerHTML)
@@ -1762,7 +1785,13 @@ function show_output(t,s){
   var multiply_operator = create_span_tag("X",'transparent');
   var addition_operator = create_span_tag("+",'transparent');
   var equal_operator = create_span_tag("=",'transparent');
-
+  var max_begin_operator = create_span_tag("MAX ( ",'transparent');
+  var max_end_operator = create_span_tag(")",'transparent');
+  var comma_operator = create_span_tag(",","transparent")
+  
+  var max_begin_operator_2 = create_span_tag("MAX ( ",'transparent');
+  var max_end_operator_2 = create_span_tag(")",'transparent');
+  var comma_operator_2 = create_span_tag(",","transparent")
 
   console.log(phi_dict_colors)
   console.log(phi_dict_values)
@@ -1776,6 +1805,8 @@ function show_output(t,s){
   var types_of_coins = ['fair','biased']
 
   var key_value = 2*coin_type+out
+
+  var type_of_coin = types_of_coins[coin_type];
 
   if(t_==1){
 
@@ -1794,7 +1825,7 @@ function show_output(t,s){
     main_elem.appendChild(equal_operator)
     main_elem.appendChild(result)
 
-    var type_of_coin = types_of_coins[coin_type];
+    
 
     var elem = document.getElementById('probability-of-'+t+'-'+type_of_coin)
     elem.innerHTML = phi_dict_values[key_value] * pi_dict_values[coin_type];
@@ -1807,11 +1838,106 @@ function show_output(t,s){
 
   else{
 
-    var state_key = coin_type;
-    var elem_1 = create_span_tag(trans_dict_values[state_key], trans_dict_colors[state_key])
-    var elem_2 = create_span_tag(phi_dict_values[key_value], phi_dict_colors[key_value])
-    var result = create_span_tag(phi_dict_values[key_value] * pi_dict_values[coin_type], 'transparent')
+    var state_key_1 = coin_type;
+    var state_key_2 = 2+coin_type;
 
+
+    var output_prob_elem = create_span_tag(phi_dict_values[key_value],phi_dict_colors[key_value])
+
+
+    var elem_1 = create_span_tag(trans_dict_values[state_key_1], trans_dict_colors[state_key_1])
+    var prev_result_1 = parseFloat(document.getElementById('probability-of-'+(t_-1)+'-'+'fair').innerHTML).toFixed(6)
+    var prev_result_1_elem = create_span_tag(prev_result_1,'transparent')
+
+    var result_1 = (prev_result_1 * trans_dict_values[state_key_1] ).toFixed(6)
+    var result_1_elem = create_span_tag(result_1,'transparent')
+
+    var elem_2 = create_span_tag(trans_dict_values[state_key_2], trans_dict_colors[state_key_2])
+    var prev_result_2 = parseFloat(document.getElementById('probability-of-'+(t_-1)+'-'+'biased').innerHTML).toFixed(6)
+    var prev_result_2_elem = create_span_tag(prev_result_2,'transparent')
+
+    var result_2 = (prev_result_2 * trans_dict_values[state_key_2]).toFixed(6)
+    var result_2_elem = create_span_tag(result_2,'transparent')
+
+    var multiply_operator_1 = create_span_tag("X",'transparent');
+    var multiply_operator_2 = create_span_tag("X",'transparent');
+    var multiply_operator_3 = create_span_tag("X",'transparent');
+
+
+    main_elem.appendChild(max_begin_operator)
+    main_elem.appendChild(prev_result_1_elem)
+    main_elem.appendChild(multiply_operator_1)
+    main_elem.appendChild(elem_1)
+    main_elem.appendChild(comma_operator)
+    main_elem.appendChild(prev_result_2_elem)
+    main_elem.appendChild(multiply_operator_2)
+    main_elem.appendChild(elem_2)
+    main_elem.appendChild(max_end_operator)
+    main_elem.appendChild(multiply_operator_3)
+    main_elem.appendChild(output_prob_elem)
+
+    console.log(trans_dict_values[state_key_2]);
+
+    var multiply_operator_4 = create_span_tag("X",'transparent');
+
+    var output_prob_elem_2 = create_span_tag(phi_dict_values[key_value],phi_dict_colors[key_value])
+
+    main_elem_2.appendChild(max_begin_operator_2)
+    main_elem_2.appendChild(result_1_elem)
+    main_elem_2.appendChild(comma_operator_2)
+
+    main_elem_2.appendChild(result_2_elem)
+    main_elem_2.appendChild(max_end_operator_2)
+    main_elem_2.appendChild(multiply_operator_4)
+    main_elem_2.appendChild(output_prob_elem_2)
+    main_elem_2.appendChild(equal_operator)
+
+
+
+    var final_result;
+    var final_index;
+    
+    if (result_1>result_2){
+      final_index="Fair";
+
+      final_result = phi_dict_values[key_value] * result_1
+      
+    }
+    else{
+      final_index="Biased"
+      final_result = phi_dict_values[key_value] * result_2
+
+    }
+
+    final_result = final_result.toFixed(6)
+
+    var final_result_elem = create_span_tag(final_result, "transparent")
+    main_elem_2.appendChild(final_result_elem)
+
+
+    var elem = document.getElementById('probability-of-'+t+'-'+type_of_coin)
+    elem.innerHTML = final_result;
+
+
+    var elem = document.getElementById('psi-of-'+t+'-'+type_of_coin)
+    elem.innerHTML = final_index;
+
+
+    
+    // console.log(trans_dict_values)
+    // console.log(state_key_1)
+    // console.log(state_key_2)
+
+    // console.log(prev_result_1)
+    // console.log(trans_dict_values[state_key_1])
+
+    // console.log(prev_result_2)
+    // console.log(trans_dict_values[state_key_2])
+    
+
+    // console.log(result_1)
+    // console.log(result_2)
+    // console.log(Math.max(result_1,result_2))
 
 
 
@@ -1856,10 +1982,16 @@ function disable_all_backgrounds(){
 
 function psuedo_code_highlighter(){
 
-
-  var main_elem = document.getElementById('explanation');
+  var main_elem = document.getElementById('explanation-1');
 
   main_elem.innerHTML=""
+
+  var main_elem_2 = document.getElementById('explanation-2')
+
+  main_elem_2.innerHTML=""
+
+ 
+
 
   // console.log(t,s,algo_mode)
 
@@ -1872,7 +2004,7 @@ function psuedo_code_highlighter(){
       disable_all_backgrounds()
 
       if(s==1){
-        add_variable('i',1,"green")
+        add_variable('i',1,"#fd8000")
       }
       if(s==2){
         change_variable('i',2) 
@@ -1934,12 +2066,12 @@ function psuedo_code_highlighter(){
         if (algo_mode==0){
           var elem = document.getElementById('variables')
           elem.innerHTML = "";
-          add_variable('t',t,'blue')    
+          add_variable('t',t,'#fd8000')    
         }
 
         else if(algo_mode==1 && s==1){
 
-             add_variable('j',s,'green')
+             add_variable('j',s,'#fd8000')
         }
        
         else if (algo_mode==1 && s==2){
@@ -2050,7 +2182,7 @@ return [s,t]
 var algo_mode=0;
 var t=1;
 var s = 1;
-var sequence = ["H","T","T","H","T"]
+var sequence = ["H","H","H","H","H"]
 
 
 
