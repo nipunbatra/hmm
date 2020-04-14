@@ -66,13 +66,17 @@ function getCubicBezierXYatPercent(startPt, controlPt1, controlPt2, endPt, perce
 
 function sample_with_probablities(values, weights){
   var list = [];
+  var weights_sum = 0;
+
   for(var i=0;i<weights.length;i++){
     for(var j=0;j<weights[i]*100;j++){
+      weights_sum+= weights[i]*100;
       list.push(values[i])
     }
   }
   
-  var value = Math.floor(Math.random()*100)
+  console.log('weights sum',weights_sum)
+  var value = Math.floor(Math.random()*list.length)
   console.log(list.length, value)
   return list[value]
 

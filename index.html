@@ -515,6 +515,11 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
       </div>
     
     <h1>Text Generation using Markov Chains</h1>
+    <div class="l-screen">
+      <div id="text_generation-diagram" style="max-height: 40em">
+
+      </div>
+    </div>
     <p id="generated_text" style="background: orange; color: white;min-height: 4em;padding:1em;"></p>
 
 <h1>What is hidden in a hidden markov model?</h1>
@@ -1520,19 +1525,33 @@ reset_markov_chain();
 // });
 
 
-var xmlhttp = new XMLHttpRequest();
-xmlhttp.onreadystatechange = function() {
-  console.log('inside')
-  if (this.readyState == 4 && this.status == 200) {
-    var myObj = JSON.parse(this.responseText);
-    console.log(myObj)
-  }
-};
-xmlhttp.open("GET", "https://raw.githubusercontent.com/nipunbatra/hmm/master/trans_mat.json?token=AGJEY4QTOCBOY2NO55ES2SS6T4XRY", true);
-xmlhttp.send();
+var trans_mat;
+
+var pi_mat;
 
 
-console.log("hehe")
+// var xmlhttp = new XMLHttpRequest();
+// xmlhttp.onreadystatechange = function() {
+//   console.log('inside')
+//   if (this.readyState == 4 && this.status == 200) {
+//     if (this.responseText=="https://raw.githubusercontent.com/nipunbatra/hmm/master/trans_mat.json?token=AGJEY4QTOCBOY2NO55ES2SS6T4XRY"){
+//       trans_mat = JSON.parse(this.responseText);
+//       console.log('transmat')
+//       console.log(trans_mat)  
+//     }
+//     else{
+//       console.log('pimat')
+//       pi_mat = JSON.parse(this.responseText)
+//       console.log(pi_mat)
+//     }
+//     // console.log(myObj)
+//   }
+// };
+// xmlhttp.open("GET", "https://raw.githubusercontent.com/nipunbatra/hmm/master/trans_mat.json?token=AGJEY4QTOCBOY2NO55ES2SS6T4XRY", true);
+// xmlhttp.send();
+
+
+// console.log("hehe")
 
 
 hmm = new sigma({
@@ -1679,24 +1698,24 @@ hmm.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: .8 });
 
 var generated_text=  document.getElementById('generated_text')
 
-var words = ["John","is","a ",'good','boy']
+// var words = ["John","is","a ",'good','boy']
 
-var cnt = 0;
+// var cnt = 0;
 
-window.setInterval(function(){
+// window.setInterval(function(){
   
-  if (cnt==10){
-    cnt=0;
-    generated_text.innerHTML=" ";
-  }  
-  else{
-    cnt+=1;
-    generated_text.innerHTML+=words[Math.floor(Math.random()*5)]+' '
-  }
+//   if (cnt==10){
+//     cnt=0;
+//     generated_text.innerHTML=" ";
+//   }  
+//   else{
+//     cnt+=1;
+//     generated_text.innerHTML+=words[Math.floor(Math.random()*5)]+' '
+//   }
 
 
 
-}, 1000);
+// }, 1000);
 
 
 
@@ -2333,3 +2352,129 @@ var coins = ['fair','biased']
 
 </script>
 
+<script type="text/javascript">
+  
+
+trans_mat = {"the": {"the": 0.0, "great": 0.22, "stark": 0.03, "lannister": 0.03, "cersei": 0.0, "tywin": 0.0, "king": 0.33, "lord": 0.21, "robert": 0.0, "arya": 0.0, "queen": 0.17}, "great": {"the": 0.06, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.06, "lord": 0.33, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "stark": {"the": 0.15, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.08, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "lannister": {"the": 0.2, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.07, "robert": 0.0, "arya": 0.0, "queen": 0.07}, "cersei": {"the": 0.07, "great": 0.0, "stark": 0.0, "lannister": 0.7, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "tywin": {"the": 0.03, "great": 0.0, "stark": 0.0, "lannister": 0.81, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "king": {"the": 0.04, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.83, "arya": 0.0, "queen": 0.0}, "lord": {"the": 0.0, "great": 0.0, "stark": 0.04, "lannister": 0.0, "cersei": 0.0, "tywin": 0.89, "king": 0.0, "lord": 0.0, "robert": 0.04, "arya": 0.0, "queen": 0.0}, "robert": {"the": 0.44, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "arya": {"the": 0.4, "great": 0.0, "stark": 0.27, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "queen": {"the": 0.0, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.71, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}}
+
+
+
+var words = []
+
+for(var i in trans_mat){
+  words.push(i)
+}
+
+
+
+var sentence_length = 0;
+
+var prev_word;
+var chosen_word;
+
+
+
+var individual_probabilities = {};
+for(var i in trans_mat){
+  var prob_sum = 0;
+  for(var j in trans_mat[i]){
+    prob_sum+= trans_mat[i][j];
+  }
+  individual_probabilities[i] = prob_sum;
+}
+
+window.setInterval(function(){
+
+  if(sentence_length==0){
+    chosen_word = words[Math.floor(Math.random()*words.length)];
+  }
+  
+  else{
+    
+    var probabilities = [];
+    words = [];
+    for(var i in trans_mat[prev_word]){
+      probabilities.push(trans_mat[prev_word][i]);
+      words.push(i)
+    }
+
+    console.log(prev_word,words,probabilities)
+    chosen_word = sample_with_probablities(words, probabilities)
+    generated_text.innerHTML+=chosen_word+' ';
+  }
+
+
+  if (sentence_length==10){
+    sentence_length=-1;
+    generated_text.innerHTML=" ";
+  }  
+
+  prev_word = chosen_word;
+  sentence_length+=1;
+
+
+}, 1000);
+
+
+text_generation_graph = new sigma({
+  graph: g,
+  container: 'text_generation-diagram',
+  renderer: {
+    container: document.getElementById('text_generation-diagram'),
+    type: sigma.renderers.canvas
+  },
+  settings : {
+        minArrowSize: 10,
+        maxNodeSize: 32,
+        maxEdgeSize: 4,
+        mouseEnabled:false,
+  }
+});
+
+
+
+var radius = 2;
+
+var theta = 0;
+var sector_size = 360/(words.length-1);
+
+for(var q=0;q<words.length;q++){
+
+  var node = create_node(q, radius * Math.sin(theta), radius * Math.cos(theta))
+  node.color = "orange"
+  node.label = words[q]
+
+  theta+=sector_size;
+
+  text_generation_graph.graph.addNode(node)
+
+  console.log()
+}
+
+
+
+var edge_cnt = 0;
+
+for(var q1=0;q1<words.length;q1++){
+  for(var q2=0;q2<words.length;q2++){
+
+    if(trans_mat[words[q1]][words[q2]]!=0){
+      // console.log()
+      var edge = create_edge(edge_cnt, q1, q2)
+      edge.size = 4*(trans_mat[words[q1]][words[q2]])/individual_probabilities[words[q1]]
+      console.log(words[q1],words[q2], edge.size)
+      text_generation_graph.graph.addEdge(edge)
+      edge_cnt+=1;
+    }
+
+  }
+}
+
+
+text_generation_graph.refresh()
+
+text_generation_graph.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: .8 });
+
+
+
+</script>
