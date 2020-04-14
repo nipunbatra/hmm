@@ -442,16 +442,13 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
     <div class='l-screen'>
       <div id="fsm" style="height: 14em;"></div>
     </div>
-    <div class='l-screen' style="">
+<!--     <div class='l-screen' style="">
 
-          <div id="markov-chain-1"  style="height: 12em;">
-          </div>
-
-    </div>
+    </div> -->
     
-    <div class="l-screen" style="z-index: 1000; padding-left: 10em; padding-right: 10em;">
+    <div class="l-screen" style="z-index: 1000; padding-left: 1em; padding-right: 1em;">
 
-      <div class='half-div'>
+      <div style="float: left; width: 30%">
       <table class="" style="">          
         <thead>
                   <tr>
@@ -474,11 +471,6 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
                 </tbody>
               </table>
 
-
-      </div>
-
-
-      <div class="half-div">
       <table class="" style="">
           <thead>
             <tr>
@@ -500,6 +492,15 @@ MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
             </tr>
           </tbody>
         </table>
+
+      </div>
+
+
+      <div style="float: left; width: 70%">
+      
+          <div id="markov-chain-1"  style="height: 12em;">
+          </div>
+
       </div>
 
 
@@ -1076,19 +1077,19 @@ fsm.graph.addNode(node_2)
 
 
 var edge = create_edge(0, 0, 0 )
-edge.color = colors[0]
-fsm.graph.addEdge(edge)
-
-var edge = create_edge(1, 0, 1 )
-edge.color = colors[1]
-fsm.graph.addEdge(edge)
-
-var edge = create_edge(2, 1, 0 )
 edge.color = colors[2]
 fsm.graph.addEdge(edge)
 
-var edge = create_edge(3, 1, 1 )
+var edge = create_edge(1, 0, 1 )
 edge.color = colors[3]
+fsm.graph.addEdge(edge)
+
+var edge = create_edge(2, 1, 0 )
+edge.color = colors[4]
+fsm.graph.addEdge(edge)
+
+var edge = create_edge(3, 1, 1 )
+edge.color = colors[5]
 fsm.graph.addEdge(edge)
 
 
@@ -1502,7 +1503,7 @@ markov_chain_1 = new sigma({
   }
 });
 
-markov_chain_1.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1.5 });
+markov_chain_1.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1.1 });
 
 
 var markov_chain_pos=-1;
@@ -1514,6 +1515,24 @@ reset_markov_chain();
 
 
 
+// $.getJSON("https://raw.githubusercontent.com/nipunbatra/hmm/master/trans_mat.json?token=AGJEY4QTOCBOY2NO55ES2SS6T4XRY", function(json) {
+//     console.log(json); // this will show the info it in firebug console
+// });
+
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  console.log('inside')
+  if (this.readyState == 4 && this.status == 200) {
+    var myObj = JSON.parse(this.responseText);
+    console.log(myObj)
+  }
+};
+xmlhttp.open("GET", "https://raw.githubusercontent.com/nipunbatra/hmm/master/trans_mat.json?token=AGJEY4QTOCBOY2NO55ES2SS6T4XRY", true);
+xmlhttp.send();
+
+
+console.log("hehe")
 
 
 hmm = new sigma({
