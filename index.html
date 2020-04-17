@@ -746,6 +746,34 @@ Similarly, we can calculate the probability for other sequence of words.
       
       The next problem in HMM is the likelihood of the evidence. The evidence is the sequence of observation that we have i.e. \(\{x_1, x_2 \ldots x_T\}\), \(T\) here represents the last observation at the end of time \(T\). 
       </p>
+
+
+      <h1>Hidden Markov Model Evidence Likelihood</h1>
+
+      <p>The objective is to estimate the most probable observations given the set of parameters i.e \(A\) (Transition Matrix), \(\phi\) (Emission Matrix) and \(\pi\) (Prior Probability). Mathematically this can be represented as:
+        <br><br>
+
+    Given \(X=\{x_1, x_2 \ldots x_n\}\), \( \theta = \{\pi, A, \phi \}\), what is the likelihood, \(L(X \vert \theta)\)?
+    <br><br>
+    Likelihood = \(L(X \vert \theta)\) = \(P(X \vert \theta)\) = \(Likelihood = \) \(L(X \vert \theta)\) \( = P(X \vert \theta) = \sum_{z}^{} P(x,z \vert \theta)\)
+    <br><br>
+    where \(\sum_{z}^{} P(x,z \vert \theta) \) is the marginalization.
+    <br><br>
+    Now, imagine if we had a long sequence of observation, \(X = \{H, H \ldots x_T\}\), the trellis diagram would look something like
+    </p>
+
+    <h1>Time complexity of estimating the likelihood</h1>
+    <p>
+    In the example above we have only two states. But in general there could be \(k\) possible states and the sequence of observation is \(T\) timestamps long. In that, the number of possible path would be \(k^T\) to evaluate \(P(x \vert \theta)\). In our case, \(k=2\) and \(T=2\) which resulted into four paths.
+    <br><br>
+    Let us also assume that the number of multiplication in a path is of \(O(T)\), since we have a sequence \(T\) timestamps long. Thus the overall time complexity of estimating the likelihood of observation is \(O(T*k^T)\). Can we do better?
+    <br><br>
+    We will now use dynamic programming to improve upon this time complexity. To solve the problem above with dynamic programming, we would look into something known as forward procedure.
+    <br><br>
+    </p>
+
+      </p>
+
       <h1>Forward Algorithm</h1>
 
       <p>
@@ -830,7 +858,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
 
 </div>
-<div class="l-screen"> 
+<div class="l-screen" style="margin-top: 1em"> 
 
       <p>
       
@@ -841,8 +869,71 @@ Similarly, we can calculate the probability for other sequence of words.
       
       </p>
 
+      <p>
+        <br><br><br>
+        \(\alpha_2(B) = P(x_{1}=H,x_{2}=H, z_2=B) \) = <span>\(\Big[P(x_1=H,z_1=B)\)</span> . <span class="color-6">\(A_{BB}\)</span><span >\(\Big]\)</span><span class="color-9">\(P(H \vert B)\)</span> + <span>\(\Big[P(x_1=H,z_1=F)\)</span> . <span class="color-4">\(A_{FB}\)</span><span >\(\Big]\)</span><span class="color-9">\(P(H \vert B)\)</span>
+
+        <br><br><br><br>
+
+        \(\alpha_2(B) \) = 
+        <span>\(\alpha_1(B)\)</span> . <span class="color-6">\(A_{BB}\)</span><span class="color-9">\(P(H \vert B)\)</span> + 
+        <span>\(\alpha_1(F)\)</span> . <span class="color-4">\(A_{FB}\)</span><span class="color-9">\(P(H \vert B)\)</span>
+        <br><br><br><br>
+        
+
+        \(\alpha_2(B) \) = 
+        <span>\(0.42\)</span> X <span class="color-6">\(0.9\)</span> X <span class="color-9">\(0.7\)</span> + 
+        <span>\(0.2\)</span> X <span class="color-4">\(0.1\)</span> X <span class="color-9">\(0.7\)</span>
+        <br><br><br><br>
+
+        \(\alpha_2(B) \) =  0.28
+
+      </p>
 
 </div>
+
+<p>
+  <img src="images/trellis-1.png" style="  display: block;
+  margin-left: auto;
+  margin-right: auto;width: 100%;height: auto">
+
+
+  Observe that there are two path that could lead to the second state \(z_B\)
+  <br><br>
+
+Thus, generally we can write:
+<br><br>
+$$\alpha_{t+1}(j) = \{\sum_{i}^{} \alpha_{t}(i).A_{ij}\} \phi_{j}(x_{t+1})$$
+<br><br>
+We can end up in state \(j\) at time \(t+1\) from each of the \(k\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\theta_j(x_{t+1})\). For the two state markov model (Fair and Biased Coin) with two discrete emission (Head and Tail), the complete trellis diagram is as shown below.
+
+  <img src="images/trellis-2.png" style="  display: block;
+  margin-left: auto;
+  margin-right: auto;width: 100%;height: auto">
+
+
+Recall that our objective was to find the probability of observing the data given the markov model parameters that we have been representing as \(\theta = \{\pi, A, \phi\}\). To answer this question, let us write the forward equation for the last observation in the observation sequence i.e.
+<br><br>
+
+$$\alpha_T(B) = P(x_{1:T}, z_T=B)$$
+$$\alpha_T(F) = P(x_{1:T}, z_T=F)$$
+$$\therefore P(x_{1:T}) = \alpha_T(B) + \alpha_T(F)$$
+<br>
+In general, we can write:
+<br>
+$$P(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)$$
+
+$$L(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)$$
+
+<br>
+
+The third problem in Hidden Markov Model which is an extension of the second problem is to compute the belief state or we ask, what is the probability of ending up in a state \(z_j\) given that we have observed the data \(X={x_1, x_2 \ldots x_3}\). We define this third problem in this series as hidden markov model filtering.
+
+
+
+</p>
+
+
 <!--       <div class="l-screen">
 
       <br><br>
@@ -855,11 +946,6 @@ Similarly, we can calculate the probability for other sequence of words.
       <br><br> -->
 
       
-
-
-    </p>
-
-    <br><br>
     <div class="l-screen">
       
       <h1>Viterbi Algorithm</h1>
@@ -912,9 +998,9 @@ Similarly, we can calculate the probability for other sequence of words.
         <table id="probability-table" >
             <thead>
             <tr>
-              <th>\( \delta \)</th>
-              <th>Fair</th>
-              <th>Biased</th>
+              <th></th>
+              <th>\( \delta_{t}(Fair) \)</th>
+              <th>\( \delta_{t}(Biased) \)</th>
             </tr>
           </thead>
 
@@ -925,9 +1011,9 @@ Similarly, we can calculate the probability for other sequence of words.
         <table id="psi-table" >
             <thead>
             <tr>
-              <th>\( \psi \)</th>
-              <th>Fair</th>
-              <th>Biased</th>
+              <th></th>
+              <th>\( \psi_{t}(Fair) \)</th>
+              <th>\( \psi_{t}(Biased) \)</th>
             </tr>
           </thead>
 
@@ -1843,7 +1929,7 @@ for(var i=0;i<5;i++){
   cell2.id = "probability-of-"+(i+1)+"-"+"fair"
   var cell3 = row.insertCell(2);
   cell3.id = "probability-of-"+(i+1)+"-"+"biased"
-  cell1.innerHTML = i+1;//"\( \delta_{ "+ (i+1) + " }\)";
+  cell1.innerHTML = "t="+(i+1);//"\( \delta_{ "+ (i+1) + " }\)";
   cell2.innerHTML = "";
   cell3.innerHTML = "";
 
@@ -1856,7 +1942,7 @@ for(var i=0;i<5;i++){
   cell2.id = "psi-of-"+(i+1)+"-"+"fair"
   var cell3 = row.insertCell(2);
   cell3.id = "psi-of-"+(i+1)+"-"+"biased"
-  cell1.innerHTML = i+1;//"\( \delta_{ "+ (i+1) + " }\)";
+  cell1.innerHTML = "t="+(i+1);//"\( \delta_{ "+ (i+1) + " }\)";
   cell2.innerHTML = "";
   cell3.innerHTML = "";
 
@@ -1866,7 +1952,7 @@ for(var i=0;i<5;i++){
   var row = table.insertRow(i+1);
   var cell1 = row.insertCell(0);
   var cell2 = row.insertCell(1);
-  cell1.innerHTML = i+1;//"\( \delta_{ "+ (i+1) + " }\)";
+  cell1.innerHTML ="t="+ (i+1);//"\( \delta_{ "+ (i+1) + " }\)";
   cell2.innerHTML = "";
   cell2.id="z-star-"+(i+1)
   
@@ -2655,37 +2741,37 @@ for(var i in trans_mat){
   individual_probabilities[i] = prob_sum;
 }
 
-// window.setInterval(function(){
+window.setInterval(function(){
 
-//   if(sentence_length==0){
-//     chosen_word = words[Math.floor(Math.random()*words.length)];
-//   }
+  if(sentence_length==0){
+    chosen_word = words[Math.floor(Math.random()*words.length)];
+  }
   
-//   else{
+  else{
     
-//     var probabilities = [];
-//     words = [];
-//     for(var i in trans_mat[prev_word]){
-//       probabilities.push(trans_mat[prev_word][i]);
-//       words.push(i)
-//     }
+    var probabilities = [];
+    words = [];
+    for(var i in trans_mat[prev_word]){
+      probabilities.push(trans_mat[prev_word][i]);
+      words.push(i)
+    }
 
-//     console.log(prev_word,words,probabilities)
-//     chosen_word = sample_with_probablities(words, probabilities)
-//     generated_text.innerHTML+=chosen_word+' ';
-//   }
-
-
-//   if (sentence_length==10){
-//     sentence_length=-1;
-//     generated_text.innerHTML=" ";
-//   }  
-
-//   prev_word = chosen_word;
-//   sentence_length+=1;
+    console.log(prev_word,words,probabilities)
+    chosen_word = sample_with_probablities(words, probabilities)
+    generated_text.innerHTML+=chosen_word+' ';
+  }
 
 
-// }, 1000);
+  if (sentence_length==10){
+    sentence_length=-1;
+    generated_text.innerHTML=" ";
+  }  
+
+  prev_word = chosen_word;
+  sentence_length+=1;
+
+
+}, 1000);
 
 
 text_generation_graph = new sigma({
@@ -2745,7 +2831,7 @@ for(var q1=0;q1<words.length;q1++){
 
 text_generation_graph.refresh()
 
-// text_generation_graph.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 0.5 });
+text_generation_graph.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 0.5 });
 
 
 document.getElementById('viterbi_2').style.display='none';
