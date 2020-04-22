@@ -1176,7 +1176,7 @@ According to this definition, we choose the most probable sequence of states giv
 $$ Z_{T}^{*} = \underset{ Z_{1:T}}  \arg\max  P(Z_{1:T} \vert x_{t:T})  $$
 
 
-This can be solved using the Viterbi algorithm.
+
 
 First, let us define the following
 
@@ -1242,17 +1242,18 @@ $$
 
 </ul>
 
+<img src="images/viterbi.svg" style="width: 100%; height: auto">
+
+$$
+    \delta_{t+1}(j) = \Bigg( \underset{ i \in 1 \dots K} \max \bigg( \delta_{t}(i) * A_{ij} \bigg) * \phi_{j}(x_{t+1})  \Bigg)  
+$$
 <p>
-    \(\delta_{t+1}(j) = \Bigg( \underset{ i \in 1 \dots K} \max \bigg( \delta_{t}(i) * A_{ij} \bigg) * \phi_{j}(x_{t+1})  \Bigg)  \)
-
-    <br><br>
-
-
 For each \(t\) and \(j\), we also need to store argument 'i' which which maximized above equation in \( \psi_{t}(j) \)
 
 </p>
 
 <h1>Viterbi Algorithm</h1>
+<p>This can be solved using the Viterbi algorithm. The algorithm is as follows.</p>
 
         <div > 
         <div>
@@ -1359,7 +1360,7 @@ Qljo (Rta)
 
 
   <div style="float: left; width: 50%;">
-        <div  style="padding: 1em; width: 33%; float: left;" >
+        <div  style="padding: 1em; width: 100%%; " >
         <table id="viterbi-table" >
             <thead>
             <tr>
