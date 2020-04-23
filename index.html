@@ -472,7 +472,7 @@ Using the rules of independence, we can calculate the joint probability of the s
       <li><b>Transition Matrix \(A\)</b>: The transition matrix stores the transition probability between each of the states. The probability of going from state \(i\) to state \(j\) is given by \( A_{ij} = P(x_t = j \vert x_{t-1}=i)\) where \(i,j \in \{1,2 \ldots K\}\).
       </li>
       <li><b>Prior Probability \(\pi\)</b>: The probability of starting from one of the available states on the first timestamp. It is denoted by 
-  \(\pi_i = P(z_1 = i)\)
+  \(\pi_i = P(z_1 = i)\)</li>
   </ul>
   
 
@@ -699,7 +699,7 @@ Similarly, we can calculate the probability for other sequence of words.
     <p>In this section we summarize the parameters we have observed so far. Let us assume that \(z_t\) can take one of the \(K\) possible states
 
 
-    <ol>
+    <ul>
 
     
       <li><b>Transition Matrix \(A\)</b>: The transition matrix stores the transition probability between each of the states. The probability of going from state \(i\) to state \(j\) is given by \( A_{ij} = P(x_t = j \vert x_{t-1}=i)\) where \(i,j \in \{1,2 \ldots K\}\).
@@ -709,7 +709,7 @@ Similarly, we can calculate the probability for other sequence of words.
     <li>
     <b>Emission Probability \( \phi \)</b>: The conditional probability of observing a discrete or continuous value \(x\) from a state \(z\) given the transition matrix and the prior probability is given as \(\phi_t = P(x_t \vert z_t, A, \pi)\)
 </li>
-    </ol>
+    </ul>
   
 </p>
 
@@ -955,7 +955,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
   Thus the overall time complexity of estimating the likelihood of observation \(P(X \vert \theta)\) is \(O(T*K^T)\)<br><br>
 
-  Can we do better?<br>
+  Can we do better? Consider the following paths.<br>
 
 
 
@@ -972,7 +972,7 @@ Similarly, we can calculate the probability for other sequence of words.
   
   <div class="half-div">
     <img src="images/paths (2).png" style="width: 100%;height: auto">
-    <p>\(Z = \{ z_{1}=B, z_{2}=B, z_{3}=F \}\)<br>
+    <p>\(Z = \{ z_{1}=B, z_{2}=B, z_{3}=F \}\)<br></p>
     <!-- Probability = \(P\bigg(\{x_{1},x_{2}\} \vert \{z_{1}=B, z_{2}=B\}\bigg)P(z_{3}=F \vert z_{2}=B)P(x_{3}\vert z_{3}=F\))</p> -->
   </div>
 </div>
@@ -1003,10 +1003,57 @@ Similarly, we can calculate the probability for other sequence of words.
       <br>
       <img src="images/forward-equation.svg" style="width: 40%;height: auto;"><br>
       <br>
-      In other words it is Probability of being in state '<span style="color: violet">i</span>' at time '<span style="color: green">t</span>' given  observation '<span style="color: red;">X</span>'<br><br>
+      In other words it is the probability of being in state '<span style="color: violet">i</span>' at time '<span style="color: green">t</span>' given  observation '<span style="color: red;">X</span>'<br><br></p>
+
+          <p>
+      We can end up in state \(j\) at time \(t+1\) from each of the \(k\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\theta_j(x_{t+1})\). <br><br>
+      Thus, generally we can write:
+<br><br>
+$$\alpha_{t+1}(j) = \{\sum_{i}^{} \alpha_{t}(i).A_{ij}\} \phi_{j}(x_{t+1})$$
+
+    </p>
+
+
+    <h3 class="div-show-btn" onclick="show_forward_algorithm()">Forward Algorithm</h3>
+
+    <div id = "forward-algorithm" class="hidden-div" style="display: none">
+      
+
+      The algorithm is as follows:<br><br>
+
+      Initial Step:<br>
+
+        <span style="margin-left: 1em">\(\alpha_{1} (i) = \pi_{i} *  \phi(x_{1} \vert z_{i}) \)</span>
+
+      <br><br>
+
+      General Step:<br>
+        <span style="margin-left: 1em">\(\alpha_{t+1}(j) = \{\sum_{i}^{} \alpha_{t}(i).A_{ij}\} \phi_{j}(x_{t+1}) \)</span>      
+
+      <br><br>
+
+
       Building upon the two state (Bias and Fair) coin example that we saw before, we see that: 
 
-        </p>
+
+    </p>
+
+    </div>
+
+      <p>
+
+    Recall that our objective was to find the probability of observing the data given the markov model parameters that we have been representing as \(\theta = \{\pi, A, \phi\}\). To answer this question, let us write the forward equation for the last observation in the observation sequence i.e.
+    <br><br>
+      \(\alpha_T(B) = P(x_{1:T}, z_T=B)\)<br><br>
+      \(\alpha_T(F) = P(x_{1:T}, z_T=F)\)<br><br>
+      \(\therefore P(x_{1:T}) = \alpha_T(B) + \alpha_T(F)\)<br><br>
+      <br>
+      In general, we can write:
+      <br>
+      $$L(x_{1:T} \vert \theta) = P(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)$$
+
+      <br>
+      </p>
 
       <div class='l-screen' style="z-index: 1000">
       <div class="one-third-div">
@@ -3242,9 +3289,18 @@ function show_hmm_sampling_psuedo_code(){
   }
 }
 
+show_forward_algorithm
 
 
+function show_forward_algorithm(){
 
+  var x = document.getElementById("forward-algorithm");
+  if (x.style.display == "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
 </script>
 
 <script type="text/javascript">
