@@ -78,6 +78,93 @@
 <style type="text/css">
 
 
+@media screen and (max-width: 480px)
+
+{
+
+
+  #markov-left-div{
+    width: 100%;
+    
+  }
+
+  #markov-right-div{
+    width: 100%;
+    
+  }
+
+  .one-third-div{
+
+    padding: 1em;
+   width: 100%;
+}
+  
+  .half-div{
+    width: 100%;
+    padding: 1em;
+
+  }
+
+
+  .screen-only{
+    display: none;
+  }
+
+  .mobile-only{
+    display: block;
+  }
+
+
+
+}
+
+@media screen and (min-width: 480px)
+
+{
+
+  #markov-left-div{
+    width: 30%;
+    float: left;
+  }
+
+  #markov-right-div{
+    width: 70%;
+    float: left;
+  }
+
+
+ 
+.one-third-div{
+
+
+   float: left; width: 33% 
+}
+
+  
+.half-div{
+
+   /*display: inline-block;vertical-align: top;width: 50%;padding: 1rem;*/
+   float: left; width: 50% 
+}
+
+
+
+  .screen-only{
+    display: block;
+  }
+
+  .mobile-only{
+    display: hidden;
+  }
+
+
+
+
+
+}
+
+
+
   .div-show-btn{
     cursor: pointer;
     padding: 1em;
@@ -229,18 +316,6 @@ p{
 }
 
 
-.half-div{
-
-   /*display: inline-block;vertical-align: top;width: 50%;padding: 1rem;*/
-   float: left; width: 50% 
-}
-
-.one-third-div{
-
-   /*display: inline-block;vertical-align: top;width: 50%;padding: 1rem;*/
-   float: left; width: 33% 
-}
-
 
 .small-padding{
   padding: 1em;
@@ -316,9 +391,6 @@ padding:1em;
 
 
 <script type="text/javascript">
-MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
-     MathJax.Extension["TeX/color"].colors["somecolor"] = 'green';
-});
 
 
 </script>
@@ -537,8 +609,8 @@ Using the rules of independence, we can calculate the joint probability of the s
     
     <div class="l-screen" style="z-index: 1000; ">
 
-      <div style="float: left; width: 30%">
-      <table class="" style="">          
+      <div class="" id ="markov-left-div" style="margin-top: 1em">
+      <table class="table" style="margin-top: 1em">          
         <thead>
                   <tr>
                     <th>State</th>
@@ -560,7 +632,7 @@ Using the rules of independence, we can calculate the joint probability of the s
                 </tbody>
               </table>
 
-      <table class="" style="">
+      <table class="" style="margin-top: 1em">
           <thead>
             <tr>
               <th>Transition Matrix</th>
@@ -585,7 +657,7 @@ Using the rules of independence, we can calculate the joint probability of the s
       </div>
 
 
-      <div style="float: left; width: 70%">
+      <div id="markov-right-div" style="margin-top: 1em">
           <div id="fsm" style="height: 14em;"></div>
 
           <div id="markov-chain-1"  style="height: 12em;">
@@ -593,16 +665,17 @@ Using the rules of independence, we can calculate the joint probability of the s
 
       </div>
 
-
-    </div>
-
-    <div class="l-screen" style="">
-      <div style="display: flex; justify-content: center;">
+      <div style="display: flex; justify-content: center;clear: both">
 
         <button type="button" class="btn"  onclick="render_markov_chain_1()">Sample Next</button>
         <button type="button" id="resetbtn" class="btn" onclick="reset_markov_chain()">Reset</button>
       </div>
-      </div>
+
+    </div>
+
+
+
+
     
     <h1>Text Generation using Markov Chains</h1>
   <!--   <p>
@@ -998,7 +1071,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <h1>Forward Algorithm</h1>
 
       <p>
-      Forward algorithm is a dynamic programming based approach using which we can compute the likelihood of observation \(P(X \vert \theta)\).
+      <!-- Forward algorithm is a dynamic programming based approach using which we can compute the likelihood of observation \(P(X \vert \theta)\). -->
       <br>
       <br>
       <img src="images/forward-equation.svg" style="width: 40%;height: auto;"><br>
@@ -1009,7 +1082,16 @@ Similarly, we can calculate the probability for other sequence of words.
       We can end up in state \(j\) at time \(t+1\) from each of the \(k\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\theta_j(x_{t+1})\). <br><br>
       Thus, generally we can write:
 <br><br>
-$$\alpha_{t+1}(j) = \{\sum_{i}^{} \alpha_{t}(i).A_{ij}\} \phi_{j}(x_{t+1})$$
+
+\(
+\begin{align}
+  \alpha_{t+1}(j) &= P(x_{1:t+1} \vert z_{t+1} = j)\\
+  &= \sum_{i=1}^{k} \alpha_{t}(i).A_{ij}.\phi_{j}(x_{t+1})
+\end{align}
+\)
+
+
+<!-- $$\alpha_{t}(j) = \{\sum_{i}^{} \alpha_{t-1}(i).A_{ij}\} \phi_{j}(x_{t})$$<br> -->
 
     </p>
 
@@ -1042,20 +1124,22 @@ $$\alpha_{t+1}(j) = \{\sum_{i}^{} \alpha_{t}(i).A_{ij}\} \phi_{j}(x_{t+1})$$
 
       <p>
 
-    Recall that our objective was to find the probability of observing the data given the markov model parameters that we have been representing as \(\theta = \{\pi, A, \phi\}\). To answer this question, let us write the forward equation for the last observation in the observation sequence i.e.
-    <br><br>
-      \(\alpha_T(B) = P(x_{1:T}, z_T=B)\)<br><br>
-      \(\alpha_T(F) = P(x_{1:T}, z_T=F)\)<br><br>
-      \(\therefore P(x_{1:T}) = \alpha_T(B) + \alpha_T(F)\)<br><br>
-      <br>
-      In general, we can write:
-      <br>
-      $$L(x_{1:T} \vert \theta) = P(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)$$
+        <br>
+How can we use the above to calculate likelihood of observation \(P(X \vert \theta)\)?<br><br>
+The sequence \(X\) has observations \(\{x_{1},x_{2},\dots,x_{T}\}\) and the hidden markov model has \(K\) states. At the timestep \(T\) each of those states can be used to generate the observation \(x_{T}\) which  is determined by \(\alpha_{T}(i)\) where \(i \in \{1,2,\dots,K\}\)<br><br>
 
-      <br>
-      </p>
+Therefore, \(L(x_{1:T} \vert \theta) = P(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)\)
 
-      <div class='l-screen' style="z-index: 1000">
+</p>
+
+
+    <h3 class="div-show-btn" onclick="show_forward_example()">Worked out Example for Forward Algorithm</h3>
+
+    <div  style="z-index: 1000" class="l-middle l-page">
+
+    <div id = "forward-example" class="hidden-div" style="display: none;margin-left: 1em;margin-right: 1em">
+      
+   
       <div class="one-third-div">
       <table class="table text-center" style="">          
         <thead>
@@ -1129,10 +1213,141 @@ $$\alpha_{t+1}(j) = \{\sum_{i}^{} \alpha_{t}(i).A_{ij}\} \phi_{j}(x_{t+1})$$
       </div>
 
 
-</div>
-<div class="l-screen" style="margin-top: 1em"> 
+      <p>
+      
+
+      <img src="images/forward-1.svg" style="; height:1em;width: auto; max-width: 100%">
+      <br><br>
+      
+      <img src="images/forward-2.svg" style="width: auto; height:1em; max-width: 100%">
+      <br><br>
+      Similarly
+      </p>
 
       <p>
+        <br><br>
+        <img src="images/forward-3.svg" style="width: auto; max-height:1.2em; max-width: 100%; height: 1.2em">
+
+        <!-- 
+        \(\alpha_2(B) = P(x_{1}=H,x_{2}=H, z_2=B) \) = <span>\(\Big[P(x_1=H,z_1=B)\)</span> . <span class="color-6">\(A_{BB}\)</span><span >\(\Big]\)</span><span class="color-9">\(P(H \vert B)\)</span> + <span>\(\Big[P(x_1=H,z_1=F)\)</span> . <span class="color-4">\(A_{FB}\)</span><span >\(\Big]\)</span><span class="color-9">\(P(H \vert B)\)</span>
+ -->
+        <br><br><br><br>
+
+        \(\alpha_2(B) \) = 
+        <span>\(\alpha_1(B)\)</span> . <span class="color-6">\(A_{BB}\)</span><span class="color-9">\(P(H \vert B)\)</span> + 
+        <span>\(\alpha_1(F)\)</span> . <span class="color-4">\(A_{FB}\)</span><span class="color-9">\(P(H \vert B)\)</span>
+        <br><br><br><br>
+        
+
+        \(\alpha_2(B) \) = 
+        <span>\(0.42\)</span> X <span class="color-6">\(0.9\)</span> X <span class="color-9">\(0.7\)</span> + 
+        <span>\(0.2\)</span> X <span class="color-4">\(0.1\)</span> X <span class="color-9">\(0.7\)</span>
+        <br><br><br><br>
+
+        \(\alpha_2(B) \) =  0.28
+
+      </p>
+
+
+</div>
+
+
+    </div>
+
+
+
+    <p>
+    <!-- Recall that our objective was to find the probability of observing the data given the markov model parameters that we have been representing as \(\theta = \{\pi, A, \phi\}\). To answer this question, let us write the forward equation for the last observation in the observation sequence i.e.
+    <br><br>
+      \(\alpha_T(B) = P(x_{1:T}, z_T=B)\)<br><br>
+      \(\alpha_T(F) = P(x_{1:T}, z_T=F)\)<br><br>
+      \(\therefore P(x_{1:T}) = \alpha_T(B) + \alpha_T(F)\)<br><br>
+      <br>
+      In general, we can write:
+      <br>
+      $$L(x_{1:T} \vert \theta) = P(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)$$
+
+      <br> -->
+      </p>
+
+   <!--    <div class='l-screen' style="z-index: 1000">
+      <div class="one-third-div">
+      <table class="table text-center" style="">          
+        <thead>
+                  <tr>
+                    <th>Pi</th>
+                    <th>Coin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fair</td>
+                    <td><p id="custom-range-17-probability">0.4</p></td>
+
+                  </tr>
+                  <tr>
+                    <td>Biased</td>
+                    <td><p id="custom-range-18-probability">0.6</p></td>
+                  </tr>
+                </tbody>
+              </table>
+      </div>
+
+
+    <div class="one-third-div">
+      <table class="table text-center" style="">
+          <thead>
+            <tr>
+              <th>A</th>
+              <th>Fair</th>
+              <th>Biased</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-19-probability">0.9</p></td>
+              <td><p id="custom-range-20-probability">0.1</p></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-21-probability">0.1</p></td>
+              <td><p id="custom-range-22-probability">0.9</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+ 
+
+    <div class="one-third-div">
+      <table class="table text-center" style="">
+          <thead>
+            <tr>
+              <th>Phi</th>
+              <th>Head</th>
+              <th>Tails</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-23-probability">0.5</p></td>
+              <td><p id="custom-range-24-probability">0.5</p></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-25-probability">0.7</p></td>
+              <td><p id="custom-range-26-probability">0.3</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+</div> -->
+<div class="l-screen" style="margin-top: 1em"> 
+
+      <!-- <p>
       
       \( \alpha_1(F) = P(x_{1},z_1=F) \) = <span class="color-1">\(\pi_{F}\)</span> X <span class="color-7">\(P(x_1=H \vert z_1=F)\)</span> = <span class="color-1">0.4</span> X <span class="color-7">0.5</span> = 0.20
       <br><br>
@@ -1160,12 +1375,12 @@ $$\alpha_{t+1}(j) = \{\sum_{i}^{} \alpha_{t}(i).A_{ij}\} \phi_{j}(x_{t+1})$$
 
         \(\alpha_2(B) \) =  0.28
 
-      </p>
+      </p> -->
 
 </div>
 
 <p>
-  <img src="images/trellis-1.png" style="  display: block;
+<!--   <img src="images/trellis-1.png" style="  display: block;
   margin-left: auto;
   margin-right: auto;width: 100%;height: auto">
 
@@ -1177,11 +1392,11 @@ Thus, generally we can write:
 <br><br>
 $$\alpha_{t+1}(j) = \{\sum_{i}^{} \alpha_{t}(i).A_{ij}\} \phi_{j}(x_{t+1})$$
 <br><br>
-We can end up in state \(j\) at time \(t+1\) from each of the \(k\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\theta_j(x_{t+1})\). For the two state markov model (Fair and Biased Coin) with two discrete emission (Head and Tail), the complete trellis diagram is as shown below.
+ We can end up in state \(j\) at time \(t+1\) from each of the \(k\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\theta_j(x_{t+1})\). For the two state markov model (Fair and Biased Coin) with two discrete emission (Head and Tail), the complete trellis diagram is as shown below.
 
-<!--   <img src="images/trellis-2.png" style="  display: block;
+  <img src="images/trellis-2.png" style="  display: block;
   margin-left: auto;
-  margin-right: auto;width: 100%;height: auto"> -->
+  margin-right: auto;width: 100%;height: auto">
 
 
 Recall that our objective was to find the probability of observing the data given the markov model parameters that we have been representing as \(\theta = \{\pi, A, \phi\}\). To answer this question, let us write the forward equation for the last observation in the observation sequence i.e.
@@ -1202,43 +1417,50 @@ $$L(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)$$
 The third problem in Hidden Markov Model which is an extension of the second problem is to compute the belief state or we ask, what is the probability of ending up in a state \(z_j\) given that we have observed the data \(X={x_1, x_2 \ldots x_3}\). We define this third problem in this series as hidden markov model filtering.
 
 
-
+ -->
 </p>
 
-<h1>HMM Filtering</h1>
-<p>As stated above, the third problem in HMM i.e  to find the probability of ending up in a state \(z_j\) given that we have observed the data \(X={x_1, x_2 \ldots x_3}\) can be mathematically stated as \(P(z_t \vert x_{1:t})\).
+    <h3 class="div-show-btn" onclick="show_hmm_filtering()">HMM Filtering</h3>
+
+    <div id = "hmm-filtering-div" class="hidden-div"  style="display: none">
+
+
+
+<p> The probability of ending up in a state \(z_j\) given that we have observed the data \(X={x_1, x_2 \ldots x_3}\). We define this problem as hidden markov model filtering. It can be mathematically stated as \(P(z_t \vert x_{1:t})\).
 <br><br>
-The above is a conditional probability which can be defined as:
-$$
+The above is a conditional probability which can be defined as:<br>
+\(
   P(z_t \vert x_{1:t}) = \frac{P(z_t,x_{1:t})}{P(x_{1:t})} = \frac{\alpha_t(i)}{\sum_{i}^{}\alpha_t(i)}
-$$
-<br>
-We can plug in the numbers from our coin example to the above equation to find the probability of ending up in either Bias state or Fair state for the first state, i.e.
-$$
-\frac{\alpha_t(Bias)}{\sum_{i}^{}\alpha_t(i)} = \frac{\alpha_t(Bias)}{\alpha_t(Bias)+\alpha_t(Fair)} = \frac{0.42}{0.62}
-$$
-
-$$
-
+\)
+<br><br>
+We can plug in the numbers from our coin example to the above equation to find the probability of ending up in either Bias state or Fair state for the first state, i.e.<br><br>
+Proabability of ending in Bias = \(
+  \frac{\alpha_t(Bias)}{\sum_{i}^{}\alpha_t(i)} = \frac{\alpha_t(Bias)}{\alpha_t(Bias)+\alpha_t(Fair)} = \frac{0.42}{0.62}
+\)
+<br><br>
+Proabability of ending in Fair = \(
 \frac{\alpha_t(Fair)}{\sum_{i}^{}\alpha_t(i)} = \frac{\alpha_t(Fair)}{\alpha_t(Bias)+\alpha_t(Fair)} = \frac{0.20}{0.62}
-
-$$
-
+\)
+<br><br>
 Having studied the forward procedure, we will now understand the backward procedure for HMMs. 
 
 </p>
+</div>
 <h1>Backward Algorithm</h1>
-<p>The probability of observing the sequence \(x_{t+1:T}\), at \(t^{th}\) time instance (i.e. the observation starts at the timestamp \(t+1\) and ends at the last timestamp \(T\).) given that the state (z) at timestamp \(t\) is \(i\) is denoted by \(\beta_{t}(i)\) which is given as,
+<p>In other words it is the probability of being in state '<span style="color: violet">\(i\)</span>' at time '<span style="color: green">t</span>' given  observation '<span style="color: red;">\(X_{t+1}\)</span>'<br><br></p>
 
-\(\beta_{t}(i) = P(x_{t+1:T} \vert z_t = i)\).
+<span>\(\beta_{t}(i)\) = P(x_{t+1:T} \vert z_t = i)\).<br><br>
 
-Recall that in the forward algorithm, we defined \(\alpha_{t+1}\) in terms of \(\alpha_t\) but here in the backward procedure, we define \(\beta_{t}\) in terms of \(\beta_{t+1}\)
+<b>Recall that in the forward algorithm, we defined \(\alpha_{t+1}\) in terms of \(\alpha_t\) but here in the backward procedure, we define \(\beta_{t}\) in terms of \(\beta_{t+1}\)</b>
 
 <br><br>
 
-Let us assume a general case, where we have \(k\) states. The trellis diagram shows that if at \(t\) time, we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states, Mathematically, 
+<img src="images/backward.svg" style="width: 100%; height: auto">
 
-$$
+
+Let us assume a general case, where we have \(k\) states. The trellis diagram shows that if at \(t\) time, we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states, Mathematically, 
+<br><br>
+\(
 
 
   \begin{align}
@@ -1250,22 +1472,34 @@ $$
 
   \end{align}
 
+\)
+<br><br>
+Which is the same as <br><br>
+\(
 
 
-$$
+  \begin{align}
+    \beta_{t}(i) = P(x_{t+1:T} \vert z_t = i) = & \beta_{t+1}(1).A_{i1}.\phi_1(x_{t+1}) + \\
+                   & \beta_{t+1}(2).A_{i2}.\phi_2(x_{t+1}) + \\
+                   & \vdots \\
+                   & \beta_{t+1}(k).A_{ik}.\phi_k(x_{t+1})
+                  
 
+  \end{align}
+
+\)
+<br><br>
 Thus, the general form for the backward procedure can be mathematically represented as a recurrence of the form:
 <br><br>
-$$
+\(
 \begin{align}
   \beta_{t}(i) &= P(x_{t+1:T} \vert z_t = i)\\
   &= \sum_{j=1}^{k} \beta_{t+1}(j).A_{ij}.\phi_{j}(x_{t+1})
 \end{align}
-$$
+\)
 
-<img src="images/backward.svg" style="width: 100%; height: auto">
 
-<img src="images/backward-2.svg" style="width: 100%; height: auto">
+<!-- <img src="images/backward-2.svg" style="width: 100%; height: auto"> -->
 
 Thus, the general form for the backward procedure can be mathematically represented as a recurrence of the form:
 
@@ -3301,6 +3535,35 @@ function show_forward_algorithm(){
     x.style.display = "none";
   }
 }
+
+
+
+
+
+function show_forward_example(){
+
+  var x = document.getElementById("forward-example");
+  if (x.style.display == "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+
+function show_hmm_filtering(){
+
+  var x = document.getElementById("hmm-filtering-div");
+  if (x.style.display == "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+
+
+}
+
+
 </script>
 
 <script type="text/javascript">
@@ -3325,106 +3588,106 @@ var chosen_word;
 
 
 
-var individual_probabilities = {};
-for(var i in trans_mat){
-  var prob_sum = 0;
-  for(var j in trans_mat[i]){
-    prob_sum+= trans_mat[i][j];
-  }
-  individual_probabilities[i] = prob_sum;
-}
+// var individual_probabilities = {};
+// for(var i in trans_mat){
+//   var prob_sum = 0;
+//   for(var j in trans_mat[i]){
+//     prob_sum+= trans_mat[i][j];
+//   }
+//   individual_probabilities[i] = prob_sum;
+// }
 
-window.setInterval(function(){
+// window.setInterval(function(){
 
-  if(sentence_length==0){
-    chosen_word = words[Math.floor(Math.random()*words.length)];
-  }
+//   if(sentence_length==0){
+//     chosen_word = words[Math.floor(Math.random()*words.length)];
+//   }
   
-  else{
+//   else{
     
-    var probabilities = [];
-    words = [];
-    for(var i in trans_mat[prev_word]){
-      probabilities.push(trans_mat[prev_word][i]);
-      words.push(i)
-    }
+//     var probabilities = [];
+//     words = [];
+//     for(var i in trans_mat[prev_word]){
+//       probabilities.push(trans_mat[prev_word][i]);
+//       words.push(i)
+//     }
 
-    console.log(prev_word,words,probabilities)
-    chosen_word = sample_with_probablities(words, probabilities)
-    generated_text.innerHTML+=chosen_word+' ';
-  }
-
-
-  if (sentence_length==10){
-    sentence_length=-1;
-    generated_text.innerHTML=" ";
-  }  
-
-  prev_word = chosen_word;
-  sentence_length+=1;
+//     console.log(prev_word,words,probabilities)
+//     chosen_word = sample_with_probablities(words, probabilities)
+//     generated_text.innerHTML+=chosen_word+' ';
+//   }
 
 
-}, 1000);
+//   if (sentence_length==10){
+//     sentence_length=-1;
+//     generated_text.innerHTML=" ";
+//   }  
+
+//   prev_word = chosen_word;
+//   sentence_length+=1;
 
 
-text_generation_graph = new sigma({
-  graph: g,
-  container: 'text_generation-diagram',
-  renderer: {
-    container: document.getElementById('text_generation-diagram'),
-    type: sigma.renderers.canvas
-  },
-  settings : {
-        minArrowSize: 10,
-        maxNodeSize: 32,
-        maxEdgeSize: 4,
-        mouseEnabled:false,
-  }
-});
+// }, 1000);
 
 
-
-var radius = 2;
-
-var theta = 0;
-var sector_size = 360/(words.length-1);
-
-for(var q=0;q<words.length;q++){
-
-  var node = create_node(q, radius * Math.sin(theta), radius * Math.cos(theta))
-  node.color = "orange"
-  node.label = words[q]
-
-  theta+=sector_size;
-
-  text_generation_graph.graph.addNode(node)
-
-  console.log()
-}
+// text_generation_graph = new sigma({
+//   graph: g,
+//   container: 'text_generation-diagram',
+//   renderer: {
+//     container: document.getElementById('text_generation-diagram'),
+//     type: sigma.renderers.canvas
+//   },
+//   settings : {
+//         minArrowSize: 10,
+//         maxNodeSize: 32,
+//         maxEdgeSize: 4,
+//         mouseEnabled:false,
+//   }
+// });
 
 
 
-var edge_cnt = 0;
+// var radius = 2;
 
-for(var q1=0;q1<words.length;q1++){
-  for(var q2=0;q2<words.length;q2++){
+// var theta = 0;
+// var sector_size = 360/(words.length-1);
 
-    if(trans_mat[words[q1]][words[q2]]!=0){
-      // console.log()
-      var edge = create_edge(edge_cnt, q1, q2)
-      edge.size = 4*(trans_mat[words[q1]][words[q2]])/individual_probabilities[words[q1]]
-      console.log(words[q1],words[q2], edge.size)
-      text_generation_graph.graph.addEdge(edge)
-      edge_cnt+=1;
-    }
+// for(var q=0;q<words.length;q++){
 
-  }
-}
+//   var node = create_node(q, radius * Math.sin(theta), radius * Math.cos(theta))
+//   node.color = "orange"
+//   node.label = words[q]
+
+//   theta+=sector_size;
+
+//   text_generation_graph.graph.addNode(node)
+
+//   console.log()
+// }
 
 
-text_generation_graph.refresh()
 
-text_generation_graph.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 0.8 });
+// var edge_cnt = 0;
+
+// for(var q1=0;q1<words.length;q1++){
+//   for(var q2=0;q2<words.length;q2++){
+
+//     if(trans_mat[words[q1]][words[q2]]!=0){
+//       // console.log()
+//       var edge = create_edge(edge_cnt, q1, q2)
+//       edge.size = 4*(trans_mat[words[q1]][words[q2]])/individual_probabilities[words[q1]]
+//       console.log(words[q1],words[q2], edge.size)
+//       text_generation_graph.graph.addEdge(edge)
+//       edge_cnt+=1;
+//     }
+
+//   }
+// }
+
+
+// text_generation_graph.refresh()
+
+// text_generation_graph.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 0.8 });
 
 
 document.getElementById('viterbi_2').style.display='none';
