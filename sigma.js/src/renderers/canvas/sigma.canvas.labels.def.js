@@ -22,7 +22,7 @@
     if (size < settings('labelThreshold'))
       return;
 
-    if (!node.label || typeof node.label !== 'string')
+    if (typeof node.label !== 'string')
       return;
 
     fontSize = (settings('labelSize') === 'fixed') ?
@@ -30,15 +30,17 @@
       settings('labelSizeRatio') * size;
 
     context.font = (settings('fontStyle') ? settings('fontStyle') + ' ' : '') +
-      fontSize + 'px ' + settings('font');
+        fontSize + 'px ' + settings('font');
     context.fillStyle = (settings('labelColor') === 'node') ?
       (node.color || settings('defaultNodeColor')) :
       settings('defaultLabelColor');
-
-    context.fillText(
-      node.label,
-      Math.round(node[prefix + 'x'] + size + 3),
-      Math.round(node[prefix + 'y'] + fontSize / 3)
-    );
+    var a = (node.angle || settings('angle') || 0) / 180 * Math.PI,
+      x = Math.round(node[prefix + 'x'] + (size + 3) * Math.cos(a)),
+      y = Math.round(node[prefix + 'y'] + (size + 3) * Math.sin(a));
+    context.save();
+    context.translate(x,y);
+    context.rotate(a);
+    context.fillText(node.label,0,0);
+    context.restore();
   };
 }).call(this);

@@ -381,6 +381,59 @@ padding:1em;
 }
 
 
+
+.plain-color-1{
+  color :rgb(31,119,180);
+	
+}
+.plain-color-2{
+  color :rgb(255,127,14);
+	
+}
+
+
+.plain-color-3{
+  color :rgb(44,160,44);
+	
+}
+
+.plain-color-4{
+  color :rgb(214,39,40);
+	
+}
+
+.plain-color-5{
+  color :rgb(148,103,189);
+	
+}
+
+.plain-color-6{
+  color :rgb(140,86,75);
+	
+}
+
+.plain-color-7{
+  color :rgb(227,119,194);
+	
+}
+
+.plain-color-8{
+  color :rgb(127,127,127);
+	
+}
+
+.plain-color-9{
+  color :rgb(188,189,34);
+
+}
+
+.plain-color-10{
+  color :rgb(158,218,229);
+  
+}
+
+
+
 </style>
 
 
@@ -657,7 +710,7 @@ Using the rules of independence, we can calculate the joint probability of the s
       </div>
 
 
-      <div id="markov-right-div" style="margin-top: 1em">
+      <div id="markov-right-div" style="margin-top: 1em;">
           <div id="fsm" style="height: 14em;"></div>
 
           <div id="markov-chain-1"  style="height: 12em;">
@@ -1447,9 +1500,10 @@ Having studied the forward procedure, we will now understand the backward proced
 </p>
 </div>
 <h1>Backward Algorithm</h1>
-<p>In other words it is the probability of being in state '<span style="color: violet">\(i\)</span>' at time '<span style="color: green">t</span>' given  observation '<span style="color: red;">\(X_{t+1}\)</span>'<br><br></p>
 
-<span>\(\beta_{t}(i)\) = P(x_{t+1:T} \vert z_t = i)\).<br><br>
+
+<img src="images/backward-equation.svg" style="width: 40%;height: auto"><br><br>
+<p>In other words it is the probability observing '<span class="plain-color-4">\(X_{t+1:T}\)</span>' given state '<span class="plain-color-3">\(i\)</span>' at time '<span class="plain-color-2">t</span>'<br><br>
 
 <b>Recall that in the forward algorithm, we defined \(\alpha_{t+1}\) in terms of \(\alpha_t\) but here in the backward procedure, we define \(\beta_{t}\) in terms of \(\beta_{t+1}\)</b>
 
@@ -1460,29 +1514,34 @@ Having studied the forward procedure, we will now understand the backward proced
 
 Let us assume a general case, where we have \(k\) states. The trellis diagram shows that if at \(t\) time, we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states, Mathematically, 
 <br><br>
+
 \(
 
 
   \begin{align}
-    \beta_{t}(i) = P(x_{t+1:T} \vert z_t = i) = & P(x_{t+2:T}\vert z_{t+1}=1).A_{i1}.\phi_1(x_{t+1}) + \\
-      & P(x_{t+2:T}\vert z_{t+1}=2).A_{i2}.\phi_2(x_{t+1}) + \\
-      & \vdots \\
-      & P(x_{t+2:T}\vert z_{t+1}=k).A_{ik}.\phi_k(x_{t+1})
-      
+    \beta_{t}(i)\hspace{0.5em}=&\hspace{0.5em}P(x_{t+1:T} \vert z_t = i) \\
+                 =&\hspace{0.5em}P(x_{t+2:T}\vert z_{t+1}=1).A_{i1}.\phi_1(x_{t+1}) + \\
+                   &\hspace{0.5em}P(x_{t+2:T}\vert z_{t+1}=2).A_{i2}.\phi_2(x_{t+1}) + \\
+                   &\hspace{0.5em}\vdots \\
+                   &\hspace{0.5em}P(x_{t+2:T}\vert z_{t+1}=k).A_{ik}.\phi_k(x_{t+1})
+                  
 
   \end{align}
 
 \)
+
+
 <br><br>
 Which is the same as <br><br>
 \(
 
 
   \begin{align}
-    \beta_{t}(i) = P(x_{t+1:T} \vert z_t = i) = & \beta_{t+1}(1).A_{i1}.\phi_1(x_{t+1}) + \\
-                   & \beta_{t+1}(2).A_{i2}.\phi_2(x_{t+1}) + \\
-                   & \vdots \\
-                   & \beta_{t+1}(k).A_{ik}.\phi_k(x_{t+1})
+    \beta_{t}(i)\hspace{0.5em}=&\hspace{0.5em}P(x_{t+1:T} \vert z_t = i) \\
+                 =&\hspace{0.5em}\beta_{t+1}(1).A_{i1}.\phi_1(x_{t+1}) + \\
+                   &\hspace{0.5em}\beta_{t+1}(2).A_{i2}.\phi_2(x_{t+1}) + \\
+                   &\hspace{0.5em}\vdots \\
+                   &\hspace{0.5em}\beta_{t+1}(k).A_{ik}.\phi_k(x_{t+1})
                   
 
   \end{align}
@@ -1500,7 +1559,7 @@ Thus, the general form for the backward procedure can be mathematically represen
 
 
 <!-- <img src="images/backward-2.svg" style="width: 100%; height: auto"> -->
-
+<br><br>
 Thus, the general form for the backward procedure can be mathematically represented as a recurrence of the form:
 
 $$
@@ -1516,7 +1575,9 @@ Thus, \(\beta_{T}(i) = 1 \forall i \in \{1,2 \ldots k\}\) (Arbitrarily defined).
 </p>
 
 
-<h1>Coin Observation Example For Backward Algorithm</h1>
+<h3 onclick="show_backward_example()"class="div-show-btn">Worked out Example For Backward Algorithm</h3>
+
+<div class="hidden-div" id="backward-example" style="display: none">
 <p>
  We continue with the same example as given in the forward algorithm. Given, the observation \(x = \{H,H,H\}\), our objective is to find \(\beta_{1}, \beta_{2}, \beta_{3}\). We arbitrarily define \(\beta_{B}=\beta_{F}=1\). Here ‘H’ means a Head, and B,F means biased and fair coin respectively. Now we define \(\beta_{2}(B)\),
 
@@ -1553,12 +1614,11 @@ $$
 \end{align}
 $$
 
-
-
-The next problem in HMM is to determine ‘optimal’ sequence of states given model and observation. We explain this problem in detail in the next section.
-
 </p>
-
+</div>
+<p>
+The next problem in HMM is to determine ‘optimal’ sequence of states given model and observation. We explain this problem in detail in the next section.
+</p>
 <h1>
 What do we mean by the optimal set of states?
 <br><br>
@@ -2066,7 +2126,7 @@ fsm = new sigma({
   },
   settings : {
         minArrowSize: 10,
-        maxNodeSize: 32,
+        maxNodeSize: 16,
         maxEdgeSize: 4,
         minEdgeSize: 0,
         mouseEnabled:false,
@@ -2416,20 +2476,23 @@ function render_markov_chain_1(){
 
   // x+=2;
 
+    var nn = 4;
+
 if (markov_chain_pos==-1){
   
   var node = return_coin_node(-1,x,2,"empty")
   markov_chain_1.graph.addNode(node)
   x+=2;
-  for(var i=0;i<6;i++){
+  for(var i=0;i<nn;i++){
     var node = create_node(i, x, 2, "")
     node.color="transparent"
     node.label=""
+    
     markov_chain_1.graph.addNode(node)
     x+=2;
   }
 
-  for(var i=-1;i<5;i++){
+  for(var i=-1;i<nn-1;i++){
     var edge = create_edge(i,i,i+1)
     edge.color='transparent'
     edge.label=""
@@ -2513,14 +2576,20 @@ markov_chain_1 = new sigma({
     type: sigma.renderers.canvas
   },
   settings : {
+        angle: 45,
         minArrowSize: 10,
-        maxNodeSize: 32,
+        maxNodeSize: 16,
         maxEdgeSize: 4,
         mouseEnabled:false,
+        // labelSize: 'proportional',
+        // labelSizeRatio: 0.8,
   }
 });
 
-markov_chain_1.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1.1 });
+markov_chain_1.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1.6 });
+
+fsm.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1.6 });
+
 
 
 var markov_chain_pos=-1;
@@ -3523,7 +3592,7 @@ function show_hmm_sampling_psuedo_code(){
   }
 }
 
-show_forward_algorithm
+
 
 
 function show_forward_algorithm(){
@@ -3538,6 +3607,18 @@ function show_forward_algorithm(){
 
 
 
+
+
+
+function show_backward_example(){
+
+  var x = document.getElementById("backward-example");
+  if (x.style.display == "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
 
 
 function show_forward_example(){
