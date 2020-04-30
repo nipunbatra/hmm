@@ -105,6 +105,16 @@
 
   }
 
+  .one-third-div{
+    width: 100%;
+    height: auto;
+
+  }
+
+
+  .example-description{
+    text-align: left;
+  }
 
   .screen-only{
     display: none;
@@ -141,12 +151,23 @@
 }
 
   
-.half-div{
+  .one-third-div{
+    
+    padding:1em;
+    display: table-cell;
+  }
 
+
+.half-div{
+  width: 50%;
    /*display: inline-block;vertical-align: top;width: 50%;padding: 1rem;*/
-   float: left; width: 50% 
+   display: table-cell;
 }
 
+
+.l-screen{
+  display: table;
+}
 
 
   .screen-only{
@@ -157,6 +178,10 @@
     display: hidden;
   }
 
+  .example-description{
+    text-align: justify;
+
+  }
 
 
 
@@ -199,6 +224,17 @@
     color: orange;
   }
 
+.example-img{
+  width: 100%;
+  height: auto;
+
+}
+
+
+.example-text{
+  margin-top: 1em;
+}
+
 
 table td {
     text-align: center;
@@ -218,6 +254,9 @@ td{
   display: table-cell;
 }
 
+.example-description{
+  margin-top: 2em;
+}
 th{
   display: table-cell;
 }
@@ -567,6 +606,29 @@ We use the following graphical model to denote the Markov chain.
 
 
 Using the rules of independence, we can calculate the joint probability of the sequence as: \(P(x_{1},x_{2},\dots,x_{t+1} ) = P(x_1)P(x_2 \vert x_1) P(x_3 \vert x_2) \dots P(x_t \vert x_{t-1})  P(x_{t+1} \vert x_{t})\)
+<br><br><br>
+We now discuss some common day-to-day life examples of markov chains.
+
+<div class="l-screen">
+  <div class="one-third-div">
+      <img src="images/markov_sunny_rainy.svg" class="example-img">
+      <p class="example-text">Markov Model for Sunny and Rainy Weather</p>
+      <p class="example-description">
+        Assume a scenario, where we were able to model the weather of particular place using markov models. The above model, describes how the weather can change. Any sunny day can change into a rainy day with a probability of 0.4. Any rainy day can remain as a rainy day with a probability of 0.7.   
+      </p>
+  </div>
+
+  <div class="one-third-div">
+      <img src="images/markov_fair_biased.svg" class="example-img">
+      <p class="example-text">Wow, this is good</p>
+  </div>
+  <div class="one-third-div">
+      <img src="images/markov_on_off.svg" class="example-img">
+      <p class="example-text">Wow, this is good</p>
+  </div>
+
+
+</div>
 
 <!-- <span style='color: green;'>corect this equation</span>
 
@@ -833,6 +895,27 @@ Similarly, we can calculate the probability for other sequence of words.
 
 <h1>Hidden Markov Model</h1>
 
+<div class="l-screen">
+  <div class="one-third-div">
+      <img src="images/hmm_sunny_rainy.svg" class="example-img">
+      <p class="example-text">Markov Model for Sunny and Rainy Weather</p>
+      <p class="example-description">
+        Assume a scenario, where we were able to model the weather of particular place using markov models. The above model, describes how the weather can change. Any sunny day can change into a rainy day with a probability of 0.4. Any rainy day can remain as a rainy day with a probability of 0.7.   
+      </p>
+  </div>
+
+  <div class="one-third-div">
+      <img src="images/hmm_fair_biased.svg" class="example-img">
+      <p class="example-text">Wow, this is good</p>
+  </div>
+  <div class="one-third-div">
+      <img src="images/hmm_on_off.svg" class="example-img">
+      <p class="example-text">Wow, this is good</p>
+  </div>
+
+
+</div>
+
     <p>
       We will understand this hidden component by taking an example of two coins. One of the coins is a fair coin which  is equally likely to land on either heads or tails. The other coin is biased coin. This biased coin can land on heads with a probability of 0.7. At every timestamp \(t\) one of the coins is chosen. Given a sequence of observations for \(t\) timestamps, our problem is to identify for each timestamp is the observation is made from the fair coin or the biased coin. 
       <br><br>
@@ -1019,7 +1102,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
       <h1>Trellis Diagrams</h1>
       <p>A Trellis diagram can be used to show the states path that was taken in a Hidden Markov Model. Consider the following trellis diagram. In the trellis diagram, the red lines denote the path taken.</p>
-      <img src="images/trellis.png" style="width: 100%;height: auto; padding-top:3em; padding-bottom: 3em; ">
+      <img src="images/trellis_1.svg" style="width: 100%;height: auto; padding-top:3em; padding-bottom: 3em; ">
        So the path taken is \(z_{1}=B, z_{2}=B, z_{3}=B\). 
 
 
@@ -1038,27 +1121,111 @@ Similarly, we can calculate the probability for other sequence of words.
     <br><br>
      -->
 
-    \(L(X \vert \theta)\) is the likelihood of observing sequence \(X\) occuring given the parameters \(\theta\) of a HMM.
+    \(L(X \vert \theta)\) is the likelihood of observing sequence \(X\) occuring given the parameters \(\theta\) of a HMM.<br><br>
+
+
+
+    <!-- In general, the probablity of observing the sequence \(x_{1},\dots,x_{T}\) with the hidden state sequence \(z_{1},\dots,z_{T}\) is given by  <br><br>
+
+    \(
+    \begin{align}
+    P(x_{1},\dots,x_{T}\vert z_{1},\dots,z_{T}) &= P(z_{1})P(x_{1}\vert z_{1})\dots P(z_{T}\vert z_{T-1})P(x_{t}\vert z_{T})\\
+                                                &= \Pi(z_{1})A(x_{1}\vert z_{1})\dots A(z_{T}\vert z_{T-1})\Phi(x_{T}\vert z_{T})\\
+    \end{align}
+    \)<br><br>
+ -->
+
+    
 
     <br><br>
 
-    Before we go further, let's consider the following example. <br><br>Given a series of observations \(\{H,H,H\}\), what is the probability of observing the sequence with \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)?<br><br>
-    <img src="images/trellis.png" style="width: 100%;height: auto; padding-top:3em; padding-bottom: 3em; ">
+    Before we go further, let's consider the following example. <br><br>Given a series of observations \(\{H,H,H\}\), what is the probability of observing the sequence given \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)?<br><br>
+
+    
+    <img src="images/trellis_1.svg" style="width: 100%;height: auto; padding:2em; ">
+    <p style="text-align: center;">Trellis Diagram correponding to path \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)</p><br><br><br><br>
     \(P(HHH|BBB) = P(B)P(H \vert B)P(B \vert B)P(H \vert B)P(B \vert B)P(H \vert B)\)<br><br>
-    In general, <br><br>
-
-    $$
-    P(x_{1},\dots,x_{T}\vert z_{1},\dots,z_{t}) = P(z_{1})P(x_{1}\vert z_{1})\dots P(z_{t}\vert z_{t-1})P(x_{t}\vert z_{t})
-    $$
+   
     <!-- Now, imagine if we had a long sequence of observation, \(X = \{H, H \ldots x_T\}\), the trellis diagram would look something like -->
-    </p>
 
-    <h1>Time complexity of estimating the likelihood</h1>
+    
+    How can we compute \(L(HHH \vert \theta)\)? <br><br>
+
+    In order to do that, we need to consider all the paths that can generate \(\{HHH\}\) sequence. 
+    </p> 
+
+    <div style="text-align: center;">
+      <img id = "gif_image"  style="width: 100%; height: auto; padding: 2em">
+      <p id='pathno'>Path 1</p>
+      <br>
+          <p>
+
+        <div id="probability-equation-1">
+            \(\small P(HHH|BBB) = P(B)P(H \vert B)P(B \vert B)P(H \vert B)P(B \vert B)P(H \vert B)\)  
+            <br>Probability Path 1
+        </div>
+
+        <div id="probability-equation-2">
+            \(\small P(HHH|BBF) = P(B)P(H \vert B)P(B \vert B)P(H \vert B)P(F \vert B)P(H \vert F)\)  
+            <br>Probability Path 2
+        </div>
+
+        <div id="probability-equation-3">
+            \(\small P(HHH|BFB) = P(B)P(H \vert B)P(F \vert B)P(H \vert F)P(B \vert F)P(H \vert B)\)  
+            <br>Probability Path 3
+        </div>
+
+        <div id="probability-equation-4">
+            \(\small P(HHH|BFF) = P(B)P(H \vert B)P(F \vert B)P(H \vert F)P(F \vert F)P(H \vert F)\)  
+            <br>Probability Path 4
+        </div>
+        
+        <div id="probability-equation-5">
+            \(\small P(HHH|FBB) = P(B)P(H \vert F)P(B \vert F)P(H \vert B)P(B \vert B)P(H \vert B)\)  
+            <br>Probability Path 5
+        </div>
+
+
+        <div id="probability-equation-6">
+            \(\small P(HHH|FBF) = P(B)P(H \vert F)P(B \vert F)P(H \vert B)P(F \vert B)P(H \vert F)\)  
+            <br>Probability Path 6
+        </div>
+
+
+        <div id="probability-equation-7">
+            \(\small P(HHH|FFB) = P(B)P(H \vert F)P(F \vert F)P(H \vert F)P(F \vert F)P(H \vert B)\)  
+            <br>Probability Path 7
+        </div>
+
+        <div id="probability-equation-8">
+          \(\small P(HHH|FFF) = P(B)P(H \vert F)P(F \vert F)P(H \vert F)P(F \vert F)P(H \vert F)\)  
+          <br>Probability Path 8
+        </div>
+
+      </p>
+      
+      <br><br>
+    </div>
+
+
+    <!-- <div class="l-screen" style="">
+
+      <div class="half-div" style="padding:3em">
+        
+        
+      </div>  
+
+      <div class="half-div" style="">
+        
+        <div>
+        </div>
+        
+
+      </div>  
+
+      
+     --></div>
     <p>
-    Let us go back to the coin toss example, where we have two hidden states: Fair and Biased. Let us consider all the possible paths for three timestamps. 
-
-    <img src="images/paths.gif" style="width: 100%; height: auto">
-
     <!-- 
     <table>
       <thead>
@@ -1111,7 +1278,7 @@ Similarly, we can calculate the probability for other sequence of words.
       </tbody>
     </table> -->
 
-  In the above example, we have \(T=3\) and \(K=2\), we have a total of \(2^{3} = 8\) possible paths. <br><br>In general, when we have \(K\) states and \(T\) timestamps, there are a total of \(K^{T}\) paths. Hence the time complexity of estimating the likelihood is exponential in \(K\) <br><br>
+  In the above example, we have \(T=3\) and \(K=2\), we have a total of \(2^{3} = 8\) possible paths. \(L(HHH \vert \theta)\) is the sum of probabilites across all these \(2^{3}\) paths. <br><br>In general, when we have \(K\) states and \(T\) timestamps, there are a total of \(K^{T}\) paths. Hence the time complexity of estimating the likelihood is exponential in \(K\) <br><br>
 
 
   Can we do better? Consider the following paths.<br>
@@ -1120,22 +1287,20 @@ Similarly, we can calculate the probability for other sequence of words.
 
   </p>
   <div class="l-screen" style="">
-    <div style="width: 100%">
+    
   <div class="half-div">
-    <img src="images/Paths_1.png" style="width: 100%;height: auto">
-    <p>\(Z = \{ z_{1}=B, z_{2}=B, z_{3}=B \}\)<br>
+    <img src="images/trellis_1.svg" style="width: 100%;height: auto; padding: 2em; padding-bottom: 3em">
+    <p>Path corresponding to sequence \(Z = \{ z_{1}=B, z_{2}=B, z_{3}=B \}\)<br>
       <!-- Probability = \(P\bigg(\{x_{1},x_{2}\} \vert \{z_{1}=B, z_{2}=B\}\bigg)P(z_{3}=B \vert z_{2}=B)P(x_{3}\vert z_{3}=B\)) -->
       <!-- Probability: \(P(X \vert Z, \theta) = P(z_{1}=B)P(x_{1} \vert B) * P(z_{2}=B \vert z_{1}=B)P(x_{2}|B) * \) -->
     </p>
   </div>
-  
   <div class="half-div">
-    <img src="images/Paths_2.png" style="width: 100%;height: auto">
-    <p>\(Z = \{ z_{1}=B, z_{2}=B, z_{3}=F \}\)<br></p>
+    <img src="images/trellis_2.svg" style="width: 100%;height: auto;  padding: 2em; padding-bottom: 3em">
+    <p>Path corresponding to sequence \(Z = \{ z_{1}=B, z_{2}=B, z_{3}=F \}\)<br></p>
     <!-- Probability = \(P\bigg(\{x_{1},x_{2}\} \vert \{z_{1}=B, z_{2}=B\}\bigg)P(z_{3}=F \vert z_{2}=B)P(x_{3}\vert z_{3}=F\))</p> -->
   </div>
-</div>
-  
+
 
   </div>
 <!--   <p>
@@ -3704,6 +3869,36 @@ var sentence_length = 0;
 var prev_word;
 var chosen_word;
 
+
+
+var gif_img = 1;
+
+window.setInterval(function(){
+  // console.log('images/'git_img+".svg");
+  
+  document.getElementById("gif_image").src=  'images/trellis_'+gif_img+".svg";
+
+  for(var uu=1;uu<9;uu++){
+    document.getElementById("probability-equation-"+uu).style.display = 'none';    
+  }
+
+  
+  document.getElementById("probability-equation-"+gif_img).style.display = 'block';    
+
+  document.getElementById("pathno").innerHTML = 'Path '+gif_img;    
+
+
+
+  gif_img+=1;
+
+  if(gif_img==9){
+    gif_img=1;
+  }
+
+
+
+
+}, 1000);
 
 
 // var individual_probabilities = {};
