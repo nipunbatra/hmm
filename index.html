@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Exploring Hidden Markov Models</title>
+  <title>Exploring Hidden Markov Model</title>
   <script defer src="js/template.v2.js"></script>
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   
@@ -457,7 +457,7 @@ padding:1em;
     <script id='distill-front-matter' type="text/json">
       {
         "title": "Exploring Hidden Markov Models",
-        "description": "Hidden Markov Models - An interactive illustration",
+        "description": "Hidden Markov Model - An interactive illustration",
         "authors": [{
             "author": "Kukunuri Rithwik",
             "authorURL": "https://rithwikksvr.github.io/",
@@ -475,6 +475,14 @@ padding:1em;
             }]
           },
           {
+            "author": "Mahika Om Jaguste",
+            "authorURL": "",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          },
+          {
             "author": "Nipun Batra",
             "authorURL": "https://nipunbatra.github.io/",
             "affiliations": [{
@@ -482,7 +490,7 @@ padding:1em;
               "affiliationURL": "https://www.iitgn.ac.in/"
             }]
           },
-                    {
+          {
             "author": "Ashish Tendulkar",
             "authorURL": "https://research.google/people/105469/",
             "affiliations": [{
@@ -515,7 +523,7 @@ padding:1em;
 
   <h1>Sequential Modeling</h1>
 
-  <p>Ever wondered how the voice assistant in your phone works? Or how speech tagging in sentences works? Or, how your smartwatch or smart wristband counts the number of steps you have taken? Each of these are examples of time-series machine learning. Hidden Markov Model (HMM) are a popular machine learning model for time-series data and have been used for various time series applications, such as the ones mentioned above. 
+  <p>Ever wondered how the voice assistant in your phone works? Or how speech tagging in sentences works? Or, how your smartwatch or smart wristband counts the number of steps you have taken? Each of these are examples of time-series machine learning. Hidden Markov Model(HMM) is a popular machine learning model for time-series data and is often used for time-series applications like the ones mentioned above.
 
   </p>
 
@@ -525,17 +533,25 @@ padding:1em;
 
   <br><br>
 
+
+  Let's consider another example. Imagine that it has been raining the past few days and someone asks you - "How likely is it that it will rain tomorrow"? You might say that, "Given that it rained today, I think it will rain tomorrow". The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached with rainfall. We might have a sequence of events as shown below.
+
+    <img src="images/img0.png" style="  display: block;
+    width: 100%; height: auto; margin-top: 1em; margin-bottom: 1em;">  
+
+  In the sequence above, we can observe the weather has some continuity phenomenon associated with it. 
+
  <!--  <img src="images/img0.png" style="  display: block;
   width: 100%; height: auto"> -->
 
   
 </p>
 
-  <h1>Markov model</h1>
+  <h1>Markov Chain</h1>
 
   <p>
 
- A Markov model is a simple sequential model. A Markov model assumes that an observation <d-math>x_{t+1}</d-math> at future time <d-math>t+1</d-math> is only dependent on the observation <d-math>x_{t}</d-math> at present time <d-math>t</d-math>. In other words, 
+ A Markov chain follows Markovian assumptions. A Markov chain assumes that an observation <d-math>x_{t+1}</d-math> at future time <d-math>t+1</d-math> is only dependent on the observation <d-math>x_{t}</d-math> at present time <d-math>t</d-math>. In other words, 
 given the <span style='color: green;'>present observation</span>, the <span style='color: violet;'>future</span> is independent of the <span style='color: red;'>past</span>. 
 
 <br><br>
@@ -549,13 +565,14 @@ We use the following graphical model to denote the Markov chain.
 
 <br/><br/>
 
+
 Using the rules of independence, we can calculate the joint probability of the sequence as: \(P(x_{1},x_{2},\dots,x_{t+1} ) = P(x_1)P(x_2 \vert x_1) P(x_3 \vert x_2) \dots P(x_t \vert x_{t-1})  P(x_{t+1} \vert x_{t})\)
 
 <!-- <span style='color: green;'>corect this equation</span>
 
 <span style='color: green;'>what is a state? give examples here with respect to rain, sun and other applications..</span>
  -->  <br>
-<br><br>
+
 
 
   </p>
@@ -583,7 +600,7 @@ Using the rules of independence, we can calculate the joint probability of the s
   <img src="images/mm-2-order.svg" style="width: 100%;height: auto">
 
 -->
-  <h1>  Parameters of First Order Markov Chain</h1>
+  <h3>  Parameters of Markov Chain</h3>
 
   <p>
 
@@ -591,41 +608,47 @@ Using the rules of independence, we can calculate the joint probability of the s
 
   Thus, parameters \(\theta\) can be given as \(\theta = \{\pi, A\}\), where \(\pi\) is the prior probability and \(A\) is the transition matrix.
  -->
-  In this section we summarize the parameters we have observed so far. Let us assume that \(x_t\) can take one of the \(K\) possible states
 
+  Let us now understand the parameters for a Markov model, for which we need to revisit the factorisation of Markov model. We rewrite the factorisation of Markov model as: <br><br>
+
+  \(P(x_{1},x_{2},\dots,x_{T} ) = P(x_1)P(x_2 \vert x_1) P(x_3 \vert x_2) \dots P(x_T \vert x_{T-1})\)<br><br>
+  The above equation is the same as multiplication of \(P(x_1)\) with \(P(x_t|x_{t-1})\) over all \(t\). Let us assume that \(x_t\) can take one of the \(K\) possible states. We assume \(P(x_t|x_{t-1})\) is same irrespective of time, i.e. the probability of transitioning is independent of time. Now, we describe the shared parameters of a markov chain.
+</p>
+
+ <!-- Explain in footnotes how this is similar to parameter sharing in RNNs. Next explain Transition matrix and Prior probability in 1 line each. Also, use x_ts everywhere and not z_t here. 
+ -->
+ <p>
     <ul>
       <li><b>Transition Matrix \(A\)</b>: The transition matrix stores the transition probability between each of the states. The probability of going from state \(i\) to state \(j\) is given by \( A_{ij} = P(x_t = j \vert x_{t-1}=i)\) where \(i,j \in \{1,2 \ldots K\}\).
       </li>
       <li><b>Prior Probability \(\pi\)</b>: The probability of starting from one of the available states on the first timestamp. It is denoted by 
-  \(\pi_i = P(z_1 = i)\)</li>
+  \(\pi_i = P(x_1 = i)\) where \(i \in \{1,2 \ldots K\}\).</li> 
   </ul>
   
 
   </p>
 
 
-  <h1>Example of Markov Chain</h1>
+<!--   <h1>Example of Markov Chain</h1>
 
   <p>
-  Imagine that it has been raining the past few days and someone asks you - "How likely is it that it will rain tomorrow"? You might say that, "Given that it has been raining since the last few days, I think it will rain tomorrow". The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached with rainfall. We might have a sequence of events as shown below.
 
-  <img src="images/img0.png" style="  display: block;
-    width: 100%; height: auto">  
+
 
   If we create a markov chain for the above example, we have two states: <b>Rainy</b> and <b>Sunny</b>. <br><br>Transititon probability matrix \(A\) denotes the transition probabilities between Sunny and Rainy days. <br><br>The \(\pi\) matrix denotes the probability of any day being either Sunny or Rainy.
   <br><br>
-<!-- 
+
   If, \(A[Sunny, Sunny] = 0.8\), it denotes that probability of next day being <b>Sunny</b> given the previous day is <b>Sunny</b> is <b>0.8</b>.
   <br><br>
   Similarly if, \(A[Sunny, Rainy] = 0.2\), it denotes that probability of next day being <b>Rainy</b> given the previous day is <b>Sunny</b> is <b>0.2</b>.
 <br><br>
   If, \(Pi[Sunny] = 0.7\), it denotes that any sequence can start with <b>Sunny</b> as the <b>intial</b> state(day) with probabiltity <b>0.7</b>.
- -->
+
 
 
     </p>
-
-    <h1>Markov Model Sampling</h1>
+ -->
+    <h3>Markov Model Sampling</h3>
       <p>
       
       Given the parameters of a Markov Model \(A\) and \(\pi\), we can generate sequences from it. First, we sample an intial state using the \(\pi\) matrix. Then recursively, we sample a new state from the previous state using the \(A\) matrix. This way we can generate sequences from the markov model.</p>
@@ -730,8 +753,8 @@ Using the rules of independence, we can calculate the joint probability of the s
 
 
     
-    <h1>Text Generation using Markov Chains</h1>
-  <!--   <p>
+  <!--  <h1>Text Generation using Markov Chains</h1>
+     <p>
       Our objective is to generate a p-word line given a paragraph. A Markov model of order one, predicts that each word occurs with a fixed probability, but that probability depends on the previous one word. Let’s start with an example. Suppose we have a short paragraph which reads, 
       <br><br>
     </p>
@@ -808,7 +831,7 @@ Similarly, we can calculate the probability for other sequence of words.
  -->
 
 
-<h1>What is hidden in a hidden markov model?</h1>
+<h1>Hidden Markov Model</h1>
 
     <p>
       We will understand this hidden component by taking an example of two coins. One of the coins is a fair coin which  is equally likely to land on either heads or tails. The other coin is biased coin. This biased coin can land on heads with a probability of 0.7. At every timestamp \(t\) one of the coins is chosen. Given a sequence of observations for \(t\) timestamps, our problem is to identify for each timestamp is the observation is made from the fair coin or the biased coin. 
@@ -820,22 +843,19 @@ Similarly, we can calculate the probability for other sequence of words.
     <img src="images/hmm.svg" style="width: 100%;height: auto">
 
 
-    <h1>Hidden Markov Model Parameters</h1>
+    <h3>Hidden Markov Model Parameters</h3>
 
-    <p>In this section we summarize the parameters we have observed so far. Let us assume that \(z_t\) can take one of the \(K\) possible states
+    <p>Now, we discuss about the parameters in Hidden Markov Model.<b> The parameters Transition Matrix \(A\) and Prior Probability \(\pi\) are the same as the ones in Markov Model.</b>.
 
 
     <ul>
 
-    
-      <li><b>Transition Matrix \(A\)</b>: The transition matrix stores the transition probability between each of the states. The probability of going from state \(i\) to state \(j\) is given by \( A_{ij} = P(x_t = j \vert x_{t-1}=i)\) where \(i,j \in \{1,2 \ldots K\}\).
-      </li>
-      <li><b>Prior Probability \(\pi\)</b>: The probability of starting from one of the available states on the first timestamp. It is denoted by 
-  \(\pi_i = P(z_1 = i)\)</li>
     <li>
     <b>Emission Probability \( \phi \)</b>: The conditional probability of observing a discrete or continuous value \(x\) from a state \(z\) given the transition matrix and the prior probability is given as \(\phi_t = P(x_t \vert z_t, A, \pi)\)
-</li>
+    </li>
     </ul>
+
+    The observations can be either discrete(Ex: Fair and Biased Coin observations, Sunny and Rainy weather observations, ..) or continuous(Ex: Sensor output in Human activity recognition)
   
 </p>
 
@@ -997,15 +1017,20 @@ Similarly, we can calculate the probability for other sequence of words.
       </div>
       </div>
 
+      <h1>Trellis Diagrams</h1>
+      <p>A Trellis diagram can be used to show the states path that was taken in a Hidden Markov Model. Consider the following trellis diagram. In the trellis diagram, the red lines denote the path taken.</p>
+      <img src="images/trellis.png" style="width: 100%;height: auto; padding-top:3em; padding-bottom: 3em; ">
+       So the path taken is \(z_{1}=B, z_{2}=B, z_{3}=B\). 
 
 
 
-      <h1>Hidden Markov Model Evidence Likelihood</h1>
-
-      <p>The objective is to estimate the most probable observations given the set of parameters i.e \(A\) (Transition Matrix), \(\phi\) (Emission Matrix) and \(\pi\) (Prior Probability). Mathematically this can be represented as:
+      <h1>HMM Questions</h1>
+      <p>Now, we look at five important questions  to understand HMM algorithms</p>
+      <h3>HMM Evidence Likelihood</h3>
+      <p>The objective is to estimate the likelihood of the observations given HMM parameters. Mathematically this can be represented as:
         <br><br>
 
-    Given \(X=\{x_1, x_2 \ldots x_n\}\), \( \theta = \{\pi, A, \phi \}\), what is the likelihood, \(L(X \vert \theta)\)?
+    Given \(X=\{x_1, x_2 \ldots x_n\}\), \( \theta = \{\pi, A, \phi \}\), what is \(L(X \vert \theta)\)?
     <br><br>
     <!-- Likelihood = \(L(X \vert \theta)\) = \(P(X \vert \theta)\) = \(Likelihood = \) \(L(X \vert \theta)\) \( = P(X \vert \theta) = \sum_{z}^{} P(x,z \vert \theta)\)
     <br><br>
@@ -1013,7 +1038,15 @@ Similarly, we can calculate the probability for other sequence of words.
     <br><br>
      -->
 
-    The likelihood \(L(X \vert \theta)\) is the probability of the sequence \(X\) occuring given the parameters \(\theta\) of a HMM.
+    \(L(X \vert \theta)\) is the likelihood of observing sequence \(X\) occuring given the parameters \(\theta\) of a HMM.
+
+    <br><br>
+
+    Before we go further, let's consider the following example. <br><br>Given a series of observations \(\{H,H,H\}\), what is the probability of observing the sequence with \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)?<br><br>
+    <img src="images/trellis.png" style="width: 100%;height: auto; padding-top:3em; padding-bottom: 3em; ">
+    \(P(HHH|BBB) = P(B)P(H \vert B)P(B \vert B)P(H \vert B)P(B \vert B)P(H \vert B)\)<br><br>
+    In general, <br><br>
+    \(P(x_{1},\dots,x_{T}\vert z_{1},\dots,z_{t}) = P(z_{1})P(x_{1}\vert z_{1})\dots P(z_{t}\vert z_{t-1})P(x_{t}\vert z_{t})\)
     <!-- Now, imagine if we had a long sequence of observation, \(X = \{H, H \ldots x_T\}\), the trellis diagram would look something like -->
     </p>
 
@@ -1075,11 +1108,8 @@ Similarly, we can calculate the probability for other sequence of words.
       </tbody>
     </table> -->
 
-  In the above example, we have \(T=3\) and \(K=2\), we have a total of \(2^{3} = 8\) possible paths. <br><br>In general, when we have \(K\) states and \(T\) timestamps, there are a total of \(K^{T}\) paths. For each of those paths, we need to compute the probability of the output sequence given this path. <br><br>
+  In the above example, we have \(T=3\) and \(K=2\), we have a total of \(2^{3} = 8\) possible paths. <br><br>In general, when we have \(K\) states and \(T\) timestamps, there are a total of \(K^{T}\) paths. Hence the time complexity of estimating the likelihood is exponential in \(K\) <br><br>
 
-  Let us also assume that the number of multiplications in a path is of \(O(T)\). So, in order to compute the compute the probability of an output sequence given one particular path is \(O(T)\). We have \(K^{T}\) such paths.<br><br>
-
-  Thus the overall time complexity of estimating the likelihood of observation \(P(X \vert \theta)\) is \(O(T*K^T)\)<br><br>
 
   Can we do better? Consider the following paths.<br>
 
@@ -2422,6 +2452,8 @@ function change_fsm(){
 
   edges_sizes = [a_a*size, a_b*size, b_a*size, b_b*size]
 
+    
+
   console.log(edges_sizes)
 
   for(var i=0;i<4;i++){
@@ -2436,13 +2468,15 @@ function change_fsm(){
 
 
   fsm.refresh()
+
+
 }
 
 function render_markov_chain_1(){
 
   change_fsm()
 
-      var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
+  var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
   var pi_b = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
 
   var a_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
