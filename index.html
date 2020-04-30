@@ -1931,7 +1931,9 @@ The next problem in HMM is to determine <b>‘optimal’</b> sequence of hidden 
 </p>
 <h3>Problem 4: Determining optimal sequence of hidden states</h3>
 <p>
-Given the parameters and the sequence of observations, what is the most probable sequence of states that resulted in the observations?
+Given the parameters and the sequence of observations, what is the most probable sequence of states that resulted in the observation?</p>
+<h4>Optimality Definition 1</h4>
+Choose state \(z_{t}\) which is individually most likely. What we are trying to determine is also called sequence of marginally most probable states (MPM). Mathematically, this can be given as,
 <br><br>
 
 $$\hat{z} = (argmax_{z_1} P(z_1 \vert x_{1:T}), argmax_{z_2} P(z_2 \vert x_{1:T}) \dots argmax_{z_T} P(z_T \vert x_{1:T}))$$
@@ -1970,7 +1972,7 @@ Thus now it makes sense to say that the solution to optimal sequence of states i
 
 </p>
 
-<h1>Optimality Definiton #2</h1>
+<h4>Optimality Definition 2</h4>
 <p>
 According to this definition, we choose the most probable sequence of states given the parameters and observations.
 
