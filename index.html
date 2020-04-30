@@ -562,18 +562,11 @@ padding:1em;
 
   <h1>Sequential Modeling</h1>
 
-  <p>Ever wondered how the voice assistant in your phone works? Or how speech tagging in sentences works? Or, how your smartwatch or smart wristband counts the number of steps you have taken? Each of these are examples of time-series machine learning. Hidden Markov Model(HMM) is a popular machine learning model for time-series data and is often used for time-series applications like the ones mentioned above.
-
-  </p>
-
-
-
- <p>We now discuss why sequential modeling makes sense. When someone asks you to suggest the next word in the sentence - "I like playing ...". Your choice might be nouns like: guitar, football, etc. Knowledge that the previous word is "playing" helps us better guess what the next word could be. Thus, for time-series data, modeling the data as a sequence instead of assuming it to be independent and identically distributed (IID) is advantageous. 
-
-  <br><br>
-
-
-  Let's consider another example. Imagine that it has been raining the past few days and someone asks you - "How likely is it that it will rain tomorrow"? You might say that, "Given that it rained today, I think it will rain tomorrow". The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached with rainfall. We might have a sequence of events as shown below.
+  <p>Ever wondered how the voice assistant in your phone works? Or how speech tagging in sentences works? Or, how your smartwatch or smart wristband counts the number of steps you have taken? Each of the above is an example of time-series machine learning. Hidden Markov Model(HMM) is a popular machine learning model for time-series data and is often used for time-series applications like the ones mentioned above.
+    <br><br>
+We now discuss why sequential modeling makes sense. When someone asks you to suggest the next word in the sentence - "I like playing ...". Your choice might be nouns like: guitar, football, etc. The knowledge that the previous word is "playing" helps us better guess what the next word could be. Thus, for time-series data, modeling the data as a sequence instead of assuming it to be independent and identically distributed (IID) is advantageous.
+<br><br>
+Let us consider another example. Imagine that it has been raining the past few days and someone asks you - "How likely is it that it will rain tomorrow"? You might say that "Given that it rained today, I think it will rain tomorrow." The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached to rainfall. We might have a sequence of events, as shown below.
 
     <img src="images/img0.png" style="  display: block;
     width: 100%; height: auto; margin-top: 1em; margin-bottom: 1em;">  
@@ -590,7 +583,7 @@ padding:1em;
 
   <p>
 
- A Markov chain follows Markovian assumptions. A Markov chain assumes that an observation <d-math>x_{t+1}</d-math> at future time <d-math>t+1</d-math> is only dependent on the observation <d-math>x_{t}</d-math> at present time <d-math>t</d-math>. In other words, 
+ A Markov chain follows Markovian assumptions. A markov chain one of the simplest markov models. A Markov chain assumes that an observation <d-math>x_{t+1}</d-math> at future time <d-math>t+1</d-math> is only dependent on the observation <d-math>x_{t}</d-math> at present time <d-math>t</d-math>. In other words, 
 given the <span style='color: green;'>present observation</span>, the <span style='color: violet;'>future</span> is independent of the <span style='color: red;'>past</span>. 
 
 <br><br>
@@ -600,7 +593,7 @@ given the <span style='color: green;'>present observation</span>, the <span styl
   <br>
 We use the following graphical model to denote the Markov chain.
 <br/><br/>
-  <img src="markov-chain.png" style="width: 100%;height: auto">
+  <img src="images/mm.svg" style="width: 100%;height: auto">
 
 <br/><br/>
 
@@ -612,22 +605,29 @@ We now discuss some common day-to-day life examples of markov chains.
 <div class="l-screen">
   <div class="one-third-div">
       <img src="images/markov_sunny_rainy.svg" class="example-img">
-      <p class="example-text">Markov Model for Sunny and Rainy Weather</p>
+      <p class="example-text">Markov Model for sunny and rainy Weather</p>
       <p class="example-description">
-         Assume a scenario, where we were able to model the weather of particular place using markov models. The above model, describes how the weather can change. Any sunny day can change into a rainy day with a probability of <b>0.4</b>. Any rainy day can remain as a rainy day with a probability of <b>0.7</b>. Any day picked at random, can be rainy with probability <b>0.6</b>.  
+         Assume a scenario, where the weather of a particular place follows a markov chain. The above diagram, describes how the weather can change. In this example, we can observe the outside weather. Any sunny day can change into a rainy day with a probability of <b>0.4</b>. Any rainy day can remain as a rainy day with a probability of <b>0.7</b>. Any day picked at random, can be rainy with probability <b>0.6</b>.  
+         <br><br>
+         <b>Observation</b>: Weather
       </p>
   </div>
 
   <div class="one-third-div">
       <img src="images/markov_fair_biased.svg" class="example-img">
-      <p class="example-text">Markov Model for Coin Swap</p>
-      <!-- <p class="example-description"> 
-      Assume a scenario, where your friend is swapping between coins using a markov model. The above model, describes how the coin can change. Any sunny day can change into a rainy day with a probability of <b>0.4</b>. Any rainy day can remain as a rainy day with a probability of <b>0.7</b>. Any day picked at random, can be rainy with probability <b>0.6</b>.  
-    </p> -->
+      <p class="example-text">Markov Model for coin swap</p>
+      <p class="example-description"> 
+      Assume a scenario, where your friend is swapping between a fair and biased coin using a markov chain. The above diagram, describes how the coin your friend chooses can change. In this example, we can observe the coin chosen by your friend. A biased coin can be swapped with a fair coin with a probability of <b>0.4</b>. Any fair coin can remain as a fair coin with a probability of <b>0.7</b>. If you pick a coin at random when your friend is swapping, it can be a fair coin with probability <b>0.6</b>.  <br><br>
+      <b>Observation</b>: Biased/Fair coin
+    </p>
   </div>
   <div class="one-third-div">
       <img src="images/markov_on_off.svg" class="example-img">
-      <p class="example-text">Wow, this is good</p>
+      <p class="example-text">Markov Model for air conditioner state</p>
+      <p class="example-description">Assume a scenario, where an air conditioner controlled turns ON or turns OFF using a markov chain. The above diagram, describes how the state changes. In this example, we can observe if the air conditioner is ON or OFF. The air conditoner has a probability of changing its state from OFF to ON with probability <b>0.4</b>. If the air conditioner is already ON, then it stays in the ON state with probability <b>0.7</b>. If you check the air conditoner at any random time, then it is in the ON state with probability <b>0.6</b>
+      <br><br>
+      <b>Observation</b>: ON/OFF state
+    </p>
   </div>
 
 
@@ -799,12 +799,22 @@ We now discuss some common day-to-day life examples of markov chains.
 
 
       <div id="markov-right-div" style="margin-top: 1em;">
-          <div id="fsm" style="height: 14em;"></div>
-
-          <div id="markov-chain-1"  style="height: 12em;">
+          <div>
+              <h3 style="margin: 0px!important">FSM representation of the transition matrix</h3>
+              <div id="fsm" style="height: 14em;">
+              </div>
+            </div>
+          
+          <div>
+            <h3 style="margin: 0px!important">Generated Sequence</h3>
+            <div id="markov-chain-1"  style="height: 12em;">
           </div>
 
+          </div>
+          
+
       </div>
+    </div>
 
       <div style="display: flex; justify-content: center;clear: both">
 
@@ -897,37 +907,54 @@ Similarly, we can calculate the probability for other sequence of words.
 
 
 <h1>Hidden Markov Model</h1>
-
+<p>Before we try to understand Hidden markov models, let us revisit some variants of the markov model examples.</p>
 <div class="l-screen">
   <div class="one-third-div">
       <img src="images/hmm_sunny_rainy.svg" class="example-img">
-      <p class="example-text">Markov Model for Sunny and Rainy Weather</p>
+      <p class="example-text">Hidden Markov Model for Sunny and Rainy Weather</p>
       <p class="example-description">
-         Assume a hypothetical scenario, where we were able to model the weather of particular place using hidden markov models. Your are in a closed room and your roomate goes outside everyday to get groceries. You observe his shoes everyday if they are dry or wet.  You try to predict if a day was Sunny or Rainy based on the shoes of your roommate. On a sunny day your roommate's shoes can be wet with a probability of <b>0.2</b>(Shoes might have gotten wet due to a sprinkler). On a rainy day, the shoes can be wet with a probablity of <b>0.9</b>
+         Assume a hypothetical scenario, where we were able to model the weather of particular place using hidden markov models. Your are in a closed room and your roomate goes outside everyday to get groceries. You observe his shoes everyday if they are dry or wet.  You try to predict if a day was Sunny or Rainy based on the shoes of your roommate. On a sunny day your roommate's shoes can be wet with a probability of <b>0.2</b>(maybe due to a sprinkler). On a rainy day, the shoes can be wet with a probablity of <b>0.9</b>. <br><br>
+         <b>Observation</b>: Shoe<br>
+         <b>Hidden State</b>: Weather<br>
 
        </p>
   </div>
 
   <div class="one-third-div">
       <img src="images/hmm_fair_biased.svg" class="example-img">
-      <p class="example-text">Wow, this is good</p>
+      <p class="example-text">Hidden Markov Model for a Fair and Biased coin</p>
+      <p class="example-description">
+         Assume a hypothetical scenario, where your friend chooses a fair coin or a biased coin using a hidden markov model. Your friend flips the chosen coin and shows you the result of the coin flip. Based on the outputs, you try to predict if the flipped coin was a fair coin or a biased coin. If your friend flips a biased coin, then the output is a heads with probability<b>0.8</b>. If your friend flips a fair coin, then the output is a heads with probability <b>0.5</b>. <br><br>
+         <b>Observation</b>: Heads/Tails<br>
+         <b>Hidden State</b>: Biased/Fair Coin<br>
+       </p>
   </div>
   <div class="one-third-div">
       <img src="images/hmm_on_off.svg" class="example-img">
-      <p class="example-text">Wow, this is good</p>
+      <p class="example-text">Hidden Markov Model for an Air Conditioner</p>
+      <p class="example-description">
+         Assume a hypothetical scenario, where the compressor of an air conditioner is turned ON or OFF using a hidden markov model. You are looking at the total power consumed by the appliance on your smartphone. If the air conditioner is in an OFF state, then the output follows \(\mathcal{N}(10,5)\). If the air conditioner is in ON state  then the output follows a gaussian distibution \(\mathcal{N}(100,5)\). <br><br>
+         <b>Observation</b>: Total power consumed by the appliance<br>
+         <b>Hidden State</b>: Compressor ON/OFF<br>
+       </p>
   </div>
 
 
 </div>
 
     <p>
-      We will understand this hidden component by taking an example of two coins. One of the coins is a fair coin which  is equally likely to land on either heads or tails. The other coin is biased coin. This biased coin can land on heads with a probability of 0.7. At every timestamp \(t\) one of the coins is chosen. Given a sequence of observations for \(t\) timestamps, our problem is to identify for each timestamp is the observation is made from the fair coin or the biased coin. 
       <br><br>
-      In a hidden markov model, the <b>observation</b> (Head or Tail) at a timestamp <b>'t'</b> is denoted by \(x_{t}\). The <b>hidden state</b>(Fair or Biased) from which the observation \(x_{t}\) is generated is denoted by \(z_{t}\).<br><br>
-      See the diagram below. It is worth noting that there is a link between the states but not between the observations.
+      In each of the above examples, we have a component which is observable and a hidden component.  The observable component at the timestamp '\(t\)' is denoted by \(x_{t}\). The hidden component at the timestamp '\(t\)' is denoted by \(z_{t}\). 
+    </p>
+      <br><br>The diagram below denotes a hidden markov model.
+      <img src="images/hmm.svg" style="width: 100%;height: auto">
+      <p style="text-align: center;margin-top: 1em">Structure of a HMM</p>
+      <br><br>
+      <p>
+       It is worth noting that there is a link between the states but not between the observations.
     </p>
 
-    <img src="images/hmm.svg" style="width: 100%;height: auto">
+    
 
 
     <h3>Hidden Markov Model Parameters</h3>
@@ -941,12 +968,19 @@ Similarly, we can calculate the probability for other sequence of words.
     <b>Emission Probability \( \phi \)</b>: The conditional probability of observing a discrete or continuous value \(x\) from a state \(z\) given the transition matrix and the prior probability is given as \(\phi_t = P(x_t \vert z_t, A, \pi)\)
     </li>
     </ul>
+</p>
+<p>
+    The observations can be either <b>discrete</b> or <b>continuous</b><br>
+    <ul>
+      <li><b>Discrete output examples</b>: Fair and Biased coin observations, Sunny and Rainy weather observations</li>
+      <li><b>Continuous output examples</b>: Power consumed by an air conditioner</li>
 
-    The observations can be either discrete(Ex: Fair and Biased Coin observations, Sunny and Rainy weather observations, ..) or continuous(Ex: Sensor output in Human activity recognition)
+    </ul>
+     
   
 </p>
 
-      <h1>Hidden Markov Model Sampling</h1>
+      <h3>Hidden Markov Model Sampling</h3>
       <div>
       <!-- <p>
       The objective of Hidden Markov Model Sampling is to generate a sequence of observation \(\{x_1, x_2 \ldots x_n\}\) and a sequence of states \(\{z_1, z_2 \ldots z_n\}\) given the parameters, prior probability \(\pi\), transition matrix \(A\) and emission matrix \(\phi\). The algorithm for HMM sampling is as stated below.
@@ -1003,6 +1037,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
 
 <div class='l-screen' >
+  <h3>Sampling from a hidden markov model for fair and biased coin example</h3>
     <div id="hmm" style="width: 100%;height: 15em;"></div>
 </div>
 
@@ -1105,9 +1140,9 @@ Similarly, we can calculate the probability for other sequence of words.
       </div>
 
       <h1>Trellis Diagrams</h1>
-      <p>A Trellis diagram can be used to show the states path that was taken in a Hidden Markov Model. Consider the following trellis diagram. In the trellis diagram, the red lines denote the path taken.</p>
+      <p>A Trellis diagram can be used to show the states path that was taken in a hidden markov model. Consider the following trellis diagram. In the trellis diagram, the red lines denote the path taken.</p>
       <img src="images/trellis_1.svg" style="width: 100%;height: auto; padding-top:3em; padding-bottom: 3em; ">
-       So the path taken is \(z_{1}=B, z_{2}=B, z_{3}=B\). 
+       Therefore, path taken is \(z_{1}=B, z_{2}=B, z_{3}=B\). 
 
 
 
@@ -1141,13 +1176,11 @@ Similarly, we can calculate the probability for other sequence of words.
 
     
 
-    <br><br>
-
-    Before we go further, let's consider the following example. <br><br>Given a series of observations \(\{H,H,H\}\), what is the probability of observing the sequence given \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)?<br><br>
+    Before we go further, let us consider the following example. <br><br>Given a series of observations \(\{H,H,H\}\), what is the probability of observing the sequence given \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)?<br><br>
 
     
     <img src="images/trellis_1.svg" style="width: 100%;height: auto; padding:2em; ">
-    <p style="text-align: center;">Trellis Diagram correponding to path \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)</p><br><br><br><br>
+    <p style="text-align: center;">Trellis diagram correponding to path \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)</p><br><br><br><br>
     \(P(HHH|BBB) = P(B)P(H \vert B)P(B \vert B)P(H \vert B)P(B \vert B)P(H \vert B)\)<br><br>
    
     <!-- Now, imagine if we had a long sequence of observation, \(X = \{H, H \ldots x_T\}\), the trellis diagram would look something like -->
@@ -2456,6 +2489,7 @@ function change_value(slider_id,mode='hmm'){
   if (mode=='mm'){
 
     change_fsm()
+    reset_markov_chain()
 
   }
 
@@ -2611,7 +2645,8 @@ function reset_markov_chain(){
 }
 
 function change_fsm(){
-    var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
+  
+  var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
   var pi_b = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
 
   var a_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
@@ -2646,7 +2681,7 @@ function change_fsm(){
 
 function render_markov_chain_1(){
 
-  change_fsm()
+  
 
   var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
   var pi_b = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
