@@ -1148,7 +1148,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
       <h1>HMM Questions</h1>
       <p>Now, we look at five important questions  to understand HMM algorithms</p>
-      <h3>HMM Evidence Likelihood</h3>
+      <h3>Problem 1: HMM Evidence Likelihood</h3>
       <p>The objective is to estimate the likelihood of the observations given HMM parameters. Mathematically this can be represented as:
         <br><br>
 
@@ -1353,20 +1353,28 @@ Similarly, we can calculate the probability for other sequence of words.
       </p> -->
 
       <p><br>Clearly, the above paths have common sequences. The common sequence is \(z_{1}=B, z_{2}=B\). So, if we can store the result of the common paths, we can save some computational power. This provides the motivation for the forward algorithm.</p>
+      <br><br>
+      <p>Let us go back to the fair coin and biased coin example. We wish to compute \(P(HHH \vert z_{3}=F)\)</p>
+      <img src="images/simple_trellis.svg" style="width: 70%;height: auto; padding-left: 2em; padding-right: 2em; margin: 0 auto; margin-top: 2em">
+      <p style="text-align: center;margin-top: 2em">Trellis diagrams showing the possible paths between timestamps \(t=2\) and \(t=3\)</p>
 
-
-
-      <h1>Forward Algorithm</h1>
+      <p>If we already know the values of \(P(HH \vert z_{2}=F)\) and \(P(HH \vert z_{2}=B)\), we can easily compute \(P(HHH \vert z_{3}=F)\)<br><br>
+      \(P(HHH \vert z_{3}=F)\) = \(P(HH \vert z_{2}=F) A_{FF}\) + \(P(HH \vert z_{2}=B) A_{BF}\)
+      <br><br>
+      In the above example in order to compute \(P(HHH \vert z_{3}=F)\) we were considering only 2 paths.<br><br>
+    In general, if we can store the results of the previous timestamp, the results at the next timestamp can be considering the \(K\) paths from the previous timestamp that lead to the next timestamp. This provides the motivation for the forward algorithm.</p>
+      <h3>Problem 2: Forward Algorithm</h3>
 
       <p>
-      <!-- Forward algorithm is a dynamic programming based approach using which we can compute the likelihood of observation \(P(X \vert \theta)\). -->
+      Forward algorithm is a dynamic programming based approach using which we can efficiently compute the likelihood of observation \(P(X \vert \theta)\).
       <br>
       <br>
-      <img src="images/forward-equation.svg" style="width: 40%;height: auto;"><br>
+      <img src="images/forward-algo.svg" style="width: 40%;height: auto;"><br>
       <br>
       In other words it is the probability of being in state '<span style="color: violet">i</span>' at time '<span style="color: green">t</span>' given  observation '<span style="color: red;">X</span>'<br><br></p>
 
-          <p>
+      <img src="images/forward-image.svg" style="width: 50%;height: auto; margin: 0 auto;">
+      <p>
       We can end up in state \(j\) at time \(t+1\) from each of the \(k\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\theta_j(x_{t+1})\). <br><br>
       Thus, generally we can write:
 <br><br>
@@ -1403,10 +1411,8 @@ Similarly, we can calculate the probability for other sequence of words.
       <br><br>
 
 
-      Building upon the two state (Bias and Fair) coin example that we saw before, we see that: 
+      <!-- Building upon the two state (Bias and Fair) coin example that we saw before, we see that:  -->
 
-
-    </p>
 
     </div>
 
@@ -1417,11 +1423,39 @@ How can we use the above to calculate likelihood of observation \(P(X \vert \the
 The sequence \(X\) has observations \(\{x_{1},x_{2},\dots,x_{T}\}\) and the hidden markov model has \(K\) states. At the timestep \(T\) each of those states can be used to generate the observation \(x_{T}\) which  is determined by \(\alpha_{T}(i)\) where \(i \in \{1,2,\dots,K\}\)<br><br>
 
 Therefore, \(L(x_{1:T} \vert \theta) = P(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)\)
-
+<br><br>
+Now, we move on to second important problem for understanding HMM which is the Backward algorithm. Backward algorithm plays a key role in the HMM parameter learning algorithm aka Baum-Welsh algorithm.
 </p>
 
+<h3 class="div-show-btn" onclick="show_hmm_filtering()">HMM Filtering</h3>
 
-    <h3 class="div-show-btn" onclick="show_forward_example()">Worked out Example for Forward Algorithm</h3>
+    <div id = "hmm-filtering-div" class="hidden-div"  style="display: none">
+
+
+
+<p> The probability of ending up in a state \(z_j\) given that we have observed the data \(X={x_1, x_2 \ldots x_3}\). We define this problem as hidden markov model filtering. It can be mathematically stated as \(P(z_t \vert x_{1:t})\).
+<br><br>
+The above is a conditional probability which can be defined as:<br>
+\(
+  P(z_t \vert x_{1:t}) = \frac{P(z_t,x_{1:t})}{P(x_{1:t})} = \frac{\alpha_t(i)}{\sum_{i}^{}\alpha_t(i)}
+\)
+<br><br>
+We can plug in the numbers from our coin example to the above equation to find the probability of ending up in either Bias state or Fair state for the first state, i.e.<br><br>
+Proabability of ending in Bias = \(
+  \frac{\alpha_t(Bias)}{\sum_{i}^{}\alpha_t(i)} = \frac{\alpha_t(Bias)}{\alpha_t(Bias)+\alpha_t(Fair)} = \frac{0.42}{0.62}
+\)
+<br><br>
+Proabability of ending in Fair = \(
+\frac{\alpha_t(Fair)}{\sum_{i}^{}\alpha_t(i)} = \frac{\alpha_t(Fair)}{\alpha_t(Bias)+\alpha_t(Fair)} = \frac{0.20}{0.62}
+\)
+<br><br>
+Having studied the forward procedure, we will now understand the backward procedure for HMMs. 
+
+</p>
+</div>
+
+
+    <!-- <h3 class="div-show-btn" onclick="show_forward_example()">Worked out Example for Forward Algorithm</h3> -->
 
     <div  style="z-index: 1000" class="l-middle l-page">
 
@@ -1633,9 +1667,9 @@ Therefore, \(L(x_{1:T} \vert \theta) = P(x_{1:T} \vert \theta) = \sum_{i}^{} \al
 
 
 </div> -->
-<div class="l-screen" style="margin-top: 1em"> 
+<!-- <div class="l-screen" style="margin-top: 1em"> 
 
-      <!-- <p>
+      <p>
       
       \( \alpha_1(F) = P(x_{1},z_1=F) \) = <span class="color-1">\(\pi_{F}\)</span> X <span class="color-7">\(P(x_1=H \vert z_1=F)\)</span> = <span class="color-1">0.4</span> X <span class="color-7">0.5</span> = 0.20
       <br><br>
@@ -1663,12 +1697,12 @@ Therefore, \(L(x_{1:T} \vert \theta) = P(x_{1:T} \vert \theta) = \sum_{i}^{} \al
 
         \(\alpha_2(B) \) =  0.28
 
-      </p> -->
+      </p>
 
 </div>
-
+ --><!-- 
 <p>
-<!--   <img src="images/trellis-1.png" style="  display: block;
+ <img src="images/trellis-1.png" style="  display: block;
   margin-left: auto;
   margin-right: auto;width: 100%;height: auto">
 
@@ -1705,10 +1739,10 @@ $$L(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)$$
 The third problem in Hidden Markov Model which is an extension of the second problem is to compute the belief state or we ask, what is the probability of ending up in a state \(z_j\) given that we have observed the data \(X={x_1, x_2 \ldots x_3}\). We define this third problem in this series as hidden markov model filtering.
 
 
- -->
-</p>
 
-    <h3 class="div-show-btn" onclick="show_hmm_filtering()">HMM Filtering</h3>
+</p> -->
+
+   <!--  <h3 class="div-show-btn" onclick="show_hmm_filtering()">HMM Filtering</h3>
 
     <div id = "hmm-filtering-div" class="hidden-div"  style="display: none">
 
@@ -1733,20 +1767,29 @@ Proabability of ending in Fair = \(
 Having studied the forward procedure, we will now understand the backward procedure for HMMs. 
 
 </p>
-</div>
-<h1>Backward Algorithm</h1>
+</div> -->
+<p>Before we try to understand backward algorithm, let us do the following. <br><br>What is the value of  \(P(x_{1},\dots,x_{T} \vert z_{t} = i)\)?
+<br><br>
+\(
+  \begin{align}
+    P(x_{1},\dots,x_{T} \vert z_{t} = i ) &= P(x_{1},\dots,x_{t} \vert z_{t} = i ) * P(x_{t+1},\dots,x_{T} \vert z_{t} = i ) \\
+                                          &= P(x_{1:t} \vert z_{t} = i ) *  P(x_{t+1:T} \vert z_{t} = i ) \\
+                                          &= \alpha_{t}(i) * \beta_{t}(i)
+  \end{align}
+\)
+<br><br>
+\(\beta_{t}(i)\) is explained in the backward algorithm
+</p>
+<h3>Problem 3: Backward Algorithm</h3>
 
-
+<p>Backward algorithm is a dynamic programming based approach using which we can efficiently calculate \(P(X_{t+1:T} \vert z_{t}=i)\)</p>
 <img src="images/backward-equation.svg" style="width: 40%;height: auto"><br><br>
 <p>In other words it is the probability observing '<span class="plain-color-4">\(X_{t+1:T}\)</span>' given state '<span class="plain-color-3">\(i\)</span>' at time '<span class="plain-color-2">t</span>'<br><br>
 
-<b>Recall that in the forward algorithm, we defined \(\alpha_{t+1}\) in terms of \(\alpha_t\) but here in the backward procedure, we define \(\beta_{t}\) in terms of \(\beta_{t+1}\)</b>
+</p>
+<img src="images/backward-image.svg" style="width: 50%;height: auto; margin: 0 auto;">
 
-<br><br>
-
-<img src="images/backward.svg" style="width: 100%; height: auto">
-
-
+<p>
 Let us assume a general case, where we have \(k\) states. The trellis diagram shows that if at \(t\) time, we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states, Mathematically, 
 <br><br>
 
@@ -1791,6 +1834,10 @@ Thus, the general form for the backward procedure can be mathematically represen
   &= \sum_{j=1}^{k} \beta_{t+1}(j).A_{ij}.\phi_{j}(x_{t+1})
 \end{align}
 \)
+<br><br>
+<b>Recall that in the forward algorithm, we defined \(\alpha_{t+1}\) in terms of \(\alpha_t\) but here in the backward procedure, we define \(\beta_{t}\) in terms of \(\beta_{t+1}\)</b>
+
+<br><br>
 
 
 <!-- <img src="images/backward-2.svg" style="width: 100%; height: auto"> -->
@@ -1802,15 +1849,43 @@ $$
 \sum_{j=1}^{k} \beta_{t+1}(j).A_{ij}.\phi_{j}(x_{t+1})
 $$
 
+
+    <h3 class="div-show-btn" onclick="show_backward_algorithm()">Backward Algorithm</h3>
+
+    <div id = "backward-algorithm" class="hidden-div" style="display: none">
+      
+
+      The algorithm is as follows:<br><br>
+
+      Initial Step:<br>
+
+        <span style="margin-left: 1em">\(beta_{T} (i) = 1 (Arbitrarily defined) \)</span>
+
+      <br><br>
+
+      General Step:<br>
+        <span style="margin-left: 1em">\(\beta_{t} (i) = \sum_{j=1}^{k} \beta_{t+1}(j).A_{ij}.\phi_{j}(x_{t+1}) \)</span>    
+
+
+      <br><br>
+
+
+
+
+
+    </div>
+
+
+<!-- 
 To define all the \(\beta_{t}\) parameters we first need to define \(\beta\) for the last time stamp i.e. \(T (\beta_{t})\), and then we can run a loop going backwards from \(t=T-1, T-2 \dots 1\). 
 <br><br>
 Thus, \(\beta_{T}(i) = 1 \forall i \in \{1,2 \ldots k\}\) (Arbitrarily defined). Now we take an example to make backward algorithm more intuitive
-
+ -->
 
 </p>
 
 
-<h3 onclick="show_backward_example()"class="div-show-btn">Worked out Example For Backward Algorithm</h3>
+<!-- <h3 onclick="show_backward_example()"class="div-show-btn">Worked out Example For Backward Algorithm</h3>
 
 <div class="hidden-div" id="backward-example" style="display: none">
 <p>
@@ -1850,17 +1925,13 @@ $$
 $$
 
 </p>
-</div>
+</div> -->
 <p>
-The next problem in HMM is to determine ‘optimal’ sequence of states given model and observation. We explain this problem in detail in the next section.
+The next problem in HMM is to determine <b>‘optimal’</b> sequence of hidden states given the parameters and the observed sequence. We explain this problem in detail in the next section.
 </p>
-<h1>
-What do we mean by the optimal set of states?
-<br><br>
-Optimality Definition #1:
-</h1>
+<h3>Problem 4: Determining optimal sequence of hidden states</h3>
 <p>
-Choose state \(z_{t}\) which is individually most likely. What we are trying to determine is also called sequence of marginally most probable states (MPM). Mathematically, this can be given as,
+Given the parameters and the sequence of observations, what is the most probable sequence of states that resulted in the observations?
 <br><br>
 
 $$\hat{z} = (argmax_{z_1} P(z_1 \vert x_{1:T}), argmax_{z_2} P(z_2 \vert x_{1:T}) \dots argmax_{z_T} P(z_T \vert x_{1:T}))$$
@@ -3848,6 +3919,16 @@ function show_forward_algorithm(){
 
 
 
+
+function show_backward_algorithm(){
+
+  var x = document.getElementById("backward-algorithm");
+  if (x.style.display == "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
 
 
 
