@@ -1887,11 +1887,11 @@ Having studied the forward procedure, we will now understand the backward proced
 <h3>Problem 3: Backward Algorithm</h3>
 
 <p>Backward algorithm is a dynamic programming based approach using which we can efficiently calculate \(P(X_{t+1:T} \vert z_{t}=i)\)</p>
-<img src="images/backward-equation.svg" style="width: 40%;height: auto"><br><br>
+<img src="images/backward/backward_equation.svg" style="width: 40%;height: auto"><br><br>
 <p>In other words it is the probability observing '<span class="plain-color-4">\(X_{t+1:T}\)</span>' given state '<span class="plain-color-3">\(i\)</span>' at time '<span class="plain-color-2">t</span>'<br><br>
 
 </p>
-<img src="images/backward-image.svg" style="width: 50%;height: auto; margin: 0 auto;">
+<img src="images/backward/backward_trellis.svg" class="half-img">
 
 <p>
 Let us assume a general case, where we have \(k\) states. The trellis diagram shows that if at \(t\) time, we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states, Mathematically, 
@@ -1945,13 +1945,8 @@ Thus, the general form for the backward procedure can be mathematically represen
 
 
 <!-- <img src="images/backward-2.svg" style="width: 100%; height: auto"> -->
-<br><br>
-Thus, the general form for the backward procedure can be mathematically represented as a recurrence of the form:
 
-$$
-\beta_{t}(i) = P(x_{t+1:T} \vert z_t = i) = \\
-\sum_{j=1}^{k} \beta_{t+1}(j).A_{ij}.\phi_{j}(x_{t+1})
-$$
+
 
 
     <h3 class="div-show-btn" onclick="show_backward_algorithm()">Backward Algorithm</h3>
@@ -2036,54 +2031,54 @@ The next problem in HMM is to determine <b>‘optimal’</b> sequence of hidden 
 <h3>Problem 4: Determining optimal sequence of hidden states</h3>
 <p>
 Given the parameters and the sequence of observations, what is the most probable sequence of states that resulted in the observation?</p>
-<h4>Optimality Definition 1</h4>
-Choose state \(z_{t}\) which is individually most likely. What we are trying to determine is also called sequence of marginally most probable states (MPM). Mathematically, this can be given as,
-<br><br>
+  <!-- <h4>Optimality Definition 1</h4>
+  Choose state \(z_{t}\) which is individually most likely. What we are trying to determine is also called sequence of marginally most probable states (MPM). Mathematically, this can be given as,
+  <br><br>
 
-$$\hat{z} = (argmax_{z_1} P(z_1 \vert x_{1:T}), argmax_{z_2} P(z_2 \vert x_{1:T}) \dots argmax_{z_T} P(z_T \vert x_{1:T}))$$
+  $$\hat{z} = (argmax_{z_1} P(z_1 \vert x_{1:T}), argmax_{z_2} P(z_2 \vert x_{1:T}) \dots argmax_{z_T} P(z_T \vert x_{1:T}))$$
 
-<br><br>
-The probability \(P(z_t \vert x_{1:t})\:where\:t \in \{1,2, \dots T\}\) can be represented formally as, \(\gamma_{t}(i) = P(z_t \vert x_{1:t})\), this is the first instance where we define \(\gamma_{t}(i)\). We will now break down \(\gamma_t(i)\) in terms of \(\alpha_t(i)\) and \(\beta_t(i)\). We can represent \(\gamma_{t}(i)\) as, 
-<br><br>
-$$\gamma_{t}(i) = P(z_t = i \vert x_{1:T}) \propto P(z_t = i \vert x_{1:t}).\:P(x_{t+1:T}\vert z_{t}=i, x_{1:t} )$$
-<br><br>
-Which is equivalent to
-<br><br>
-$$
-\begin{align}
-\gamma_{t}(i) = P(z_t = i \vert x_{1:T}) &\propto P(z_t = i \vert x_{1:t}).\:P(x_{t+1:T}\vert z_{t}=i, x_{1:t} ) \\ 
-                                        &\propto P(z_t = i \vert x_{1:t}).\:P(x_{t+1:T}\vert z_{t}=i )
-\end{align}
-$$
-<br><br>
-Because \(x_{t+1:T}\) does not depend on \(x_{1:t}\), thus conditionally independent. Therefore, we can write down the above equation as,
-<br><br>
-$$
-\gamma_{t}(i)  \propto \alpha_{t}(i).\:\beta_{t}(i)
-$$
-<br><br>
-But, looking back at the forward procedure \(\alpha_{t}\) was defined as, \(\alpha_{t} = P(x_{i:t}, z_t=i) \) which is a joint probability distribution instead of conditional probability. But, since we are dealing with proportionality, we do not care about the normalization constant.
+  <br><br>
+  The probability \(P(z_t \vert x_{1:t})\:where\:t \in \{1,2, \dots T\}\) can be represented formally as, \(\gamma_{t}(i) = P(z_t \vert x_{1:t})\), this is the first instance where we define \(\gamma_{t}(i)\). We will now break down \(\gamma_t(i)\) in terms of \(\alpha_t(i)\) and \(\beta_t(i)\). We can represent \(\gamma_{t}(i)\) as, 
+  <br><br>
+  $$\gamma_{t}(i) = P(z_t = i \vert x_{1:T}) \propto P(z_t = i \vert x_{1:t}).\:P(x_{t+1:T}\vert z_{t}=i, x_{1:t} )$$
+  <br><br>
+  Which is equivalent to
+  <br><br>
+  $$
+  \begin{align}
+  \gamma_{t}(i) = P(z_t = i \vert x_{1:T}) &\propto P(z_t = i \vert x_{1:t}).\:P(x_{t+1:T}\vert z_{t}=i, x_{1:t} ) \\ 
+                                          &\propto P(z_t = i \vert x_{1:t}).\:P(x_{t+1:T}\vert z_{t}=i )
+  \end{align}
+  $$
+  <br><br>
+  Because \(x_{t+1:T}\) does not depend on \(x_{1:t}\), thus conditionally independent. Therefore, we can write down the above equation as,
+  <br><br>
+  $$
+  \gamma_{t}(i)  \propto \alpha_{t}(i).\:\beta_{t}(i)
+  $$
+  <br><br>
+  But, looking back at the forward procedure \(\alpha_{t}\) was defined as, \(\alpha_{t} = P(x_{i:t}, z_t=i) \) which is a joint probability distribution instead of conditional probability. But, since we are dealing with proportionality, we do not care about the normalization constant.
 
-The normalization constant is summation across all the states, i.e.
-$$
-\gamma_{t}(i)  \propto \alpha_{t}(i).\:\beta_{t}(i)
- $$
- $$
-\gamma_{t}(i)  = \frac{\alpha_{t}(i).\:\beta_{t}(i)}{\sum_{i}\alpha_{t}(i).\:\beta_{t}(i)}
-$$
+  The normalization constant is summation across all the states, i.e.
+  $$
+  \gamma_{t}(i)  \propto \alpha_{t}(i).\:\beta_{t}(i)
+   $$
+   $$
+  \gamma_{t}(i)  = \frac{\alpha_{t}(i).\:\beta_{t}(i)}{\sum_{i}\alpha_{t}(i).\:\beta_{t}(i)}
+  $$
 
-Thus now it makes sense to say that the solution to optimal sequence of states is nothing but the forward backward algorithm.
+  Thus now it makes sense to say that the solution to optimal sequence of states is nothing but the forward backward algorithm.
 
-</p>
+  </p> -->
 
-<h4>Optimality Definition 2</h4>
+<!-- <h4>Optimality Definition 2</h4> -->
 <p>
-According to this definition, we choose the most probable sequence of states given the parameters and observations.
-
-$$ Z_{T}^{*} = \underset{ Z_{1:T}}  \arg\max  P(Z_{1:T} \vert x_{t:T})  $$
-
-
-
+<!-- According to this definition, we choose the most probable sequence of states given the parameters and observations. -->
+<br><br>
+\( Z_{T}^{*} = \underset{ Z_{1:T}}  \arg\max  P(Z_{1:T} \vert x_{t:T})  \)
+<br><br>
+In simple terms, what is the sequence of hidden states that maximizes \(P(Z_{1:T} \vert x_{t:T})\)?
+<br><br>
 
 First, let us define the following
 
@@ -2101,42 +2096,37 @@ First, let us define the following
  -->
 
  
-\(\delta_{t} (i) = \) <span class="color-1">\(\underset{Z_{1}, Z_{2}, \dots, Z_{t-1}} \max \) </span> \(  P [ \)  <span class="color-1"> \(Z_{1}, Z_{2}, \dots, Z_{t-1} \) </span> , 
-                                                                  <span class="color-3">\( Z_{t}=i \)</span> , 
-                                                                  <span class="color-4">\(x_{1},x_{2},\dots,x_{t} \) </span> \(\vert \theta ]
+<img src="images/viterbi/viterbi_equation.svg" style="width: 100%; height: auto; ">
 
-\)
-
-
-<br><br>
-</p>
 <p style="  line-height: 3;">
-<span class="color-1">Best score (highest prob) along a single path at time \(t\)</span>, which accounts for<br> <span class="color-4"> first \(t\) observations</span> and ends in <span class="color-3">\(Z_{t}=i\)</span>
+<span class="plain-color-10">Best score (highest prob)</span> along a <span class="plain-color-4">single path at time \(t\)</span>, which accounts for <span class="plain-color-7"> first \(t\) observations</span> and ends in <span class="plain-color-5">\(z_{t}=i\)</span>
 
 </p>
 
-<h1>Difference between \(\alpha_{t}(i)\) and \(\delta_{t}(i)\)</h1>
+<p><b>Difference between \(\alpha_{t}(i)\) and \(\delta_{t}(i)\)</b></p>
 <p>
 
 
- 
-$$
+<!--  
+\(
 \delta_{t} (i) = \underset{Z_{1}, Z_{2}, \dots, Z_{t-1}} \max P[  Z_{1}, Z_{2}, \dots, Z_{t-1}, 
                                                                   Z_{t}=i, 
                                                                   x_{1},x_{2},\dots,x_{t} \vert \theta ]
 
-$$
+\)
+<br><br>
 
-$$
+\(
 \alpha_t(i) = P(x_{1:t},z_t=i)
 
-$$
+\)
+<br><br> -->
 
 \(\delta_{t} (i)\) focuses on the most probable sequence whereas \(\alpha_{t}(i)\) focuses on the most likely state at time 't'
 
 </p>
 
-<h1>Relation between \(\delta_{t}(i)\) and \(\delta_{t+1}(j)\)  </h1>
+<p><b>Relation between \(\delta_{t}(i)\) and \(\delta_{t+1}(j)\) </b> </p>
 
 <ul>
   <li>
@@ -2149,18 +2139,22 @@ $$
 
 </ul>
 
-<img src="images/viterbi.svg" style="width: 100%; height: auto">
+<img src="images/viterbi/viterbi_deltas.svg" style="width: 100%; height: auto">
 
-$$
-    \delta_{t+1}(j) = \Bigg( \underset{ i \in 1 \dots K} \max \bigg( \delta_{t}(i) * A_{ij} \bigg) * \phi_{j}(x_{t+1})  \Bigg)  
-$$
+
 <p>
-For each \(t\) and \(j\), we also need to store argument 'i' which which maximized above equation in \( \psi_{t}(j) \)
+\(
+    \delta_{t+1}(j) = \Bigg( \underset{ i \in 1 \dots K} \max \bigg( \delta_{t}(i) * A_{ij} \bigg) * \phi_{j}(x_{t+1})  \Bigg)  
+\)
+<br>
+<br>
+
+For each \(t\) and \(j\), we also need to store argument 'i' which which maximized above equation in \( \psi_{t}(j) \). This is for storing the path which leads to maximization of \(\delta_{t}(i)\)
 
 </p>
 
-<h1>Viterbi Algorithm</h1>
-<p>This can be solved using the Viterbi algorithm. The algorithm is as follows.</p>
+<p><b>Viterbi Algorithm</b></p>
+<p>Viterbi algorithm is a dynamic programming based algorithm which is used to calculate \(\delta_{t}(i)\) efficiently. The algorithm is as follows.</p>
 
         <div > 
         <div>
@@ -2170,7 +2164,7 @@ For each \(t\) and \(j\), we also need to store argument 'i' which which maximiz
           <p style="margin-bottom:0px;">\(\delta_{1}(i) = \pi_{i} * \phi_{1}(x_{1})\)</p>
           <p style="margin-bottom:0px;">\(\psi_{1}(i) = 0\)</p>
         </div>
-      </div>
+        </div>
         <h4 style="margin-bottom:0px;">Recursion</h4>
           <div style="margin-left: 2em;padding:0.25em!important;  margin-bottom:0px;">
           <p style="margin-left: 0em;padding:0.25em!important;  margin-bottom:0px;;border: solid; border-color: transparent;"  >FOR \(t\) in 2 to \(T\):</p>
