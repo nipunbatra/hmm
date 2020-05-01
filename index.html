@@ -562,7 +562,7 @@ padding:1em;
 
   <h1>Sequential Modeling</h1>
 
-  <p>Ever wondered how the voice assistant in your phone works? Or how speech tagging in sentences works? Or, how your smartwatch or smart wristband counts the number of steps you have taken? Each of the above is an example of time-series machine learning. Hidden Markov Model(HMM) is a popular machine learning model for time-series data and is often used for time-series applications like the ones mentioned above.
+  <p>Ever wondered how the voice assistant in your phone works? Or how speech tagging in sentences works? Or, how your smartwatch or smart wristband counts the number of steps you have taken? Each of the above is an example of time-series machine learning. Hidden Markov Model(HMM) is generally used for time-series data and is often used for above applications.
     <br><br>
 We now discuss why sequential modeling makes sense. When someone asks you to suggest the next word in the sentence - "I like playing ...". Your choice might be nouns like: guitar, football, etc. The knowledge that the previous word is "playing" helps us better guess what the next word could be. Thus, for time-series data, modeling the data as a sequence instead of assuming it to be independent and identically distributed (IID) is advantageous.
 <br><br>
@@ -571,19 +571,19 @@ Let us consider another example. Imagine that it has been raining the past few d
     <img src="images/img0.png" style="  display: block;
     width: 100%; height: auto; margin-top: 1em; margin-bottom: 1em;">  
 
-  In the sequence above, we can observe the weather has some continuity phenomenon associated with it. 
+  <!-- In the sequence above, we can observe the weather has some continuity phenomenon associated with it.  -->
 
  <!--  <img src="images/img0.png" style="  display: block;
   width: 100%; height: auto"> -->
 
   
-</p>
+</p> 
 
   <h1>Markov Chain</h1>
 
   <p>
 
- A Markov chain follows Markovian assumptions. A markov chain one of the simplest markov models. A Markov chain assumes that an observation <d-math>x_{t+1}</d-math> at future time <d-math>t+1</d-math> is only dependent on the observation <d-math>x_{t}</d-math> at present time <d-math>t</d-math>. In other words, 
+ A Markov chain one of the simplest markov models. It chain assumes that an observation <d-math>x_{t+1}</d-math> at future time <d-math>t+1</d-math> is only dependent on the observation <d-math>x_{t}</d-math> at present time <d-math>t</d-math>. In other words, 
 given the <span style='color: green;'>present observation</span>, the <span style='color: violet;'>future</span> is independent of the <span style='color: red;'>past</span>. 
 
 <br><br>
@@ -599,39 +599,37 @@ We use the following graphical model to denote the Markov chain.
 
 
 Using the rules of independence, we can calculate the joint probability of the sequence as: \(P(x_{1},x_{2},\dots,x_{t+1} ) = P(x_1)P(x_2 \vert x_1) P(x_3 \vert x_2) \dots P(x_t \vert x_{t-1})  P(x_{t+1} \vert x_{t})\)
-<br><br><br>
-We now discuss some common day-to-day life examples of markov chains.
+<br><br>
+We now try to understand Markov chains using some examples.
 
 <div class="l-screen">
   <div class="one-third-div">
-      <img src="images/markov_sunny_rainy.svg" class="example-img">
-      <p class="example-text">Markov Model for sunny and rainy Weather</p>
+      <img src="images/mc_rain_sun.svg" class="example-img">
+      <p class="example-text">Hidden Markov Model for Sunny and Rainy Weather</p>
       <p class="example-description">
-         Assume a scenario, where the weather of a particular place follows a markov chain. The above diagram, describes how the weather can change. In this example, we can observe the outside weather. Any sunny day can change into a rainy day with a probability of <b>0.4</b>. Any rainy day can remain as a rainy day with a probability of <b>0.7</b>. Any day picked at random, can be rainy with probability <b>0.6</b>.  
-         <br><br>
-         <b>Observation</b>: Weather
-      </p>
+         Observe the above markov chain, which denotes the change of weather. We can see that there is some continuity phenomenon in the above chain. Rainy weather tends to be rainy. 
+
+       </p>
   </div>
 
   <div class="one-third-div">
-      <img src="images/markov_fair_biased.svg" class="example-img">
-      <p class="example-text">Markov Model for coin swap</p>
-      <p class="example-description"> 
-      Assume a scenario, where your friend is swapping between a fair and biased coin using a markov chain. The above diagram, describes how the coin your friend chooses can change. In this example, we can observe the coin chosen by your friend. A biased coin can be swapped with a fair coin with a probability of <b>0.4</b>. Any fair coin can remain as a fair coin with a probability of <b>0.7</b>. If you pick a coin at random when your friend is swapping, it can be a fair coin with probability <b>0.6</b>.  <br><br>
-      <b>Observation</b>: Biased/Fair coin
-    </p>
+      <img src="images/mc_rain_sun.svg" class="example-img">
+      <p class="example-text">Hidden Markov Model for a Fair and Biased coin</p>
+      <p class="example-description">
+   
+       </p>
   </div>
   <div class="one-third-div">
-      <img src="images/markov_on_off.svg" class="example-img">
-      <p class="example-text">Markov Model for air conditioner state</p>
-      <p class="example-description">Assume a scenario, where an air conditioner controlled turns ON or turns OFF using a markov chain. The above diagram, describes how the state changes. In this example, we can observe if the air conditioner is ON or OFF. The air conditoner has a probability of changing its state from OFF to ON with probability <b>0.4</b>. If the air conditioner is already ON, then it stays in the ON state with probability <b>0.7</b>. If you check the air conditoner at any random time, then it is in the ON state with probability <b>0.6</b>
-      <br><br>
-      <b>Observation</b>: ON/OFF state
-    </p>
+      <img src="images/mc_rain_sun.svg" class="example-img">
+      <p class="example-text">Hidden Markov Model for an Air Conditioner</p>
+      <p class="example-description">
+         
+       </p>
   </div>
 
 
 </div>
+
 
 <!-- <span style='color: green;'>corect this equation</span>
 
@@ -665,7 +663,7 @@ We now discuss some common day-to-day life examples of markov chains.
   <img src="images/mm-2-order.svg" style="width: 100%;height: auto">
 
 -->
-  <h3>  Parameters of Markov Chain</h3>
+  <h3>Parameters of Markov Chain</h3>
 
   <p>
 
@@ -674,10 +672,10 @@ We now discuss some common day-to-day life examples of markov chains.
   Thus, parameters \(\theta\) can be given as \(\theta = \{\pi, A\}\), where \(\pi\) is the prior probability and \(A\) is the transition matrix.
  -->
 
-  Let us now understand the parameters for a Markov model, for which we need to revisit the factorisation of Markov model. We rewrite the factorisation of Markov model as: <br><br>
+  Let us now understand the parameters for a Markov chain. We can write the factorisation of Markov model as: <br><br>
 
-  \(P(x_{1},x_{2},\dots,x_{T} ) = P(x_1)P(x_2 \vert x_1) P(x_3 \vert x_2) \dots P(x_T \vert x_{T-1})\)<br><br>
-  The above equation is the same as multiplication of \(P(x_1)\) with \(P(x_t|x_{t-1})\) over all \(t\). Let us assume that \(x_t\) can take one of the \(K\) possible states. We assume \(P(x_t|x_{t-1})\) is same irrespective of time, i.e. the probability of transitioning is independent of time. Now, we describe the shared parameters of a markov chain.
+  \(P(x_{1},x_{2},\dots,x_{T} ) = P(x_1)\displaystyle\prod_{t=2}^TP(x_t|x_{t-1})\)<br><br>
+  The above equation is the same as multiplication of \(P(x_1)\) with \(P(x_t|x_{t-1})\) over all \(t\). Let us assume that \(x_t\) can take one of the \(K\) possible states. Markov chains leverage parameter sharing and instead of specifying P(x_t|x_t-1) for each t, we assume P(x_t|x_t-1) to be common (shared) across all time. 
 </p>
 
  <!-- Explain in footnotes how this is similar to parameter sharing in RNNs. Next explain Transition matrix and Prior probability in 1 line each. Also, use x_ts everywhere and not z_t here. 
@@ -694,6 +692,36 @@ We now discuss some common day-to-day life examples of markov chains.
   </p>
 
 
+<div class="l-screen">
+  <div class="one-third-div">
+      <img src="images/markov_sunny_rainy.svg" class="example-img">
+      <p class="example-text">Markov chain for sunny and rainy Weather</p>
+      <p class="example-description">
+         Assume a scenario, where the weather of a particular place follows a markov chain. The above diagram, describes how the weather can change. In this example, we can observe the outside weather. Any sunny day can change into a rainy day with a probability of <b>0.4</b>. Any rainy day can remain as a rainy day with a probability of <b>0.7</b>. Any day picked at random, can be rainy with probability <b>0.6</b>.  
+         <br><br>
+         <b>Observation</b>: Weather
+      </p>
+  </div>
+
+  <div class="one-third-div">
+      <img src="images/markov_fair_biased.svg" class="example-img">
+      <p class="example-text">Markov chain for coin swap</p>
+      <p class="example-description"> 
+      Assume a scenario, where your friend is swapping between a fair and biased coin using a markov chain. The above diagram, describes how the coin your friend chooses can change. In this example, we can observe the coin chosen by your friend. A biased coin can be swapped with a fair coin with a probability of <b>0.4</b>. Any fair coin can remain as a fair coin with a probability of <b>0.7</b>. If you pick a coin at random when your friend is swapping, it can be a fair coin with probability <b>0.6</b>.  <br><br>
+      <b>Observation</b>: Biased/Fair coin
+    </p>
+  </div>
+  <div class="one-third-div">
+      <img src="images/markov_on_off.svg" class="example-img">
+      <p class="example-text">Markov chain for air conditioner state</p>
+      <p class="example-description">Assume a scenario, where an air conditioner controlled turns ON or turns OFF using a markov chain. The above diagram, describes how the state changes. In this example, we can observe if the air conditioner is ON or OFF. The air conditoner has a probability of changing its state from OFF to ON with probability <b>0.4</b>. If the air conditioner is already ON, then it stays in the ON state with probability <b>0.7</b>. If you check the air conditoner at any random time, then it is in the ON state with probability <b>0.6</b>
+      <br><br>
+      <b>Observation</b>: ON/OFF state
+    </p>
+  </div>
+
+
+</div>
 <!--   <h1>Example of Markov Chain</h1>
 
   <p>
@@ -713,10 +741,10 @@ We now discuss some common day-to-day life examples of markov chains.
 
     </p>
  -->
-    <h3>Markov Model Sampling</h3>
+    <h3>Markov chain Sampling</h3>
       <p>
       
-      Given the parameters of a Markov Model \(A\) and \(\pi\), we can generate sequences from it. First, we sample an intial state using the \(\pi\) matrix. Then recursively, we sample a new state from the previous state using the \(A\) matrix. This way we can generate sequences from the markov model.</p>
+      Given the parameters of a Markov chain \(A\) and \(\pi\), we can generate sequences from it. First, we sample an intial state using the \(\pi\) matrix. Then iteratively, we sample a new state from the previous state using the \(A\) matrix. </p>
 
     <h3 class="div-show-btn" onclick="show_mm_sampling_psuedo_code()">Markov Model Sampling Algorithm</h3>
 
@@ -724,7 +752,7 @@ We now discuss some common day-to-day life examples of markov chains.
       
 
       <p>
-      Markov Model Sampling Algorithm:
+      Markov chain Sampling Algorithm:
       <ul style="margin-left: 3em">
       <li>Choose \(x_1\) as per \(\pi\)</li>
       <li>For each value of \(t = 2:T\)</li>
@@ -751,6 +779,7 @@ We now discuss some common day-to-day life examples of markov chains.
     <div class="l-screen" style="z-index: 1000; ">
 
       <div class="" id ="markov-left-div" style="margin-top: 1em">
+      <h3>Prior Probability \((\Pi)\)</h3>
       <table class="table" style="margin-top: 1em">          
         <thead>
                   <tr>
@@ -772,11 +801,11 @@ We now discuss some common day-to-day life examples of markov chains.
                   
                 </tbody>
               </table>
-
+      <h3>Transition Matrix \((A)\)</h3>
       <table class="" style="margin-top: 1em">
           <thead>
             <tr>
-              <th>Transition Matrix</th>
+              <th></th>
               <th>Sunny</th>
               <th>Rainy</th>
             </tr>
@@ -799,13 +828,13 @@ We now discuss some common day-to-day life examples of markov chains.
 
 
       <div id="markov-right-div" style="margin-top: 1em;">
-          <div>
+          <div style="background: #f5f4f4">
               <h3 style="margin: 0px!important">FSM representation of the transition matrix</h3>
               <div id="fsm" style="height: 14em;">
               </div>
             </div>
           
-          <div>
+          <div style="">
             <h3 style="margin: 0px!important">Generated Sequence</h3>
             <div id="markov-chain-1"  style="height: 12em;">
           </div>
@@ -910,37 +939,34 @@ Similarly, we can calculate the probability for other sequence of words.
 <p>Before we try to understand Hidden markov models, let us revisit some variants of the markov model examples.</p>
 <div class="l-screen">
   <div class="one-third-div">
-      <img src="images/hmm_sunny_rainy.svg" class="example-img">
+      <img src="images/hmm_observations_rain_sun.svg" class="example-img">
       <p class="example-text">Hidden Markov Model for Sunny and Rainy Weather</p>
       <p class="example-description">
-         Assume a hypothetical scenario, where we were able to model the weather of particular place using hidden markov models. Your are in a closed room and your roomate goes outside everyday to get groceries. You observe his shoes everyday if they are dry or wet.  You try to predict if a day was Sunny or Rainy based on the shoes of your roommate. On a sunny day your roommate's shoes can be wet with a probability of <b>0.2</b>(maybe due to a sprinkler). On a rainy day, the shoes can be wet with a probablity of <b>0.9</b>. <br><br>
+         Assume that you are sitting in your room and you have no means to know about the outside weather. Your roomate goes outside everyday. You keep on observing your roommate's shoes for a sequence of days as denoted by above diagram. Given, the sequence of observations you try to estimate the outside weather.
+         <br><br>
          <b>Observation</b>: Shoe<br>
          <b>Hidden State</b>: Weather<br>
-
        </p>
   </div>
 
   <div class="one-third-div">
-      <img src="images/hmm_fair_biased.svg" class="example-img">
+      <img src="images/hmm_observations_rain_sun.svg" class="example-img">
       <p class="example-text">Hidden Markov Model for a Fair and Biased coin</p>
       <p class="example-description">
-         Assume a hypothetical scenario, where your friend chooses a fair coin or a biased coin using a hidden markov model. Your friend flips the chosen coin and shows you the result of the coin flip. Based on the outputs, you try to predict if the flipped coin was a fair coin or a biased coin. If your friend flips a biased coin, then the output is a heads with probability<b>0.8</b>. If your friend flips a fair coin, then the output is a heads with probability <b>0.5</b>. <br><br>
-         <b>Observation</b>: Heads/Tails<br>
-         <b>Hidden State</b>: Biased/Fair Coin<br>
+   
        </p>
   </div>
   <div class="one-third-div">
-      <img src="images/hmm_on_off.svg" class="example-img">
+      <img src="images/hmm_observations_rain_sun.svg" class="example-img">
       <p class="example-text">Hidden Markov Model for an Air Conditioner</p>
       <p class="example-description">
-         Assume a hypothetical scenario, where the compressor of an air conditioner is turned ON or OFF using a hidden markov model. You are looking at the total power consumed by the appliance on your smartphone. If the air conditioner is in an OFF state, then the output follows \(\mathcal{N}(10,5)\). If the air conditioner is in ON state  then the output follows a gaussian distibution \(\mathcal{N}(100,5)\). <br><br>
-         <b>Observation</b>: Total power consumed by the appliance<br>
-         <b>Hidden State</b>: Compressor ON/OFF<br>
+         
        </p>
   </div>
 
 
 </div>
+
 
     <p>
       <br><br>
@@ -979,6 +1005,42 @@ Similarly, we can calculate the probability for other sequence of words.
      
   
 </p>
+
+
+<div class="l-screen">
+  <div class="one-third-div">
+      <img src="images/hmm_sunny_rainy.svg" class="example-img">
+      <p class="example-text">Hidden Markov Model for Sunny and Rainy Weather</p>
+      <p class="example-description">
+         Assume a hypothetical scenario, where we were able to model the weather of particular place using hidden markov models. Your are in a closed room and your roomate goes outside everyday to get groceries. You observe his shoes everyday if they are dry or wet.  You try to predict if a day was Sunny or Rainy based on the shoes of your roommate. On a sunny day your roommate's shoes can be wet with a probability of <b>0.2</b>(maybe due to a sprinkler). On a rainy day, the shoes can be wet with a probablity of <b>0.9</b>. <br><br>
+         <b>Observation</b>: Shoe<br>
+         <b>Hidden State</b>: Weather<br>
+
+       </p>
+  </div>
+
+  <div class="one-third-div">
+      <img src="images/hmm_fair_biased.svg" class="example-img">
+      <p class="example-text">Hidden Markov Model for a Fair and Biased coin</p>
+      <p class="example-description">
+         Assume a hypothetical scenario, where your friend chooses a fair coin or a biased coin using a hidden markov model. Your friend flips the chosen coin and shows you the result of the coin flip. Based on the outputs, you try to predict if the flipped coin was a fair coin or a biased coin. If your friend flips a biased coin, then the output is a heads with probability<b>0.8</b>. If your friend flips a fair coin, then the output is a heads with probability <b>0.5</b>. <br><br>
+         <b>Observation</b>: Heads/Tails<br>
+         <b>Hidden State</b>: Biased/Fair Coin<br>
+       </p>
+  </div>
+  <div class="one-third-div">
+      <img src="images/hmm_on_off.svg" class="example-img">
+      <p class="example-text">Hidden Markov Model for an Air Conditioner</p>
+      <p class="example-description">
+         Assume a hypothetical scenario, where the compressor of an air conditioner is turned ON or OFF using a hidden markov model. You are looking at the total power consumed by the appliance on your smartphone. If the air conditioner is in an OFF state, then the output follows \(\mathcal{N}(10,5)\). If the air conditioner is in ON state  then the output follows a gaussian distibution \(\mathcal{N}(100,5)\). <br><br>
+         <b>Observation</b>: Total power consumed by the appliance<br>
+         <b>Hidden State</b>: Compressor ON/OFF<br>
+       </p>
+  </div>
+
+
+</div>
+
 
       <h3>Hidden Markov Model Sampling</h3>
       <div>
@@ -1044,10 +1106,11 @@ Similarly, we can calculate the probability for other sequence of words.
 
   <div class='l-screen' style="z-index: 1000">
       <div class="one-third-div">
+        <h3>Prior Probability \((\Pi)\)</h3>
       <table class="table text-center pi-div" style="">          
         <thead>
                   <tr>
-                    <th>Pi</th>
+                    <th></th>
                     <th>Coin</th>
                   </tr>
                 </thead>
@@ -1067,10 +1130,11 @@ Similarly, we can calculate the probability for other sequence of words.
 
 
     <div class="one-third-div">
+      <h3>Transition Matrix \((A)\)</h3>
       <table class="table text-center" style="">
           <thead>
             <tr>
-              <th>A</th>
+              <th></th>
               <th>Fair</th>
               <th>Biased</th>
             </tr>
@@ -1092,6 +1156,7 @@ Similarly, we can calculate the probability for other sequence of words.
  
 
     <div class="one-third-div">
+      <h3>Emission Probability \((\Phi)\)</h3>
       <table class="table text-center" style="">
           <thead>
             <tr>
