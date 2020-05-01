@@ -90,26 +90,26 @@ function return_coin_node(node_id, x, y, coin_type){
   var node = create_node(node_id, x, y)
   
   if (coin_type=='fair'){
-    node.color = 'rgb(214, 39,40)'
+    node.color = 'white'
     node.label = "Fair"
   }
   else if(coin_type=='biased'){
-    node.color= 'rgb(255,125,150)'
+    node.color= 'white'
     node.label = "Biased"
   }
 
   else if (coin_type=="head"){
-   node.color= 'maroon'
+   node.color= '#fdc6c0'
    node.label = "Head" 
   }
 
   else if (coin_type=="tail"){
-   node.color= 'purple'
+   node.color= '#fdc6c0'
    node.label = "Tail" 
   }
   
   else{
-    node.color= 'rgb(148,103,189)'
+    node.color= '#b7c6f4'
     node.label = "Start" 
   }
 
