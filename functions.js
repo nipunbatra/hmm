@@ -110,7 +110,7 @@ function return_coin_node(node_id, x, y, coin_type){
   
   else{
     node.color= 'rgb(148,103,189)'
-    node.label = "Start state" 
+    node.label = "Start" 
   }
 
   return node;
