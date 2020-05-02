@@ -1444,9 +1444,33 @@ Similarly, we can calculate the probability for other sequence of words.
       <p><br>Clearly, the above paths have common sequences. The common sequence is \(z_{1}=B, z_{2}=B\). So, if we can store the result of the common paths, we can save some computational power. This provides the motivation for the forward algorithm.</p>
       <br><br>
       <h4>Explanation 2: Motivating the need for forward algorithm</h4>
-      <p>Let us go back to the fair coin and biased coin example. We wish to compute the likelihood of the </p>
+      <p>Let us go back to the fair coin and biased coin example. We wish to compute the likelihood of the
 
-      <!-- We wish to compute \(P(HHH \vert z_{3}=F)\)</p> -->
+      We wish to compute \(L(HHH \vert \theta)\).<br><br>
+
+      \(L(X \vert \theta) = P(HHH \vert z_{3} = F) + P(HHH \vert z_{3} = B)\)<br><br>
+
+      Similarly, we can write <br><br>
+      \(P(HHH \vert z_{3}=F) = \Big[P(HH \vert z_{2}=F)*A_{FF}+P(HH \vert z_{2}=B)*A_{BF}\Big] \phi(H \vert F)\)
+      <br><br>
+
+      Similarly to the above we can compute \(P(HHH \vert z_{3}=F),P(HH \vert z_{2}=F)\) and \(P(HH \vert z_{2}=F)\). <br><br>Finally, we need to compute \(P(H \vert z_{1}=F)\) and \(P(H \vert z_{1}=B)\)<br><br>
+      \( P(H \vert z_{1}=F) = \pi_{F} *\phi(H \vert F) \)<br><br>
+      \( P(H \vert z_{1}=B) = \pi_{B} *\phi(H \vert B) \)<br><br>
+
+      If we expand the computation tree, it looks like the following<br><br>
+      <img src="images/forward/computation_tree_full.svg" class="example-img">
+      If we observe closely, some nodes are being computed multiple times. <br><br>
+      If we can store the computed nodes in an array, we can avoid recomputation. Will we benefit by avoiding recomputation? Observe the following computation tree. In this, we avoided recomputation of previously computed nodes.<br><br>
+      <img src="images/forward/computation_tree_minimized.svg" class="example-img">
+      The above is essentially what Forward algorithm does. We now discuss it in detail.
+ </p>
+
+
+
+
+<!-- 
+      We wish to compute \(P(HHH \vert z_{3}=F)\)</p>
       <img src="images/trellis_paths/simple_trellis.svg" class="trellis_image" style="width: 70%; margin:0 auto;">
       <p style="text-align: center;margin-top: 2em">Trellis diagrams showing the possible paths between timestamps \(t=2\) and \(t=3\)</p>
 
@@ -1457,7 +1481,7 @@ Similarly, we can calculate the probability for other sequence of words.
       \(P(HHH \vert z_{3}=F)\) = \(P(HH \vert z_{2}=F) A_{FF}\) + \(P(HH \vert z_{2}=B) A_{BF}\)
       <br><br>
       In the above example in order to compute \(P(HHH \vert z_{3}=F)\) we were considering only 2 paths.<br><br>
-    In general, if we can store the results of the previous timestamp, the results at the next timestamp can be considering the \(K\) paths from the previous timestamp that lead to the next timestamp. This provides the motivation for the forward algorithm.</p>
+    In general, if we can store the results of the previous timestamp, the results at the next timestamp can be considering the \(K\) paths from the previous timestamp that lead to the next timestamp. This provides the motivation for the forward algorithm.</p> -->
       <h3>Problem 2: Forward Algorithm</h3>
 
       <p>
