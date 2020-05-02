@@ -2159,16 +2159,16 @@ First, let us define the following
 
 <ul>
   <li>
-  We could reach \(Z_{t+1}=j\) from any \(i \in \{ 1, \dots, K\}\) via transition probability \(A_{ij}\).</li>
+  We could reach \(Z_{t+1}=j\) from any \(i \in \{ 1, \dots, K\}\) via transition probability \(A_{ij}\)</li>
   <li>
-    Once we reach \(Z_{t+1}=j\), probability of observing \(x_{t+1}\) is \(\phi_{j} (x_{t+1})\).
+    Once we reach \(Z_{t+1}=j\), probability of observing \(x_{t+1}\) is \(\phi_{j} (x_{t+1})\)
   </li>
 
 
 
 </ul>
 
-<img src="images/viterbi/viterbi_deltas.svg" class="half-img" style="background: transparent!important; margin-top: 1em; margin-bottom: 1em">
+<img src="images/viterbi/viterbi_deltas.svg" class="half-img" style="margin-top: 1em; margin-bottom: 1em">
 
 
 <p>
@@ -2178,7 +2178,7 @@ First, let us define the following
 <br>
 <br>
 
-For each \(t\) and \(j\), we also need to store the argument 'i' which maximized the above equation in \( \psi_{t}(j) \). This is later used to retrace the path, which lead to maximization of \(P(Z_{1:T} \vert x_{t:T})\).
+For each \(t\) and \(j\), we also need to store the argument 'i' which maximized the above equation in \( \psi_{t}(j) \). This is later used to retrace the path, which leads to maximization of \(P(Z_{1:T} \vert x_{t:T})\).
 
 </p>
 
