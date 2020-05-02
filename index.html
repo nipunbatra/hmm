@@ -604,7 +604,7 @@ given the <span style='color: green;'>present observation</span>, the <span styl
   <br>
 We use the following graphical model to denote the Markov chain.
 <br/><br/>
-  <img src="images/mm.svg" style="width: 100%;height: auto">
+  <img src="images/mm.svg" class="example-img">
 
 <br/><br/>
 
@@ -1868,7 +1868,7 @@ Having studied the forward procedure, we will now understand the backward proced
 
   <br><br>
   Before we try to understand backward algorithm, let us do the following. <br><br>What is the value of  \(P(x_{1},\dots,x_{T} \vert z_{t} = i)\)? It is also the likelihood of a sequence conditioned on one specific state at a particular timestamp. <br><br>
-  Again let us  try to understand this with an example. Let us go back to the Rainy and Sunny HMM example. You were observing your roommate for five days. <br><br>Let the observations be \({D,D,W,W,W}\). You don't want to find out the weather  on each day. <b>Instead you want to find how likely is the above sequence occur if the third day was Raining?</b>.
+  Again let us  try to understand this with an example. Let us go back to the Rainy and Sunny HMM example. You were observing your roommate for five days. <br><br>Let the observations be \({D,D,W,W,W}\). You don't want to find out the weather  on each day. <b>Instead you want to find how likely is the above sequence if the third day was Raining?</b>.
   <br><br>
   You want to compute \(P(DDWWW \vert z_{3}=Rainy)\)
   <br><br>
@@ -2149,7 +2149,7 @@ First, let us define the following
 <br>
 <br>
 
-For each \(t\) and \(j\), we also need to store argument 'i' which which maximized above equation in \( \psi_{t}(j) \). This is for storing the path which leads to maximization of \(\delta_{t}(i)\)
+For each \(t\) and \(j\), we also need to store argument 'i' which which maximized above equation in \( \psi_{t}(j) \). This is later used to retrace the path, which lead to maximization of \(P(Z_{1:T} \vert x_{t:T})\)
 
 </p>
 
@@ -4133,7 +4133,7 @@ window.setInterval(function(){
 
 
 
-}, 1000);
+}, 3000);
 
 
 // var individual_probabilities = {};
