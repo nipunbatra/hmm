@@ -74,8 +74,8 @@
 <script src="functions.js"></script>
 
 
-
 <style type="text/css">
+
 
 
 @media screen and (max-width: 480px)
@@ -487,17 +487,6 @@ padding:1em;
 </style>
 
 
-  <script>
-
-  </script>
-
-
-
-<script type="text/javascript">
-
-
-</script>
-
 
 </head>
 
@@ -573,7 +562,7 @@ padding:1em;
 
   <h1>Sequential Modeling</h1>
 
-  <p>Ever wondered how the voice assistant in your phone works? Or how speech tagging in sentences works? Or, how your smartwatch or smart wristband counts the number of steps you have taken? Each of the above is an example of time-series machine learning. Hidden Markov Model(HMM) is generally used for time-series data and is often used for above applications.
+  <p>Ever wondered how the voice assistant in your phone works?<d-cite key="gregor2015draw"></d-cite> Or how speech tagging in sentences works? Or, how your smartwatch or smart wristband counts the number of steps you have taken? Each of the above is an example of time-series machine learning. Hidden Markov Model(HMM) is generally used for time-series data and is often used for above applications.
     <br><br>
 We now discuss why sequential modeling makes sense. When someone asks you to suggest the next word in the sentence - "I like playing ...". Your choice might be nouns like: guitar, football, etc. The knowledge that the previous word is "playing" helps us better guess what the next word could be. Thus, for time-series data, modeling the data as a sequence instead of assuming it to be independent and identically distributed (IID) is advantageous.
 <br><br>
@@ -678,6 +667,7 @@ We now try to understand Markov chains using some examples.
 
   <p>
 
+  Each of the discrete values that the observation \(x_{i}\) can take is called a state in a markov chain. In a markov chain, at everytime timestamp we have a state associated with it. The state at the timestamp 't' is the same as observation \(x_{t}\).<br><br>
   <!-- These parameters are the transition probability \(P(x_j \vert x_i)\) of moving from one state to another. There are \(K^2\) possible transitions from \(i\) to \(j\) with \(1 \leq i, j \leq K\). Since \(\sum{}{} P(x_i \vert x_j) = 1\), thus we need to estimate \(k(K-1)\) only. Another parameter we are concerned about is the prior probability \(P(x_{k})\) which can also be stated as the the probability of starting with the \(k^{th}\) state at the first timestamp.
 
   Thus, parameters \(\theta\) can be given as \(\theta = \{\pi, A\}\), where \(\pi\) is the prior probability and \(A\) is the transition matrix.
@@ -1084,7 +1074,7 @@ Similarly, we can calculate the probability for other sequence of words.
     </p> -->
 
     <p>Given the parameters of a hidden markov model \(A\), \(\pi\) and \(\phi\) we can generate sequences from it. First, we sample a hidden state from the prior probability matrix \(\pi\). Next, we sample an observation using the Emission probability matrix \(\phi\) conditioned on the sampled state. 
-      <br><br>Recursively, we sample a new hidden state from the transition matrix \(A\) conditioned on the previously sampled hidden state. For each of the sampled state we sample an observation using Emission probability matrix \(\phi\)</p>    
+      <br><br>Iteratively, we sample a new hidden state from the transition matrix \(A\) conditioned on the previously sampled hidden state. For each of the sampled state we sample an observation using Emission probability matrix \(\phi\)</p>    
 
   <!-- <p>
     
@@ -1454,7 +1444,7 @@ Similarly, we can calculate the probability for other sequence of words.
       \(P(HHH \vert z_{3}=F) = \Big[P(HH \vert z_{2}=F)*A_{FF}+P(HH \vert z_{2}=B)*A_{BF}\Big] \phi(H \vert F)\)
       <br><br>
 
-      Similarly to the above we can compute \(P(HHH \vert z_{3}=F),P(HH \vert z_{2}=F)\) and \(P(HH \vert z_{2}=F)\). <br><br>Finally, we need to compute \(P(H \vert z_{1}=F)\) and \(P(H \vert z_{1}=B)\)<br><br>
+      Similarly to the above we can compute \(P(HHH \vert z_{3}=B),P(HH \vert z_{2}=F)\) and \(P(HH \vert z_{2}=F)\). <br><br>Finally, we need to compute \(P(H \vert z_{1}=F)\) and \(P(H \vert z_{1}=B)\)<br><br>
       \( P(H \vert z_{1}=F) = \pi_{F} *\phi(H \vert F) \)<br><br>
       \( P(H \vert z_{1}=B) = \pi_{B} *\phi(H \vert B) \)<br><br>
 
@@ -1463,7 +1453,7 @@ Similarly, we can calculate the probability for other sequence of words.
       If we observe closely, some nodes are being computed multiple times. <br><br>
       If we can store the computed nodes in an array, we can avoid recomputation. Will we benefit by avoiding recomputation? Observe the following computation tree. In this, we avoided recomputation of previously computed nodes.<br><br>
       <img src="images/forward/computation_tree_minimized.svg" class="example-img">
-      The above is essentially what Forward algorithm does. We now discuss it in detail.
+      The above is essentially what Forward algorithm does. We now discuss it in detail.  
  </p>
 
 
@@ -2365,7 +2355,9 @@ Qljo (Rta)
 
   </d-article>
 
- 
+  <d-appendix>
+    <d-bibliography src="references.bib"></d-bibliography>
+  </d-appendix>
 
 </body>
 
