@@ -2055,11 +2055,11 @@ $$
 </p>
 </div> -->
 <p>
-The next problem in HMM is to determine <b>‘optimal’</b> sequence of hidden states given the parameters and the observed sequence. We explain this problem in detail in the next section.
+The next problem in HMM is to determine the <b>‘optimal’</b> sequence of hidden states given the parameters and the observed sequence. We explain this problem in detail in the next section.
 </p>
 <h3>Problem 4: Determining optimal sequence of hidden states</h3>
 <p>
-Given the parameters and the sequence of observations, what is the most probable sequence of states that resulted in the observation?</p>
+Given the parameters and the sequence of observations, what is the most probable sequence of states that resulted in the observations?</p>
   <!-- <h4>Optimality Definition 1</h4>
   Choose state \(z_{t}\) which is individually most likely. What we are trying to determine is also called sequence of marginally most probable states (MPM). Mathematically, this can be given as,
   <br><br>
@@ -2107,7 +2107,8 @@ Given the parameters and the sequence of observations, what is the most probable
 <br><br>
 In simple terms, what is the sequence of hidden states that maximizes \(P(Z_{1:T} \vert x_{t:T})\)?
 <br><br>
-We can find the sequence that maximizes \(P(Z_{1:T} \vert x_{t:T})\) by finding the probability across all the \(K^{T}\) paths. As discussed in the motivation for the Forward algorithm, we recompute many of the probabilities. Hence we use an dynamic programming based approach to  \(Z_{T}^{*}\) <br><br>
+We can find the sequence that maximizes \(P(Z_{1:T} \vert x_{t:T})\) by finding the probability across all the \(K^{T}\) paths. As discussed in the motivation for the Forward algorithm, we recompute many of the probabilities. Hence we use an a dynamic programming based approach to  calculate \(Z_{T}^{*}\). 
+<br><br>
 First, let us define the following
 
 <br><br>
@@ -2127,7 +2128,7 @@ First, let us define the following
 <img src="images/viterbi/viterbi_equation.svg" style="width: 100%; height: auto; ">
 
 <p style="  line-height: 3;">
-<span class="plain-color-10">Best score (highest prob)</span> along a <span class="plain-color-4">single path at time \(t\)</span>, which accounts for <span class="plain-color-7"> first \(t\) observations</span> and ends in <span class="plain-color-5">\(z_{t}=i\)</span>
+<span class="plain-color-10">Best score (highest prob)</span> along a <span class="plain-color-4">single path at time \(t\)</span>, which accounts for <span class="plain-color-7"> first \(t\) observations</span> and ends in <span class="plain-color-5">\(z_{t}=i\)</span>.
 
 </p>
 
@@ -2150,7 +2151,7 @@ First, let us define the following
 \)
 <br><br> -->
 
-\(\delta_{t} (i)\) focuses on the most probable sequence whereas \(\alpha_{t}(i)\) focuses on the most likely state at time 't'
+\(\delta_{t} (i)\) focuses on the most probable sequence whereas \(\alpha_{t}(i)\) focuses on the most likely state at time 't'.
 
 </p>
 
@@ -2158,9 +2159,9 @@ First, let us define the following
 
 <ul>
   <li>
-  We could reach \(Z_{t+1}=j\) from any \(i \in \{ 1, \dots, K\}\) via transition probability \(A_{ij}\)</li>
+  We could reach \(Z_{t+1}=j\) from any \(i \in \{ 1, \dots, K\}\) via transition probability \(A_{ij}\).</li>
   <li>
-    Once we reach \(Z_{t+1}=j\), probability of observing \(x_{t+1}\) is \(\phi_{j} (x_{t+1})\)
+    Once we reach \(Z_{t+1}=j\), probability of observing \(x_{t+1}\) is \(\phi_{j} (x_{t+1})\).
   </li>
 
 
@@ -2177,12 +2178,12 @@ First, let us define the following
 <br>
 <br>
 
-For each \(t\) and \(j\), we also need to store argument 'i' which which maximized above equation in \( \psi_{t}(j) \). This is later used to retrace the path, which lead to maximization of \(P(Z_{1:T} \vert x_{t:T})\)
+For each \(t\) and \(j\), we also need to store the argument 'i' which maximized the above equation in \( \psi_{t}(j) \). This is later used to retrace the path, which lead to maximization of \(P(Z_{1:T} \vert x_{t:T})\).
 
 </p>
 
 <p><b>Viterbi Algorithm</b></p>
-<p>Viterbi algorithm is a dynamic programming based algorithm which is used to calculate \(\delta_{t}(i)\) efficiently. The algorithm is as follows.</p>
+<p>Viterbi algorithm is a dynamic programming based algorithm which is used to calculate \(\delta_{t}(i)\) efficiently. The algorithm is as follows:</p>
 
         <div > 
         <div>
