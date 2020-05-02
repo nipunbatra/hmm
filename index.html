@@ -1271,7 +1271,7 @@ Similarly, we can calculate the probability for other sequence of words.
     </p> 
 
     <div style="text-align: center;">
-      <img id = "gif_image"  class="trellis_image">
+      <img id = "gif_image"  class="trellis_image" src="images/trellis_paths/trellis_1.svg">
       <p id='pathno'>Path 1</p>
       <br>
           <p>
@@ -1281,46 +1281,48 @@ Similarly, we can calculate the probability for other sequence of words.
             <br>Probability Path 1
         </div>
 
-        <div id="probability-equation-2">
+        <div id="probability-equation-2" style="display: none">
             \(\small P(HHH|BBF) = P(B)P(H \vert B)P(B \vert B)P(H \vert B)P(F \vert B)P(H \vert F)\)  
             <br>Probability Path 2
         </div>
 
-        <div id="probability-equation-3">
+        <div id="probability-equation-3" style="display: none">
             \(\small P(HHH|BFB) = P(B)P(H \vert B)P(F \vert B)P(H \vert F)P(B \vert F)P(H \vert B)\)  
             <br>Probability Path 3
         </div>
 
-        <div id="probability-equation-4">
+        <div id="probability-equation-4" style="display: none">
             \(\small P(HHH|BFF) = P(B)P(H \vert B)P(F \vert B)P(H \vert F)P(F \vert F)P(H \vert F)\)  
             <br>Probability Path 4
         </div>
         
-        <div id="probability-equation-5">
+        <div id="probability-equation-5" style="display: none">
             \(\small P(HHH|FBB) = P(B)P(H \vert F)P(B \vert F)P(H \vert B)P(B \vert B)P(H \vert B)\)  
             <br>Probability Path 5
         </div>
 
 
-        <div id="probability-equation-6">
+        <div id="probability-equation-6" style="display: none">
             \(\small P(HHH|FBF) = P(B)P(H \vert F)P(B \vert F)P(H \vert B)P(F \vert B)P(H \vert F)\)  
             <br>Probability Path 6
         </div>
 
 
-        <div id="probability-equation-7">
+        <div id="probability-equation-7" style="display: none">
             \(\small P(HHH|FFB) = P(B)P(H \vert F)P(F \vert F)P(H \vert F)P(F \vert F)P(H \vert B)\)  
             <br>Probability Path 7
         </div>
 
-        <div id="probability-equation-8">
+        <div id="probability-equation-8" style="display: none">
           \(\small P(HHH|FFF) = P(B)P(H \vert F)P(F \vert F)P(H \vert F)P(F \vert F)P(H \vert F)\)  
           <br>Probability Path 8
         </div>
 
       </p>
-      
-      <br><br>
+          <div style="display: flex; justify-content: center;">
+            <button type="button" class="btn" onclick="change_gif_button()" id="gif_control_button">Play<img src="images/icons/play.svg" id="gif_control_img"></button>
+      </div>
+
     </div>
 
 
@@ -1340,7 +1342,7 @@ Similarly, we can calculate the probability for other sequence of words.
       </div>  
 
       
-     --></div>
+     -->
     <p>
     <!-- 
     <table>
@@ -2153,7 +2155,7 @@ First, let us define the following
 
 </ul>
 
-<img src="images/viterbi/viterbi_deltas.svg" style="width: 100%; height: auto">
+<img src="images/viterbi/viterbi_deltas.svg" class="half-img" style="background: transparent!important; margin-top: 1em; margin-bottom: 1em">
 
 
 <p>
@@ -4098,6 +4100,51 @@ function show_hmm_filtering(){
 }
 
 
+function change_gif_button(){
+
+    var img = document.getElementById('gif_control_img');
+
+
+    var new_src;
+
+    var text;
+
+    var img_src = img.src;
+    img_src = img_src.split('/')
+    console.log(img_src)
+    img_src = img_src[img_src.length-1]
+
+
+    console.log(img_src)
+    if (img_src=="play.svg"){
+      new_src = "images/icons/pause.svg";
+      text = "Pause"
+      image_change=true
+    }
+    else{
+     new_src = "images/icons/play.svg" 
+     text = " Play"
+     image_change=false
+    }
+
+    var img = document.createElement("img");
+    img.src = new_src
+    img.id = 'gif_control_img'
+
+    var btn = document.getElementById('gif_control_button')
+    // img.classList.add("mystyle");
+
+
+    btn.innerHTML = "";
+    btn.innerHTML =  text;
+    btn.appendChild(img);
+
+    console.log(text, new_src)
+
+}
+
+
+
 </script>
 
 <script type="text/javascript">
@@ -4122,12 +4169,17 @@ var chosen_word;
 
 
 
-var gif_img = 1;
+var gif_img = 2;
+
+
+var image_change = false;
 
 window.setInterval(function(){
   // console.log('images/'git_img+".svg");
-  
-  document.getElementById("gif_image").src=  'images/trellis_paths/trellis_'+gif_img+".svg";
+    
+  if (image_change){
+
+    document.getElementById("gif_image").src=  'images/trellis_paths/trellis_'+gif_img+".svg";
 
   for(var uu=1;uu<9;uu++){
     document.getElementById("probability-equation-"+uu).style.display = 'none';    
@@ -4146,10 +4198,13 @@ window.setInterval(function(){
     gif_img=1;
   }
 
+  
+  }
+  
 
 
 
-}, 3000);
+}, 2000);
 
 
 // var individual_probabilities = {};
