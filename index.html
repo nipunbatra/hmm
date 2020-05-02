@@ -562,9 +562,9 @@ padding:1em;
 
   <h1>Sequential Modeling</h1>
 
-  <p>Ever wondered how the voice assistant in your phone works?<d-cite key="gregor2015draw"></d-cite> Or how speech tagging in sentences works? Or, how your smartwatch or smart wristband counts the number of steps you have taken? Each of the above is an example of time-series machine learning. Hidden Markov Model(HMM) is generally used for time-series data and is often used for above applications.
+  <p>Ever wondered how the voice assistant in your phone works<d-cite key="hmmspeech"></d-cite>? Or how speech tagging in sentences works<d-cite key="hmmpos"></d-cite>? Or, how your smartwatch or smart wristband counts the number of steps you have taken<d-cite key="hmmactivity"></d-cite>? Each of the above is an example of time-series machine learning. Hidden Markov Model(HMM) is generally used for time-series data and is often used for above applications.
     <br><br>
-We now discuss why sequential modeling makes sense. When someone asks you to suggest the next word in the sentence - "I like playing ...". Your choice might be nouns like: guitar, football, etc. The knowledge that the previous word is "playing" helps us better guess what the next word could be. Thus, for time-series data, modeling the data as a sequence instead of assuming it to be independent and identically distributed (IID) is advantageous.
+First we discuss why sequential modeling makes sense. When someone asks you to suggest the next word in the sentence - "I like playing ...". Your choice might be nouns like: guitar, football, etc. The knowledge that the previous word is "playing" helps us better guess what the next word could be. Thus, for time-series data, modeling the data as a sequence instead of assuming it to be independent and identically distributed (IID) is advantageous. The above is an example of language modelling<d-cite key="murphy"></d-cite>.
 <br><br>
 Let us consider another example. Imagine that it has been raining the past few days and someone asks you - "How likely is it that it will rain tomorrow"? You might say that "Given that it rained today, I think it will rain tomorrow." The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached to rainfall. We might have a sequence of events, as shown below.
 
@@ -1226,7 +1226,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
 
       <h1>HMM Questions</h1>
-      <p>Now, we look at five important questions  to understand HMM algorithms</p>
+      <p>Now, we look at five important questions  to understand HMM algorithms<d-cite key="rabiner"></d-cite></p>
       <h3>Problem 1: HMM Evidence Likelihood</h3>
       <p>The objective is to estimate the likelihood of the observations given HMM parameters. Mathematically this can be represented as:
         <br><br>
