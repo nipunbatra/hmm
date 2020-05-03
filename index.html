@@ -484,7 +484,8 @@ padding:1em;
 }
 
 .trellis_image{
-  width: 100%;height: auto; padding-top:3em; padding-bottom: 3em; 
+  width: 70%;height: auto; padding-top:3em; padding-bottom: 3em; 
+  margin: 0 auto;
   background: #eaeaea;
 }
 
@@ -564,16 +565,16 @@ padding:1em;
 
 
 
-  <h1>Sequential Modelling</h1>
+  <h1>Sequential Modeling</h1>
 
   <p>Ever wondered how the voice assistant in your phone works<d-cite key="hmmspeech"></d-cite>? Or how speech tagging in sentences works<d-cite key="hmmpos"></d-cite>? Or, how your smartwatch or smart wristband counts the number of steps you have taken<d-cite key="hmmactivity"></d-cite>? Each of the above is an example of time-series machine learning. Hidden Markov Model (HMM) is generally used for time-series data and is often used for above the applications.
     <br><br>
-First we discuss why sequential modelling makes sense. When someone asks you to suggest the next word in the sentence - "I like playing ...", your choice might be nouns like guitar, football, etc. The knowledge that the previous word is "playing" helps us better guess what the next word could be. Thus, for time-series data, modeling the data as a sequence instead of assuming it to be independent and identically distributed (IID) is advantageous. The above is an example of language modelling<d-cite key="murphy"></d-cite>.
+First we discuss why sequential modeling makes sense. When someone asks you to suggest the next word in the sentence - "I like playing ...", your choice might be nouns like guitar, football, etc. The knowledge that the previous word is "playing" helps us better guess what the next word could be. Thus, for time-series data, modeling the data as a sequence instead of assuming it to be independent and identically distributed (IID) is advantageous. The above is an example of language modeling<d-cite key="murphy"></d-cite>.
 <br><br>
 Let us consider another example. Imagine that it has been raining the past few days and someone asks you - "How likely is it that it will rain tomorrow"? You might say that "Given that it rained today, I think it will rain tomorrow." The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached to rainfall. We might have a sequence of events, as shown below.</p> 
 
-    <img src="images/weather.png" style="  display: block;
-    width: 100%; height: auto; margin-top: 1em; margin-bottom: 1em;">  
+    <img src="images/weather.png" class="example-img" style="padding: 1em">
+    <p style="text-align: center">Rainy-Sunny time-series data</p>  
 
   <!-- In the sequence above, we can observe the weather has some continuity phenomenon associated with it.  -->
 
@@ -589,16 +590,20 @@ Let us consider another example. Imagine that it has been raining the past few d
 
  A Markov chain is one of the simplest Markov models. This chain assumes that an observation <d-math>x_{t+1}</d-math> at a future time <d-math>t+1</d-math> is only dependent on the observation <d-math>x_{t}</d-math> at the present time <d-math>t</d-math>. In other words, 
 given the <span style='color: #02ff02;'>present observation</span>, the <span style='color: #891489;'>future</span> is independent of the <span style='color: #ff3535;'>past</span>. 
+</p>
 
-<br><br>
 <img src="markov.png" style="  display: block;
   width: 70%; height: auto">
-
+  
+  <p>
   <br>
 We use the following graphical model to denote a Markov chain.
 <br/><br/>
-  <img src="images/mm.svg" class="example-img">
+</p>
 
+  <img src="images/mm.svg" class="example-img">
+<p style="text-align: center">Markov chain graphical diagram</p>  
+<p>
 <br/><br/>
 Nodes colored in <span style="color: #fdc6c0">pink</span> denote observations.<br><br>
 
@@ -627,7 +632,7 @@ We now try to understand Markov chains using some examples.
       <img src="images/on_off_images/unrolled_mm.svg" class="example-img">
       <p class="example-text">Markov chain for an Air Conditioner state</p>
       <p class="example-description">
-         Assume a scenario where an air conditioner is turned ON/OFF. The above markov chain denotes the state of the  air conditioner. The state of the air conditioner at the next timestamp depends on the state at the previous timestamp.
+         Assume a scenario where the compressor of an air conditioner is turned ON/OFF. The above markov chain denotes the state of the compressor. The state of the compressor at the next timestamp depends on the state at the previous timestamp.
        </p>
   </div>
 
@@ -669,25 +674,27 @@ We now try to understand Markov chains using some examples.
 -->
   <h3>Parameters of Markov Chain</h3>
   <p>
-  Each of the discrete values that the observation \(x_{i}\) can take is called a state in a markov chain. In a markov chain, at everytime timestamp we have a state associated with it. The state at the timestamp 't' is the same as observation \(x_{t}\).<br><br>
+  Each of the discrete values of observation at time \(t\) or \(x_t\) can take a discrete state. In the case of weather, the states are Rainy and Sunny. In the case of coin swap, the states are Biased coin and fair coin. In the case of air conditioner, the states are Compressor ON and Compressor OFF.  <br><br>
+
+  The observation can take one of the  \(K\) states.<br><br>
   <!-- These parameters are the transition probability \(P(x_j \vert x_i)\) of moving from one state to another. There are \(K^2\) possible transitions from \(i\) to \(j\) with \(1 \leq i, j \leq K\). Since \(\sum{}{} P(x_i \vert x_j) = 1\), thus we need to estimate \(k(K-1)\) only. Another parameter we are concerned about is the prior probability \(P(x_{k})\) which can also be stated as the the probability of starting with the \(k^{th}\) state at the first timestamp.
 
   Thus, parameters \(\theta\) can be given as \(\theta = \{\pi, A\}\), where \(\pi\) is the prior probability and \(A\) is the transition matrix.
  -->
 
-  Let us now understand the parameters for a Markov chain. We can write the factorisation of a Markov model as: <br><br>
+  Let us now understand the parameters for a Markov chain. We can rewrite the factorisation of the above general Markov chain as: <br><br>
 
   \(P(x_{1},x_{2},\dots,x_{T} ) = P(x_1)\displaystyle\prod_{t=2}^TP(x_t|x_{t-1})\)<br><br>
-  The above equation is the same as multiplication of \(P(x_1)\) with \(P(x_t|x_{t-1})\) over all \(t\). Let us assume that \(x_t\) can take one of the \(K\) possible states. Markov chains leverage parameter sharing and instead of specifying \(P(x_t|x_t-1)\) for each t, we assume \(P(x_t|x_t-1)\) to be common (shared) across all time. 
-</p>
-
+  Markov chains leverage parameter sharing and instead of specifying \(P(x_t|x_{t-1})\) for each t, we assume \(P(x_t|x_{t-1})\) to be common (shared) across all time. <br><br>
+  To fully specify the Markov chain, we require the following two parameters:
+  <br>
  <!-- Explain in footnotes how this is similar to parameter sharing in RNNs. Next explain Transition matrix and Prior probability in 1 line each. Also, use x_ts everywhere and not z_t here. 
  -->
- <p>
+ 
     <ul>
-      <li><b>Transition Matrix \(A\)</b>: The transition matrix stores the transition probability between each of the states. The probability of going from state \(i\) to state \(j\) is given by \( A_{ij} = P(x_t = j \vert x_{t-1}=i)\) where \(i,j \in \{1,2 \ldots K\}\).
+      <li><b>Transition Matrix \((A)\)</b>: The transition matrix stores the probability of transition between the state i to state j. Thus, the transition matrix can be represented as a \(K\) x \(K\) matrix where the entry \(A_{ij}\) is given by \( A_{ij} = P(x_t = j \vert x_{t-1}=i)\) where \(i,j \in \{1,2 \ldots K\}\).
       </li>
-      <li><b>Prior Probability \(\pi\)</b>: The probability of starting from one of the available states on the first timestamp. It is denoted by 
+      <li><b>Prior Probability \((\pi)\)</b>: The probability of starting from one of the available states on the first timestamp. It is denoted by 
   \(\pi_i = P(x_1 = i)\) where \(i \in \{1,2 \ldots K\}\).</li> 
   </ul>
   
@@ -700,7 +707,7 @@ We now try to understand Markov chains using some examples.
       <img src="images/rain_sun_images/mm.svg" class="example-img">
       <p class="example-text">Markov chain for Sunny and Rainy Weather</p>
       <p class="example-description">
-         Assume a scenario, where the weather of a particular place follows a Markov chain. The above diagram describes how the weather can change. In this example, we can observe the outside weather. Any sunny day can change into a rainy day with a probability of <b>0.4</b>. Any rainy day can remain as a rainy day with a probability of <b>0.7</b>. Any day picked at random, can be rainy with probability <b>0.6</b>.  
+         Assume a scenario, where the weather of a particular place follows a Markov chain. The above diagram describes how the weather can change. In this example, we can observe the outside weather. Any sunny day can change into a rainy day with a probability of <b>0.4</b>.
          <br><br>
          <b>Observation</b>: Weather
       </p>
@@ -710,14 +717,14 @@ We now try to understand Markov chains using some examples.
       <img src="images/fair_biased_images/mm.svg" class="example-img">
       <p class="example-text">Markov chain for a Fair and a Biased coin swap</p>
       <p class="example-description"> 
-      Assume a scenario, where your friend is swapping between a fair and a biased coin using a Markov chain. The above diagram describes how the coin your friend chooses can change. In this example, we can observe the coin chosen by your friend. A biased coin can be swapped with a fair coin with a probability of <b>0.4</b>. Any fair coin can remain as a fair coin with a probability of <b>0.7</b>. If you pick a coin at random when your friend is swapping, it can be a fair coin with probability <b>0.6</b>.  <br><br>
+      Assume a scenario, where your friend is swapping between a fair and a biased coin using a Markov chain. The above diagram describes how the coin your friend chooses can change. In this example, we can observe the coin chosen by your friend. A biased coin can remain as a biased coin in the next swap with probability <b>0.6</b>. <br><br>
       <b>Observation</b>: Biased/Fair coin
     </p>
   </div>
   <div class="one-third-div">
       <img src="images/on_off_images/mm.svg" class="example-img">
       <p class="example-text">Markov chain for Air Conditioner state</p>
-      <p class="example-description">Assume a scenario, where an air conditioner is controlled using a markov chain. The above diagram, describes how the state changes. In this example, we can observe if the air conditioner is ON or OFF. The air conditioner has a probability of changing its state from OFF to ON with probability <b>0.4</b>. If the air conditioner is already ON, then it stays in the ON state with probability <b>0.7</b>. If you check the air conditioner at any random time, then it is in the ON state with probability <b>0.6</b>
+      <p class="example-description">Assume a scenario, where the compressor of an air conditioner is controlled using a markov chain. The above diagram, describes how the state of the compressor changes. In this example, we can observe if the compressor is ON or OFF. The compressor has a probability of changing its state from ON to OFF with probability <b>0.3</b>. 
       <br><br>
       <b>Observation</b>: ON/OFF state
     </p>
@@ -784,7 +791,7 @@ We now try to understand Markov chains using some examples.
     <div class="l-screen" style="z-index: 1000; background: #eaeaea ">
 
       <div class="" id ="markov-left-div" style="margin-top: 1em">
-      <h3 style="margin-top: 0px!important">Prior Probability \((\pi)\)</h3>
+      <h3 style="margin-top: 4em!important; margin-bottom: 0.5em">Prior Probability \((\pi)\)</h3>
       <table class="table" style="margin-top: 1em">          
         <thead>
                   <tr>
@@ -806,7 +813,7 @@ We now try to understand Markov chains using some examples.
                   
                 </tbody>
               </table>
-      <h3>Transition Matrix \((A)\)</h3>
+      <h3 style="margin-top: 4em!important; margin-bottom: 0.5em">Transition Matrix \((A)\)</h3>
       <table class="" style="margin-top: 1em">
           <thead>
             <tr>
@@ -834,13 +841,13 @@ We now try to understand Markov chains using some examples.
 
       <div id="markov-right-div" style="margin-top: 1em;">
           <div style="">
-              <h3 style="margin: 0px!important">FSM representation of the Transition matrix and Prior probability matrix</h3>
+              <h3 style="margin-top: 4em!important; margin-bottom: 0.5em">FSM representation of the Transition matrix and Prior probability matrix</h3>
               <div id="fsm" style="height: 14em;">
               </div>
             </div>
           
           <div style="">
-            <h3 style="margin: 0px!important">Generated Sequence</h3>
+            <h3 style="margin-top: 4em!important; margin-bottom: 0.5em">Generated Sequence</h3>
             <div id="markov-chain-1"  style="height: 12em;">
           </div>
 
@@ -974,10 +981,10 @@ Similarly, we can calculate the probability for other sequence of words.
       <img src="images/on_off_images/unrolled_hmm.svg" class="example-img">
       <p class="example-text">Hidden Markov Model for an Air Conditioner state</p>
       <p class="example-description">
-         You have access to the power consumption data of your air conditioner. When the appliance is turned off, it does not use any power (~0 units with some observation noise), whereas when it is turned on, it consumes almost constant power (~100 units with some variance). Given the power consumed by the appliance, you have to estimate whether your air conditioner was switched ON or OFF.
+         You have access to the power consumption data of your air conditioner. When the compressor is turned off, the appliance uses very low power (~0 units with some observation noise), whereas when ithe compressor is turned on, it consumes high power (~100 units with some variance). Given the power consumed by the appliance, you have to estimate whether your compressor was switched ON or OFF.
         <br><br>
         <b>Observation</b>: Power consumed<br>
-        <b>Hidden State</b>: State of the appliance (ON/OFF)
+        <b>Hidden State</b>: State of the compressor (ON/OFF)
 
        </p>
   </div>
@@ -988,18 +995,18 @@ Similarly, we can calculate the probability for other sequence of words.
 
     <p>
       
-      In each of the above examples, we have a component which is observable and a component which is hidden.  The observable component at the timestamp '\(t\)' is denoted by \(x_{t}\). The hidden component at the timestamp '\(t\)' is denoted by \(z_{t}\). 
+      In an HMM, an observation is generated from a hidden component which is modelled as a Markov chain. The observation at time t (shown in shaded pink) is denoted by \(x_t\) and the hidden state at time t (unshaded) is denoted by \(z_t\).
     </p>
-      <br><br>The diagram below denotes a Hidden Markov model.
+      <br><br>The diagram below denotes a Hidden Markov model. 
       <img src="images/hmm.svg" class="example-img">
       <p style="text-align: center;margin-top: 1em">Structure of a HMM</p>
       <br><br>
       <p>
-       It is worth noting that there is a link between the states but not between the observations.<br><br>
-
+       It is worth noting that that the hidden component is modelled as a Markov chain and not the observations.<br><br>
+<!-- 
        <span style="background: gray">Nodes colored in <span style="color: #fdc6c0">pink</span> denote the observations.<br>
         Nodes colored in <span style="color: white">white</span> denote the hidden states.
-       </span>
+       </span> -->
     </p>
 
     
@@ -1007,18 +1014,18 @@ Similarly, we can calculate the probability for other sequence of words.
 
     <h3>Hidden Markov Model Parameters</h3>
 
-    <p>Now, we discuss the parameters in Hidden Markov model.<b> The parameters Transition Matrix \(A\) and Prior Probability \(\pi\) are the same as the ones in Markov chain.</b>
+    <p>Now, we discuss the parameters in Hidden Markov model.The parameters Transition Matrix \(A\) and Prior Probability \(\pi\) are the same as the ones in Markov chain.
 
 
     <ul>
 
     <li>
-    <b>Emission Probability \( \phi \)</b>: The conditional probability of observing a discrete or continuous value \(x\) from a state \(z\) given the transition matrix and the prior probability is given as \(\phi_t = P(x_t \vert z_t, A, \pi)\)
+    <b>Emission Probability \( \phi \)</b>: The conditional probability of observing a discrete or continuous value \(x\) from a state \(z\) given the transition matrix and the prior probability is given as \(\phi = P(x_t \vert z_t)\)
     </li>
     </ul>
 </p>
 <p>
-    The observations can be either <b>discrete</b> or <b>continuous</b><br>
+    The observations can be either <b>discrete</b> or <b>continuous</b>.<br>
     <ul>
       <li><b>Discrete output examples</b>: Fair and Biased coin observations, Sunny and Rainy weather observations</li>
       <li><b>Continuous output examples</b>: Power consumed by an Air Conditioner</li>
@@ -1034,7 +1041,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <img src="images/rain_sun_images/hmm.svg" class="example-img">
       <p class="example-text">Hidden Markov Model for Sunny and Rainy Weather</p>
       <p class="example-description">
-         Assume a hypothetical scenario, where we were able to model the weather of particular place using Hidden Markov models. You are in a closed room and your roommate goes outside every day to get groceries. You observe your roommate's shoes everyday if they are dry or wet.  You try to predict if a day was Sunny or Rainy based on the shoes of your roommate. On a sunny day your roommate's shoes can be wet with a probability of <b>0.2</b>(maybe due to a sprinkler). On a rainy day, the shoes can be wet with a probability of <b>0.9</b>. <br><br>
+         On a sunny day your roommate's shoes can be wet with a probability of <b>0.2</b>(maybe due to a sprinkler). On a rainy day, the shoes can be wet with a probability of <b>0.9</b>. <br><br>
          <b>Observation</b>: Shoe<br>
          <b>Hidden State</b>: Weather<br>
 
@@ -1045,7 +1052,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <img src="images/fair_biased_images/hmm.svg" class="example-img">
       <p class="example-text">Hidden Markov Model for a Fair and a Biased coin swap</p>
       <p class="example-description">
-         Assume a hypothetical scenario, where your friend chooses a fair coin or a biased coin using a Hidden Markov model. Your friend flips the chosen coin and shows you the result of the coin flip. Based on the outputs, you try to predict if the flipped coin was a fair coin or a biased coin. If your friend flips a biased coin, then the output is a heads with probability <b>0.8</b>. If your friend flips a fair coin, then the output is a heads with probability <b>0.5</b>. <br><br>
+         If your friend flips a biased coin, then the output is a heads with probability <b>0.8</b>. If your friend flips a fair coin, then the output is a heads with probability <b>0.5</b>. <br><br>
          <b>Observation</b>: Heads/Tails<br>
          <b>Hidden State</b>: Biased/Fair Coin<br>
        </p>
@@ -1054,7 +1061,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <img src="images/on_off_images/hmm.svg" class="example-img">
       <p class="example-text">Hidden Markov Model for an Air Conditioner state</p>
       <p class="example-description">
-         Assume a hypothetical scenario, where the compressor of an air conditioner is turned ON or OFF acoording to a hidden markov model. You are looking at the total power consumed by the appliance on your smartphone. If the air conditioner is in an OFF state, then the output follows a Gaussian distribution \(\mathcal{N}(10,5)\). If the air conditioner is in ON state  then the output follows a Gaussian distribution \(\mathcal{N}(100,5)\). <br><br>
+         If the compressor is in an OFF state, then the output follows a Gaussian distribution \(\mathcal{N}(10,5)\). If the compressor is in ON state  then the output follows a Gaussian distribution \(\mathcal{N}(100,5)\). <br><br>
          <b>Observation</b>: Total power consumed by the appliance<br>
          <b>Hidden State</b>: Compressor ON/OFF<br>
        </p>
@@ -1227,22 +1234,22 @@ Similarly, we can calculate the probability for other sequence of words.
       </div>
       </div>
 
-      <h1>Trellis Diagrams</h1>
-      <p>A Trellis diagram can be used to show the hidden states path in a Hidden Markov model. Consider the following trellis diagram. In the trellis diagram, the red lines denote the path taken.</p>
+      <h3>Trellis Diagrams</h3>
+      <p>A Trellis diagram can be used to show the hidden states path in a Hidden Markov model. Consider the following trellis diagram showing the possible path sequence of hidden states for three timestamps for the biased-fair coin example.<br><br> In the diagram \(B\) denotes the Biased coin and \(F\) denotes the Fair coin. The highlighted red path corresponds to the state sequence. </p>
       <img src="images/trellis_paths/trellis_2.svg" class="trellis_image">
       
       <p style="text-align: center;"><br>Trellis diagram corresponding to the path \(\{z_{1}=B, z_{2}=B, z_{3}=F\}\). </p>
-       <p><br>Therefore, the path taken is \(z_{1}=B, z_{2}=B, z_{3}=F\). </p>
+       <!-- <p><br>Therefore, the path taken is \(z_{1}=B, z_{2}=B, z_{3}=F\). </p> -->
 
 
 
-      <h1>HMM Questions</h1>
+      <h1>HMM Algorithms</h1>
       <p>Now, we look at five important questions  to understand HMM algorithms<d-cite key="rabiner"></d-cite>.</p>
       <h3>Problem 1: HMM Evidence Likelihood</h3>
       <p>The objective is to estimate the likelihood of the observations given HMM parameters. Mathematically this can be represented as:
         <br><br>
 
-    Given \(X=\{x_1, x_2 \ldots x_n\}\), \( \theta = \{\pi, A, \phi \}\), what is \(L(X \vert \theta)\)?
+    Given \(X=\{x_1, x_2 \ldots x_T\}\), \( \theta = \{\pi, A, \phi \}\), what is \(L(X \vert \theta)\)?
     <br><br>
     <!-- Likelihood = \(L(X \vert \theta)\) = \(P(X \vert \theta)\) = \(Likelihood = \) \(L(X \vert \theta)\) \( = P(X \vert \theta) = \sum_{z}^{} P(x,z \vert \theta)\)
     <br><br>
@@ -1462,12 +1469,13 @@ Similarly, we can calculate the probability for other sequence of words.
       </p>
       <img src="images/forward/computation_tree_full.svg" class="example-img">
       <p style="text-align: center;"><br>Computation Tree for calculating \(L(X \vert \theta)\)</p>
-      <p>If we observe closely, some nodes are being computed multiple times. <br><br>
-      If we can store the computed nodes in an array, we can avoid recomputation. Will we benefit by avoiding recomputation? Observe the following computation tree. In this, we avoided the recomputation of previously computed nodes.<br><br>
+      <p>If we observe closely, some nodes are being computed multiple times. We can avoid recomputation as shown in the tree below.
     </p>
       <img src="images/forward/computation_tree_minimized.svg" class="example-img">
       <p style="text-align: center;"><br>Optimized Computation Tree for calculating \(L(X \vert \theta)\)</p>
-      <p>The above is essentially what the Forward algorithm does. We now discuss it in detail.  
+
+      <p>The above is the tree which doesn't calculate the same node twice. Once computed, it is stored in memory. <br><br>
+        So, we need to store \(P(X_{1:t} \vert z_{t}=i)\). <br><br>Essentially this what the Forward algorithm does. We now discuss it in detail.  
  </p>
 
 
@@ -1499,7 +1507,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <img src="images/forward/forward-trellis.svg" class="half-img">
       <p style="text-align: center;"><br> Relation between \(\alpha_{t}\) and \(\alpha_{t+1}\)</p>
       <p>
-      We can end up in state \(j\) at time \(t+1\) from each of the \(k\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\theta_j(x_{t+1})\). <br><br>
+      We can end up in state \(j\) at time \(t+1\) from each of the \(K\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\theta_j(x_{t+1})\). <br><br>
       Thus, generally we can write:
 <br><br>
 
@@ -1543,9 +1551,10 @@ Similarly, we can calculate the probability for other sequence of words.
       <p>
 
         <br>
-How can we use the above to calculate likelihood of observation \(P(X \vert \theta)\)?<br><br>
-The sequence \(X\) has observations \(\{x_{1},x_{2},\dots,x_{T}\}\) and the Hidden Markov model has \(K\) states. At the timestamp \(T\) each of those states can be used to generate the observation \(x_{T}\) which  is determined by \(\alpha_{T}(i)\) where \(i \in \{1,2,\dots,K\}\)<br><br>
-Therefore, <br>
+      Likelihood of a sequence \(L(X \vert \theta )\)can be calculated using the following formula.<br><br>
+<!-- 
+The sequence \(X\) has observations \(\{x_{1},x_{2},\dots,x_{T}\}\) and the Hidden Markov model has \(K\) states. At the timestamp \(T\) each of those states can be used to generate the observation \(x_{T}\) which  is determined by \(\alpha_{T}(i)\) where \(i \in \{1,2,\dots,K\}\)<br><br> -->
+
 
 \(
 \begin{align}
@@ -1903,7 +1912,7 @@ Having studied the forward procedure, we will now understand the backward proced
   Now, we move on to the third important problem for understanding HMM which is the Backward algorithm. The Backward algorithm plays a key role in the HMM parameter learning algorithm aka Baum-Welsh algorithm.
 
   <br><br>
-  Before we try to understand the Backward algorithm, let us do the following. <br><br>What is the value of  \(P(x_{1},\dots,x_{T} \vert z_{t} = i)\)? It is also the likelihood of a sequence conditioned on one specific state at a particular timestamp. <br><br>
+  What is the value of  \(P(x_{1},\dots,x_{T} \vert z_{t} = i)\)? It is also the likelihood of a sequence conditioned on one specific state at a particular timestamp. <br><br>
   Again let us  try to understand this with an example. Let us go back to the Rainy and Sunny HMM example. You were observing your roommate for five days. <br><br>Let the observations be \({D,D,W,W,W}\). You don't want to find out the weather for each day. <b>Instead you want to find how likely is the above sequence if the third day was Raining?</b>.
   <br><br>
   You want to compute \(P(DDWWW \vert z_{3}=Rainy)\)
@@ -1918,7 +1927,7 @@ Having studied the forward procedure, we will now understand the backward proced
   \end{align}
 \)
 <br><br>
-\(\beta_{t}(i)\) is explained in the backward algorithm.
+\(\beta_{t}(i)\) is the probability of the  future sequence \(X_{t+1:T}\) conditioned on the current state \(z_{t}\). It is calculated using backward algorithm.
 </p>
 <h3>Problem 3: Backward Algorithm</h3>
 
@@ -1931,7 +1940,7 @@ Having studied the forward procedure, we will now understand the backward proced
 <p style="text-align: center;"><br> Relation between \(\beta_{t}\) and \(\beta_{t+1}\)</p>
 
 <p>
-Let us assume a general case, where we have \(k\) states. The trellis diagram shows that if at time \(t\), we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states.<br><br> Mathematically, 
+Let us assume a general case, where we have \(K\) states. The trellis diagram shows that if at time \(t\), we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states.<br><br> Mathematically, 
 <br><br>
 
 \(
@@ -1942,7 +1951,7 @@ Let us assume a general case, where we have \(k\) states. The trellis diagram sh
                  =&\hspace{0.5em}P(x_{t+2:T}\vert z_{t+1}=1).A_{i1}.\phi_1(x_{t+1}) + \\
                    &\hspace{0.5em}P(x_{t+2:T}\vert z_{t+1}=2).A_{i2}.\phi_2(x_{t+1}) + \\
                    &\hspace{0.5em}\vdots \\
-                   &\hspace{0.5em}P(x_{t+2:T}\vert z_{t+1}=k).A_{ik}.\phi_k(x_{t+1})
+                   &\hspace{0.5em}P(x_{t+2:T}\vert z_{t+1}=K).A_{iK}.\phi_K(x_{t+1})
                   
 
   \end{align}
@@ -1960,7 +1969,7 @@ Which is the same as, <br><br>
                  =&\hspace{0.5em}\beta_{t+1}(1).A_{i1}.\phi_1(x_{t+1}) + \\
                    &\hspace{0.5em}\beta_{t+1}(2).A_{i2}.\phi_2(x_{t+1}) + \\
                    &\hspace{0.5em}\vdots \\
-                   &\hspace{0.5em}\beta_{t+1}(k).A_{ik}.\phi_k(x_{t+1})
+                   &\hspace{0.5em}\beta_{t+1}(K).A_{iK}.\phi_K(x_{t+1})
                   
 
   \end{align}
@@ -2988,9 +2997,10 @@ if (markov_chain_pos==-1){
     }
     // console.log(chosen_index)
     var node = return_coin_node(node_id,x,2,coin_types[chosen_index])
-    console.log(markov_chain_1.graph.nodes(), i+1)
+    // console.log(markov_chain_1.graph.nodes(), i+1)
     markov_chain_1.graph.nodes()[i+1].color = node.color
-    if (node.label=='Fair'){
+    console.log("IMP ",node)
+    if (node.label=='Head'){
         markov_chain_1.graph.nodes()[i+1].label = "Sunny";
     }
     else{
