@@ -2236,6 +2236,7 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
           </div>
 </div>
 
+<img id="viterbi_gif" class="example-img">
 <!-- * 
 i C- {I ,
 -K3wia
@@ -4171,6 +4172,27 @@ function change_gif_button(){
     console.log(text, new_src)
 
 }
+
+
+
+
+var v_no = 1;
+
+window.setInterval(function(){
+  // console.log('yo',t,s)
+
+  var viterbi_gif = document.getElementById('viterbi_gif')
+  
+
+  viterbi_gif.src = "images/viterbi_gif/"+v_no+'.svg'
+  v_no+=1;
+  if (v_no==11){
+    v_no=1;
+  }
+
+
+}, 1000);
+
 
 
 
