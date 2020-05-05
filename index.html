@@ -1236,7 +1236,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
       <h3>Trellis Diagrams</h3>
       <p>A Trellis diagram can be used to show the hidden states path in a Hidden Markov model. Consider the following trellis diagram showing the possible path sequence of hidden states for three timestamps for the biased-fair coin example.<br><br> In the diagram \(B\) denotes the Biased coin and \(F\) denotes the Fair coin. The highlighted red path corresponds to the state sequence. </p>
-      <img src="images/trellis_paths/trellis_2.svg" class="trellis_image">
+      <img src="images/trellis_paths/2.svg" class="trellis_image">
       
       <p style="text-align: center;"><br>Trellis diagram corresponding to the path \(\{z_{1}=B, z_{2}=B, z_{3}=F\}\). </p>
        <!-- <p><br>Therefore, the path taken is \(z_{1}=B, z_{2}=B, z_{3}=F\). </p> -->
@@ -1276,7 +1276,7 @@ Similarly, we can calculate the probability for other sequence of words.
     Before we go further, let us consider the previous example on Biased(B) and Fair(F) coin with observations Head(H) and Tail(T). <br><br>Given a series of observations \(\{H,H,H\}\), what is the probability of observing this sequence given \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)?<br><br>
 
     </p>
-    <img src="images/trellis_paths/trellis_1.svg" class="trellis_image">
+    <img src="images/trellis_paths/1.svg" class="trellis_image">
     <p style="text-align: center;"><br>Trellis diagram correponding to the path \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)</p>
     <p><br>\(P(HHH|BBB) = P(B)P(H \vert B)P(B \vert B)P(H \vert B)P(B \vert B)P(H \vert B)\)<br><br>
    
@@ -1289,7 +1289,7 @@ Similarly, we can calculate the probability for other sequence of words.
     </p> 
 
     <div style="text-align: center;">
-      <img id = "gif_image"  class="trellis_image" src="images/trellis_paths/trellis_1.svg">
+      <img id = "gif_image"  class="trellis_image" src="images/trellis_paths/1.svg">
       <p id='pathno'>Path 1</p>
           <p>
 
@@ -2235,8 +2235,20 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
             
           </div>
 </div>
+<div class="l-screen">
+  <div class="half-div" style="padding: 1em">
+    <p>Trellis Diagram showing the \(\delta_{i}(j)\) calculation</p>
+    <img id="viterbi_gif" class="example-img">
+  </div>
+  <div class="half-div" style="padding: 1em">
+    <p>Trellis Diagram showing the \(\psi_{i}(j)\) calculation</p>
+    <img id="backtracking_gif" class="example-img">
+    
+  </div>
 
-<img id="viterbi_gif" class="example-img">
+</div>
+
+
 <!-- * 
 i C- {I ,
 -K3wia
@@ -2382,7 +2394,159 @@ Qljo (Rta)
 <!-- 
       <button type="button" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto;z-index: 100;" onclick="render_hmm_chain_1('resample')">Resample using above</button> -->
     
+
+  <!-- Next, we move on the fifth problem in Hidden Markov models, which is the problem of parameter learning given a series of observations. -->
+  <h3>Problem 5: Parameter Learning</h3>
+  <p>The objective is to learn the parameters of a HMM, given a set of observations<br><br>
+
+      First, we consider an easier version of the problem, which is the process of parameter estimation, given the observed sequences and the corresponding hidden state sequences. Since we have labelled hidden sequences, hence this is supervised learning.<br><br>
+
+      <p><b>Supervised Parameter learning</b></p>
+      Let us assume we have the following data<br><br>
+      <b>Example 1</b> : \( \Big \{  (z_{11},z_{12},\dots,z_{1T_{1}}),(x_{11}, x_{12},\dots,x_{1T_{1}}) \Big\}\)
+      <br><br>
+      <b>Example 2</b> : \( \Big \{  (z_{21},z_{22},\dots,z_{2T_{2}}),(x_{21}, x_{22},\dots,x_{2T_{2}}) \Big\}\)
+      <br><br>
+      \(\vdots\)
+      <br><br>
+      <b>Example N</b> : \( \Big \{  (z_{N1},z_{N2},\dots,z_{NT_{N}}),(x_{N1}, x_{N2},\dots,x_{1T_{N}}) \Big\}\)
+      <br><br>
+      Where</p>
+      <p>
+      <b>N</b> : Number of examples<br><br>
+      <b>\(\mathbf{z_{jk}}\)</b> : \(k^{th}\) hidden state of the \(j^{th}\) example<br><br>
+      <b>\(\mathbf{x_{jk}}\)</b> : \(k^{th}\) observation of the \(j^{th}\) example<br><br>
+      <br><br>
+      
+      The parameters can be estimated using the following<br><br>
+      <!-- \(\pi_{i} = \frac{\sum_{q=1}^{N} V(z_{q1}, z_{i})}{N}\) -->
+      \(\pi_{i} \) is the fraction of sequences that start with \(z_{i}\) as start state.<br><br>
+      \(A_{ij} \) is the fraction of sequences that start with \(z_{i}\) as start state.<br><br>
+
+      Let us try to undrstand the above with an example<br><br>
+
+      Assume, we were provided with three training examples like the ones shown below.<br><br>
+      </p>
+
+    <div class="l-screen">
+      <div class="one-third-div">
+          <img src="images/examples/uncolored_e1.svg" class="example-img">
+      </div>
+      <div class="one-third-div">
+        <img src="images/examples/uncolored_e2.svg" class="example-img">
+      </div>
+      <div class="one-third-div">
+        <img src="images/examples/uncolored_e3.svg" class="example-img">
+      </div>  
+    </div>
+
+    <p style="margin-top: 2em"><b>Calculating \(\pi\)</b></p>
     
+    Below are the above examples color coded for better understanding. We wish to compute the \(\pi\) for the the above examples.
+    <div class="l-screen">
+      <div class="one-third-div">
+          <img src="images/examples/pi_e1.svg" class="example-img">
+      </div>
+      <div class="one-third-div">
+        <img src="images/examples/pi_e2.svg" class="example-img">
+      </div>
+      <div class="one-third-div">
+        <img src="images/examples/pi_e3.svg" class="example-img">
+      </div>  
+    </div>
+
+    <img src="images/examples/pi_formula.svg" class="example-img" style="background: white"> 
+
+
+    <p><br><br>The above algorithm can be applied when we have access to labelled hidden sequences. <br><br>
+
+      What can we do when the hidden sequences are not labelled. <br><br>
+
+      <b>Unsupervised Parameter learning</b><br><br>
+      The following algorithm is used when we dont have access to the labelled sequences. <br><br>
+            Let us assume we have the following data<br><br>
+      Example 1 : \( \Big \{  (x_{11},x_{12},\dots,x_{1T_{1}}) \Big\}\)
+      <br><br>
+      Example 2 : \( \Big \{  (x_{21},x_{22},\dots,x_{2T_{2}}) \Big\}\)
+      <br><br>
+      \(\vdots\)
+      <br><br>
+      Example N : \( \Big \{  (x_{N1},x_{N2},\dots,x_{NT_{N}})) \Big\}\)
+      <br><br>
+      Where</p>
+      <p>
+      <b>N</b> : Number of examples<br><br>
+      <b>\(\mathbf{x_{jk}}\)</b> : \(k^{th}\) observation of the \(j^{th}\) example<br><br>
+      The algorithm is as follows:
+      <br><br>
+
+
+      <b>Initialization</b></p>
+      <div style="margin-left: 1em">
+        <ul>
+          <li>Randomly initialize \(\pi\) and ensure that \(\sum_{i}\pi_{i} = 1\)</li>
+          <li>Randomly initialize \(A\) and ensure that \(\sum_{j}A_{ij} = 1\)</li>
+          <li>Randomly initialize \(\phi\) and ensure that \(\sum_{j}\phi_{ij} = 1\)</li>      
+        </ul>
+      </div>
+
+
+
+
+      <p>
+        <br><br>
+        <b>Expectation-Maximization</b></p>
+      <div style="margin-left: 1em">
+        <p>Repeat till convergence</p>
+        <div style="margin-left: 1em">
+        <ul>
+          <li>Calculate \(r_{i,t}(j)\) for all values of \(i,t,j\).</li>
+          <li>Calculate \(\epsilon_{i,t}(j,k)\) for all values of \(i,t,j,k\).</li>
+          <br>
+          <li>Compute\(\hat{\pi}, \phi\) and A</li>      
+        </ul>
+        </div>
+      </div>
+
+      <p><b>Updating \(\pi\)</b></p>
+      <br>
+      
+      \(\hat{\pi_k}\) denotes the expected number of sequences with \(z_{1}=k\)<br><br>
+
+      \(\hat{\pi_k} = \cfrac{\sum_{i=1}^{N} r_{i,1}(k)}{N}\) for all \( k  \in \{1,2,\dots,K\}\)      
+      </p>
+
+      <p><b>Updating \(A\)</b></p>
+      <br>
+      
+      \(\hat{A_{jk}}\) denotes the expected probability of transitions from state \(i\) to state \(j\)<br><br>
+
+      \(
+      \begin{align}
+        \hat{A_{jk}} &= \cfrac{\text{Expected number of transitions from state i to state j} }{\text{Expected number of transitions from state i}}\\
+                     &= \cfrac{ \sum_{i=1}^{N} \sum_{t=2}^{T_{i}} \epsilon_{i,t}(j,k) }  { \sum_{k=1}^{K} \sum_{i=1}^{N} \sum_{t=2}^{T_{i}} \epsilon_{i,t}(j,k)  }
+      \end{align}
+      \)
+   
+
+      </p>
+      <br><br>
+      <p><b>Updating \(\phi\)</b></p>
+      <br>
+      
+      \(\hat{\phi_{jl}}\) denotes the expected probability of observing \(l\) from state \(j\)<br><br>
+
+      \(
+      \begin{align}
+        \hat{\phi_{jl}} &= \cfrac{\text{Expected number of times in state j and observing l} }{\text{Expected number of times in state j}}\\
+                     &= \cfrac{ \sum_{i=1}^{N} \sum_{t: x_{i,t}=l} r_{i,t}(j) }  \cfrac{ \sum_{i=1}^{N} \sum_{t}^{T_{i}} r_{i,t}(j) }
+      \end{align}
+      \)
+   
+
+      </p>
+      
+
 
   </d-article>
 
@@ -4150,6 +4314,7 @@ function change_gif_button(){
       new_src = "images/icons/pause.svg";
       text = "Pause"
       image_change=true
+      prb_eq_changer()
     }
     else{
      new_src = "images/icons/play.svg" 
@@ -4182,14 +4347,19 @@ window.setInterval(function(){
   // console.log('yo',t,s)
 
   var viterbi_gif = document.getElementById('viterbi_gif')
-  
+    
+  var backtracking_gif = document.getElementById('backtracking_gif')
 
   viterbi_gif.src = "images/viterbi_gif/"+v_no+'.svg'
+  backtracking_gif.src = "images/backtracking_gif/"+v_no+".svg"
   v_no+=1;
   if (v_no==11){
     v_no=1;
   }
 
+
+
+  console.log("NO ",v_no)
 
 }, 1000);
 
@@ -4225,12 +4395,16 @@ var gif_img = 2;
 
 var image_change = false;
 
-window.setInterval(function(){
-  // console.log('images/'git_img+".svg");
-    
+
+var prev_time = 0;
+
+function prb_eq_changer(){
+
+
+
   if (image_change){
 
-    document.getElementById("gif_image").src=  'images/trellis_paths/trellis_'+gif_img+".svg";
+    document.getElementById("gif_image").src=  'images/trellis_paths/'+gif_img+".svg";
 
   for(var uu=1;uu<9;uu++){
     document.getElementById("probability-equation-"+uu).style.display = 'none';    
@@ -4253,7 +4427,12 @@ window.setInterval(function(){
   }
   
 
+}
 
+window.setInterval(function(){
+  // console.log('imagineges/'git_img+".svg");
+    
+    prb_eq_changer()
 
 }, 2000);
 
