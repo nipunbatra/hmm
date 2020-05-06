@@ -1474,7 +1474,15 @@ Similarly, we can calculate the probability for other sequence of words.
       <img src="images/forward/computation_tree_minimized.svg" class="example-img">
       <p style="text-align: center;"><br>Optimized Computation Tree for calculating \(L(X \vert \theta)\)</p>
 
-      <p>The above is the tree which doesn't calculate the same node twice. Once computed, it is stored in memory. <br><br>
+      <p>The above is the tree which doesn't calculate the same node twice. Once computed, it is stored in memory and is reused whenever needed. <br><br>
+
+        The above tree, can be reordered to look like the following.<br><br>
+
+        <img src="images/forward/trellis_tree.svg" class="example-img">
+
+        <p style="text-align: center;"> Trellis representation of the forward computation tree </p>
+        
+
         So, we need to store \(P(X_{1:t} \vert z_{t}=i)\). <br><br>Essentially this what the Forward algorithm does. We now discuss it in detail.  
  </p>
 
@@ -1927,7 +1935,11 @@ Having studied the forward procedure, we will now understand the backward proced
   \end{align}
 \)
 <br><br>
-\(\beta_{t}(i)\) is the probability of the  future sequence \(X_{t+1:T}\) conditioned on the current state \(z_{t}\). It is calculated using backward algorithm.
+\(\beta_{t}(i)\) is the probability of the  future sequence \(X_{t+1:T}\) conditioned on the current state \(z_{t}\). It is calculated using backward algorithm.<br><br>
+How can we calculate it efficiently?<br><br>
+Let us consider it with our Fair coin and Biased coin example. Assume we want to calculate \(P(  )\) 
+
+
 </p>
 <h3>Problem 3: Backward Algorithm</h3>
 
@@ -2206,7 +2218,7 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
         <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >FOR \(i\) in 1 to \(K\):</p>
         <div style="margin-left: 4em; padding:0.25em!important; margin-bottom:0px; border: solid; border-color: transparent;" >
           <p style="margin-bottom:0px;">\(\delta_{1}(i) = \pi_{i} * \phi_{i}(x_{1})\)</p>
-          <p style="margin-bottom:0px;">\(\psi_{1}(i) = 0\)</p>
+          <p style="margin-bottom:0px;">\(\psi_{1}(i) = \text{Start}\)</p>
         </div>
         </div>
         <h4 style="margin-bottom:0px;">Recursion</h4>
@@ -2235,19 +2247,72 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
             
           </div>
 </div>
-<div class="l-screen">
+
+
+<p>
+<br><br>The following shows the viterbi calculation for estimating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\). </p>
+<img id="viterbi_gif" class="example-img">
+<p style="text-align: center"><br>Trellis diagram showing the \(\delta_{i}(j)\) calculation.</p>
+
+<p>Trellis Diagram showing the \(\psi_{i}(j)\) calculation</p>
+  
+<p>Now, we see the arguments, which maximized each of the above  \(\delta_{t}(i)\)</p>
+
+<table >
+  <thead>
+            <tr>
+              <th></th>
+              <th>\( \psi_{t}(\text{Fair}) \)</th>
+              <th>\( \psi_{t}(\text{Biased}) \)</th>
+            </tr>            
+  </thead>
+  <tbody>
+            <tr>
+              <td>1</td>
+              <td>Start</td>
+              <td>Start</td>
+            </tr>            
+
+            <tr>
+              <td>2</td>
+              <td>Bias</td>
+              <td>Fair</td>
+            </tr>            
+
+            <tr>
+              <td>3</td>
+              <td>Bias</td>
+              <td>Fair</td>
+            </tr>            
+
+  </tbody>
+
+</table>
+
+<p>
+Now, we create a diagram, where edge from \(z_{t-1} (i)\) to \(z_{t}(j)\) denotes that \(\psi_{t}(j) = i\). In short, we add an edge from the state in the previous timestamp that maximized the current \(\delta_{t}(j)\).<br><br>  
+</p>
+<img  src="images/backtracking_gif/numbers.svg" class="example-img" >
+
+<p style="text-align: center;">Image showing computed values of \(\psi_{t}(j)\)</p>
+<p><br>The following shows the backtracking procedure. </p>
+
+<img id="backtracking_gif" class="example-img">
+
+
+<p></p>
+
+<!-- <div class="l-screen">
   <div class="half-div" style="padding: 1em">
-    <p>Trellis Diagram showing the \(\delta_{i}(j)\) calculation</p>
-    <img id="viterbi_gif" class="example-img">
+    
   </div>
+
   <div class="half-div" style="padding: 1em">
-    <p>Trellis Diagram showing the \(\psi_{i}(j)\) calculation</p>
-    <img id="backtracking_gif" class="example-img">
     
   </div>
 
 </div>
-
+ -->
 
 <!-- * 
 i C- {I ,
@@ -2397,35 +2462,34 @@ Qljo (Rta)
 
   <!-- Next, we move on the fifth problem in Hidden Markov models, which is the problem of parameter learning given a series of observations. -->
   <h3>Problem 5: Parameter Learning</h3>
-  <p>The objective is to learn the parameters of a HMM, given a set of observations<br><br>
+  <p>The objective is to learn the parameters of a HMM, given a set of observations.<br><br>
 
-      First, we consider an easier version of the problem, which is the process of parameter estimation, given the observed sequences and the corresponding hidden state sequences. Since we have labelled hidden sequences, hence this is supervised learning.<br><br>
+      First, we consider an easier version of the problem, which is the process of parameter estimation, given the observed sequences and the corresponding hidden state sequences. <br><br>
 
-      <p><b>Supervised Parameter learning</b></p>
-      Let us assume we have the following data<br><br>
-      <b>Example 1</b> : \( \Big \{  (z_{11},z_{12},\dots,z_{1T_{1}}),(x_{11}, x_{12},\dots,x_{1T_{1}}) \Big\}\)
-      <br><br>
-      <b>Example 2</b> : \( \Big \{  (z_{21},z_{22},\dots,z_{2T_{2}}),(x_{21}, x_{22},\dots,x_{2T_{2}}) \Big\}\)
-      <br><br>
-      \(\vdots\)
-      <br><br>
-      <b>Example N</b> : \( \Big \{  (z_{N1},z_{N2},\dots,z_{NT_{N}}),(x_{N1}, x_{N2},\dots,x_{1T_{N}}) \Big\}\)
-      <br><br>
-      Where</p>
-      <p>
+      <p><b>Parameter learning given fully observed hidden sequences</b></p>
+      Let us assume we have the labelled hidden sequences and observations for N examples. Below diagram denotes the \(i^{th}\) example.<br><br>
+
+      <img src="images\parameter_learning_fully_observed\sample_example.svg" class="example-img">
+      
+      <p style="text-align: center"><br>  Hidden states and observations for the \(i^{th}\) example.</p>
+
+      <p><br>
+        where<br><br>
       <b>N</b> : Number of examples<br><br>
       <b>\(\mathbf{z_{jk}}\)</b> : \(k^{th}\) hidden state of the \(j^{th}\) example<br><br>
       <b>\(\mathbf{x_{jk}}\)</b> : \(k^{th}\) observation of the \(j^{th}\) example<br><br>
-      <br><br>
+      <b>\(\mathbf{T_{i}}\)</b> : Sequence length of the \(j^{th}\) example<br><br>
       
-      The parameters can be estimated using the following<br><br>
+      <br>
+      The parameters can be estimated using the following:<br><br>
       <!-- \(\pi_{i} = \frac{\sum_{q=1}^{N} V(z_{q1}, z_{i})}{N}\) -->
-      \(\pi_{i} \) is the fraction of sequences that start with \(z_{i}\) as start state.<br><br>
-      \(A_{ij} \) is the fraction of sequences that start with \(z_{i}\) as start state.<br><br>
+      \(\mathbf{\pi_{i}}  = \cfrac{\text{Total number of sequences that start with }z_{i} }{\text{Total number of sequences}}\)<br><br>
+      \(\mathbf{A_{ij}}  = \cfrac{\text{Total number of transitions from state }z_{i} \text{ to state } z_{j} }{\text{Total number of transitions from }z_{i}}\)<br><br>
+      \(\mathbf{\phi_{ij}}  = \cfrac{\text{Total number of times in state }z_{i} \text{ and observing } x_{j} }{\text{Total number of times in state }z_{i}}\)<br><br>
 
-      Let us try to undrstand the above with an example<br><br>
+      Let us try to understand the above with an example.<br><br>
 
-      Assume, we were provided with three training examples like the ones shown below.<br><br>
+      Assume, we were provided with three training examples like the ones shown below:<br><br>
       </p>
 
     <div class="l-screen">
@@ -2442,7 +2506,8 @@ Qljo (Rta)
 
     <p style="margin-top: 2em"><b>Calculating \(\pi\)</b></p>
     
-    Below are the above examples color coded for better understanding. We wish to compute the \(\pi\) for the the above examples.
+    <p>Below are the above examples color coded for better understanding. We wish to compute \(\pi\).</p>
+
     <div class="l-screen">
       <div class="one-third-div">
           <img src="images/examples/pi_e1.svg" class="example-img">
@@ -2457,10 +2522,46 @@ Qljo (Rta)
 
     <img src="images/examples/pi_formula.svg" class="example-img" style="background: white"> 
 
+    <p style="margin-top: 2em"><b>Calculating \(A\)</b></p>
+
+    <p>Below are the above examples color coded for better understanding. We wish to compute \(A\).</p>
+
+    <div class="l-screen">
+      <div class="one-third-div">
+          <img src="images/examples/a_1.svg" class="example-img">
+      </div>
+      <div class="one-third-div">
+        <img src="images/examples/a_3.svg" class="example-img">
+      </div>
+      <div class="one-third-div">
+        <img src="images/examples/a_2.svg" class="example-img">
+      </div>  
+    </div>
+
+    <img src="images/examples/a_formula.svg" class="example-img" style="background: white"> 
+
+    <p style="margin-top: 2em"><b>Calculating \(\phi\)</b></p>
+
+    <p>Below are the above examples color coded for better understanding. We wish to compute \(\phi\).</p>
+
+    <div class="l-screen">
+      <div class="one-third-div">
+          <img src="images/examples/phi_1.svg" class="example-img">
+      </div>
+      <div class="one-third-div">
+        <img src="images/examples/phi_3.svg" class="example-img">
+      </div>
+      <div class="one-third-div">
+        <img src="images/examples/phi_2.svg" class="example-img">
+      </div>  
+    </div>
+
+    <img src="images/examples/phi_formula.svg" class="example-img" style="background: white"> 
+
 
     <p><br><br>The above algorithm can be applied when we have access to labelled hidden sequences. <br><br>
 
-      What can we do when the hidden sequences are not labelled. <br><br>
+      The next section discusses about the procedure to estimate the parameters when the hidden sequences are not provided. <br><br>
 
       <b>Unsupervised Parameter learning</b><br><br>
       The following algorithm is used when we dont have access to the labelled sequences. <br><br>
@@ -4347,23 +4448,32 @@ window.setInterval(function(){
   // console.log('yo',t,s)
 
   var viterbi_gif = document.getElementById('viterbi_gif')
-    
-  var backtracking_gif = document.getElementById('backtracking_gif')
-
   viterbi_gif.src = "images/viterbi_gif/"+v_no+'.svg'
-  backtracking_gif.src = "images/backtracking_gif/"+v_no+".svg"
+
   v_no+=1;
-  if (v_no==11){
+  if (v_no==7){
     v_no=1;
   }
 
 
-
-  console.log("NO ",v_no)
-
 }, 1000);
 
 
+var n_img=7;
+
+window.setInterval(function(){
+
+    var backtracking_gif = document.getElementById('backtracking_gif')
+    backtracking_gif.src = "images/backtracking_gif/"+n_img+".svg"
+
+    n_img+=1;
+
+    if(n_img==11){
+      n_img=7;
+    }
+
+
+},1000)
 
 
 </script>
