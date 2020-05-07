@@ -1480,7 +1480,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
         <img src="images/forward/trellis_tree.svg" class="example-img">
 
-        <p style="text-align: center;"> Trellis representation of the forward computation tree </p>
+        <p style="text-align: center;"> Trellis representation of the optimized computation tree </p>
         
 
         So, we need to store \(P(X_{1:t} \vert z_{t}=i)\). <br><br>Essentially this what the Forward algorithm does. We now discuss it in detail.  
@@ -1937,10 +1937,26 @@ Having studied the forward procedure, we will now understand the backward proced
 <br><br>
 \(\beta_{t}(i)\) is the probability of the  future sequence \(X_{t+1:T}\) conditioned on the current state \(z_{t}\). It is calculated using backward algorithm.<br><br>
 How can we calculate it efficiently?<br><br>
-Let us consider it with our Fair coin and Biased coin example. Assume we want to calculate \(P(  )\) 
+Let us consider it with our Fair coin and Biased coin example. Assume we want to calculate \(L(HHH \vert \theta)\)<br><br>
 
+\(L(HHH \vert \theta) = P(_HH \vert z_{1}=F) \pi(F) \phi(F,H) + P(_HH \vert z_{1}=B) \pi(B) \phi(B,H)\)<br><br>
 
-</p>
+Similarly we can calculate \(P(\_HH \vert z_{1}=B\),\(P(\_HH \vert z_{1}=F)\),\(P(\_\_H \vert z_{2}=F)\) and \(P(\_\_H \vert z_{2}=B)\).<br><br>
+
+Assume, \(P(\_\_\_ \vert z_3=F) = 1\) and \(P(\_\_\_ \vert z_3=B) = 1\) <br><br>
+
+The computation tree looks like the following:<br>
+</p>  
+
+<img src="images/backward/full_computation_tree.svg" class="example-img">
+<p style="text-align: center;"><br> Computation tree for calculating \(L(X \vert \theta)\)</p>
+<p><br><br>Similar to the forward algorithm, several nodes are being recomputed. So, if we avoid recomputation, the tree looks like the following:</p> 
+
+<img src="images/backward/partial_computation_tree.svg" class="example-img">
+<p style="text-align: center;">Optimized computation tree for calculating \(L(X\vert \theta\)</p>
+<p>If we rearrange the nodes, the tree looks like the following</p>
+<img src="images/backward/trellis_tree.svg" class="example-img">
+<p style="text-align: center;"> Trellis representation of the optimized computation tree </p>
 <h3>Problem 3: Backward Algorithm</h3>
 
 <p>The Backward algorithm is a dynamic programming based approach using which we can efficiently calculate \(P(X_{t+1:T} \vert z_{t}=i)\).</p>
@@ -2563,24 +2579,23 @@ Qljo (Rta)
 
       The next section discusses about the procedure to estimate the parameters when the hidden sequences are not provided. <br><br>
 
-      <b>Unsupervised Parameter learning</b><br><br>
-      The following algorithm is used when we dont have access to the labelled sequences. <br><br>
-            Let us assume we have the following data<br><br>
-      Example 1 : \( \Big \{  (x_{11},x_{12},\dots,x_{1T_{1}}) \Big\}\)
-      <br><br>
-      Example 2 : \( \Big \{  (x_{21},x_{22},\dots,x_{2T_{2}}) \Big\}\)
-      <br><br>
-      \(\vdots\)
-      <br><br>
-      Example N : \( \Big \{  (x_{N1},x_{N2},\dots,x_{NT_{N}})) \Big\}\)
-      <br><br>
-      Where</p>
-      <p>
+      <b>Parameter learning without fully labelled hidden sequences</b><br><br>
+      Let us assume we have the labelled hidden sequences and observations for N examples. Below diagram denotes the \(i^{th}\) example.<br><br>
+
+      <img src="images\parameter_not_fully_observed\example-hmm.svg" class="example-img">
+      
+      <p style="text-align: center"><br>  Observations for the \(i^{th}\) example.</p>
+
+      <p><br>
+      where<br><br>
       <b>N</b> : Number of examples<br><br>
       <b>\(\mathbf{x_{jk}}\)</b> : \(k^{th}\) observation of the \(j^{th}\) example<br><br>
+      <b>\(\mathbf{T_{i}}\)</b> : Sequence length of the \(j^{th}\) example<br><br>
+
+      
       The algorithm is as follows:
       <br><br>
-
+      
 
       <b>Initialization</b></p>
       <div style="margin-left: 1em">
@@ -2591,32 +2606,83 @@ Qljo (Rta)
         </ul>
       </div>
 
-
-
-
       <p>
         <br><br>
         <b>Expectation-Maximization</b></p>
-      <div style="margin-left: 1em">
+
+        <div style="margin-left: 1em">
         <p>Repeat till convergence</p>
         <div style="margin-left: 1em">
         <ul>
-          <li>Calculate \(r_{i,t}(j)\) for all values of \(i,t,j\).</li>
+          <li><b>Expectation step:</b> Inferring the hidden states \(z_{it}\) from the model parameters \(A,\pi,\phi\)</li>
+          <li><b>Maximization step:</b> Optimizing the parameters \( A,\pi,\phi\) to maximize the likelihood of observing the \(z_{it}\)</li>
+        </ul>
+        </div>
+      </div>
+
+      <p>We now discuss the both in more detail.<br><br></p>
+      <p><b>Expectation Step</b><br><br>
+
+      In this step, we try to estimate the hidden states based on the parameters.<br><br>
+
+      We need to define two parameters in order to define the hidden states<br><br>
+       </p>
+      
+      <ul>
+        <li>\(\epsilon_{t}(i,j)\): Expected number of transitions from state \(i\) to state \(j\) at time \(t\)</li>
+        <li>\(\gamma_{t}(i)\): Expected number of times for being in state \(i\)  at time \(t\)</li>
+      </ul> 
+
+      <p>First, we define \(\epsilon_{t}(i,j)\)<br><br>
+
+      \(
+        \begin{align}
+          \epsilon_{t}(i,j) &= P(z_{t}=i, z_{t+1}=j \vert X_{1:T},\theta)\\
+                            &= \cfrac{P(z_{t}=i, z_{t+1}=j, X_{1:T},\theta)}{P(X_{1:T }\vert \theta)}\\
+                            &= \cfrac{  P(z_{t} =i , x_{1:t}) *  A_{ij} *  P(x_{t+1} \vert z_{t+1} =j ) * P(X_{t+2:T} \vert z_{t+1} =j) }{P(X_{1:T} \vert \theta)}\\
+                            &= \cfrac{  \alpha_{t}(i) *  A_{ij} *  \phi_{j}(x_{t+1}) * \beta_{t+1}(j)} { \sum_{i} \sum_{j}  \alpha_{t}(i) *  A_{ij} *  \phi_{j}(x_{t+1}) * \beta_{t+1}(j)}
+                            
+        \end{align} 
+      \)
+
+      <br><br><br>
+      Now, we define \(\gamma_{t}(i)\)
+      <br><br>
+      \(
+      \gamma_{t}(i) = \sum_{j} \epsilon_{t} (i,j)
+      \)  
+
+      <br><br>
+      Calculation of the above for all timestamps and states is the <b>Expectation step</b>.<br><br>
+
+      <b>Maximization step</b>
+      <br><br>
+      The maximization is the optimizing parameters to increase the likelihood of observing \(z_{it}\) and \(x_{it}\).<br><br>
+      This step is similar to finding parameters in the fully observed hidden sequences in HMM.<br><br>
+
+      </p>
+
+
+      <!-- <div style="margin-left: 1em">
+        <p>Repeat till convergence</p>
+        <div style="margin-left: 1em">
+        <ul>
+          <li><b>Expectation step:</b> Calculate \(r_{i,t}(j)\) for all values of \(i,t,j\).</li>
           <li>Calculate \(\epsilon_{i,t}(j,k)\) for all values of \(i,t,j,k\).</li>
           <br>
           <li>Compute\(\hat{\pi}, \phi\) and A</li>      
         </ul>
         </div>
       </div>
-
+ -->
       <p><b>Updating \(\pi\)</b></p>
       <br>
       
       \(\hat{\pi_k}\) denotes the expected number of sequences with \(z_{1}=k\)<br><br>
 
       \(\hat{\pi_k} = \cfrac{\sum_{i=1}^{N} r_{i,1}(k)}{N}\) for all \( k  \in \{1,2,\dots,K\}\)      
+      
       </p>
-
       <p><b>Updating \(A\)</b></p>
       <br>
       
@@ -2647,7 +2713,19 @@ Qljo (Rta)
 
       </p>
       
+      By repeating the Expectation and Maximization steps till convergence, we get a of optimal parameters.<br><br>
 
+      In general, the whole algorithm is run with multiple starting points, and the final parameters which maximize the likelihood of observations is chosen. <br>
+
+    </p>
+
+
+    <h1>Conclusion</h1>
+    <p>Now that we understood every component of a HMM and the process of learning parameters  of a HMM given training data, we can now explore oth er variants of HMM such as:</p>
+
+    <ul>
+      <li></li>
+    </ul>    
 
   </d-article>
 
