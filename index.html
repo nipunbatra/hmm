@@ -1557,7 +1557,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <img src="images/forward/forward-trellis.svg" class="half-img">
       <p style="text-align: center;"><br> Relation between \(\alpha_{t}\) and \(\alpha_{t+1}\)</p>
       <p>
-      We can end up in state \(j\) at time \(t+1\) from each of the \(K\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\theta_j(x_{t+1})\). <br><br>
+      We can end up in state \(j\) at time \(t+1\) from each of the \(K\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\phi_j(x_{t+1})\). <br><br>
       Thus, generally we can write:
 <br><br>
 
@@ -1963,7 +1963,7 @@ Having studied the forward procedure, we will now understand the backward proced
 
   <br><br>
   What is the value of  \(P(x_{1},\dots,x_{T} \vert z_{t} = i)\)? It is also the likelihood of a sequence conditioned on one specific state at a particular timestamp. <br><br>
-  Again let us  try to understand this with an example. Let us go back to the Rainy and Sunny HMM example. 'D' denotes dry shoes and 'W' denotes wet shoes. You were observing your roommate for five days. <br><br>Let the observations be \({D,D,W,W,W}\). You don't want to find out the weather for each day. <b>Instead you want to find how likely is the above sequence if the third day was Raining?</b>.
+  Again let us  try to understand this with an example. Let us go back to the Rainy and Sunny HMM example. 'D' denotes dry shoes and 'W' denotes wet shoes. You were observing your roommate for five days. <br><br>Let the observations be \({D,D,W,W,W}\). You don't want to find out the weather for each day. <b>Instead, you want to find how likely is the above sequence if the third day was Raining?</b>.
   <br><br>
   You want to compute \(P(DDWWW \vert z_{3}=Rainy)\)
   <br><br>
@@ -1977,9 +1977,9 @@ Having studied the forward procedure, we will now understand the backward proced
   \end{align}
 \)
 <br><br>
-\(\beta_{t}(i)\) is the probability of the  future sequence \(X_{t+1:T}\) conditioned on the current state \(z_{t}\). It is calculated using backward algorithm.<br><br>
+\(\beta_{t}(i)\) is the probability of the  future sequence \(X_{t+1:T}\) conditioned on the current state \(z_{t}\).<br><br>
 
-How can we calculate it efficiently? Similar to the forward algorithm, we can use dynamic programming to calculate it efficiently.<br>
+How can we calculate it efficiently? Similar to the forward algorithm, we can use dynamic programming to calculate it efficiently. This procedure is called the Backward algorithm.<br>
 </p>
 
   <h3 class="div-show-btn" onclick="show_backward_motivation()">How to calculate \(\beta_{t}(i)\) efficiently</h3>
@@ -1987,19 +1987,19 @@ How can we calculate it efficiently? Similar to the forward algorithm, we can us
   <div id = "backward-motivation" class="hidden-div" style="display: none">
     
 <p>
-Let us consider it with our Fair coin and Biased coin example. Assume we want to calculate \(L(HHH \vert \theta)\)<br><br>
+Let us consider it with our Fair coin and Biased coin example. Assume we want to calculate \(L(HHH \vert \theta)\).<br><br>
 
-\(L(HHH \vert \theta) = P(\_HH \vert z_{1}=F) \Pi_F \Phi_F(H) + P(\_HH \vert z_{1}=B) \pi_B \phi_B (H)\)<br><br>
+\(L(HHH \vert \theta) = P(\_HH \vert z_{1}=F) \Pi_F \phi_F(H) + P(\_HH \vert z_{1}=B) \pi_B \phi_B (H)\)<br><br>
 
-Similarly we can calculate \(P(\_HH \vert z_{1}=B\),\(P(\_HH \vert z_{1}=F)\),\(P(\_\_H \vert z_{2}=F)\) and \(P(\_\_H \vert z_{2}=B)\).<br><br>
+Similarly, we can calculate \(P(\_HH \vert z_{1}=B\),\(P(\_HH \vert z_{1}=F)\),\(P(\_\_H \vert z_{2}=F)\), and \(P(\_\_H \vert z_{2}=B)\).<br><br>
 
-Assume, \(P(\_\_\_ \vert z_3=F) = 1\) and \(P(\_\_\_ \vert z_3=B) = 1\) <br><br>
+Assume, \(P(\_\_\_ \vert z_3=F) = 1\) and \(P(\_\_\_ \vert z_3=B) = 1\). <br><br>
 
 The computation tree looks like the following:<br>
 </p>  
 
 <img src="images/backward/full_computation_tree.svg" class="example-img">
-<p style="text-align: center;"><br> Computation tree for calculating \(L(X \vert \theta)\)</p>
+<p style="text-align: center;">Computation tree for calculating \(L(X \vert \theta)\)</p>
 <p><br><br>Similar to the forward algorithm, several nodes are being recomputed. So, if we avoid recomputation, the tree looks like the following:</p> 
 
 <img src="images/backward/trellis_tree.svg" class="example-img">
@@ -2011,7 +2011,7 @@ The computation tree looks like the following:<br>
 
 <p>The Backward algorithm is a dynamic programming based approach using which we can efficiently calculate \(P(X_{t+1:T} \vert z_{t}=i)\)<br>.</p>
 <img src="images/backward/backward_equation.svg" style="width: 40%;height: auto"><br><br>
-<p>In other words it is the probability of observing '<span class="plain-color-4">\(X_{t+1:T}\)</span>' given state '<span class="plain-color-3">\(i\)</span>' at time '<span class="plain-color-2">t</span>'.<br><br>
+<p>In other words, it is the probability of observing '<span class="plain-color-4">\(X_{t+1:T}\)</span>' given state '<span class="plain-color-3">\(i\)</span>' at the time '<span class="plain-color-2">t</span>'.<br><br>
 
 </p>
 <img src="images/backward/backward_trellis.svg" class="half-img">
@@ -2019,7 +2019,15 @@ The computation tree looks like the following:<br>
 
 <p>
   <br>
-Let us assume a general case, where we have \(K\) states. The trellis diagram shows that if at time \(t\), we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states.<br><br> Mathematically, 
+Let us assume a general case, where we have \(K\) states. We can end up in state \(i\) at time t from each of the \(K\) paths starting at the next timestamp of 
+ of \(\beta_{t+1}(j)\) of state j multiplied with the transition probability \(A_{ij}\)  and emission probability \(\phi_{j} (x_{t+1})\) 
+.
+<!-- 
+The trellis diagram shows that if at time \(t\), we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states. -->
+
+<br><br>
+
+ Mathematically, 
 <br><br>
 
 \(
@@ -2065,7 +2073,7 @@ Thus, the general form for the backward procedure can be mathematically represen
 \end{align}
 \)
 <br><br>
-<b>Recall that in the forward algorithm, we defined \(\alpha_{t+1}\) in terms of \(\alpha_t\) but here in the backward procedure, we define \(\beta_{t}\) in terms of \(\beta_{t+1}\).</b>
+<b>Recall that in the forward algorithm, we defined \(\alpha_{t+1}\) in terms of \(\alpha_t\) but here, in the backward procedure, we define \(\beta_{t}\) in terms of \(\beta_{t+1}\).</b>
 
 
 <!-- <img src="images/backward-2.svg" style="width: 100%; height: auto"> -->
@@ -2202,7 +2210,7 @@ Given the parameters and the sequence of observations, what is the most probable
 <br><br>
 In simple terms, what is the sequence of hidden states that maximizes \(P(Z_{1:T} \vert x_{t:T})\)?
 <br><br>
-We can find the sequence that maximizes \(P(Z_{1:T} \vert x_{t:T})\) by finding the probability across all the \(K^{T}\) paths. As discussed in the motivation for the Forward algorithm, we recompute many of the probabilities. Hence we use an a dynamic programming based approach to  calculate \(Z_{T}^{*}\). 
+We can find the sequence that maximizes \(P(Z_{1:T} \vert x_{t:T})\) by finding the probability across all the \(K^{T}\) paths. As discussed in the motivation for the Forward algorithm, we recompute many of the probabilities. Hence we use a dynamic programming based approach to  calculate \(Z_{T}^{*}\). 
 <br><br>
 First, let us define the following 
 
@@ -2223,7 +2231,7 @@ First, let us define the following
 <img src="images/viterbi/viterbi_equation.svg" style="width: 100%; height: auto; ">
 
 <p style="  line-height: 3;">
-<span class="plain-color-10">Best score (highest prob)</span> along a <span class="plain-color-4">single path at time \(t\)</span>, which accounts for <span class="plain-color-7"> first \(t\) observations</span> and ends in <span class="plain-color-5">\(z_{t}=i\)</span>.
+<span class="plain-color-10">Best score (highest prob)</span> along a <span class="plain-color-4">single path at time \(t\)</span>, which accounts for the <span class="plain-color-7"> first \(t\) observations</span> and ends in <span class="plain-color-5">\(z_{t}=i\)</span>.
 
 </p>
 
@@ -2254,7 +2262,7 @@ First, let us define the following
 
 <ul>
   <li>
-  We could reach \(z_{t+1}=j\) from any \(i \in \{ 1, \dots, K\}\) via transition probability \(A_{ij}\)</li>
+  We could reach \(z_{t+1}=j\) from any \(\delta_{t}(i)\) \(i \in \{ 1, \dots, K\}\) via transition probability \(A_{ij}\)</li>
   <li>
     Once we reach \(z_{t+1}=j\), probability of observing \(x_{t+1}\) is \(\phi_{j} (x_{t+1})\)
   </li>
@@ -2323,7 +2331,7 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
 <img  class="example-img delta" src="images/viterbi_gif/4.svg">
 <img  class="example-img delta" src="images/viterbi_gif/5.svg">
 <img  class="example-img delta" src="images/viterbi_gif/6.svg">
-<p style="text-align: center">Trellis diagram showing the \(\delta_{i}(j)\) calculation.</p>
+<p style="text-align: center">Trellis diagram showing the \(\delta_{t}(j)\) calculation.</p>
 
           <div style="display: flex; justify-content: center;">
             <button type="button" class="btn gif_button" onclick="previous_image('delta')" ><i class="fa fa-step-backward"></i></button>
@@ -2337,7 +2345,7 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
 
 
   
-<p><br>Now, we see the arguments, which maximized each of the above  \(\delta_{t}(i)\)<br><br></p>
+<p><br>Now, we see the arguments, which maximized each of the above  \(\delta_{t}(i)\).<br><br></p>
 
 <table >
   <thead>
@@ -2371,12 +2379,12 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
 </table>
 
 <p><br>
-Now, we create a diagram, where edge from \(z_{t-1} (i)\) to \(z_{t}(j)\) denotes that \(\psi_{t}(j) = i\). In short, we add an edge from the state in the previous timestamp that maximized the current \(\delta_{t}(j)\).<br><br>  
+Now, we create a diagram, where an edge from \(z_{t-1} (i)\) to \(z_{t}(j)\) denotes that \(\psi_{t}(j) = i\). In short, we add an edge from the state in the previous timestamp that maximized the current \(\delta_{t}(j)\).<br><br>  
 </p>
 <img  src="images/backtracking_gif/numbers.svg" class="example-img" >
 
 <p style="text-align: center;">Image showing computed values of \(\psi_{t}(j)\)</p>
-<p><br>The following shows the backtracking procedure. First, we choose the node at the last timestamp with highest probability. Hence, \(Z_{3}^{*}=B\) is chosen first. Then, iteratively we backtrace the path from \(z_{3}=B\) to the start.</p>
+<p><br>The following shows the backtracking procedure. First, we choose the node at the last timestamp with the highest probability. Hence, \(Z_{3}^{*}=B\) is chosen first. Then, iteratively we backtrace the path from \(z_{3}=B\) to the start.<br><br></p>
 
 <img  class="example-img backtracking" src="images/backtracking_gif/7.svg">
 <img  class="example-img backtracking" src="images/backtracking_gif/8.svg">
@@ -2384,7 +2392,7 @@ Now, we create a diagram, where edge from \(z_{t-1} (i)\) to \(z_{t}(j)\) denote
 <img  class="example-img backtracking" src="images/backtracking_gif/10.svg">
 
 
-<p style="text-align: center;"><br>Backtracking procedure for calculating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\)<br><br></p>
+<p style="text-align: center;">Backtracking procedure for calculating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\)<br><br></p>
 
           <div style="display: flex; justify-content: center;">
             <button type="button" class="btn gif_button" onclick="previous_image('backtracking')" ><i class="fa fa-step-backward"></i></button>
@@ -2535,7 +2543,7 @@ Qljo (Rta)
         </div>
         
       
-        <h4 style="margin-bottom:0px;">BackTracking</h4>
+        <h4 style="margin-bottom:0px;">Backt3racking</h4>
           <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" id="backtracking-loop">FOR \(t\) in \(T-1\) to \(1\):</p>
           <div style="margin-left: 4em; padding:2em!important; margin-bottom:0px; border: solid; border-color: transparent;" id="backtracking-content">
             <p style="margin-bottom:0px;"><span style="background: blue;padding: 1em">\(Z_{t}^{*} \)</span> = <span style="background: orange;padding: 1em">\(\psi_{t+1}\)</span><span style="background: red;padding: 1em">\((Z^{*}_{t+1})\)</span></p>
@@ -2630,16 +2638,16 @@ Qljo (Rta)
 
   <!-- Next, we move on the fifth problem in Hidden Markov models, which is the problem of parameter learning given a series of observations. -->
   <h3>Problem 5: Parameter Learning</h3>
-  <p>The objective is to learn the parameters of a HMM, given a set of observations.<br><br>
+  <p>The objective is to learn the parameters of an HMM, given a set of observations.<br><br>
 
       First, we consider an easier version of the problem, which is the process of parameter estimation, given the observed sequences and the corresponding hidden state sequences. <br><br>
 
       <p><b>Parameter learning given fully observed hidden sequences</b><br><br>
-      Let us assume we have the labelled hidden sequences and observations for N examples. Below diagram denotes the \(i^{th}\) example.<br><br></p>
+      Let us assume we have the labeled hidden sequences and observations for N examples. The below diagram denotes the \(i^{th}\) example.<br><br></p>
 
       <img src="images\parameter_learning_fully_observed\sample_example.svg" class="example-img">
       
-      <p style="text-align: center"> Hidden states and observations for the \(i^{th}\) example.</p>
+      <p style="text-align: center"> Hidden states and observations for the \(i^{th}\) example</p>
 
       <p><br>
         where<br><br>
@@ -2674,7 +2682,7 @@ Qljo (Rta)
 
     <p style="margin-top: 2em"><b><br>Calculating \(\pi\)</b></p>
     
-    <p><br>Below are the above examples color coded for better understanding. We wish to compute \(\pi\).</p>
+    <p><br>The diagrams below show the above examples with color-coding for a better understanding. We wish to compute \(\pi\).</p>
 
     <div class="l-screen">
       <div class="one-third-div">
@@ -2692,7 +2700,7 @@ Qljo (Rta)
 
     <p style="margin-top: 2em"><b><br>Calculating \(A\)</b></p>
 
-    <p><br>Below are the above examples color coded for better understanding. We wish to compute \(A\).</p>
+    <p><br>The diagrams below show the above examples with color-coding for a better understanding We wish to compute \(A\).</p>
 
     <div class="l-screen">
       <div class="one-third-div">
@@ -2710,7 +2718,7 @@ Qljo (Rta)
 
     <p style="margin-top: 2em"><b><br>Calculating \(\phi\)</b></p>
 
-    <p><br>Below are the above examples color coded for better understanding. We wish to compute \(\phi\).</p>
+    <p><br>The diagrams below show the above examples with color-coding for a better understanding We wish to compute \(\phi\).</p>
 
     <div class="l-screen">
       <div class="one-third-div">
@@ -2727,16 +2735,16 @@ Qljo (Rta)
     <img src="images/examples/phi_formula.svg" class="example-img" style="background: white"> 
 
 
-    <p><br><br>The above algorithm can be applied when we have access to labelled hidden sequences. <br><br>
+    <p><br><br>The above algorithm can be applied when we have access to labeled hidden sequences. <br><br>
 
-      The next section discusses about the procedure to estimate the parameters when the hidden sequences are not provided. <br><br>
+      The next section discusses the procedure to estimate the parameters when the hidden sequences are not provided. <br><br>
 
-      <b>Parameter learning without fully labelled hidden sequences</b><br><br>
-      Let us assume we only the observations for N examples. Below diagram denotes the obsrvations for the \(i^{th}\) example.<br><br>
+      <b>Parameter learning without fully labeled hidden sequences</b><br><br>
+      Let us assume we only the observations for N examples. The below diagram denotes the obsrvations for the \(i^{th}\) example.<br><br>
 
       <img src="images\parameter_not_fully_observed\example-hmm.svg" class="example-img">
       
-      <p style="text-align: center"> Observations for the \(i^{th}\) example.</p>
+      <p style="text-align: center"> Observations for the \(i^{th}\) example</p>
 
       <p><br>
       <!-- where<br><br>
@@ -2746,9 +2754,9 @@ Qljo (Rta)
 
       
        -->
-       We know the procedre to calculate optimal parameters, when we are provided with hidden state sequences. So, if we are not provided the hidden state sequences, we try to "estimate" the "expected" state sequence. Now, we have the "expected hidden state sequences", so we can find parameters.  <br><br>
+       We know the procedure to calculate optimal parameters, when we are provided with hidden state sequences. So, if we are not provided the hidden state sequences, we try to "estimate" the "expected" state sequence. Now, we have the "expected hidden state sequences", so we can find parameters.  <br><br>
 
-       This method called as <b>"Expectation-Maximization"</b> as is done iteratively. It is derived from MLE<br><br>
+       This method is called <b>"Expectation-Maximization"</b> and is done iteratively. It is derived from MLE.<br><br>
 
        The algorithm is as follows:
       <br><br>
@@ -2771,7 +2779,7 @@ Qljo (Rta)
         <p>Repeat till convergence<br><br></p>
         <div style="margin-left: 1em">
         <ul>
-          <li><b>Expectation step:</b> Fix the parameters \(A,\pi,\phi\) and calculate the expected state assignments. </li>
+          <li><b>Expectation step:</b> Fix the parameters \(A,\pi,\phi\), and calculate the expected state assignments. </li>
           <li><b>Maximization step:</b> Fix the expected state assignments, and update the parameters to maximize the likelihood of observing the expected state assignments.</li>
         </ul>
         </div>
@@ -2783,7 +2791,7 @@ Qljo (Rta)
       In this step, we try to estimate the hidden states based on the parameters.<br><br>
 
 
-      We need to define \(\epsilon_{t}(i,j)\) which is an Expected Sufficient Stats(ESS)<br><br>
+      We need to define \(\epsilon_{t}(i,j)\) which is an Expected Sufficient Stats(ESS).<br><br>
        </p>
       <p>\(\epsilon_{t}(i,j)\): Expected number of transitions from state \(i\) to state \(j\) at time \(t\)</p>
 <!-- 
@@ -2807,7 +2815,7 @@ Qljo (Rta)
                             &= \cfrac{  P(z_{t} =i , x_{1:t}) *  A_{ij} *  P(x_{t+1} \vert z_{t+1} =j ) * P(X_{t+2:T} \vert z_{t+1} =j) }{P(X_{1:T} \vert \theta)}\\ -->
 
       <br><br><br>
-      Now, we define another term \(\gamma_{t}(i)\) based on \(\epsilon_{t}(i,j)\)<br><br>
+      Now, we define another term \(\gamma_{t}(i)\) based on \(\epsilon_{t}(i,j)\).<br><br>
       \(\gamma_{t}(i)\): Expected number of times for being in state \(i\)  at time \(t\). 
       <br><br>
       \(
@@ -2822,7 +2830,7 @@ Qljo (Rta)
       The maximization is optimizing parameters to increase the likelihood of observing \(z_{it}\) and \(x_{it}\).<br><br>
       This step is similar to finding parameters in the fully observed hidden sequences in HMM.<br><br>
 
-      In the following sections<br><br>
+      In the following sections,<br><br>
       \(\epsilon_{n,t}(i,j)\) denotes the \(\epsilon_{t}(i,j)\) for the \(n^{th}\) sample.
       <br><br>
       \(\gamma_{n,t}(i)\) denotes the \(\gamma_{t}(i)\) for the \(n^{th}\) sample.
@@ -2844,7 +2852,7 @@ Qljo (Rta)
       <p><br><br><b>Updating \(\pi\)</b></p>
       <br>
       <p>      
-      \(\hat{\pi_k}\) denotes the expected fraction of sequences with \(z_{1}=k\)<br><br>
+      \(\hat{\pi_k}\) denotes the expected fraction of sequences with \(z_{1}=k\).<br><br>
 
       \(\hat{\mathbf{\pi_{k}}}  = \cfrac{\text{Expected number of sequences that start with }z_{k} }{\text{Total number of sequences}}\)<br><br>
 
@@ -2855,7 +2863,7 @@ Qljo (Rta)
       <p><br><br><b>Updating \(A\)</b></p>
       <br>
       <p><br>
-      \(\hat{A_{jk}}\) denotes the expected probability of transitions from state \(i\) to state \(j\)<br><br>
+      \(\hat{A_{jk}}\) denotes the expected probability of transitions from state \(i\) to state \(j\).<br><br>
 
       \(
       \begin{align}
@@ -2871,7 +2879,7 @@ Qljo (Rta)
       <p><b><br><br>Updating \(\phi\)</b></p>
       <br>
       
-      <p>\(\hat{\phi_{jl}}\) denotes the expected probability of observing \(l\) from state \(j\)<br><br></p>
+      <p>\(\hat{\phi_{jl}}\) denotes the expected probability of observing \(l\) from state \(j\).<br><br></p>
       <p>
       \(
       \begin{align}
@@ -2883,15 +2891,15 @@ Qljo (Rta)
       </p>
       <p>
         <br>
-      By repeating the Expectation and Maximization steps till convergence, we get a set of sub-optimal parameters. Since, many local minima exist, it is  hard to reach the global maxima.<br><br>
+      By repeating the Expectation and Maximization steps till convergence, we get a set of sub-optimal parameters. Since many local minima exist, it is  hard to reach the global maxima.<br><br>
 
-      In general, the whole algorithm is run with multiple starting points, and the final parameters which maximize the likelihood of observations is chosen. <br>
+      In general, the whole algorithm is run with multiple starting points, and the final parameters which maximize the likelihood of observations are chosen. <br>
 
     </p>
 
 
     <h1>Conclusion</h1>
-    <p>In the article, we understood about the Hidden Markov models and the learning procedure. First, we looked at Markov chain and we looked at each of the individual components. Similarly, we understood the components of a Hidden Markov model. Later, we defined and understood the key problems of a HMM:</p>
+    <p>In the article, we understood about the Hidden Markov models and the learning procedure. First, we looked at the Markov chain and we looked at each of the individual components. Similarly, we understood the components of a Hidden Markov model. Later, we defined and understood the key problems of an HMM:</p>
     <span style="color: red">Adding the graphical diagrams for the following</span>
     <ul>
       <li>The Forward algorithm</li>
@@ -2900,17 +2908,16 @@ Qljo (Rta)
       <li>The Parameter learning algorithm</li>
 
     </ul> 
-    <p><br>Now that we understood every component of a HMM and the process of learning parameters  of a HMM given training data, we can now explore other variants of HMM such as:</p>
+    <p><br>Now that we have understood every component of an HMM and the process of learning parameters of an HMM given the training data, we can now explore other variants of HMM such as:</p>
 
     <ul>
       <li>Auto-Regressive HMMs</li>
-      <li>Factorial HMMs</li>
       <li>Factorial HMMs</li>
       <li>Coupled HMMs</li>
       <li>Hierarchical HMMs</li>
     </ul>    
 
-    <p>HMMs were widely used in 1990s especially for speech processing tasks and for other time-series models. The RNNs which are widely used today, are analogous to HMM. The concept of parameter sharing between timestamps is employed in RNNs as well. So, RNNs can be considered as an advanced extension of HMMs. </p>
+    <p>HMMs were widely used in the 1990s especially for speech processing tasks and for other time-series models. The RNNs which are widely used today, are analogous to HMM. The concept of parameter sharing between timestamps is employed in RNNs as well. So, RNNs can be considered as an advanced extension of HMMs. </p>
 
   </d-article>
 
