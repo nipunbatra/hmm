@@ -584,7 +584,7 @@ Let us consider another example. Imagine that it has been raining the past few d
   
 
 
-  <h1>Markov Chain</h1>
+  <h1>Markov chain</h1>
 
   <p>
 
@@ -616,7 +616,7 @@ We now try to understand Markov chains using some examples.
       <img src="images/rain_sun_images/unrolled_mm.svg" class="example-img">
       <p class="example-text">Markov chain for Sunny and Rainy Weather</p>
       <p class="example-description">
-         Assume a scenario where you observe the weather of a place. The above markov chain denotes the change of weather. The weather of the next day depends on the previous day.
+         Assume a scenario where you observe the weather of a place. The above Markov chain denotes the change of weather. The weather of the next day depends on the previous day.
 
        </p>
   </div>
@@ -625,14 +625,14 @@ We now try to understand Markov chains using some examples.
       <img src="images/fair_biased_images/unrolled_mm.svg" class="example-img">
       <p class="example-text">Markov chain for a Fair and a Biased coin swap</p>
       <p class="example-description">
-        Assume a scenario where you have two coins: fair and biased. The above markov chain denotes the coin you choose at a timestamp. The coin chosen at the next timestamp depends on the coin at the previous timestamp.
+        Assume a scenario where you have two coins: fair and biased. The above Markov chain denotes the coin you choose at a timestamp. The coin chosen at the next timestamp depends on the coin at the previous timestamp.
        </p>
   </div>
   <div class="one-third-div">
       <img src="images/on_off_images/unrolled_mm.svg" class="example-img">
       <p class="example-text">Markov chain for an Air Conditioner state</p>
       <p class="example-description">
-         Assume a scenario where the compressor of an air conditioner is turned ON/OFF. The above markov chain denotes the state of the compressor. The state of the compressor at the next timestamp depends on the state at the previous timestamp.
+         Assume a scenario where the compressor of an air conditioner is turned ON/OFF. The above Markov chain denotes the state of the compressor. The state of the compressor at the next timestamp depends on the state at the previous timestamp.
        </p>
   </div>
 
@@ -660,7 +660,7 @@ We now try to understand Markov chains using some examples.
   <p>
 
 
-  Similarly, a second order Markov chain is the one where the conditional probability of future prediction for observation of \(x_{t+1}\), is dependent on the present \(x_t\) and one timestamp on the past \(x_{t-1}\). Thus, we can represent the joint probability distribution of second order markov chain can be written as \(P(x_{t+1}\vert x_1, x_2, \ldots x_t) = P(x_{t+1} \vert x_t, x_{t-1})\).
+  Similarly, a second order Markov chain is the one where the conditional probability of future prediction for observation of \(x_{t+1}\), is dependent on the present \(x_t\) and one timestamp on the past \(x_{t-1}\). Thus, we can represent the joint probability distribution of second order Markov chain can be written as \(P(x_{t+1}\vert x_1, x_2, \ldots x_t) = P(x_{t+1} \vert x_t, x_{t-1})\).
 
   <br><br>
   Joint Probability is calculated using the following factorisation  \(P(x_{t+1}, x_t, x_{t-1}) = P(x_1)*P(x_2 \vert x_1) \prod_{t=3}^{t=T} P(x_t \vert x_{t-1},x_{t-2})\)
@@ -672,7 +672,7 @@ We now try to understand Markov chains using some examples.
   <img src="images/mm-2-order.svg" style="width: 100%;height: auto">
 
 -->
-  <h3>Parameters of Markov Chain</h3>
+  <h3>Parameters of Markov chain</h3>
   <p>
   Each of the discrete values of observation at time \(t\) or \(x_t\) can take a discrete state. In the case of weather, the states are Rainy and Sunny. In the case of coin swap, the states are Biased coin and fair coin. In the case of air conditioner, the states are Compressor ON and Compressor OFF.  <br><br>
 
@@ -724,7 +724,7 @@ We now try to understand Markov chains using some examples.
   <div class="one-third-div">
       <img src="images/on_off_images/mm.svg" class="example-img">
       <p class="example-text">Markov chain for Air Conditioner state</p>
-      <p class="example-description">Assume a scenario, where the compressor of an air conditioner is controlled using a markov chain. The above diagram, describes how the state of the compressor changes. In this example, we can observe if the compressor is ON or OFF. The compressor has a probability of changing its state from ON to OFF with probability <b>0.3</b>. 
+      <p class="example-description">Assume a scenario, where the compressor of an air conditioner is controlled using a Markov chain. The above diagram, describes how the state of the compressor changes. In this example, we can observe if the compressor is ON or OFF. The compressor has a probability of changing its state from ON to OFF with probability <b>0.3</b>. 
       <br><br>
       <b>Observation</b>: ON/OFF state
     </p>
@@ -732,13 +732,13 @@ We now try to understand Markov chains using some examples.
 
 
 </div>
-<!--   <h1>Example of Markov Chain</h1>
+<!--   <h1>Example of Markov chain</h1>
 
   <p>
 
 
 
-  If we create a markov chain for the above example, we have two states: <b>Rainy</b> and <b>Sunny</b>. <br><br>Transititon probability matrix \(A\) denotes the transition probabilities between Sunny and Rainy days. <br><br>The \(\pi\) matrix denotes the probability of any day being either Sunny or Rainy.
+  If we create a Markov chain for the above example, we have two states: <b>Rainy</b> and <b>Sunny</b>. <br><br>Transititon probability matrix \(A\) denotes the transition probabilities between Sunny and Rainy days. <br><br>The \(\pi\) matrix denotes the probability of any day being either Sunny or Rainy.
   <br><br>
 
   If, \(A[Sunny, Sunny] = 0.8\), it denotes that probability of next day being <b>Sunny</b> given the previous day is <b>Sunny</b> is <b>0.8</b>.
@@ -756,7 +756,7 @@ We now try to understand Markov chains using some examples.
       
       Given the parameters of a Markov chain \(A\) and \(\pi\), we can generate sequences from it. First, we sample an initial state using the \(\pi\) matrix. Then iteratively, we sample a new state from the previous state using the \(A\) matrix. </p>
 
-    <h3 class="div-show-btn" onclick="show_mm_sampling_psuedo_code()">Markov Chain Sampling Algorithm</h3>
+    <h3 class="div-show-btn" onclick="show_mm_sampling_psuedo_code()">Markov chain Sampling Algorithm</h3>
 
     <div id = "mm-psuedo-code" class="hidden-div" style="display: none">
       
@@ -869,7 +869,7 @@ We now try to understand Markov chains using some examples.
 
 
     
-  <!--  <h1>Text Generation using Markov Chains</h1>
+  <!--  <h1>Text Generation using Markov chains</h1>
      <p>
       Our objective is to generate a p-word line given a paragraph. A Markov model of order one, predicts that each word occurs with a fixed probability, but that probability depends on the previous one word. Let’s start with an example. Suppose we have a short paragraph which reads, 
       <br><br>
@@ -877,7 +877,7 @@ We now try to understand Markov chains using some examples.
       <span style="text-align: center;">“Learning is fun.<br> Fun is cool.<br> Learning cool”<br></span>
 <p>
 <br>
-Sure, the paragraph does not make sense but it is good enough to demonstrate the concept of text generation using markov chain. Since we are generating text, we need to determine the markov chain parameters. The prior probability for each word is given as the fraction of the count of number of occurance of the word by the total words in the paragraph. That is, \(P(Learning) = \frac{1}{4}, P(is) = \frac{1}{4}, P(cool) = \frac{1}{8}\) and so on.
+Sure, the paragraph does not make sense but it is good enough to demonstrate the concept of text generation using Markov chain. Since we are generating text, we need to determine the Markov chain parameters. The prior probability for each word is given as the fraction of the count of number of occurance of the word by the total words in the paragraph. That is, \(P(Learning) = \frac{1}{4}, P(is) = \frac{1}{4}, P(cool) = \frac{1}{8}\) and so on.
 
 <br><br>
 The second parameter we are interested in is the emission probability. For example, the Probability of seeing the word “is” given that we saw the word “learning” is given by the count of “is” followed by “learning”, which in this case is 1, divided by the count of all the words that is followed by the word “learning” which in this case is 2. Mathematically,
@@ -1452,7 +1452,7 @@ Similarly, we can calculate the probability for other sequence of words.
 <!-- 
       <p><br>Clearly, the above paths have common sequences. The common sequence is \(z_{1}=B, z_{2}=B\). So, if we can store the result of the common paths, we can save some computational power. This provides the motivation for the forward algorithm.</p>
       <br><br> -->
-      <h4>Motivating the need for forward algorithm</h4>
+      <p><b>Efficiently calculating \(L(X \vert \theta)\)</b></p>
       <p>Let us go back to the fair coin and biased coin example. We wish to compute \(L(HHH \vert \theta)\).<br><br>
 
       \(L(X \vert \theta) = P(HHH \vert z_{3} = F) + P(HHH \vert z_{3} = B)\)<br><br>
@@ -1461,7 +1461,7 @@ Similarly, we can calculate the probability for other sequence of words.
       \(P(HHH \vert z_{3}=F) = \Big[P(HH \vert z_{2}=F)*A_{FF}+P(HH \vert z_{2}=B)*A_{BF}\Big] \phi(H \vert F)\)
       <br><br>
 
-      Similarly to the above we can compute \(P(HHH \vert z_{3}=B),P(HH \vert z_{2}=F)\) and \(P(HH \vert z_{2}=F)\). <br><br>Finally, we need to compute \(P(H \vert z_{1}=F)\) and \(P(H \vert z_{1}=B)\)<br><br>
+      Similarly to the above we can compute \(P(HHH \vert z_{3}=B),P(HH \vert z_{2}=F)\) and \(P(HH \vert z_{2}=B)\). <br><br>Finally, we need to compute \(P(H \vert z_{1}=F)\) and \(P(H \vert z_{1}=B)\)<br><br>
       \( P(H \vert z_{1}=F) = \pi_{F} *\phi(H \vert F) \)<br><br>
       \( P(H \vert z_{1}=B) = \pi_{B} *\phi(H \vert B) \)<br><br>
     
@@ -1471,16 +1471,16 @@ Similarly, we can calculate the probability for other sequence of words.
       <p style="text-align: center;"><br>Computation Tree for calculating \(L(X \vert \theta)\)</p>
       <p>If we observe closely, some nodes are being computed multiple times. We can avoid recomputation as shown in the tree below.
     </p>
-      <img src="images/forward/computation_tree_minimized.svg" class="example-img">
+      <img src="images/forward/trellis_tree.svg" class="example-img">
       <p style="text-align: center;"><br>Optimized Computation Tree for calculating \(L(X \vert \theta)\)</p>
 
       <p>The above is the tree which doesn't calculate the same node twice. Once computed, it is stored in memory and is reused whenever needed. <br><br>
 
-        The above tree, can be reordered to look like the following.<br><br>
+        <!-- The above tree, can be reordered to look like the following.<br><br> -->
 
-        <img src="images/forward/trellis_tree.svg" class="example-img">
+        <!-- <img src="images/forward/trellis_tree.svg" class="example-img"> -->
 
-        <p style="text-align: center;"> Trellis representation of the optimized computation tree </p>
+        <!-- <p style="text-align: center;"> Trellis representation of the optimized computation tree </p> -->
         
 
         So, we need to store \(P(X_{1:t} \vert z_{t}=i)\). <br><br>Essentially this what the Forward algorithm does. We now discuss it in detail.  
@@ -1921,7 +1921,7 @@ Having studied the forward procedure, we will now understand the backward proced
 
   <br><br>
   What is the value of  \(P(x_{1},\dots,x_{T} \vert z_{t} = i)\)? It is also the likelihood of a sequence conditioned on one specific state at a particular timestamp. <br><br>
-  Again let us  try to understand this with an example. Let us go back to the Rainy and Sunny HMM example. You were observing your roommate for five days. <br><br>Let the observations be \({D,D,W,W,W}\). You don't want to find out the weather for each day. <b>Instead you want to find how likely is the above sequence if the third day was Raining?</b>.
+  Again let us  try to understand this with an example. Let us go back to the Rainy and Sunny HMM example. 'D' denotes dry shoes and 'W' denotes wet shoes. You were observing your roommate for five days. <br><br>Let the observations be \({D,D,W,W,W}\). You don't want to find out the weather for each day. <b>Instead you want to find how likely is the above sequence if the third day was Raining?</b>.
   <br><br>
   You want to compute \(P(DDWWW \vert z_{3}=Rainy)\)
   <br><br>
@@ -1936,10 +1936,18 @@ Having studied the forward procedure, we will now understand the backward proced
 \)
 <br><br>
 \(\beta_{t}(i)\) is the probability of the  future sequence \(X_{t+1:T}\) conditioned on the current state \(z_{t}\). It is calculated using backward algorithm.<br><br>
-How can we calculate it efficiently?<br><br>
+
+How can we calculate it efficiently? Similar to the forward algorithm, we can use dynamic programming to calculate it efficiently.<br>
+</p>
+
+  <h3 class="div-show-btn" onclick="show_backward_motivation()">How to calculate \(\beta_{t}(i)\) efficiently</h3>
+
+  <div id = "backward-motivation" class="hidden-div" style="display: none">
+    
+<p>
 Let us consider it with our Fair coin and Biased coin example. Assume we want to calculate \(L(HHH \vert \theta)\)<br><br>
 
-\(L(HHH \vert \theta) = P(_HH \vert z_{1}=F) \pi(F) \phi(F,H) + P(_HH \vert z_{1}=B) \pi(B) \phi(B,H)\)<br><br>
+\(L(HHH \vert \theta) = P(\_HH \vert z_{1}=F) \pi_F \phi_F(H) + P(_HH \vert z_{1}=B) \pi_B \phi_B (H)\)<br><br>
 
 Similarly we can calculate \(P(\_HH \vert z_{1}=B\),\(P(\_HH \vert z_{1}=F)\),\(P(\_\_H \vert z_{2}=F)\) and \(P(\_\_H \vert z_{2}=B)\).<br><br>
 
@@ -1952,11 +1960,11 @@ The computation tree looks like the following:<br>
 <p style="text-align: center;"><br> Computation tree for calculating \(L(X \vert \theta)\)</p>
 <p><br><br>Similar to the forward algorithm, several nodes are being recomputed. So, if we avoid recomputation, the tree looks like the following:</p> 
 
-<img src="images/backward/partial_computation_tree.svg" class="example-img">
-<p style="text-align: center;">Optimized computation tree for calculating \(L(X\vert \theta\)</p>
-<p>If we rearrange the nodes, the tree looks like the following</p>
 <img src="images/backward/trellis_tree.svg" class="example-img">
-<p style="text-align: center;"> Trellis representation of the optimized computation tree </p>
+<p style="text-align: center;">Optimized computation tree for calculating \(L(X\vert \theta\)</p>
+
+
+</div>
 <h3>Problem 3: Backward Algorithm</h3>
 
 <p>The Backward algorithm is a dynamic programming based approach using which we can efficiently calculate \(P(X_{t+1:T} \vert z_{t}=i)\).</p>
@@ -2175,8 +2183,8 @@ First, let us define the following
 
 </p>
 
-<p><b>Difference between \(\alpha_{t}(i)\) and \(\delta_{t}(i)\)</b></p>
-<p>
+<!-- <p><b>Difference between \(\alpha_{t}(i)\) and \(\delta_{t}(i)\)</b></p> -->
+<!-- <p> -->
 
 
 <!--  
@@ -2194,15 +2202,15 @@ First, let us define the following
 \)
 <br><br> -->
 
-\(\delta_{t} (i)\) focuses on the most probable sequence whereas \(\alpha_{t}(i)\) focuses on the most likely state at time 't'.
+<!-- \(\delta_{t} (i)\) focuses on the most probable sequence whereas \(\alpha_{t}(i)\) focuses on the most likely state at time 't'.
 
 </p>
-
+ -->
 <p><b><br>Relation between \(\delta_{t}(i)\) and \(\delta_{t+1}(j)\) </b> </p>
 
 <ul>
   <li>
-  We could reach \(_{t+1}=j\) from any \(i \in \{ 1, \dots, K\}\) via transition probability \(A_{ij}\)</li>
+  We could reach \(z_{t+1}=j\) from any \(i \in \{ 1, \dots, K\}\) via transition probability \(A_{ij}\)</li>
   <li>
     Once we reach \(z_{t+1}=j\), probability of observing \(x_{t+1}\) is \(\phi_{j} (x_{t+1})\)
   </li>
@@ -2230,14 +2238,14 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
 
         <div > 
         <div>
-        <h4 style="margin-bottom:0px;">Initialization</h4>
+        <p style="margin-bottom:0px;"><b>Initialization</b></p>
         <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >FOR \(i\) in 1 to \(K\):</p>
         <div style="margin-left: 4em; padding:0.25em!important; margin-bottom:0px; border: solid; border-color: transparent;" >
           <p style="margin-bottom:0px;">\(\delta_{1}(i) = \pi_{i} * \phi_{i}(x_{1})\)</p>
           <p style="margin-bottom:0px;">\(\psi_{1}(i) = \text{Start}\)</p>
         </div>
         </div>
-        <h4 style="margin-bottom:0px;">Recursion</h4>
+        <p style="margin-bottom:0px;"><b>Recursion</b></p>
           <div style="margin-left: 2em;padding:0.25em!important;  margin-bottom:0px;">
           <p style="margin-left: 0em;padding:0.25em!important;  margin-bottom:0px;;border: solid; border-color: transparent;"  >FOR \(t\) in 2 to \(T\):</p>
             <p style="margin-left: 2em;padding:0.25em!important;margin-bottom:0px;  ;border: solid; border-color: transparent;" >FOR \(j\) in 1 to \(K\):</p>
@@ -2248,7 +2256,7 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
          </div>   
     </div>    
   <div >
-        <h4 style="margin-bottom:0px;">Termination</h4>
+        <p style="margin-bottom:0px;"><b>Termination</b></p>
         <div style="border: solid; border-color: transparent;">
           <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >\(P^{*} = \underset{ i \in 1 \dots K}  \max \delta_{T}(i) \)</p>
           <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >\(Z_{T}^{*} = \underset{ i \in 1 \dots K}  \arg\max \delta_{T}(i) \)</p>
@@ -2256,17 +2264,15 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
         </div>
         
       
-        <h4 style="margin-bottom:0px;">BackTracking</h4>
+        <p style="margin-bottom:0px;"><b>Backtracking</b></p>
           <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >FOR \(t\) in \(T-1\) to \(1\):</p>
           <div style="margin-left: 4em; padding:1em!important; margin-bottom:0px; border: solid; border-color: transparent;" >
             <p style="margin-bottom:0px;"><span style="background: ;padding: ">\(Z_{t}^{*} \)</span> = <span style="background: ;padding: ">\(\psi_{t+1}\)</span><span style="background: ;padding: ">\((Z^{*}_{t+1})\)</span></p>
             
           </div>
 </div>
-
-
-<p>
-<br><br>The following shows the viterbi calculation for estimating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\). </p>
+<p><br><b>Viterbi Example</b><br>
+<br>The following shows the viterbi calculation for estimating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\). </p>
 <img id="viterbi_gif" class="example-img">
 <p style="text-align: center"><br>Trellis diagram showing the \(\delta_{i}(j)\) calculation.</p>
 
@@ -2311,12 +2317,12 @@ Now, we create a diagram, where edge from \(z_{t-1} (i)\) to \(z_{t}(j)\) denote
 <img  src="images/backtracking_gif/numbers.svg" class="example-img" >
 
 <p style="text-align: center;">Image showing computed values of \(\psi_{t}(j)\)</p>
-<p><br>The following shows the backtracking procedure. </p>
+<p><br>The following shows the backtracking procedure. First, we choose the node at the last timestamp with highest probability. Hence, \(Z_{3}^{*}=B\) is chosen first. Then, iteratively we backtrace the path from \(z_{3}=B\) to the start.</p>
 
 <img id="backtracking_gif" class="example-img">
 
 
-<p></p>
+<p style="text-align: center;"><br>Backtracking procedure for calculating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\)</p>
 
 <!-- <div class="l-screen">
   <div class="half-div" style="padding: 1em">
@@ -2350,10 +2356,85 @@ Qljo (Rta)
       <!-- <span style="font-style: italic;  letter-spacing: 2px;"> P(x<sub>1</sub> = H) </span>
       <br><br> -->
 
-      
-    <div class="l-screen">
-      
+    <p>The following section shows the \(\delta_{t}(i)\) and \(\psi_{t}(i)\) calculation for the \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\) example.</p>
+    <div class="l-screen" >
       <h1>Viterbi Visualization</h1>
+      <div class="one-third-div">
+        <h3>Prior Probability \(\pi\)</h3>
+      <table class="table text-center" style="">          
+        <thead>
+                  <tr>
+                    <th></th>
+                    <th>Coin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fair</td>
+                    <td><p id="custom-range-27-probability">0.4</p></td>
+
+                  </tr>
+                  <tr>
+                    <td>Biased</td>
+                    <td><p id="custom-range-28-probability">0.6</p></td>
+                  </tr>
+                </tbody>
+              </table>
+      </div>
+
+
+    <div class="one-third-div">
+      <h3>Transition Matrix \(A\)</h3>
+      <table class="table text-center" style="">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Fair</th>
+              <th>Biased</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-29-probability">0.9</p></td>
+              <td><p id="custom-range-30-probability">0.1</p></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-31-probability">0.1</p></td>
+              <td><p id="custom-range-32-probability">0.9</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+ 
+
+    <div class="one-third-div">
+      <h3>Emission Probability \(\phi\)</h3>
+      <table class="table text-center" style="">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Head</th>
+              <th>Tails</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-33-probability">0.5</p></td>
+              <td><p id="custom-range-34-probability">0.5</p></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-35-probability">0.7</p></td>
+              <td><p id="custom-range-36-probability">0.3</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      
       <div style="float: left; width: 50% ; text-align: left;padding-left: 3em; padding-right: 3em; ">
         <div id='viterbi_1'> 
         <div>
@@ -2593,7 +2674,10 @@ Qljo (Rta)
       <b>\(\mathbf{T_{i}}\)</b> : Sequence length of the \(j^{th}\) example<br><br>
 
       
-       -->The algorithm is as follows:
+       -->
+       The optimal set of parameters can be computed  using a method called as <b>"Expectation-Maximization"</b>. It is derived from MLE<br><br>
+
+       The algorithm is as follows:
       <br><br>
       
 
@@ -2625,28 +2709,33 @@ Qljo (Rta)
 
       In this step, we try to estimate the hidden states based on the parameters.<br><br>
 
-      We need to define two parameters in order to define the hidden states<br><br>
-       </p>3
-      
-      <ul>
-        <li>\(\epsilon_{t}(i,j)\): Expected number of transitions from state \(i\) to state \(j\) at time \(t\)</li>
-        <li>\(\gamma_{t}(i)\): Expected number of times for being in state \(i\)  at time \(t\)</li>
-      </ul> 
 
-      <p>First, we define \(\epsilon_{t}(i,j)\)<br><br>
+      We need to define \(\epsilon_{t}(i,j)\) which is an Expected Sufficient Stats(ESS)<br><br>
+       </p>
+      <p>\(\epsilon_{t}(i,j)\): Expected number of transitions from state \(i\) to state \(j\) at time \(t\)</p>
+<!-- 
+      <ul>
+        <li></li>
+        <li>\(\gamma_{t}(i)\): Expected number of times for being in state \(i\)  at time \(t\)</li>
+      </ul>  -->
+
+      <p><span style="color: red">The color coded trellis diagram to be added!</span><br><br>
 
       \(
         \begin{align}
           \epsilon_{t}(i,j) &= P(z_{t}=i, z_{t+1}=j \vert X_{1:T},\theta)\\
-                            &= \cfrac{P(z_{t}=i, z_{t+1}=j, X_{1:T},\theta)}{P(X_{1:T }\vert \theta)}\\
-                            &= \cfrac{  P(z_{t} =i , x_{1:t}) *  A_{ij} *  P(x_{t+1} \vert z_{t+1} =j ) * P(X_{t+2:T} \vert z_{t+1} =j) }{P(X_{1:T} \vert \theta)}\\
+                
                             &= \cfrac{  \alpha_{t}(i) *  A_{ij} *  \phi_{j}(x_{t+1}) * \beta_{t+1}(j)} { \sum_{i} \sum_{j}  \alpha_{t}(i) *  A_{ij} *  \phi_{j}(x_{t+1}) * \beta_{t+1}(j)}
                             
         \end{align} 
       \)
+<!-- 
+                  &= \cfrac{P(z_{t}=i, z_{t+1}=j, X_{1:T},\theta)}{P(X_{1:T }\vert \theta)}\\
+                            &= \cfrac{  P(z_{t} =i , x_{1:t}) *  A_{ij} *  P(x_{t+1} \vert z_{t+1} =j ) * P(X_{t+2:T} \vert z_{t+1} =j) }{P(X_{1:T} \vert \theta)}\\ -->
 
       <br><br><br>
-      Now, we define \(\gamma_{t}(i)\)
+      Now, we define another term \(\gamma_{t}(i)\) based on \(\epsilon_{t}(i,j)\)<br><br>
+      \(\gamma_{t}(i)\): Expected number of times for being in state \(i\)  at time \(t\). 
       <br><br>
       \(
       \gamma_{t}(i) = \sum_{j} \epsilon_{t} (i,j)
@@ -2657,9 +2746,13 @@ Qljo (Rta)
 
       <b>Maximization step</b>
       <br><br>
-      The maximization is the optimizing parameters to increase the likelihood of observing \(z_{it}\) and \(x_{it}\).<br><br>
+      The maximization is optimizing parameters to increase the likelihood of observing \(z_{it}\) and \(x_{it}\).<br><br>
       This step is similar to finding parameters in the fully observed hidden sequences in HMM.<br><br>
 
+      In the following sections<br><br>
+      \(\epsilon_{n,t}(i,j)\) denotes the \(\epsilon_{t}(i,j)\) for the \(n^{th}\) sample.
+      <br><br>
+      \(\gamma_{n,t}(i)\) denotes the \(\gamma_{t}(i)\) for the \(n^{th}\) sample.
       </p>
 
 
@@ -2683,7 +2776,7 @@ Qljo (Rta)
       \(\mathbf{\pi_{k}}  = \cfrac{\text{Expected number of sequences that start with }z_{k} }{\text{Total number of sequences}}\)<br><br>
 
 
-      \(\hat{\pi_k} = \cfrac{\sum_{i=1}^{N} r_{i,1}(k)}{N}\) for all \( k  \in \{1,2,\dots,K\}\)      
+      \(\hat{\pi_k} = \cfrac{\sum_{n=1}^{N} \gamma_{n,1}(k)}{N}\) for all \( k  \in \{1,2,\dots,K\}\)      
       
       </p>
       <p><b>Updating \(A\)</b></p>
@@ -2694,7 +2787,7 @@ Qljo (Rta)
       \(
       \begin{align}
         \hat{A_{jk}} &= \cfrac{\text{Expected number of transitions from state i to state j} }{\text{Expected number of transitions from state i}}\\
-                     &= \cfrac{ \sum_{i=1}^{N} \sum_{t=2}^{T_{i}} \epsilon_{i,t}(j,k) }  { \sum_{k=1}^{K} \sum_{i=1}^{N} \sum_{t=2}^{T_{i}} \epsilon_{i,t}(j,k)  }
+                     &= \cfrac{ \sum_{n=1}^{N} \sum_{t=2}^{T_{i}} \epsilon_{n,t}(j,k) }  { \sum_{k=1}^{K} \sum_{n=1}^{N} \sum_{t=2}^{T_{n}} \epsilon_{n,t}(j,k)  }
       \end{align}
       \)
    
@@ -2710,14 +2803,15 @@ Qljo (Rta)
       \(
       \begin{align}
         \hat{\phi_{jl}} &= \cfrac{\text{Expected number of times in state j and observing l} }{\text{Expected number of times in state j}}\\
-                     &= \cfrac{ \sum_{i=1}^{N} \sum_{t: x_{i,t}=l} r_{i,t}(j) }  { \sum_{i=1}^{N} \sum_{t}^{T_{i}} r_{i,t}(j) }
+                     &= \cfrac{ \sum_{n=1}^{N} \sum_{t: x_{n,t}=l} \gamma_{n,t}(j) }  { \sum_{n=1}^{N} \sum_{t}^{T_{n}} \gamma_{n,t}(j) }
       \end{align}
       \)
    
 
       </p>
-      
-      By repeating the Expectation and Maximization steps till convergence, we get a of optimal parameters.<br><br>
+      <p>
+        <br>
+      By repeating the Expectation and Maximization steps till convergence, we get a set of sub-optimal parameters. Since, many local minima exist, it is  hard to reach the global maxima.<br><br>
 
       In general, the whole algorithm is run with multiple starting points, and the final parameters which maximize the likelihood of observations is chosen. <br>
 
@@ -2726,7 +2820,7 @@ Qljo (Rta)
 
     <h1>Conclusion</h1>
     <p>In the article, we understood about the Hidden Markov models and the learning procedure. First, we looked at Markov chain and we looked at each of the individual components. Similarly, we understood the components of a Hidden Markov model. Later, we defined and understood the key problems of a HMM:</p>
-
+    <span style="color: red">Adding the graphical diagrams for the following</span>
     <ul>
       <li>The Forward algorithm</li>
       <li>The Backward algorithm</li>
@@ -3227,6 +3321,15 @@ for(var q=17;q<27;q++){
 
   elem.parentElement.style.background = colors[q-17];
 }
+
+
+for(var q=27;q<37;q++){
+
+  var elem  = document.getElementById('custom-range-'+(q)+"-probability")
+
+  elem.parentElement.style.background = colors[q-27];
+}
+
 
 
 
@@ -4442,7 +4545,14 @@ function show_forward_algorithm(){
   }
 }
 
-
+function show_backward_motivation(){
+ var x = document.getElementById("backward-motivation");
+  if (x.style.display == "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  } 
+}
 
 
 function show_backward_algorithm(){
