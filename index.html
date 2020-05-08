@@ -199,16 +199,19 @@
     outline: none;
     width: 100%;
     background-color: #acc2c2;
+    margin-bottom: 0px!important
   }
 
   .hidden-div{
-    
+        margin-top: 0px!important;
         padding: 1em;
-        border-color: #e1f2f2;
         transition: max-height 1s ease-out;
         border-style: ridge;
-        margin-top: 1em;
         margin-bottom: 1em;
+        
+        border-color:#acc2c2!important;
+        border-top-color: transparent!important;
+        border: dashed;
   }
   .border-disabled{
     border-top:none;
@@ -278,7 +281,8 @@ th{
 }
 
 p{
-  margin-top: 1em
+  margin-top: 0px!important;
+  margin-bottom: 0px!important
 }
 
 .btn{
@@ -580,7 +584,7 @@ First we discuss why sequential modeling makes sense. When someone asks you to s
 <br><br>
 Let us consider another example. Imagine that it has been raining the past few days and someone asks you - "How likely is it that it will rain tomorrow"? You might say that "Given that it rained today, I think it will rain tomorrow." The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached to rainfall. We might have a sequence of events, as shown below.</p> 
 
-    <img src="images/weather.png" class="example-img" style="padding: 1em">
+    <img src="images/weather.png" style="padding: 1em; width: 100%; height: auto">
     <p style="text-align: center">Rainy-Sunny time-series data</p>  
 
   <!-- In the sequence above, we can observe the weather has some continuity phenomenon associated with it.  -->
@@ -623,6 +627,7 @@ We now try to understand Markov chains using some examples.
       <img src="images/rain_sun_images/unrolled_mm.svg" class="example-img">
       <p class="example-text">Markov chain for Sunny and Rainy Weather</p>
       <p class="example-description">
+        <br>
          Assume a scenario where you observe the weather of a place. The above Markov chain denotes the change of weather. The weather of the next day depends on the previous day.
 
        </p>
@@ -632,6 +637,7 @@ We now try to understand Markov chains using some examples.
       <img src="images/fair_biased_images/unrolled_mm.svg" class="example-img">
       <p class="example-text">Markov chain for a Fair and a Biased coin swap</p>
       <p class="example-description">
+        <br>
         Assume a scenario where you have two coins: fair and biased. The above Markov chain denotes the coin you choose at a timestamp. The coin chosen at the next timestamp depends on the coin at the previous timestamp.
        </p>
   </div>
@@ -639,6 +645,7 @@ We now try to understand Markov chains using some examples.
       <img src="images/on_off_images/unrolled_mm.svg" class="example-img">
       <p class="example-text">Markov chain for an Air Conditioner state</p>
       <p class="example-description">
+        <br>
          Assume a scenario where the compressor of an air conditioner is turned ON/OFF. The above Markov chain denotes the state of the compressor. The state of the compressor at the next timestamp depends on the state at the previous timestamp.
        </p>
   </div>
@@ -693,7 +700,7 @@ We now try to understand Markov chains using some examples.
 
   \(P(x_{1},x_{2},\dots,x_{T} ) = P(x_1)\displaystyle\prod_{t=2}^TP(x_t|x_{t-1})\)<br><br>
   Markov chains leverage parameter sharing and instead of specifying \(P(x_t|x_{t-1})\) for each t, we assume \(P(x_t|x_{t-1})\) to be common (shared) across all time. <br><br>
-  To fully specify the Markov chain, we require the following two parameters:
+  To fully specify the Markov chain, we require the following two parameters:<br>
   <br>
  <!-- Explain in footnotes how this is similar to parameter sharing in RNNs. Next explain Transition matrix and Prior probability in 1 line each. Also, use x_ts everywhere and not z_t here. 
  -->
@@ -714,6 +721,7 @@ We now try to understand Markov chains using some examples.
       <img src="images/rain_sun_images/mm.svg" class="example-img">
       <p class="example-text">Markov chain for Sunny and Rainy Weather</p>
       <p class="example-description">
+        <br>
          Assume a scenario, where the weather of a particular place follows a Markov chain. The above diagram describes how the weather can change. In this example, we can observe the outside weather. Any sunny day can change into a rainy day with a probability of <b>0.4</b>.
          <br><br>
          <b>Observation</b>: Weather
@@ -724,6 +732,7 @@ We now try to understand Markov chains using some examples.
       <img src="images/fair_biased_images/mm.svg" class="example-img">
       <p class="example-text">Markov chain for a Fair and a Biased coin swap</p>
       <p class="example-description"> 
+<br>
       Assume a scenario, where your friend is swapping between a fair and a biased coin using a Markov chain. The above diagram describes how the coin your friend chooses can change. In this example, we can observe the coin chosen by your friend. A biased coin can remain as a biased coin in the next swap with probability <b>0.6</b>. <br><br>
       <b>Observation</b>: Biased/Fair coin
     </p>
@@ -731,7 +740,9 @@ We now try to understand Markov chains using some examples.
   <div class="one-third-div">
       <img src="images/on_off_images/mm.svg" class="example-img">
       <p class="example-text">Markov chain for Air Conditioner state</p>
-      <p class="example-description">Assume a scenario, where the compressor of an air conditioner is controlled using a Markov chain. The above diagram, describes how the state of the compressor changes. In this example, we can observe if the compressor is ON or OFF. The compressor has a probability of changing its state from ON to OFF with probability <b>0.3</b>. 
+      <p class="example-description">
+<br>
+        Assume a scenario, where the compressor of an air conditioner is controlled using a Markov chain. The above diagram, describes how the state of the compressor changes. In this example, we can observe if the compressor is ON or OFF. The compressor has a probability of changing its state from ON to OFF with probability <b>0.3</b>. 
       <br><br>
       <b>Observation</b>: ON/OFF state
     </p>
@@ -782,9 +793,9 @@ We now try to understand Markov chains using some examples.
 
     </div>
 
-      <p>
+      <p><br>
         Below is a generation example for the Markov chain for the Sunny and Rainy example. By changing the values in the Transition matrix (\(A\)),  and the Prior Probability matrix (\(\pi\)), we can see how the sequence generation is affected.
-
+<br><br>
 
     </p>
 
@@ -961,12 +972,14 @@ Similarly, we can calculate the probability for other sequence of words.
   <br><br>
   The "<b>observation</b>" is generated from the "<b>hidden</b>" component.<br><br>
   Now, we explore more examples to understand this <b>"hidden"</b> state.
+  <br>
 </p>
 <div class="l-screen">
   <div class="one-third-div">
       <img src="images/rain_sun_images/unrolled_hmm.svg" class="example-img">
-      <p class="example-text">Hidden Markov Model for Sunny and Rainy Weather</p>
+      <p class="example-text">HMM for Sunny and Rainy Weather</p>
       <p class="example-description">
+        <br>
          Assume that you are sitting in your room and you have no means to know about the outside weather. Your roommate goes outside every day. You keep on observing your roommate's shoes for a sequence of days as denoted by the above diagram. Given, the sequence of observations you try to estimate the outside weather.
          <br><br>
          <b>Observation</b>: Wet shoe/ Dry shoe<br>
@@ -976,8 +989,9 @@ Similarly, we can calculate the probability for other sequence of words.
 
   <div class="one-third-div">
       <img src="images/fair_biased_images/unrolled_hmm.svg" class="example-img">
-      <p class="example-text">Hidden Markov Model for a Fair and a Biased coin swap</p>
+      <p class="example-text">HMM for a Fair and a Biased coin swap</p>
       <p class="example-description">
+        <br>
        You have one fair coin and one biased coin. In a game, your friend picks one of these two coins, following an associated probability. He tells you just the result of the toss and not the coin which he chose. Given such a series of results, you try to estimate which coin was used for a particular toss.
        <br><br>
       <b>Observation</b>: Result of the toss (Head/Tail)<br>
@@ -986,8 +1000,9 @@ Similarly, we can calculate the probability for other sequence of words.
   </div>
   <div class="one-third-div">
       <img src="images/on_off_images/unrolled_hmm.svg" class="example-img">
-      <p class="example-text">Hidden Markov Model for an Air Conditioner state</p>
+      <p class="example-text">HMM for an Air Conditioner state</p>
       <p class="example-description">
+        <br>
          You have access to the power consumption data of your air conditioner. When the compressor is turned off, the appliance uses very low power (~0 units with some observation noise), whereas when ithe compressor is turned on, it consumes high power (~100 units with some variance). Given the power consumed by the appliance, you have to estimate whether your compressor was switched ON or OFF.
         <br><br>
         <b>Observation</b>: Power consumed<br>
@@ -1003,8 +1018,11 @@ Similarly, we can calculate the probability for other sequence of words.
     <p>
       
       In an HMM, an observation is generated from a hidden component which is modelled as a Markov chain. The observation at time t (shown in shaded pink) is denoted by \(x_t\) and the hidden state at time t (unshaded) is denoted by \(z_t\).
+      <br>
+      <br>
     </p>
-      <br><br>The diagram below denotes a Hidden Markov model. 
+    <p>
+      The diagram below denotes a Hidden Markov model.<br> </p>
       <img src="images/hmm.svg" class="example-img">
       <p style="text-align: center;margin-top: 1em">Structure of a HMM</p>
       <br><br>
@@ -1023,7 +1041,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
     <p>Now, we discuss the parameters in Hidden Markov model.The parameters Transition Matrix \(A\) and Prior Probability \(\pi\) are the same as the ones in Markov chain.
 
-
+    <br><br>
     <ul>
 
     <li>
@@ -1032,7 +1050,7 @@ Similarly, we can calculate the probability for other sequence of words.
     </ul>
 </p>
 <p>
-    The observations can be either <b>discrete</b> or <b>continuous</b>.<br>
+    The observations can be either <b>discrete</b> or <b>continuous</b>.<br><br>
     <ul>
       <li><b>Discrete output examples</b>: Fair and Biased coin observations, Sunny and Rainy weather observations</li>
       <li><b>Continuous output examples</b>: Power consumed by an Air Conditioner</li>
@@ -1046,8 +1064,9 @@ Similarly, we can calculate the probability for other sequence of words.
 <div class="l-screen">
   <div class="one-third-div">
       <img src="images/rain_sun_images/hmm.svg" class="example-img">
-      <p class="example-text">Hidden Markov Model for Sunny and Rainy Weather</p>
+      <p class="example-text">HMM for Sunny and Rainy Weather</p>
       <p class="example-description">
+        <br>
          On a sunny day your roommate's shoes can be wet with a probability of <b>0.2</b>(maybe due to a sprinkler). On a rainy day, the shoes can be wet with a probability of <b>0.9</b>. <br><br>
          <b>Observation</b>: Shoe<br>
          <b>Hidden State</b>: Weather<br>
@@ -1057,8 +1076,9 @@ Similarly, we can calculate the probability for other sequence of words.
 
   <div class="one-third-div">
       <img src="images/fair_biased_images/hmm.svg" class="example-img">
-      <p class="example-text">Hidden Markov Model for a Fair and a Biased coin swap</p>
+      <p class="example-text">HMM for a Fair and a Biased coin swap</p>
       <p class="example-description">
+        <br>
          If your friend flips a biased coin, then the output is a heads with probability <b>0.8</b>. If your friend flips a fair coin, then the output is a heads with probability <b>0.5</b>. <br><br>
          <b>Observation</b>: Heads/Tails<br>
          <b>Hidden State</b>: Biased/Fair Coin<br>
@@ -1066,8 +1086,9 @@ Similarly, we can calculate the probability for other sequence of words.
   </div>
   <div class="one-third-div">
       <img src="images/on_off_images/hmm.svg" class="example-img">
-      <p class="example-text">Hidden Markov Model for an Air Conditioner state</p>
+      <p class="example-text">HMM for an Air Conditioner state</p>
       <p class="example-description">
+        <br>
          If the compressor is in an OFF state, then the output follows a Gaussian distribution \(\mathcal{N}(10,5)\). If the compressor is in ON state  then the output follows a Gaussian distribution \(\mathcal{N}(100,5)\). <br><br>
          <b>Observation</b>: Total power consumed by the appliance<br>
          <b>Hidden State</b>: Compressor ON/OFF<br>
@@ -1133,7 +1154,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
     </div>
 
-<p>Below is a generation example for the Hidden Markov model for the Fair coin and Biased coin example. By changing the values in the Transition matrix (\(A\)), Emission Probability matrix (\(\phi\)) and the Prior Probability matrix (\(\pi\)), we can see how the sequence generation is affected.</p>
+<p><br><br>Below is a generation example for the Hidden Markov model for the Fair coin and Biased coin example. By changing the values in the Transition matrix (\(A\)), Emission Probability matrix (\(\phi\)) and the Prior Probability matrix (\(\pi\)), we can see how the sequence generation is affected.<br><br></p>
 <div class='l-screen' style="background: #eaeaea">
   <h3>Sampling from a Hidden Markov model for Fair and Biased coin example</h3>
     <div id="hmm" style="width: 100%;height: 15em;"></div>
@@ -1966,7 +1987,7 @@ How can we calculate it efficiently? Similar to the forward algorithm, we can us
 <p>
 Let us consider it with our Fair coin and Biased coin example. Assume we want to calculate \(L(HHH \vert \theta)\)<br><br>
 
-\(L(HHH \vert \theta) = P(\_HH \vert z_{1}=F) \pi_F \phi_F(H) + P(_HH \vert z_{1}=B) \pi_B \phi_B (H)\)<br><br>
+\(L(HHH \vert \theta) = P(\_HH \vert z_{1}=F) \Pi_F \Phi_F(H) + P(\_HH \vert z_{1}=B) \pi_B \phi_B (H)\)<br><br>
 
 Similarly we can calculate \(P(\_HH \vert z_{1}=B\),\(P(\_HH \vert z_{1}=F)\),\(P(\_\_H \vert z_{2}=F)\) and \(P(\_\_H \vert z_{2}=B)\).<br><br>
 
