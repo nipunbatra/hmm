@@ -2587,13 +2587,13 @@ Qljo (Rta)
       <p style="text-align: center"><br>  Observations for the \(i^{th}\) example.</p>
 
       <p><br>
-      where<br><br>
+      <!-- where<br><br>
       <b>N</b> : Number of examples<br><br>
       <b>\(\mathbf{x_{jk}}\)</b> : \(k^{th}\) observation of the \(j^{th}\) example<br><br>
       <b>\(\mathbf{T_{i}}\)</b> : Sequence length of the \(j^{th}\) example<br><br>
 
       
-      The algorithm is as follows:
+       -->The algorithm is as follows:
       <br><br>
       
 
@@ -2607,26 +2607,26 @@ Qljo (Rta)
       </div>
 
       <p>
-        <br><br>
+      <br>
         <b>Expectation-Maximization</b></p>
 
         <div style="margin-left: 1em">
         <p>Repeat till convergence</p>
         <div style="margin-left: 1em">
         <ul>
-          <li><b>Expectation step:</b> Inferring the hidden states \(z_{it}\) from the model parameters \(A,\pi,\phi\)</li>
-          <li><b>Maximization step:</b> Optimizing the parameters \( A,\pi,\phi\) to maximize the likelihood of observing the \(z_{it}\)</li>
+          <li><b>Expectation step:</b> Fix the parameters \(A,\pi,\phi\) and calculate the expected state assignments. </li>
+          <li><b>Maximization step:</b> Fix the expected state assignments, and update the parameters to maximize the likelihood of observing the expected state assignments.</li>
         </ul>
         </div>
       </div>
 
-      <p>We now discuss the both in more detail.<br><br></p>
+      <p>We now discuss both of the above steps in more detail.<br><br></p>
       <p><b>Expectation Step</b><br><br>
 
       In this step, we try to estimate the hidden states based on the parameters.<br><br>
 
       We need to define two parameters in order to define the hidden states<br><br>
-       </p>
+       </p>3
       
       <ul>
         <li>\(\epsilon_{t}(i,j)\): Expected number of transitions from state \(i\) to state \(j\) at time \(t\)</li>
@@ -2653,7 +2653,7 @@ Qljo (Rta)
       \)  
 
       <br><br>
-      Calculation of the above for all timestamps and states is the <b>Expectation step</b>.<br><br>
+      <!-- Calculation of the above for all timestamps and states is the <b>Expectation step</b>.<br><br> -->
 
       <b>Maximization step</b>
       <br><br>
@@ -2677,15 +2677,18 @@ Qljo (Rta)
  -->
       <p><b>Updating \(\pi\)</b></p>
       <br>
-      
-      \(\hat{\pi_k}\) denotes the expected number of sequences with \(z_{1}=k\)<br><br>
+      <p>      
+      \(\hat{\pi_k}\) denotes the expected fraction of sequences with \(z_{1}=k\)<br><br>
+
+      \(\mathbf{\pi_{k}}  = \cfrac{\text{Expected number of sequences that start with }z_{k} }{\text{Total number of sequences}}\)<br><br>
+
 
       \(\hat{\pi_k} = \cfrac{\sum_{i=1}^{N} r_{i,1}(k)}{N}\) for all \( k  \in \{1,2,\dots,K\}\)      
       
       </p>
       <p><b>Updating \(A\)</b></p>
       <br>
-      
+      <p>
       \(\hat{A_{jk}}\) denotes the expected probability of transitions from state \(i\) to state \(j\)<br><br>
 
       \(
@@ -2697,6 +2700,7 @@ Qljo (Rta)
    
 
       </p>
+
       <br><br>
       <p><b>Updating \(\phi\)</b></p>
       <br>
@@ -2721,11 +2725,26 @@ Qljo (Rta)
 
 
     <h1>Conclusion</h1>
-    <p>Now that we understood every component of a HMM and the process of learning parameters  of a HMM given training data, we can now explore oth er variants of HMM such as:</p>
+    <p>In the article, we understood about the Hidden Markov models and the learning procedure. First, we looked at Markov chain and we looked at each of the individual components. Similarly, we understood the components of a Hidden Markov model. Later, we defined and understood the key problems of a HMM:</p>
 
     <ul>
-      <li></li>
+      <li>The Forward algorithm</li>
+      <li>The Backward algorithm</li>
+      <li>The Viterbi algorithm</li>
+      <li>The Parameter learning algorithm</li>
+
+    </ul> 
+    <p><br>Now that we understood every component of a HMM and the process of learning parameters  of a HMM given training data, we can now explore other variants of HMM such as:</p>
+
+    <ul>
+      <li>Auto-Regressive HMMs</li>
+      <li>Factorial HMMs</li>
+      <li>Factorial HMMs</li>
+      <li>Coupled HMMs</li>
+      <li>Hierarchical HMMs</li>
     </ul>    
+
+    <p>HMMs were widely used in 1990s especially for speech processing tasks and for other time-series models. The RNNs which are widely used today, are analogous to HMM. The concept of parameter sharing between timestamps is employed in RNNs as well. So, RNNs can be considered as an advanced extension of HMMs. </p>
 
   </d-article>
 
