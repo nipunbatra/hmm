@@ -2353,10 +2353,22 @@ Now, we create a diagram, where edge from \(z_{t-1} (i)\) to \(z_{t}(j)\) denote
 <p style="text-align: center;">Image showing computed values of \(\psi_{t}(j)\)</p>
 <p><br>The following shows the backtracking procedure. First, we choose the node at the last timestamp with highest probability. Hence, \(Z_{3}^{*}=B\) is chosen first. Then, iteratively we backtrace the path from \(z_{3}=B\) to the start.</p>
 
-<img id="backtracking_gif" class="example-img">
+<img  class="example-img backtracking" src="images/backtracking_gif/7.svg">
+<img  class="example-img backtracking" src="images/backtracking_gif/8.svg">
+<img  class="example-img backtracking" src="images/backtracking_gif/9.svg">
+<img  class="example-img backtracking" src="images/backtracking_gif/10.svg">
 
 
 <p style="text-align: center;"><br>Backtracking procedure for calculating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\)</p>
+
+          <div style="display: flex; justify-content: center;">
+            <button type="button" class="btn gif_button" onclick="previous_image('backtracking')" ><i class="fa fa-step-backward"></i></button>
+            <button type="button" class="btn gif_button" onclick="play('backtracking')" ><i class="fa fa-play"></i></button>
+            <button type="button" class="btn gif_button" onclick="pause('backtracking')" ><i class="fa fa-pause"></i></button>
+            <button type="button" class="btn gif_button" onclick="next_image('backtracking')" ><i class="fa fa-step-forward"></i></button>
+            
+
+      </div>
 
 <!-- <div class="l-screen">
   <div class="half-div" style="padding: 1em">
@@ -4739,7 +4751,7 @@ function next_image(img_class){
 
 var auto_play_paths = true;
 var auto_play_delta = true;
-
+var auto_play_backtracking = true;
 
 function pause(img_class){
   if(img_class=='paths'){
@@ -4749,6 +4761,12 @@ function pause(img_class){
   if (img_class=='delta'){
     auto_play_delta=false;
   }
+
+   if (img_class=='backtracking'){
+    auto_play_backtracking=false;
+  }
+
+   
 }
 
 
@@ -4756,8 +4774,13 @@ function play(img_class){
   if(img_class=='paths'){
     auto_play_paths=true;
   }
+  
   if (img_class=='delta'){
     auto_play_delta=true;
+  }
+
+  if (img_class=='backtracking'){
+    auto_play_backtracking=true;
   }
 
 }
@@ -4773,6 +4796,12 @@ function auto_play(){
   if(auto_play_delta){
     next_image('delta')
   }
+  
+  if (auto_play_backtracking){
+   next_image('backtracking') 
+  }
+
+
 }
 
 window.setInterval(function(){
