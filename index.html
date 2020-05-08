@@ -8,6 +8,7 @@
   <title>Exploring Hidden Markov Model</title>
   <script defer src="js/template.v2.js"></script>
   <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="stylesheet" href="font_awesome/css/font-awesome.min.css">
   
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -487,6 +488,12 @@ padding:1em;
   width: 70%;height: auto; padding-top:3em; padding-bottom: 3em; 
   margin: 0 auto;
   background: #eaeaea;
+}
+
+.gif_button{
+  display: inline-block!important;
+  width: 20%!important;
+  color: white!important;
 }
 
 </style>
@@ -1289,55 +1296,67 @@ Similarly, we can calculate the probability for other sequence of words.
     </p> 
 
     <div style="text-align: center;">
-      <img id = "gif_image"  class="trellis_image" src="images/trellis_paths/1.svg">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/1.svg">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/2.svg">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/3.svg">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/4.svg">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/5.svg">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/6.svg">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/7.svg">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/8.svg">
       <p id='pathno'>Path 1</p>
           <p>
 
-        <div id="probability-equation-1">
+        <div id="" class="probability-equation">
             \(\small P(HHH|BBB) = P(B)P(H \vert B)P(B \vert B)P(H \vert B)P(B \vert B)P(H \vert B)\)  
             <br>Probability Path 1
         </div>
 
-        <div id="probability-equation-2" style="display: none">
+        <div id="" class="probability-equation">
             \(\small P(HHH|BBF) = P(B)P(H \vert B)P(B \vert B)P(H \vert B)P(F \vert B)P(H \vert F)\)  
             <br>Probability Path 2
         </div>
 
-        <div id="probability-equation-3" style="display: none">
+        <div id="" class="probability-equation">
             \(\small P(HHH|BFB) = P(B)P(H \vert B)P(F \vert B)P(H \vert F)P(B \vert F)P(H \vert B)\)  
             <br>Probability Path 3
         </div>
 
-        <div id="probability-equation-4" style="display: none">
+        <div id="" class="probability-equation">
             \(\small P(HHH|BFF) = P(B)P(H \vert B)P(F \vert B)P(H \vert F)P(F \vert F)P(H \vert F)\)  
             <br>Probability Path 4
         </div>
         
-        <div id="probability-equation-5" style="display: none">
+        <div id="" class="probability-equation">
             \(\small P(HHH|FBB) = P(B)P(H \vert F)P(B \vert F)P(H \vert B)P(B \vert B)P(H \vert B)\)  
             <br>Probability Path 5
         </div>
 
 
-        <div id="probability-equation-6" style="display: none">
+        <div id="" class="probability-equation">
             \(\small P(HHH|FBF) = P(B)P(H \vert F)P(B \vert F)P(H \vert B)P(F \vert B)P(H \vert F)\)  
             <br>Probability Path 6
         </div>
 
 
-        <div id="probability-equation-7" style="display: none">
+        <div id="" class="probability-equation">
             \(\small P(HHH|FFB) = P(B)P(H \vert F)P(F \vert F)P(H \vert F)P(F \vert F)P(H \vert B)\)  
             <br>Probability Path 7
         </div>
 
-        <div id="probability-equation-8" style="display: none">
+        <div id="" class="probability-equation">
           \(\small P(HHH|FFF) = P(B)P(H \vert F)P(F \vert F)P(H \vert F)P(F \vert F)P(H \vert F)\)  
           <br>Probability Path 8
         </div>
 
       </p>
           <div style="display: flex; justify-content: center;">
-            <button type="button" class="btn" onclick="change_gif_button()" id="gif_control_button">Play<img src="images/icons/play.svg" id="gif_control_img"></button>
+            <button type="button" class="btn gif_button" onclick="previous_image('paths')" ><i class="fa fa-step-backward"></i></button>
+            <button type="button" class="btn gif_button" onclick="play('paths')" ><i class="fa fa-play"></i></button>
+            <button type="button" class="btn gif_button" onclick="pause('paths')" ><i class="fa fa-pause"></i></button>
+            <button type="button" class="btn gif_button" onclick="next_image('paths')" ><i class="fa fa-step-forward"></i></button>
+            
+
       </div>
 
     </div>
@@ -2273,8 +2292,23 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
 </div>
 <p><br><b>Viterbi Example</b><br>
 <br>The following shows the viterbi calculation for estimating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\). </p>
-<img id="viterbi_gif" class="example-img">
+<img  class="example-img delta" src="images/viterbi_gif/1.svg">
+<img  class="example-img delta" src="images/viterbi_gif/2.svg">
+<img  class="example-img delta" src="images/viterbi_gif/3.svg">
+<img  class="example-img delta" src="images/viterbi_gif/4.svg">
+<img  class="example-img delta" src="images/viterbi_gif/5.svg">
+<img  class="example-img delta" src="images/viterbi_gif/6.svg">
 <p style="text-align: center"><br>Trellis diagram showing the \(\delta_{i}(j)\) calculation.</p>
+
+          <div style="display: flex; justify-content: center;">
+            <button type="button" class="btn gif_button" onclick="previous_image('delta')" ><i class="fa fa-step-backward"></i></button>
+            <button type="button" class="btn gif_button" onclick="play('delta')" ><i class="fa fa-play"></i></button>
+            <button type="button" class="btn gif_button" onclick="pause('delta')" ><i class="fa fa-pause"></i></button>
+            <button type="button" class="btn gif_button" onclick="next_image('delta')" ><i class="fa fa-step-forward"></i></button>
+            
+
+      </div>
+
 
 <p>Trellis Diagram showing the \(\psi_{i}(j)\) calculation</p>
   
@@ -2675,7 +2709,9 @@ Qljo (Rta)
 
       
        -->
-       The optimal set of parameters can be computed  using a method called as <b>"Expectation-Maximization"</b>. It is derived from MLE<br><br>
+       We know the procedre to calculate optimal parameters, when we are provided with hidden state sequences. So, if we are not provided the hidden state sequences, we try to "estimate" the "expected" state sequence. Now, we have the "hidden state sequences", so we can find parameters.  <br><br>
+
+       This method called as <b>"Expectation-Maximization"</b> as is done iteratively. It is derived from MLE<br><br>
 
        The algorithm is as follows:
       <br><br>
@@ -4602,85 +4638,229 @@ function show_hmm_filtering(){
 }
 
 
-function change_gif_button(){
-
-    var img = document.getElementById('gif_control_img');
-
-
-    var new_src;
-
-    var text;
-
-    var img_src = img.src;
-    img_src = img_src.split('/')
-    console.log(img_src)
-    img_src = img_src[img_src.length-1]
+// function hide_image(img, img_index){
+  
+// }
 
 
-    console.log(img_src)
-    if (img_src=="play.svg"){
-      new_src = "images/icons/pause.svg";
-      text = "Pause"
-      image_change=true
-      prb_eq_changer()
+function previous_image(img_class){
+  var img_no;
+  var curr_counter=0;
+  var divs = document.getElementsByClassName(img_class);
+
+  var curr_counter=0;
+  while(curr_counter<divs.length){
+    
+    if (divs[curr_counter].style.display=='block'){
+      break
+    }
+    curr_counter+=1;
+  }
+
+  var temp_i=0;
+  
+  while(temp_i<divs.length)
+  {
+    divs[temp_i].style.display='none';
+    temp_i+=1;
+  }
+  
+  if(curr_counter!=0){
+    divs[(curr_counter-1)%(divs.length)].style.display = 'block';  
+  }
+  else{
+   divs[divs.length-1].style.display = 'block';   
+  }
+  
+
+
+  if (img_class=='paths'){
+    var equations = document.getElementsByClassName('probability-equation')
+    var temp_i=0;
+    while(temp_i<equations.length){
+      equations[temp_i].style.display='none';
+      temp_i+=1;
+    }
+
+    if(curr_counter!=0){
+      equations[(curr_counter-1)%(equations.length)].style.display = 'block';  
+    document.getElementById('pathno').innerHTML = "Path "+ (1+((curr_counter-1)%equations.length))
     }
     else{
-     new_src = "images/icons/play.svg" 
-     text = " Play"
-     image_change=false
+      equations[(equations.length)-1].style.display = 'block';  
+      document.getElementById('pathno').innerHTML = "Path 8"
     }
-
-    var img = document.createElement("img");
-    img.src = new_src
-    img.id = 'gif_control_img'
-
-    var btn = document.getElementById('gif_control_button')
-    // img.classList.add("mystyle");
+    
 
 
-    btn.innerHTML = "";
-    btn.innerHTML =  text;
-    btn.appendChild(img);
+    
+  }
+}
 
-    console.log(text, new_src)
+
+
+function next_image(img_class){
+  var img_no;
+  var curr_counter=0;
+  var divs = document.getElementsByClassName(img_class);
+
+  var curr_counter=0;
+  while(curr_counter<divs.length){
+    
+    if (divs[curr_counter].style.display=='block'){
+      break
+    }
+    curr_counter+=1;
+  }
+
+  var temp_i=0;
+  
+  while(temp_i<divs.length)
+  {
+    divs[temp_i].style.display='none';
+    temp_i+=1;
+  }
+  
+  divs[(curr_counter+1)%(divs.length)].style.display = 'block';  
+
+
+  if (img_class=='paths'){
+    var equations = document.getElementsByClassName('probability-equation')
+    var temp_i=0;
+    while(temp_i<equations.length){
+      equations[temp_i].style.display='none';
+      temp_i+=1;
+    }
+    equations[(curr_counter+1)%(equations.length)].style.display = 'block';  
+    document.getElementById('pathno').innerHTML = "Path "+ (1+((curr_counter+1)%equations.length))
+  }
+}
+
+
+var auto_play_paths = true;
+var auto_play_delta = true;
+
+
+function pause(img_class){
+  if(img_class=='paths'){
+    auto_play_paths=false;
+  }
+
+  if (img_class=='delta'){
+    auto_play_delta=false;
+  }
+}
+
+
+function play(img_class){
+  if(img_class=='paths'){
+    auto_play_paths=true;
+  }
+  if (img_class=='delta'){
+    auto_play_delta=true;
+  }
 
 }
 
 
 
-
-var v_no = 1;
-
-window.setInterval(function(){
-  // console.log('yo',t,s)
-
-  var viterbi_gif = document.getElementById('viterbi_gif')
-  viterbi_gif.src = "images/viterbi_gif/"+v_no+'.svg'
-
-  v_no+=1;
-  if (v_no==7){
-    v_no=1;
+function auto_play(){
+  
+  if(auto_play_paths){
+    next_image('paths')
   }
 
-
-}, 1000);
-
-
-var n_img=7;
+  if(auto_play_delta){
+    next_image('delta')
+  }
+}
 
 window.setInterval(function(){
 
-    var backtracking_gif = document.getElementById('backtracking_gif')
-    backtracking_gif.src = "images/backtracking_gif/"+n_img+".svg"
+  auto_play();
 
-    n_img+=1;
-
-    if(n_img==11){
-      n_img=7;
-    }
+},1000);
 
 
-},1000)
+// function change_gif_button(){
+
+//     var img = document.getElementById('gif_control_img');
+
+
+//     var new_src;
+
+//     var text;
+
+//     var img_src = img.src;
+//     img_src = img_src.split('/')
+//     console.log(img_src)
+//     img_src = img_src[img_src.length-1]
+
+
+//     console.log(img_src)
+//     if (img_src=="play.svg"){
+//       new_src = "images/icons/pause.svg";
+//       text = "Pause"
+//       image_change=true
+//       prb_eq_changer()
+//     }
+//     else{
+//      new_src = "images/icons/play.svg" 
+//      text = " Play"
+//      image_change=false
+//     }
+
+//     var img = document.createElement("img");
+//     img.src = new_src
+//     img.id = 'gif_control_img'
+
+//     var btn = document.getElementById('gif_control_button')
+//     // img.classList.add("mystyle");
+
+
+//     btn.innerHTML = "";
+//     btn.innerHTML =  text;
+//     btn.appendChild(img);
+
+//     console.log(text, new_src)
+
+// }
+
+
+
+
+// var v_no = 1;
+
+// window.setInterval(function(){
+//   // console.log('yo',t,s)
+
+//   var viterbi_gif = document.getElementById('viterbi_gif')
+//   viterbi_gif.src = "images/viterbi_gif/"+v_no+'.svg'
+
+//   v_no+=1;
+//   if (v_no==7){
+//     v_no=1;
+//   }
+
+
+// }, 1000);
+
+
+// var n_img=7;
+
+// window.setInterval(function(){
+
+//     var backtracking_gif = document.getElementById('backtracking_gif')
+//     backtracking_gif.src = "images/backtracking_gif/"+n_img+".svg"
+
+//     n_img+=1;
+
+//     if(n_img==11){
+//       n_img=7;
+//     }
+
+
+// },1000)
 
 
 </script>
@@ -4715,41 +4895,47 @@ var image_change = false;
 
 var prev_time = 0;
 
-function prb_eq_changer(){
+// function prb_eq_changer(){
 
 
 
-  if (image_change){
+//   if (image_change){
 
-    document.getElementById("gif_image").src=  'images/trellis_paths/'+gif_img+".svg";
+//     document.getElementById("gif_image").src=  'images/trellis_paths/'+gif_img+".svg";
 
-  for(var uu=1;uu<9;uu++){
-    document.getElementById("probability-equation-"+uu).style.display = 'none';    
-  }
-
-  
-  document.getElementById("probability-equation-"+gif_img).style.display = 'block';    
-
-  document.getElementById("pathno").innerHTML = 'Path '+gif_img;    
-
-
-
-  gif_img+=1;
-
-  if(gif_img==9){
-    gif_img=1;
-  }
+//   for(var uu=1;uu<9;uu++){
+//     document.getElementById("probability-equation-"+uu).style.display = 'none';    
+//   }
 
   
-  }
+//   document.getElementById("probability-equation-"+gif_img).style.display = 'block';    
+
+//   document.getElementById("pathno").innerHTML = 'Path '+gif_img;    
+
+
+
+//   gif_img+=1;
+
+//   if(gif_img==9){
+//     gif_img=1;
+//   }
+
+  
+//   }
   
 
-}
+// }
+
+
+
+
+
+
 
 window.setInterval(function(){
   // console.log('imagineges/'git_img+".svg");
     
-    prb_eq_changer()
+    // prb_eq_changer()
 
 }, 2000);
 
