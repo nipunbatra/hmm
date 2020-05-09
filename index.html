@@ -502,6 +502,13 @@ padding:1em;
   color: white!important;
 }
 
+
+.em_example table{
+  border-color: transparent;
+}
+.em_example{
+  min-height: 50vh;
+}
 </style>
 
 
@@ -2273,7 +2280,7 @@ First, let us define the following
 
 <img src="images/viterbi/viterbi_deltas.svg" class="half-img" style="padding: 1em;">
 
-<p style="text-align: center;"><br>Relationship between \(\delta_{t}\) and \(\delta_{t+1}\)<br></p>
+<p style="text-align: center;">Relationship between \(\delta_{t}\) and \(\delta_{t+1}\)<br><br></p>
 <p>
 \(
     \delta_{t+1}(j) = \Bigg( \underset{ i \in 1 \dots K} \max \bigg( \delta_{t}(i) * A_{ij} \bigg) * \phi_{j}(x_{t+1})  \Bigg)  
@@ -2903,9 +2910,232 @@ Qljo (Rta)
         <br>
       By repeating the Expectation and Maximization steps till convergence, we get a set of sub-optimal parameters. Since many local minima exist, it is  hard to reach the global maxima.<br><br>
 
+      <b>EM Example</b><br><br>
+
+      Assume, we have the observations for a single example in our training set from the Fair and Biased coin HMM like the following:<br><br>
+
+      \(S_{1} : \{H,T,H,H\}\)<br><br>
+
+      We wish to compute the parameters using the EM algorithm<br><br>
+
+      
+        Assume that \(K=2\): Fair coin and Biased coin.<br><br>
+
+        The following GIF shows the procedure for calculating the optimal parameters.<br><br>
+        <div class="em_example">
+            <b>Initialization Step: Creating random parameters</b><br><br>
+            \(
+            \pi = \begin{bmatrix}
+                    0.9 & 0.1
+                  \end{bmatrix}
+
+            \)
+            <br><br>
+            \(
+            A = \begin{bmatrix}
+                     0.7 & 0.3\\
+                     0.3 & 0.7
+                  \end{bmatrix}
+            \)
+            <br><br>
+            \(
+            \phi_B = \begin{bmatrix}
+                     0.8 & 0.2\\
+                     \end{bmatrix}
+            \)            
+            <br><br>
+
+            \(
+            \phi_F = \begin{bmatrix}
+                     0.4 & 0.6\\
+                     \end{bmatrix}
+            \)                      
+        </div>
+
+        <div class="em_example">
+            <b>Iteration-1: Expectation Step</b><br><br>
+
+            <table>
+              <tbody>
+                
+                <tr>
+                  <td>\(\epsilon_{1}(B,B) = 0.8\)</td>
+                  <td>\(\epsilon_{1}(B,F) = 0.8\)</td>
+                  <td>\(\epsilon_{1}(F,B) = 0.8\)</td>
+                  <td>\(\epsilon_{1}(F,F) = 0.8\)</td>
+                </tr>
+                <tr>
+                  <td>\(\epsilon_{2}(B,B) = 0.8\)</td>
+                  <td>\(\epsilon_{2}(B,F) = 0.8\)</td>
+                  <td>\(\epsilon_{2}(F,B) = 0.8\)</td>
+                  <td>\(\epsilon_{2}(F,F) = 0.8\)</td>
+                </tr>
+
+                <tr>
+                  <td>\(\epsilon_{3}(B,B) = 0.8\)</td>
+                  <td>\(\epsilon_{3}(B,F) = 0.8\)</td>
+                  <td>\(\epsilon_{3}(F,B) = 0.8\)</td>
+                  <td>\(\epsilon_{3}(F,F) = 0.8\)</td>
+                </tr>
+              </tbody>
+            </table>
+
+            
+          <table>
+              <tbody>                
+                <tr>
+                  <td>\(\gamma_{1}(B) = 0.8\)</td>
+                  <td>\(\gamma_{2}(F) = 0.8\)</td>
+                  <td>\(\gamma_{3}(B) = 0.8\)</td>
+                  
+                </tr>
+                <tr>
+                  <td>\(\gamma_{1}(F) = 0.8\)</td>
+                  <td>\(\gamma_{2}(F) = 0.8\)</td>
+                  <td>\(\gamma_{3}(F) = 0.8\)</td>
+                  
+                </tr>
+
+                
+              </tbody>
+            </table>
+
+        </div>
+
+        <div class="em_example">
+            <b>Iteration-1: Maximization Step</b><br><br>
+            \(
+            \pi = \begin{bmatrix}
+                    0.8 & 0.2
+                  \end{bmatrix}
+
+            \)
+            <br><br>
+            \(
+            A = \begin{bmatrix}
+                     0.1 & 0.9\\
+                     0.4 & 0.6
+                  \end{bmatrix}
+            \)
+            <br><br>
+            \(
+            \phi_B = \begin{bmatrix}
+                     0.1 & 0.9\\
+                     \end{bmatrix}
+            \)            
+            <br><br>
+
+            \(
+            \phi_F = \begin{bmatrix}
+                     0.5 & 0.5\\
+                     \end{bmatrix}
+            \)                      
+        </div>
+
+        <div class="em_example">
+            <b>Iteration-2: Expectation Step</b><br><br>
+
+            <table>
+              <tbody>
+                
+                <tr>
+                  <td>\(\epsilon_{1}(B,B) = 0.8\)</td>
+                  <td>\(\epsilon_{1}(B,F) = 0.8\)</td>
+                  <td>\(\epsilon_{1}(F,B) = 0.8\)</td>
+                  <td>\(\epsilon_{1}(F,F) = 0.8\)</td>
+                </tr>
+                <tr>
+                  <td>\(\epsilon_{2}(B,B) = 0.8\)</td>
+                  <td>\(\epsilon_{2}(B,F) = 0.8\)</td>
+                  <td>\(\epsilon_{2}(F,B) = 0.8\)</td>
+                  <td>\(\epsilon_{2}(F,F) = 0.8\)</td>
+                </tr>
+
+                <tr>
+                  <td>\(\epsilon_{3}(B,B) = 0.8\)</td>
+                  <td>\(\epsilon_{3}(B,F) = 0.8\)</td>
+                  <td>\(\epsilon_{3}(F,B) = 0.8\)</td>
+                  <td>\(\epsilon_{3}(F,F) = 0.8\)</td>
+                </tr>
+              </tbody>
+            </table>
+
+            
+          <table>
+              <tbody>                
+                <tr>
+                  <td>\(\gamma_{1}(B) = 0.8\)</td>
+                  <td>\(\gamma_{2}(F) = 0.8\)</td>
+                  <td>\(\gamma_{3}(B) = 0.8\)</td>
+                  
+                </tr>
+                <tr>
+                  <td>\(\gamma_{1}(F) = 0.8\)</td>
+                  <td>\(\gamma_{2}(F) = 0.8\)</td>
+                  <td>\(\gamma_{3}(F) = 0.8\)</td>
+                  
+                </tr>
+
+                
+              </tbody>
+            </table>
+
+        </div>
+
+        <div class="em_example">
+            <b>Iteration-2: Maximization Step</b><br><br>
+            \(
+            \pi = \begin{bmatrix}
+                    0.8 & 0.2
+                  \end{bmatrix}
+
+            \)
+            <br><br>
+            \(
+            A = \begin{bmatrix}
+                     0.1 & 0.9\\
+                     0.4 & 0.6
+                  \end{bmatrix}
+            \)
+            <br><br>
+            \(
+            \phi_B = \begin{bmatrix}
+                     0.1 & 0.9\\
+                     \end{bmatrix}
+            \)            
+            <br><br>
+
+            \(
+            \phi_F = \begin{bmatrix}
+                     0.5 & 0.5\\
+                     \end{bmatrix}
+            \)                      
+        </div>
+
+
+
+
+
+
+    </p></p></p></p></p>
+    <p>
+          <div style="display: flex; justify-content: center;">
+            <button type="button" class="btn gif_button" onclick="previous_image('em_example')" ><i class="fa fa-step-backward"></i></button>
+            <button type="button" class="btn gif_button" onclick="play('em_example')" ><i class="fa fa-play"></i></button>
+            <button type="button" class="btn gif_button" onclick="pause('em_example')" ><i class="fa fa-pause"></i></button>
+            <button type="button" class="btn gif_button" onclick="next_image('em_example')" ><i class="fa fa-step-forward"></i></button>
+       </div>     
+
+        </div>
+
+      <p><br><br><br>
+
       In general, the whole algorithm is run with multiple starting points, and the final parameters which maximize the likelihood of observations are chosen. <br>
 
+
+
     </p>
+
 
 
     <h1>Conclusion</h1>
@@ -4793,6 +5023,7 @@ function next_image(img_class){
 var auto_play_paths = true;
 var auto_play_delta = true;
 var auto_play_backtracking = true;
+var auto_play_em = true;
 
 function pause(img_class){
   if(img_class=='paths'){
@@ -4806,6 +5037,12 @@ function pause(img_class){
    if (img_class=='backtracking'){
     auto_play_backtracking=false;
   }
+
+ if (img_class=='em_example'){
+    auto_play_em=false;
+  }
+
+
 
    
 }
@@ -4823,6 +5060,10 @@ function play(img_class){
   if (img_class=='backtracking'){
     auto_play_backtracking=true;
   }
+   if (img_class=='em_example'){
+    auto_play_em=true;
+  }
+
 
 }
 
@@ -4842,6 +5083,10 @@ function auto_play(){
    next_image('backtracking') 
   }
 
+ if (auto_play_em){
+    next_image('em_example') 
+  }
+
 
 }
 
@@ -4849,7 +5094,7 @@ window.setInterval(function(){
 
   auto_play();
 
-},1000);
+},2000);
 
 
 // function change_gif_button(){
