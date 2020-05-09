@@ -2800,15 +2800,24 @@ Qljo (Rta)
         <li>\(\gamma_{t}(i)\): Expected number of times for being in state \(i\)  at time \(t\)</li>
       </ul>  -->
 
-      <p><span style="color: red">The color coded trellis diagram to be added!</span><br><br>
-
+      <p>
+        <!-- <span style="color: red">The color coded trellis diagram to be added!</span><br><br> -->
+      <br><br>
       \(
         \begin{align}
           \epsilon_{t}(i,j) &= P(z_{t}=i, z_{t+1}=j \vert X_{1:T},\theta)\\
                 
-                            &= \cfrac{  \alpha_{t}(i) *  A_{ij} *  \phi_{j}(x_{t+1}) * \beta_{t+1}(j)} { \sum_{i} \sum_{j}  \alpha_{t}(i) *  A_{ij} *  \phi_{j}(x_{t+1}) * \beta_{t+1}(j)}
+                           
                             
         \end{align} 
+      \)
+      <br><br>
+
+      \(\epsilon_{t}(i,j)\)  can be expressed in terms of \(\alpha\) and \(\beta\) as:<br><br>
+      \(
+
+       \epsilon_{t}(i,j) = \cfrac{  \alpha_{t}(i) *  A_{ij} *  \phi_{j}(x_{t+1}) * \beta_{t+1}(j)} { \sum_{i} \sum_{j}  \alpha_{t}(i) *  A_{ij} *  \phi_{j}(x_{t+1}) * \beta_{t+1}(j)}
+
       \)
 <!-- 
                   &= \cfrac{P(z_{t}=i, z_{t+1}=j, X_{1:T},\theta)}{P(X_{1:T }\vert \theta)}\\
@@ -2818,6 +2827,7 @@ Qljo (Rta)
       Now, we define another term \(\gamma_{t}(i)\) based on \(\epsilon_{t}(i,j)\).<br><br>
       \(\gamma_{t}(i)\): Expected number of times for being in state \(i\)  at time \(t\). 
       <br><br>
+      \(\gamma_{t}(i)\)  is also the total number of transitions from state \(i\) at time \(t\)<br><br>
       \(
       \gamma_{t}(i) = \sum_{j} \epsilon_{t} (i,j)
       \)  
@@ -2884,7 +2894,7 @@ Qljo (Rta)
       \(
       \begin{align}
         \hat{\phi_{jl}} &= \cfrac{\text{Expected number of times in state j and observing l} }{\text{Expected number of times in state j}}\\
-                     &= \cfrac{ \sum_{n=1}^{N} \sum_{t: x_{n,t}=l} \gamma_{n,t}(j) }  { \sum_{n=1}^{N} \sum_{t}^{T_{n}} \gamma_{n,t}(j) }
+                     &= \cfrac{ \sum_{n=1}^{N} \sum_{t \text{ where } x_{nt}=l} \gamma_{n,t}(j) }  { \sum_{n=1}^{N} \sum_{t=1}^{T_{n}} \gamma_{n,t}(j) }
       \end{align}
       \)
    
@@ -2899,8 +2909,8 @@ Qljo (Rta)
 
 
     <h1>Conclusion</h1>
-    <p>In the article, we understood about the Hidden Markov models and the learning procedure. First, we looked at the Markov chain and we looked at each of the individual components. Similarly, we understood the components of a Hidden Markov model. Later, we defined and understood the key problems of an HMM:</p>
-    <span style="color: red">Adding the graphical diagrams for the following</span>
+    <p>In the article, we understood about the Hidden Markov models and the learning procedure. First, we looked at the Markov chain and we looked at each of the individual components. Similarly, we understood the components of a Hidden Markov model. Later, we defined and understood the key problems of an HMM:<br><br>
+    </p>
     <ul>
       <li>The Forward algorithm</li>
       <li>The Backward algorithm</li>
@@ -2908,7 +2918,7 @@ Qljo (Rta)
       <li>The Parameter learning algorithm</li>
 
     </ul> 
-    <p><br>Now that we have understood every component of an HMM and the process of learning parameters of an HMM given the training data, we can now explore other variants of HMM such as:</p>
+    <p><br><br><span style="color: red">Adding the graphical diagrams for the following is remaining</span><br><br>Now that we have understood every component of an HMM and the process of learning parameters of an HMM given the training data, we can now explore other variants of HMM such as:</p>
 
     <ul>
       <li>Auto-Regressive HMMs</li>
