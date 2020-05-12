@@ -721,7 +721,8 @@ We now try to understand Markov chains using some examples.
   \(P(x_{1},x_{2},\dots,x_{T} ) = P(x_1)\displaystyle\prod_{t=2}^TP(x_t|x_{t-1})\)<br><br>
   Markov chains leverage parameter sharing and instead of specifying \(P(x_t|x_{t-1})\) for each t, we assume \(P(x_t|x_{t-1})\) to be common (shared) across all time. <br><br>
   To fully specify the Markov chain, we require the following two parameters:<br>
-  <br>
+  
+
  <!-- Explain in footnotes how this is similar to parameter sharing in RNNs. Next explain Transition matrix and Prior probability in 1 line each. Also, use x_ts everywhere and not z_t here. 
  -->
  
@@ -1065,7 +1066,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
     <p>Now, we discuss the parameters in Hidden Markov model.The parameters Transition Matrix \(A\) and Prior Probability \(\pi\) are the same as the ones in Markov chain.
 
-    <br><br>
+    
     <ul>
 
     <li>
@@ -1074,7 +1075,7 @@ Similarly, we can calculate the probability for other sequence of words.
     </ul>
 </p>
 <p>
-    The observations can be either <b>discrete</b> or <b>continuous</b>.<br><br>
+    The observations can be either <b>discrete</b> or <b>continuous</b>.
     <ul>
       <li><b>Discrete output examples</b>: Fair and Biased coin observations, Sunny and Rainy weather observations</li>
       <li><b>Continuous output examples</b>: Power consumed by an Air Conditioner</li>
@@ -2310,6 +2311,59 @@ Let us again understand the above with the Biased coin and Fair coin example <br
 <p>
 So, the hidden state sequence is \(z_{1}=B,z_{2}=B,z_{3}=B\).<br><br>
 In general can find the sequence that maximizes \(P(z_{1:T} \vert x_{t:T})\) by finding the probability across all the \(K^{T}\) paths. But, this is exponential in terms of time complexity.<br><br> Could we do better like we did in forward algorithm? <b>Yes, we can!</b> <br><br>The idea, like in the case of forward algorithm is to use dynamic programming and reuse computations. 
+
+<br><br>
+</p>
+
+    <h3 class="div-show-btn" onclick="show_viterbi_intuition()">Intuition behind Viterbi<span style="float: right">+</span></h3>
+
+
+
+    <div id = "viterbi-intution" class="hidden-div" style="display: none">
+      
+
+<p>
+Let us revisit our Fair coin and Biased coin example. We wish to find out the hidden state sequence which was most likely to generate the observation sequence \(\{x_{1}=H, x_{2}=H, x_{3}=H\}\)<br><br>
+
+The optimal state sequence can have either Fair(F) or Biased(B) in the final timestamp as the hidden state. Whichever state maximizes the probability is chosen.<br><br>
+
+\(P(z_{3}^{*}) = \text{MAX}\Bigg[\hspace{5pt} P(HHH\vert @@F), \hspace{5pt}  P(HHH\vert @@B) \Bigg]\)
+
+<br><br>
+In the above equation, \(@\) denotes that the state can be either Fair(F) or Biased(B). \(z_{3}^{*}\) denotes the optimal sequence for generating the observations till the \(3^{rd}\) timestamp.<br><br>
+
+\(P(HHH\vert @@F)\) denotes the hidden state sequence such that \(z_{3}=F\) which has the highest probablity of generating the given observation sequence. When we are trying to compute the above, we can reach \(z_{3}=F\) via \(z_{2}=F\) and \(z_{2}=B\). <br><br>
+
+\(
+  \begin{align}
+
+    P(HHH\vert @@F) &= \text{MAX} \Bigg[ \hspace{5pt} P(HH \vert @F) A_{FF} \phi_{F}(H), \hspace{5pt} P(HH \vert @B) A_{BF} \phi_{F}(H) \Bigg] \\
+                    &= \text{MAX} \Bigg[ \hspace{5pt} P(HH \vert @F) A_{FF}, \hspace{5pt} P(HH \vert @B) A_{BF} \Bigg]  \phi_{F}(H) 
+
+  \end{align}
+
+\)
+<br><br>
+
+In the above equation, \(P(HH \vert @F)\) denotes the highest probablity of observing \(\{x_{1}=H \text{ and } x_{2}=H\}\) such that \(z_{2}=F\). <br><br>
+Similarly,  \(P(HH \vert @B)\) denotes the highest probablity of observing \(\{x_{1}=H \text{ and } x_{2}=H\}\) such that \(z_{2}=B\). <br><br>
+
+Similarly, we can compute \(P(HH\vert @B)\), \(P(H\vert F)\) and \(P(H\vert B)\)
+<br><br>
+
+The computation tree looks like the following:
+<img src="images/viterbi/viterbi_tree.svg" class="example-img">
+<p style="text-align: center;"> Computation tree for calculation \(P(z_{3}^{3})\) </p>
+<br><br>
+Clearly, several nodes are being recomputed. The optimized computation tree looks like the following:
+<img src="images/viterbi/viterbi_trellis.svg" class="example-img">
+<br><br>
+So, if we can store the highest probability at time \(t\) for each of the \(K\) states, we can compute the best score at time \(t+1\) efficiently. 
+</p>
+
+</div>
+
+<p>
 <br><br>
 The key idea is to store the <span class="plain-color-10">best score (highest prob)</span> along a <span class="plain-color-4">single path at time \(t\)</span>, which accounts for the <span class="plain-color-7"> first \(t\) observations</span> and ends in <span class="plain-color-5">\(z_{t}=i\)</span>.
 
@@ -2357,7 +2411,7 @@ We can compute the same quantity for the next timestamp by considering all \(K\)
 
 </p>
  -->
-<p><b><br>Relation between \(\delta_{t}(i)\) and \(\delta_{t+1}(j)\) </b> <br><br></p>
+<p><b><br>Relation between \(\delta_{t}(i)\) and \(\delta_{t+1}(j)\) </b> <br></p>
 
 <ul>
   <li>
@@ -2859,7 +2913,7 @@ Qljo (Rta)
       <br><br>
       
 
-      <b>Initialization</b><br><br></p>
+      <b>Initialization</b></p>
       <div style="margin-left: 1em">
         <ul>
           <li>Randomly initialize \(\pi\) and ensure that \(\sum_{i}\pi_{i} = 1\)</li>
@@ -2870,10 +2924,10 @@ Qljo (Rta)
 
       <p>
       <br>
-        <b>Expectation-Maximization</b><br><br></p>
+        <b>Expectation-Maximization</b></p>
 
         <div style="margin-left: 1em">
-        <p>Repeat till convergence<br><br></p>
+        <p>Repeat till convergence</p>
         <div style="margin-left: 1em">
         <ul>
           <li><b>Expectation step:</b> Fix the parameters \(A,\pi,\phi\), and calculate the expected state assignments. </li>
@@ -4918,6 +4972,18 @@ var coins = ['fair','biased']
 
 
 // }, 2000);
+
+
+function show_viterbi_intuition(){
+
+  var x = document.getElementById("viterbi-intution");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
 
 
 function show_mm_sampling_psuedo_code(){
