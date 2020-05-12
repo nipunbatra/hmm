@@ -191,9 +191,20 @@ body{
 
 }
 
+ul{
+  margin-top: 1em!important;
+}
 
+.div-show-btn h3{
+  padding: 0px!important;
+  margin: 0px!important;
+
+}
 
   .div-show-btn{
+    font-weight: 200;
+    margin-top: 1em;
+    margin-bottom: 1em;
     cursor: pointer;
     padding: 1em;
     border: none;
@@ -783,7 +794,11 @@ We now try to understand Markov chains using some examples.
       
       Given the parameters of a Markov chain \(A\) and \(\pi\), we can generate sequences from it. First, we sample an initial state using the \(\pi\) matrix. Then iteratively, we sample a new state from the previous state using the \(A\) matrix. </p>
 
-    <h3 class="div-show-btn" onclick="show_mm_sampling_psuedo_code()">Markov chain Sampling Algorithm</h3>
+
+
+    <h3 class="div-show-btn" onclick="show_mm_sampling_psuedo_code()">Markov chain Sampling Algorithm<span style="float: right">+</span></h3>
+
+
 
     <div id = "mm-psuedo-code" class="hidden-div" style="display: none">
       
@@ -1138,7 +1153,7 @@ Similarly, we can calculate the probability for other sequence of words.
       </p>
  -->
 
-    <h3 class="div-show-btn" onclick="show_hmm_sampling_psuedo_code()">Hidden Markov Model Sampling Algorithm</h3>
+    <h3 class="div-show-btn" onclick="show_hmm_sampling_psuedo_code()">Hidden Markov Model Sampling Algorithm<span style="float: right">+</span></h3>
 
     <div id = "hmm-psuedo-code" class="hidden-div"  style="display: none">
       
@@ -1281,12 +1296,12 @@ Similarly, we can calculate the probability for other sequence of words.
 
 
       <h1>HMM Algorithms</h1>
-      <p>Now, we look at five important questions  to understand HMM algorithms<d-cite key="rabiner"></d-cite>.</p>
-      <h3>Problem 1: HMM Evidence Likelihood</h3>
+      <p>Now, we look at five important questions to understand HMMs<d-cite key="rabiner"></d-cite>.</p>
+      <h3>HMM Evidence Likelihood</h3>
       <p>The objective is to estimate the likelihood of the observations given HMM parameters. Mathematically this can be represented as:
         <br><br>
 
-    Given \(X=\{x_1, x_2 \ldots x_T\}\), \( \theta = \{\pi, A, \phi \}\), what is \(L(X \vert \theta)\)?
+    Given observation sequence \(X=\{x_1, x_2 \ldots x_T\}\), and HMM parameters \( \theta = \{\pi, A, \phi \}\), what is \(L(X \vert \theta)\)?
     <br><br>
     <!-- Likelihood = \(L(X \vert \theta)\) = \(P(X \vert \theta)\) = \(Likelihood = \) \(L(X \vert \theta)\) \( = P(X \vert \theta) = \sum_{z}^{} P(x,z \vert \theta)\)
     <br><br>
@@ -1310,7 +1325,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
     
 
-    Before we go further, let us consider the previous example on Biased(B) and Fair(F) coin with observations Head(H) and Tail(T). <br><br>Given a series of observations \(\{H,H,H\}\), what is the probability of observing this sequence given \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)?<br><br>
+    Before we go further, let us consider the previous example on Biased(B) and Fair(F) coin with observations Heads (H) and Tails (T). <br><br>Given a series of observations \(\{H,H,H\}\), what is the probability of observing this sequence given \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)?<br><br>
 
     </p>
     <img src="images/trellis_paths/1.svg" class="trellis_image">
@@ -1327,13 +1342,13 @@ Similarly, we can calculate the probability for other sequence of words.
 
     <div style="text-align: center;">
       <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/1.svg">
-      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/2.svg">
-      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/3.svg">
-      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/4.svg">
-      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/5.svg">
-      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/6.svg">
-      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/7.svg">
-      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/8.svg">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/2.svg" style="display: none">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/3.svg" style="display: none">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/4.svg" style="display: none">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/5.svg" style="display: none">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/6.svg" style="display: none">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/7.svg" style="display: none">
+      <img id = "gif_image"  class="trellis_image paths" src="images/trellis_paths/8.svg" style="display: none">
       <p id='pathno'>Path 1</p>
           <p>
 
@@ -1342,39 +1357,39 @@ Similarly, we can calculate the probability for other sequence of words.
             <br>Probability Path 1
         </div>
 
-        <div id="" class="probability-equation">
+        <div id="" class="probability-equation" style="display: none">
             \(\small P(HHH|BBF) = P(B)P(H \vert B)P(B \vert B)P(H \vert B)P(F \vert B)P(H \vert F)\)  
             <br>Probability Path 2
         </div>
 
-        <div id="" class="probability-equation">
+        <div id="" class="probability-equation" style="display: none">
             \(\small P(HHH|BFB) = P(B)P(H \vert B)P(F \vert B)P(H \vert F)P(B \vert F)P(H \vert B)\)  
             <br>Probability Path 3
         </div>
 
-        <div id="" class="probability-equation">
+        <div id="" class="probability-equation" style="display: none">
             \(\small P(HHH|BFF) = P(B)P(H \vert B)P(F \vert B)P(H \vert F)P(F \vert F)P(H \vert F)\)  
             <br>Probability Path 4
         </div>
         
-        <div id="" class="probability-equation">
+        <div id="" class="probability-equation" style="display: none">
             \(\small P(HHH|FBB) = P(B)P(H \vert F)P(B \vert F)P(H \vert B)P(B \vert B)P(H \vert B)\)  
             <br>Probability Path 5
         </div>
 
 
-        <div id="" class="probability-equation">
+        <div id="" class="probability-equation" style="display: none">
             \(\small P(HHH|FBF) = P(B)P(H \vert F)P(B \vert F)P(H \vert B)P(F \vert B)P(H \vert F)\)  
             <br>Probability Path 6
         </div>
 
 
-        <div id="" class="probability-equation">
+        <div id="" class="probability-equation" style="display: none">
             \(\small P(HHH|FFB) = P(B)P(H \vert F)P(F \vert F)P(H \vert F)P(F \vert F)P(H \vert B)\)  
             <br>Probability Path 7
         </div>
 
-        <div id="" class="probability-equation">
+        <div id="" class="probability-equation" style="display: none">
           \(\small P(HHH|FFF) = P(B)P(H \vert F)P(F \vert F)P(H \vert F)P(F \vert F)P(H \vert F)\)  
           <br>Probability Path 8
         </div>
@@ -1462,10 +1477,11 @@ Similarly, we can calculate the probability for other sequence of words.
       </tbody>
     </table> -->
 
-  In the above example, we have \(T=3\) and \(K=2\), we have a total of \(2^{3} = 8\) possible paths. \(L(HHH \vert \theta)\) is the sum of probabilities across all these \(2^{3}\) paths. <br><br>In general, when we have \(K\) states and \(T\) timestamps, there are a total of \(K^{T}\) paths. Hence the time complexity of estimating the likelihood is exponential in \(K\).<br><br>
+  In the above example, we have \(T=3\) and \(K=2\), we have a total of \(2^{3} = 8\) possible paths. \(L(HHH \vert \theta)\) is the sum of probabilities across all these \(2^{3}\) paths. <br><br>In general, when we have \(K\) states and \(T\) timestamps, there are a total of \(K^{T}\) paths. Hence, the time complexity of estimating the likelihood is exponential in \(K\).<br><br>
 
+  Assume a scenario where \(K=10\) and \(T=100\). When computing likelihood, this leads to \(10^{100}\) paths, which is greater than the total number of atoms in the universe!
 
-  Can we do better? Consider the following paths.<br><br>
+  <br><br>
 
 <!--   <h4>Explanation 1: Motivating the need for Forward Algorithm</h4>
 
@@ -1502,7 +1518,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <p><br>Clearly, the above paths have common sequences. The common sequence is \(z_{1}=B, z_{2}=B\). So, if we can store the result of the common paths, we can save some computational power. This provides the motivation for the forward algorithm.</p>
       <br><br> -->
       <p><b>Efficiently calculating \(L(X \vert \theta)\)</b><br><br></p>
-      <p>Let us go back to the fair coin and biased coin example. We wish to compute \(L(HHH \vert \theta)\).<br><br>
+      <p>Let us see if we can efficiently compute \(L(X\vert \theta)\). Let us go back to the fair coin and biased coin example. We wish to compute \(L(HHH \vert \theta)\).<br><br>
 
       \(L(X \vert \theta) = P(HHH \vert z_{3} = F) + P(HHH \vert z_{3} = B)\)<br><br>
 
@@ -1519,11 +1535,12 @@ Similarly, we can calculate the probability for other sequence of words.
       <img src="images/forward/computation_tree_full.svg" class="example-img">
       <p style="text-align: center;">Computation Tree for calculating \(L(X \vert \theta)\)</p>
       <p><br>If we observe closely, some nodes are being computed multiple times. We can avoid recomputation as shown in the tree below.
-    </p>
+      </p>
+
       <img src="images/forward/trellis_tree.svg" class="example-img">
       <p style="text-align: center;">Optimized Computation Tree for calculating \(L(X \vert \theta)\)</p>
 
-      <p><br>The above is the tree which doesn't calculate the same node twice. Once computed, it is stored in memory and is reused whenever needed. <br><br>
+      <p><br>The above tree does not calculated the same node multiple times. Once computed, it is stored in memory and is reused whenever needed. <br><br>
 
         <!-- The above tree, can be reordered to look like the following.<br><br> -->
 
@@ -1532,7 +1549,7 @@ Similarly, we can calculate the probability for other sequence of words.
         <!-- <p style="text-align: center;"> Trellis representation of the optimized computation tree </p> -->
         
 
-        So, we need to store \(P(X_{1:t} \vert z_{t}=i)\). <br><br>Essentially this what the Forward algorithm does. We now discuss it in detail.  
+        From the optimized tree, we can see that we can efficiently compute \(L(X\vert \theta)\) if we can store \(P(X_{1:t}\vert z_{t}=i)\). <br><br>Essentially this what the Forward algorithm does. We now discuss it in detail.  
  </p>
 
 
@@ -1551,19 +1568,20 @@ Similarly, we can calculate the probability for other sequence of words.
       <br><br>
       In the above example in order to compute \(P(HHH \vert z_{3}=F)\) we were considering only 2 paths.<br><br>
     In general, if we can store the results of the previous timestamp, the results at the next timestamp can be considering the \(K\) paths from the previous timestamp that lead to the next timestamp. This provides the motivation for the forward algorithm.</p> -->
-      <h3>Problem 2: Forward Algorithm</h3>
+      <h3>Forward Algorithm</h3>
 
       <p>
-      The Forward algorithm is a dynamic programming based approach using which we can efficiently compute the likelihood of observation \(P(X \vert \theta)\).
+      The Forward algorithm is a dynamic programming based approach using which we can efficiently compute the likelihood of observation \(P(X \vert \theta)\). <br><br>Previously, we discussed that we need to compute \(P(X_{1:t}\vert z_{t}=i)\).<br><br> This quantity is denoted by \(\alpha_{t}(i)\).
       <br>
       <br>
       <img src="images/forward/forward-equation.svg" style="width: 40%;height: auto;"><br>
       <br>
-      In other words, it is the probability of being in state '<span class="plain-color-3">i</span>' at the time '<span class="plain-color-2">t</span>' given  observation '<span style="color: red;">X</span>'.<br><br></p>
+      it is the probability of being in state '<span class="plain-color-3">i</span>' at the time '<span class="plain-color-2">t</span>' given the '<span style="color: red;">observations till time t</span>'.<br><br></p>
 
       <img src="images/forward/forward-trellis.svg" class="half-img">
-      <p style="text-align: center;"><br> Relation between \(\alpha_{t}\) and \(\alpha_{t+1}\)</p>
+      <p style="text-align: center;">Relation between \(\alpha_{t}\) and \(\alpha_{t+1}\)</p>
       <p>
+        <br>
       We can end up in state \(j\) at time \(t+1\) from each of the \(K\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\phi_j(x_{t+1})\). <br><br>
       Thus, generally we can write:
 <br><br>
@@ -1581,7 +1599,7 @@ Similarly, we can calculate the probability for other sequence of words.
     </p>
 
 
-    <h3 class="div-show-btn" onclick="show_forward_algorithm()">Forward Algorithm</h3>
+    <h3 class="div-show-btn" onclick="show_forward_algorithm()">Forward Algorithm<span style="float: right">+</span></h3>
 
     <div id = "forward-algorithm" class="hidden-div" style="display: none">
       
@@ -1621,7 +1639,8 @@ The sequence \(X\) has observations \(\{x_{1},x_{2},\dots,x_{T}\}\) and the Hidd
 
 
 <br>
-
+<br>
+Computing the likelihood of a sequence \(L(X \vert \theta)\) using forward algorithm is \(O(TK^{2})\).
 </p>
 
 <!-- <h3 class="div-show-btn" onclick="show_hmm_filtering()">HMM Filtering</h3> -->
@@ -1966,9 +1985,16 @@ Having studied the forward procedure, we will now understand the backward proced
 </p>
 </div> -->
 <p>
-  Now, we move on to the third important problem for understanding HMM which is the Backward algorithm. The Backward algorithm plays a key role in the HMM parameter learning algorithm aka Baum-Welsh algorithm.
+   <br><br>
 
-  <br><br>
+  Now, we move on to the third important problem for understanding HMM which is the Backward algorithm. The Backward algorithm plays a key role in the HMM parameter learning algorithm aka Baum-Welch algorithm. 
+
+
+  <br><br>Assume we want to compute the probability of a future observation sequence conditioned on the present state.
+
+
+
+<!--   <br><br>
   What is the value of  \(P(x_{1},\dots,x_{T} \vert z_{t} = i)\)? It is also the likelihood of a sequence conditioned on one specific state at a particular timestamp. <br><br>
   Again let us  try to understand this with an example. Let us go back to the Rainy and Sunny HMM example. 'D' denotes dry shoes and 'W' denotes wet shoes. You were observing your roommate for five days. <br><br>Let the observations be \({D,D,W,W,W}\). You don't want to find out the weather for each day. <b>Instead, you want to find how likely is the above sequence if the third day was Raining?</b>.
   <br><br>
@@ -1983,13 +2009,13 @@ Having studied the forward procedure, we will now understand the backward proced
                                           &= \alpha_{t}(i) * \beta_{t}(i)
   \end{align}
 \)
-<br><br>
-\(\beta_{t}(i)\) is the probability of the  future sequence \(X_{t+1:T}\) conditioned on the current state \(z_{t}\).<br><br>
+<br><br> -->
+<!-- \(\beta_{t}(i)\) is the probability of the  future sequence \(X_{t+1:T}\) conditioned on the current state \(z_{t}\).<br><br> -->
 
 How can we calculate it efficiently? Similar to the forward algorithm, we can use dynamic programming to calculate it efficiently. This procedure is called the Backward algorithm.<br>
 </p>
 
-  <h3 class="div-show-btn" onclick="show_backward_motivation()">How to calculate \(\beta_{t}(i)\) efficiently</h3>
+  <h3 class="div-show-btn" onclick="show_backward_motivation()">Intuition behind Backward Algorithm<span style="float: right">+</span></h3>
 
   <div id = "backward-motivation" class="hidden-div" style="display: none">
     
@@ -2014,11 +2040,11 @@ The computation tree looks like the following:<br>
 
 
 </div>
-<h3>Problem 3: Backward Algorithm</h3>
+<h3>Backward Algorithm</h3>
 
 <p>The Backward algorithm is a dynamic programming based approach using which we can efficiently calculate \(P(X_{t+1:T} \vert z_{t}=i)\)<br>.</p>
 <img src="images/backward/backward_equation.svg" style="width: 40%;height: auto"><br><br>
-<p>In other words, it is the probability of observing '<span class="plain-color-4">\(X_{t+1:T}\)</span>' given state '<span class="plain-color-3">\(i\)</span>' at the time '<span class="plain-color-2">t</span>'.<br><br>
+<p>In other words, it is the probability of observing '<span class="plain-color-4">the future observation sequence \(X_{t+1:T}\)</span>' given state '<span class="plain-color-3">present state \(i\)</span>' at the  '<span class="plain-color-2"> time t</span>'.<br><br>
 
 </p>
 <img src="images/backward/backward_trellis.svg" class="half-img">
@@ -2027,7 +2053,7 @@ The computation tree looks like the following:<br>
 <p>
   <br>
 Let us assume a general case, where we have \(K\) states. We can end up in state \(i\) at time t from each of the \(K\) paths starting at the next timestamp of 
- of \(\beta_{t+1}(j)\). 
+  \(\beta_{t+1}(j)\). 
 
  <!-- For the path from state   multiplied with the transition probability \(A_{ij}\)  and emission probability \(\phi_{j} (x_{t+1})\)  -->
 <!-- . -->
@@ -2035,7 +2061,7 @@ Let us assume a general case, where we have \(K\) states. We can end up in state
 The trellis diagram shows that if at time \(t\), we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states. -->
 
 <br><br>
-
+  
  Mathematically, 
 <br><br>
 
@@ -2090,7 +2116,7 @@ Thus, the general form for the backward procedure can be mathematically represen
 
 
 
-    <h3 class="div-show-btn" onclick="show_backward_algorithm()">Backward Algorithm</h3>
+    <h3 class="div-show-btn" onclick="show_backward_algorithm()">Backward Algorithm<span style="float: right">+</span></h3>
 
     <div id = "backward-algorithm" class="hidden-div" style="display: none">
       
@@ -2169,7 +2195,7 @@ $$
 <p>
 <br><br>The next problem in HMM is to determine the <b>‘optimal’</b> sequence of hidden states given the parameters and the observed sequence. We explain this problem in detail in the next section.
 </p>
-<h3>Problem 4: Determining optimal sequence of hidden states</h3>
+<h3>Sequence Assignment - Viterbi Algorithm</h3>
 <p>
 Given the parameters and the sequence of observations, what is the most probable sequence of states that resulted in the observations?<br></p>
   <!-- <h4>Optimality Definition 1</h4>
@@ -2215,13 +2241,77 @@ Given the parameters and the sequence of observations, what is the most probable
 <!-- <h4>Optimality Definition 2</h4> -->
 <p>
 <!-- According to this definition, we choose the most probable sequence of states given the parameters and observations. -->
-\( Z_{T}^{*} = \underset{ Z_{1:T}}  \arg\max  P(Z_{1:T} \vert x_{t:T})  \)
+\( z_{T}^{*} = \underset{ z_{1:T}}  \arg\max  P(z_{1:T} \vert x_{t:T})  \)
 <br><br>
-In simple terms, what is the sequence of hidden states that maximizes \(P(Z_{1:T} \vert x_{t:T})\)?
+In simple terms, what is the sequence of hidden states that maximizes \(P(z_{1:T} \vert x_{t:T})\)?
 <br><br>
-We can find the sequence that maximizes \(P(Z_{1:T} \vert x_{t:T})\) by finding the probability across all the \(K^{T}\) paths. As discussed in the motivation for the Forward algorithm, we recompute many of the probabilities. Hence we use a dynamic programming based approach to  calculate \(Z_{T}^{*}\). 
+Let us again understand the above with the Biased coin and Fair coin example <br><br>Find out the hidden state sequence which has the highest probability of generating the observation sequence \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\)<br><br>
+<table>
+
+  <thead>
+    <th>\(z_{1}\)</th>
+    <th>\(z_{2}\)</th>
+    <th>\(z_{3}\)</th>
+    <th>\(P(HHH\vert z_{1}z_{3}z_{3})\)</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Fair</td>
+      <td>Fair</td>
+      <td>Fair</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <td>Fair</td>
+      <td>Fair</td>
+      <td>Biased</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <td>Fair</td>
+      <td>Biased</td>
+      <td>Fair</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <td>Fair</td>
+      <td>Biased</td>
+      <td>Biased</td>
+      <td>0.1</td>
+    </tr>
+<tr>
+      <td>Biased</td>
+      <td>Fair</td>
+      <td>Fair</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <td>Biased</td>
+      <td>Fair</td>
+      <td>Biased</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <td>Biased</td>
+      <td>Biased</td>
+      <td>Fair</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <td>Biased</td>
+      <td>Biased</td>
+      <td>Biased</td>
+      <td>0.1</td>
+    </tr>
+
+  </tbody>
+</table>
+</p>
+<p>
+So, the hidden state sequence is \(z_{1}=B,z_{2}=B,z_{3}=B\).<br><br>
+In general can find the sequence that maximizes \(P(z_{1:T} \vert x_{t:T})\) by finding the probability across all the \(K^{T}\) paths. But, this is exponential in terms of time complexity.<br><br> Could we do better like we did in forward algorithm? <b>Yes, we can!</b> <br><br>The idea, like in the case of forward algorithm is to use dynamic programming and reuse computations. 
 <br><br>
-First, let us define the following 
+The key idea is to store the <span class="plain-color-10">best score (highest prob)</span> along a <span class="plain-color-4">single path at time \(t\)</span>, which accounts for the <span class="plain-color-7"> first \(t\) observations</span> and ends in <span class="plain-color-5">\(z_{t}=i\)</span>.
 
 <br><br>
 
@@ -2240,8 +2330,8 @@ First, let us define the following
 <img src="images/viterbi/viterbi_equation.svg" style="width: 100%; height: auto; ">
 
 <p style="  line-height: 3;">
-<span class="plain-color-10">Best score (highest prob)</span> along a <span class="plain-color-4">single path at time \(t\)</span>, which accounts for the <span class="plain-color-7"> first \(t\) observations</span> and ends in <span class="plain-color-5">\(z_{t}=i\)</span>.
 
+We can compute the same quantity for the next timestamp by considering all \(K\) transitions from each of the states. 
 </p>
 
 <!-- <p><b>Difference between \(\alpha_{t}(i)\) and \(\delta_{t}(i)\)</b></p> -->
@@ -2335,11 +2425,11 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
 <p><br><b>Viterbi Example</b><br>
 <br>The following shows the viterbi calculation for estimating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\). <br><br></p>
 <img  class="example-img delta" src="images/viterbi_gif/1.svg">
-<img  class="example-img delta" src="images/viterbi_gif/2.svg">
-<img  class="example-img delta" src="images/viterbi_gif/3.svg">
-<img  class="example-img delta" src="images/viterbi_gif/4.svg">
-<img  class="example-img delta" src="images/viterbi_gif/5.svg">
-<img  class="example-img delta" src="images/viterbi_gif/6.svg">
+<img  class="example-img delta" src="images/viterbi_gif/2.svg" style="display: none">
+<img  class="example-img delta" src="images/viterbi_gif/3.svg" style="display: none">
+<img  class="example-img delta" src="images/viterbi_gif/4.svg" style="display: none">
+<img  class="example-img delta" src="images/viterbi_gif/5.svg" style="display: none">
+<img  class="example-img delta" src="images/viterbi_gif/6.svg" style="display: none">
 <p style="text-align: center">Trellis diagram showing the \(\delta_{t}(j)\) calculation.</p>
 
           <div style="display: flex; justify-content: center;">
@@ -2396,9 +2486,9 @@ Now, we create a diagram, where an edge from \(z_{t-1} (i)\) to \(z_{t}(j)\) den
 <p><br>The following shows the backtracking procedure. First, we choose the node at the last timestamp with the highest probability. Hence, \(Z_{3}^{*}=B\) is chosen first. Then, iteratively we backtrace the path from \(z_{3}=B\) to the start.<br><br></p>
 
 <img  class="example-img backtracking" src="images/backtracking_gif/7.svg">
-<img  class="example-img backtracking" src="images/backtracking_gif/8.svg">
-<img  class="example-img backtracking" src="images/backtracking_gif/9.svg">
-<img  class="example-img backtracking" src="images/backtracking_gif/10.svg">
+<img  class="example-img backtracking" src="images/backtracking_gif/8.svg" style="display: none">
+<img  class="example-img backtracking" src="images/backtracking_gif/9.svg" style="display: none">
+<img  class="example-img backtracking" src="images/backtracking_gif/10.svg" style="display: none">
 
 
 <p style="text-align: center;">Backtracking procedure for calculating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\)<br><br></p>
@@ -2646,7 +2736,7 @@ Qljo (Rta)
     
 
   <!-- Next, we move on the fifth problem in Hidden Markov models, which is the problem of parameter learning given a series of observations. -->
-  <h3>Problem 5: Parameter Learning</h3>
+  <h3>Parameter Learning</h3>
   <p>The objective is to learn the parameters of an HMM, given a set of observations.<br><br>
 
       First, we consider an easier version of the problem, which is the process of parameter estimation, given the observed sequences and the corresponding hidden state sequences. <br><br>
@@ -2661,16 +2751,18 @@ Qljo (Rta)
       <p><br>
         where<br><br>
       <b>N</b> : Number of examples<br><br>
-      <b>\(\mathbf{z_{jk}}\)</b> : \(k^{th}\) hidden state of the \(j^{th}\) example<br><br>
-      <b>\(\mathbf{x_{jk}}\)</b> : \(k^{th}\) observation of the \(j^{th}\) example<br><br>
-      <b>\(\mathbf{T_{i}}\)</b> : Sequence length of the \(j^{th}\) example<br><br>
+      <b>\(\mathbf{z_{ij}}\)</b> : \(j^{th}\) hidden state of the \(i^{th}\) example<br><br>
+      <b>\(\mathbf{x_{ij}}\)</b> : \(j^{th}\) observation of the \(i^{th}\) example<br><br>
+      <b>\(\mathbf{T_{i}}\)</b> : Sequence length of the \(i^{th}\) example<br><br>
       
+      <br><br>
+      Note that sequences can be of different lengths<br>
       <br>
-      The parameters can be estimated using the following:<br><br>
+      We use the principle of Maximum Likelihood Estimation (MLE) to estimate the parameters. The parameters can be estimated using the following:<br><br>
       <!-- \(\pi_{i} = \frac{\sum_{q=1}^{N} V(z_{q1}, z_{i})}{N}\) -->
-      \(\mathbf{\pi_{k}}  = \cfrac{\text{Total number of sequences that start with }z_{k} }{\text{Total number of sequences}}\)<br><br>
-      \(\mathbf{A_{jk}}  = \cfrac{\text{Total number of transitions from state }z_{j} \text{ to state } z_{k} }{\text{Total number of transitions from }z_{j}}\)<br><br>
-      \(\mathbf{\phi_{jk}}  = \cfrac{\text{Total number of times in state }z_{j} \text{ and observing } x_{k} }{\text{Total number of times in state }z_{j}}\)<br><br>
+      \(\mathbf{\pi_{i}}  = \cfrac{\text{Total number of sequences that start with }z_{i} }{\text{Total number of sequences}}\)<br><br>
+      \(\mathbf{A_{ij}}  = \cfrac{\text{Total number of transitions from state }z_{i} \text{ to state } z_{j} }{\text{Total number of transitions from }z_{i}}\)<br><br>
+      \(\mathbf{\phi_{ij}}  = \cfrac{\text{Total number of times in state }z_{i} \text{ and observing } x_{j} }{\text{Total number of times in state }z_{i}}\)<br><br>
 
       Let us try to understand the above with an example.<br><br>
 
@@ -2763,11 +2855,7 @@ Qljo (Rta)
 
       
        -->
-       We know the procedure to calculate optimal parameters, when we are provided with hidden state sequences. So, if we are not provided the hidden state sequences, we try to "estimate" the "expected" state sequence. Now, we have the "expected hidden state sequences", so we can find parameters.  <br><br>
-
-       This method is called <b>"Expectation-Maximization"</b> and is done iteratively. It is derived from MLE.<br><br>
-
-       The algorithm is as follows:
+       We have seen the procedure to calculate the optimal parameters given the hidden state sequence. However, it is common that the hidden state sequence is unknown. In such a case, we first try to "estimate" the "expected" state sequence based on some initial estimates of parameters. Then, we use the principles of MLE for observed state sequence to refine the parameters. We apply these two steps iteratively via an algorithm called Expectatio-Maximization
       <br><br>
       
 
@@ -2797,12 +2885,12 @@ Qljo (Rta)
       <p>We now discuss both of the above steps in more detail.<br><br></p>
       <p><b>Expectation Step</b><br><br>
 
-      In this step, we try to estimate the hidden states based on the parameters.<br><br>
+      In this step, we try to estimate the hidden states based on the parameters. We can compute the expected state sequence. But, from our earlier MLE computations, we know that we only care about the number of transitions from state \(i\) to state \(j\) and number of emissions from state \(i\) to observation \(j\).<br><br>
 
 
       We need to define \(\epsilon_{t}(i,j)\) which is an Expected Sufficient Stats(ESS).<br><br>
        </p>
-      <p>\(\epsilon_{t}(i,j)\): Expected number of transitions from state \(i\) to state \(j\) at time \(t\)</p>
+      <p>\(\epsilon_{n,t}(i,j)\): Expected number of transitions from state \(i\) to state \(j\) at time \(t\)</p>
 <!-- 
       <ul>
         <li></li>
@@ -2954,7 +3042,7 @@ Qljo (Rta)
             \)                      
         </div>
 
-        <div class="em_example">
+        <div class="em_example" style="display: none">
             <b>Iteration-1: Expectation Step</b><br><br>
 
             <table>
@@ -3004,7 +3092,7 @@ Qljo (Rta)
 
         </div>
 
-        <div class="em_example">
+        <div class="em_example" style="display: none">
             <b>Iteration-1: Maximization Step</b><br><br>
             \(
             \pi = \begin{bmatrix}
@@ -3034,7 +3122,7 @@ Qljo (Rta)
             \)                      
         </div>
 
-        <div class="em_example">
+        <div class="em_example" style="display: none">
             <b>Iteration-2: Expectation Step</b><br><br>
 
             <table>
@@ -3084,7 +3172,7 @@ Qljo (Rta)
 
         </div>
 
-        <div class="em_example">
+        <div class="em_example" style="display: none">
             <b>Iteration-2: Maximization Step</b><br><br>
             \(
             \pi = \begin{bmatrix}
@@ -5022,10 +5110,10 @@ function next_image(img_class){
 }
 
 
-var auto_play_paths = true;
-var auto_play_delta = true;
-var auto_play_backtracking = true;
-var auto_play_em = true;
+var auto_play_paths = false;
+var auto_play_delta = false;
+var auto_play_backtracking = false;
+var auto_play_em = false;
 
 function pause(img_class){
   if(img_class=='paths'){
