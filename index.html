@@ -2353,13 +2353,13 @@ Similarly, we can compute \(P(HH\vert @B)\), \(P(H\vert F)\) and \(P(H\vert B)\)
 
 The computation tree looks like the following:
 <img src="images/viterbi/viterbi_tree.svg" class="example-img">
-<p style="text-align: center;"> Computation tree for calculating \(P(z_{3}^{3})\) </p>
+<p style="text-align: center;"> Computation tree for calculating \(P(z_{3}^{*})\) </p>
 <br><br>
 Clearly, several nodes are being recomputed. The optimized computation tree looks like the following:
 <img src="images/viterbi/viterbi_trellis.svg" class="example-img">
-<p style="text-align: center;"> Optimized Computation tree for calculating \(P(z_{3}^{3})\) </p>
+<p style="text-align: center;"> Optimized Computation tree for calculating \(P(z_{3}^{*})\) </p>
 <br><br>
-So, if we can store the highest probability at time \(t\) for each of the \(K\) states, we can compute the best score at time \(t+1\) efficiently. 
+So, if we can store the highest probability at time \(t\) for each of the \(K\) states, we can efficiently compute the best score for  each of the \(K\) states at time \(t+1\) . 
 </p>
 
 </div>
