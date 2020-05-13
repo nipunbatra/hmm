@@ -3084,7 +3084,7 @@ Qljo (Rta)
         Assume that \(K=2\): Fair coin and Biased coin.<br><br>
 
         The following GIF shows the procedure for calculating the optimal parameters.<br><br>
-        <p style="color: red">The following values  are incorrect. They will changed soon!</p>
+        
         <div class="em_example">
             <b>Initialization Step: Creating random parameters</b><br><br>
             \(
@@ -3120,161 +3120,156 @@ Qljo (Rta)
 
             <table>
               <tbody>
-                
+
                 <tr>
-                  <td>\(\epsilon_{1}(B,B) = 0.8\)</td>
-                  <td>\(\epsilon_{1}(B,F) = 0.8\)</td>
-                  <td>\(\epsilon_{1}(F,B) = 0.8\)</td>
-                  <td>\(\epsilon_{1}(F,F) = 0.8\)</td>
+                  <td>\(\epsilon_{1}(B,B) = 0.743\)</td>
+                  <td>\(\epsilon_{1}(B,F) = 0.212\)</td>
+                  <td>\(\epsilon_{1}(F,B) = 0.018\)</td>
+                  <td>\(\epsilon_{1}(F,F) = 0.018\)</td>
                 </tr>
                 <tr>
-                  <td>\(\epsilon_{2}(B,B) = 0.8\)</td>
-                  <td>\(\epsilon_{2}(B,F) = 0.8\)</td>
-                  <td>\(\epsilon_{2}(F,B) = 0.8\)</td>
-                  <td>\(\epsilon_{2}(F,F) = 0.8\)</td>
+                  <td>\(\epsilon_{2}(B,B) = 0.183\)</td>
+                  <td>\(\epsilon_{2}(B,F) = 0.164\)</td>
+                  <td>\(\epsilon_{2}(F,B) = 0.111\)</td>
+                  <td>\(\epsilon_{2}(F,F) = 0.111\)</td>
                 </tr>
 
                 <tr>
-                  <td>\(\epsilon_{3}(B,B) = 0.8\)</td>
-                  <td>\(\epsilon_{3}(B,F) = 0.8\)</td>
-                  <td>\(\epsilon_{3}(F,B) = 0.8\)</td>
-                  <td>\(\epsilon_{3}(F,F) = 0.8\)</td>
+                  <td>\(\epsilon_{3}(B,B) = 0.614\)</td>
+                  <td>\(\epsilon_{3}(B,F) = 0.101\)</td>
+                  <td>\(\epsilon_{3}(F,B) = 0.151\)</td>
+                  <td>\(\epsilon_{3}(F,F) = 0.151\)</td>
                 </tr>
               </tbody>
             </table>
 
-            
+
           <table>
-              <tbody>                
+              <tbody>
                 <tr>
-                  <td>\(\gamma_{1}(B) = 0.8\)</td>
-                  <td>\(\gamma_{2}(F) = 0.8\)</td>
-                  <td>\(\gamma_{3}(B) = 0.8\)</td>
-                  
-                </tr>
-                <tr>
-                  <td>\(\gamma_{1}(F) = 0.8\)</td>
-                  <td>\(\gamma_{2}(F) = 0.8\)</td>
-                  <td>\(\gamma_{3}(F) = 0.8\)</td>
-                  
-                </tr>
+                  <td>\(\gamma_{1}(B) = 0.955\)</td>
+                  <td>\(\gamma_{2}(B) = 0.347\)</td>
+                  <td>\(\gamma_{3}(B) = 0.714\)</td>
 
-                
+                </tr>
+                <tr>
+                  <td>\(\gamma_{1}(F) = 0.045\)</td>
+                  <td>\(\gamma_{2}(F) = 0.653\)</td>
+                  <td>\(\gamma_{3}(F) = 0.286\)</td>
+
+                </tr>
               </tbody>
             </table>
-
         </div>
 
-        <div class="em_example" style="display: none">
+
+ <div class="em_example" style="display: none">
             <b>Iteration-1: Maximization Step</b><br><br>
             \(
             \pi = \begin{bmatrix}
-                    0.8 & 0.2
+                    0.955 & 0.045
                   \end{bmatrix}
 
             \)
             <br><br>
             \(
             A = \begin{bmatrix}
-                     0.1 & 0.9\\
-                     0.4 & 0.6
+                     0.764 & 0.236\\
+                     0.285 & 0.715
                   \end{bmatrix}
             \)
             <br><br>
             \(
             \phi_B = \begin{bmatrix}
-                     0.1 & 0.9\\
+                     0.828 & 0.172\\
                      \end{bmatrix}
-            \)            
+            \)
             <br><br>
 
             \(
             \phi_F = \begin{bmatrix}
-                     0.5 & 0.5\\
+                     0.336 & 0.664\\
                      \end{bmatrix}
-            \)                      
+            \)
         </div>
 
-        <div class="em_example" style="display: none">
+<div class="em_example" style="display: none">
             <b>Iteration-2: Expectation Step</b><br><br>
 
             <table>
               <tbody>
-                
+
                 <tr>
-                  <td>\(\epsilon_{1}(B,B) = 0.8\)</td>
-                  <td>\(\epsilon_{1}(B,F) = 0.8\)</td>
-                  <td>\(\epsilon_{1}(F,B) = 0.8\)</td>
-                  <td>\(\epsilon_{1}(F,F) = 0.8\)</td>
+                  <td>\(\epsilon_{1}(B,B) = 0.833\)</td>
+                  <td>\(\epsilon_{1}(B,F) = 0.152\)</td>
+                  <td>\(\epsilon_{1}(F,B) = 0.006\)</td>
+                  <td>\(\epsilon_{1}(F,F) = 0.006\)</td>
                 </tr>
                 <tr>
-                  <td>\(\epsilon_{2}(B,B) = 0.8\)</td>
-                  <td>\(\epsilon_{2}(B,F) = 0.8\)</td>
-                  <td>\(\epsilon_{2}(F,B) = 0.8\)</td>
-                  <td>\(\epsilon_{2}(F,F) = 0.8\)</td>
+                  <td>\(\epsilon_{2}(B,B) = 0.209\)</td>
+                  <td>\(\epsilon_{2}(B,F) = 0.144\)</td>
+                  <td>\(\epsilon_{2}(F,B) = 0.098\)</td>
+                  <td>\(\epsilon_{2}(F,F) = 0.098\)</td>
                 </tr>
 
                 <tr>
-                  <td>\(\epsilon_{3}(B,B) = 0.8\)</td>
-                  <td>\(\epsilon_{3}(B,F) = 0.8\)</td>
-                  <td>\(\epsilon_{3}(F,B) = 0.8\)</td>
-                  <td>\(\epsilon_{3}(F,F) = 0.8\)</td>
+                  <td>\(\epsilon_{3}(B,B) = 0.746\)</td>
+                  <td>\(\epsilon_{3}(B,F) = 0.063\)</td>
+                  <td>\(\epsilon_{3}(F,B) = 0.114\)</td>
+                  <td>\(\epsilon_{3}(F,F) = 0.114\)</td>
                 </tr>
               </tbody>
             </table>
 
-            
+
           <table>
-              <tbody>                
+              <tbody>
                 <tr>
-                  <td>\(\gamma_{1}(B) = 0.8\)</td>
-                  <td>\(\gamma_{2}(F) = 0.8\)</td>
-                  <td>\(\gamma_{3}(B) = 0.8\)</td>
-                  
-                </tr>
-                <tr>
-                  <td>\(\gamma_{1}(F) = 0.8\)</td>
-                  <td>\(\gamma_{2}(F) = 0.8\)</td>
-                  <td>\(\gamma_{3}(F) = 0.8\)</td>
-                  
-                </tr>
+                  <td>\(\gamma_{1}(B) = 0.985\)</td>
+                  <td>\(\gamma_{2}(B) = 0.354\)</td>
+                  <td>\(\gamma_{3}(B) = 0.808\)</td>
 
-                
+                </tr>
+                <tr>
+                  <td>\(\gamma_{1}(F) = 0.015\)</td>
+                  <td>\(\gamma_{2}(F) = 0.646\)</td>
+                  <td>\(\gamma_{3}(F) = 0.192\)</td>
+
+                </tr>
               </tbody>
             </table>
-
         </div>
 
-        <div class="em_example" style="display: none">
+
+ <div class="em_example" style="display: none">
             <b>Iteration-2: Maximization Step</b><br><br>
             \(
             \pi = \begin{bmatrix}
-                    0.8 & 0.2
+                    0.985 & 0.015
                   \end{bmatrix}
 
             \)
             <br><br>
             \(
             A = \begin{bmatrix}
-                     0.1 & 0.9\\
-                     0.4 & 0.6
+                     0.833 & 0.167\\
+                     0.256 & 0.744
                   \end{bmatrix}
             \)
             <br><br>
             \(
             \phi_B = \begin{bmatrix}
-                     0.1 & 0.9\\
+                     0.835 & 0.165\\
                      \end{bmatrix}
-            \)            
+            \)
             <br><br>
 
             \(
             \phi_F = \begin{bmatrix}
-                     0.5 & 0.5\\
+                     0.243 & 0.757\\
                      \end{bmatrix}
-            \)                      
+            \)
         </div>
-
 
 
 
