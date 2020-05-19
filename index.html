@@ -743,7 +743,7 @@ We now try to understand Markov chains using some examples.
       <p class="example-text">Markov chain for Sunny and Rainy Weather</p>
       <p class="example-description">
         <br>
-         Assume a scenario, where the weather of a particular place follows a Markov chain. The above diagram describes how the weather can change. In this example, we can observe the outside weather. Any sunny day can change into a rainy day with a probability of <b>0.4</b>.
+         Assume a scenario, where the weather of a particular place follows a Markov chain. The above diagram describes how the weather can change. In this example, we can observe the outside weather. Any sunny day is followed by a rainy day with a probability of <b>0.4</b>.
          <br><br>
          <b>Observation</b>: Weather
       </p>
@@ -754,7 +754,7 @@ We now try to understand Markov chains using some examples.
       <p class="example-text">Markov chain for a Fair and a Biased coin swap</p>
       <p class="example-description"> 
 <br>
-      Assume a scenario, where your friend is swapping between a fair and a biased coin using a Markov chain. The above diagram describes how the coin your friend chooses can change. In this example, we can observe the coin chosen by your friend. A biased coin can remain as a biased coin in the next swap with probability <b>0.6</b>. <br><br>
+      Assume a scenario, where your friend is swapping between a fair and a biased coin using a Markov chain. The above diagram describes how the coin your friend chooses can change. In this example, we can observe the coin chosen by your friend. Your friend can choose a biased coin again in the consecutive selection with probability <b>0.6</b>. <br><br>
       <b>Observation</b>: Biased/Fair coin
     </p>
   </div>
@@ -993,7 +993,7 @@ Similarly, we can calculate the probability for other sequence of words.
 <h1>Hidden Markov Model</h1>
 <p>Before we try to understand Hidden Markov models, let us revisit a previous Markov chain example. 
   <br><br>
-  Previously in our unfair coin toss example, we could observe whether the coin tossed was fair or biased. Now, consider an extension of it, where instead of showing the flipped coin, only the result of the flip was shown to us. Therefore the coin is <b>"hidden"</b>. The result of the flip is <b>"observable"</b>.
+  Previously in our unfair coin toss example, we could observe whether the coin tossed was fair or biased. Now, consider an extension of it, where instead of showing the flipped coin, only the result of the flip was shown to us. Therefore the coin is <b>"hidden"</b>. The result of the flip is <b>"observable"</b>. A typical HMM has the following components: set of states \(z\), emissions in the hidden states, \(x\) and state transition diagram as shown below.
   <br><br>
   The "<b>observation</b>" is generated from the "<b>hidden</b>" component.<br><br>
   Now, we explore more examples to understand this <b>"hidden"</b> state.
@@ -1052,7 +1052,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <p style="text-align: center;margin-top: 1em">Structure of a HMM</p>
       <br><br>
       <p>
-       It is worth noting that that the hidden component is modelled as a Markov chain and not the observations.<br><br>
+       It is worth noting that that the hidden component is modeled as a Markov chain and not the observations.<br><br>
 <!-- 
        <span style="background: gray">Nodes colored in <span style="color: #fdc6c0">pink</span> denote the observations.<br>
         Nodes colored in <span style="color: white">white</span> denote the hidden states.
@@ -1064,8 +1064,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
     <h3>Hidden Markov Model Parameters</h3>
 
-    <p>Now, we discuss the parameters in Hidden Markov model.The parameters Transition Matrix \(A\) and Prior Probability \(\pi\) are the same as the ones in Markov chain.
-
+    <p>Now, we discuss the parameters in Hidden Markov model. There are three parameters in the HMMs: (a) transition matrix \(A\), (b) prior probability \(\pi\) and (c) emission probability \( \phi \). Out of these three parameters, transition matrix and prior probability are similar to the ones in the markov chain. The emission probability is explained below.
     
     <ul>
 
@@ -1077,8 +1076,8 @@ Similarly, we can calculate the probability for other sequence of words.
 <p>
     The observations can be either <b>discrete</b> or <b>continuous</b>.
     <ul>
-      <li><b>Discrete output examples</b>: Fair and Biased coin observations, Sunny and Rainy weather observations</li>
-      <li><b>Continuous output examples</b>: Power consumed by an Air Conditioner</li>
+      <li><b>Discrete output examples</b>: (A) Fair and Biased coin observations, and (B) Sunny and Rainy weather observations</li>
+      <li><b>Continuous output examples</b>: Power consumed by an air Conditioner</li>
 
     </ul>
      
@@ -1291,7 +1290,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <p>A Trellis diagram can be used to show the hidden states path in a Hidden Markov model. Consider the following trellis diagram showing the possible path sequence of hidden states for three timestamps for the biased-fair coin example.<br><br> In the diagram \(B\) denotes the Biased coin and \(F\) denotes the Fair coin. The highlighted red path corresponds to the state sequence. <br><br></p>
       <img src="images/trellis_paths/2.svg" class="trellis_image">
       
-      <p style="text-align: center;">Trellis diagram corresponding to the path \(\{z_{1}=B, z_{2}=B, z_{3}=F\}\). </p>
+      <p style="text-align: center;"><small>Trellis diagram corresponding to the path \(\{z_{1}=B, z_{2}=B, z_{3}=F\}\).<br> In the diagram B denotes the Biased coin and F denotes the Fair coin. <br> The highlighted red path corresponds to the state sequence</small></p>
        <!-- <p><br>Therefore, the path taken is \(z_{1}=B, z_{2}=B, z_{3}=F\). </p> -->
 
 
@@ -1299,7 +1298,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <h1>HMM Algorithms</h1>
       <p>Now, we look at five important questions to understand HMMs<d-cite key="rabiner"></d-cite>.</p>
       <h3>HMM Evidence Likelihood</h3>
-      <p>The objective is to estimate the likelihood of the observations given HMM parameters. Mathematically this can be represented as:
+      <p>The objective is to estimate the likelihood of the observations given HMM parameters \(L(X \vert \theta)\). Mathematically this can be represented as:
         <br><br>
 
     Given observation sequence \(X=\{x_1, x_2 \ldots x_T\}\), and HMM parameters \( \theta = \{\pi, A, \phi \}\), what is \(L(X \vert \theta)\)?
@@ -2005,7 +2004,7 @@ Having studied the forward procedure, we will now understand the backward proced
 <p>
    <br><br>
 
-  Now, we move on to the third important problem for understanding HMM which is the Backward algorithm. The Backward algorithm plays a key role in the HMM parameter learning algorithm aka Baum-Welch algorithm. 
+  Now, we move on to the third important problem for understanding HMM which is the Backward algorithm. The Backward algorithm plays a key role in Baum-Welch algorithm, which is used for learning parameters of HMMs.
 
 
   <br><br>Assume we want to compute the probability of a future observation sequence conditioned on the present state.
