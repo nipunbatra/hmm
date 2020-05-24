@@ -2826,8 +2826,15 @@ Qljo (Rta)
       <b>\(\mathbf{x_{ij}}\)</b> : \(j^{th}\) observation of the \(i^{th}\) example<br><br>
       <b>\(\mathbf{T_{i}}\)</b> : Sequence length of the \(i^{th}\) example<br><br>
       
-      <br><br>
-      Note that sequences can be of different lengths<br>
+
+      <br>
+      In general the examples look like the following: <br><br>
+      \( x_{11},x_{12},\dots,x_{1T_{1}} \)<br>
+      \( x_{21},x_{22},\dots,x_{2T_{2}} \)<br>
+      \(\vdots\)<br>
+      \( x_{n1},x_{n2},\dots,x_{nT_{n}} \)<br> 
+      <br>
+      <b>Note that sequences can be of different lengths</b><br>
       <br>
       We use the principle of Maximum Likelihood Estimation (MLE) to estimate the parameters. The parameters can be estimated using the following:<br><br>
       <!-- \(\pi_{i} = \frac{\sum_{q=1}^{N} V(z_{q1}, z_{i})}{N}\) -->
@@ -3046,7 +3053,7 @@ Qljo (Rta)
       \(
       \begin{align}
         \hat{A_{jk}} &= \cfrac{\text{Expected number of transitions from state i to state j} }{\text{Expected number of transitions from state i}}\\
-                     &= \cfrac{ \sum_{n=1}^{N} \sum_{t=2}^{T_{i}} \epsilon_{n,t}(j,k) }  { \sum_{k=1}^{K} \sum_{n=1}^{N} \sum_{t=2}^{T_{n}} \epsilon_{n,t}(j,k)  }
+                     &= \cfrac{ \sum_{n=1}^{N} \sum_{t=1}^{T_{i} - 1} \epsilon_{n,t}(j,k) }  { \sum_{k=1}^{K} \sum_{n=1}^{N} \sum_{t=1}^{T_{n} - 1} \epsilon_{n,t}(j,k)  }
       \end{align}
       \)
    
@@ -3062,7 +3069,7 @@ Qljo (Rta)
       \(
       \begin{align}
         \hat{\phi_{jl}} &= \cfrac{\text{Expected number of times in state j and observing l} }{\text{Expected number of times in state j}}\\
-                     &= \cfrac{ \sum_{n=1}^{N} \sum_{t \text{ where } x_{nt}=l} \gamma_{n,t}(j) }  { \sum_{n=1}^{N} \sum_{t=1}^{T_{n}} \gamma_{n,t}(j) }
+                     &= \cfrac{ \sum_{n=1}^{N} \sum_{t \text{ where } x_{nt}=l}^{T_{i}-1} \gamma_{n,t}(j) }  { \sum_{n=1}^{N} \sum_{t=1}^{T_{n}-1} \gamma_{n,t}(j) }
       \end{align}
       \)
    
@@ -3538,10 +3545,12 @@ fsm.graph.addNode(start_node)
 
 var edge = create_edge(4, 2, 0 ,'arrow')
 edge.color = colors[0]
+edge.label=0.5
 fsm.graph.addEdge(edge)
 
 var edge = create_edge(5, 2, 1,'arrow' )
 edge.color = colors[1]
+edge.label=0.5
 fsm.graph.addEdge(edge)
 
 
@@ -3831,8 +3840,9 @@ function change_fsm(){
   var size = 2;
 
   edges_sizes = [pi_a*size, pi_b*size,a_a*size, a_b*size, b_a*size, b_b*size ]
-
+  edge_labels = [pi_a,pi_b,a_a,a_b,b_a,b_b]
     
+
 
   console.log(edges_sizes)
   console.log(fsm.graph.edges())
@@ -3843,6 +3853,8 @@ function change_fsm(){
     else{
      fsm.graph.edges()[i].hidden=false;
      fsm.graph.edges()[i].size=edges_sizes[i]; 
+     fsm.graph.edges()[i].label = edge_labels[i];
+     console.log(fsm.graph.edges()[i])
     }
   }
 
