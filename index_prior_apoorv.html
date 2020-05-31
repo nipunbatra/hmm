@@ -77,13 +77,6 @@
 
 <style type="text/css">
 
-
-.btn{
-
-
-  border-color: white;
-}
-
 body{
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif!important;
 }
@@ -405,10 +398,7 @@ padding:1em;
 }
 
 
-.italic{
 
-  font-style: italic;
-}
 .color-1{
   background :rgb(31,119,180);
 padding:1em;
@@ -608,23 +598,11 @@ padding:1em;
 
   <h1>Sequential Modeling</h1>
 
-  <p>
-    Have you ever wondered how the voice assistant in your phone works<d-cite key="hmmspeech"></d-cite>? Or, how does your smartwatch count the number of steps you take<d-cite key="hmmactivity"></d-cite>? These are applications of time-series data. In this article we explore Hidden Markov Models or HMMs which are often used for such applications. 
-
-
+  <p>Ever wondered how the voice assistant in your phone works<d-cite key="hmmspeech"></d-cite>? Or how speech tagging in sentences works<d-cite key="hmmpos"></d-cite>? Or, how your smartwatch or smart wristband counts the number of steps you have taken<d-cite key="hmmactivity"></d-cite>? Each of the above is an example of time-series machine learning. Hidden Markov Model (HMM) is generally used for time-series data and is often used for above the applications.
     <br><br>
-
-    HMMs model the data as a sequence, which makes sense if we consider speech; A sentence like, “I like playing …” would often be followed by, “guitar”, “football”, “with your feelings”, etc, show how the previous word helps us better guess the next word/words. This is an example of language modeling<d-cite key="murphy"></d-cite>.
-
-    <br><br>
-
-    In this article we discuss about Markov chains, Hidden Markov models and the key problems of Hidden Markov models.
-
-      
-
+First we discuss why sequential modeling makes sense. When someone asks you to suggest the next word in the sentence - "I like playing ...", your choice might be nouns like guitar, football, etc. The knowledge that the previous word is "playing" helps us better guess what the next word could be. Thus, for time-series data, modeling the data as a sequence instead of assuming it to be independent and identically distributed (IID) is advantageous. The above is an example of language modeling<d-cite key="murphy"></d-cite>.
 <br><br>
-Let us consider another example. Imagine that it has been raining the past few days, and someone asks you if it will rain tomorrow. You might reason. "Given that it rained today, I think it will rain tomorrow."; it usually rains for a few days in succession. Rains also have a seasonal and continuity phenomenon attached to them. A typical example is shown below.
-</p> 
+Let us consider another example. Imagine that it has been raining the past few days and someone asks you - "How likely is it that it will rain tomorrow"? You might say that "Given that it rained today, I think it will rain tomorrow." The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached to rainfall. We might have a sequence of events, as shown below.</p> 
 
     <img src="images/weather.png" style="padding: 1em; width: 100%; height: auto">
     <p style="text-align: center">Rainy-Sunny time-series data</p>  
@@ -635,8 +613,7 @@ Let us consider another example. Imagine that it has been raining the past few d
   width: 100%; height: auto"> -->
 
   
-  <br><br>
-    Thus, for time-series data, modeling the data as a sequence instead of assuming it to be independent and identically distributed (IID) is advantageous.
+
 
   <h1>Markov chain</h1>
 
@@ -650,7 +627,7 @@ given the <span class="plain-color-5">present observation</span>, the <span clas
   width: 70%; height: auto">
   
   <p>
-  <br><br>
+  <br>
 We use the following graphical model to denote a Markov chain.
 <br/><br/>
 </p>
@@ -658,13 +635,12 @@ We use the following graphical model to denote a Markov chain.
   <img src="images/mm.svg" class="example-img">
 <p style="text-align: center">Markov chain graphical diagram</p>  
 <p>
-<br/>
-Nodes colored in <span style="color: #fdc6c0">pink</span> denote observations. The arrows indicate the dependencies between the present and the past.<br><br>
+<br/><br/>
+Nodes colored in <span style="color: #fdc6c0">pink</span> denote observations.<br><br>
 
 Using the rules of independence, we can calculate the joint probability of the sequence as: \(P(x_{1},x_{2},\dots,x_{t+1} ) = P(x_1)P(x_2 \vert x_1) P(x_3 \vert x_2) \dots P(x_t \vert x_{t-1})  P(x_{t+1} \vert x_{t})\)
 <br><br>
 We now try to understand Markov chains using some examples.
-<br><br>
 </p>
 <div class="l-screen">
   <div class="one-third-div">
@@ -732,10 +708,9 @@ We now try to understand Markov chains using some examples.
 -->
   <h3>Parameters of Markov chain</h3>
   <p>
-    Each observation \(x_t\) (at time t) can take a discrete value or “state”. For example; In the case of weather, the states were <span class='italic'>Rainy</span> or <span class='italic'>Sunny</span>; In the case of coin swap, the states were <span class='italic'>Biased</span> or <span class='italic'>Fair</span>; and In the case of the air conditioner, the states were <span class='italic'>ON</span> or <span class='italic'>OFF</span>.
+  Each of the discrete values of observation at time \(t\) or \(x_t\) can take a discrete state. In the case of weather, the states are Rainy and Sunny. In the case of coin swap, the states are Biased coin and fair coin. In the case of air conditioner, the states are Compressor ON and Compressor OFF.  <br><br>
 
-
-  Assume a Markov model with \(K\) states. The observation can take one of the  \(K\) states.<br><br>
+  The observation can take one of the  \(K\) states.<br><br>
   <!-- These parameters are the transition probability \(P(x_j \vert x_i)\) of moving from one state to another. There are \(K^2\) possible transitions from \(i\) to \(j\) with \(1 \leq i, j \leq K\). Since \(\sum{}{} P(x_i \vert x_j) = 1\), thus we need to estimate \(k(K-1)\) only. Another parameter we are concerned about is the prior probability \(P(x_{k})\) which can also be stated as the the probability of starting with the \(k^{th}\) state at the first timestamp.
 
   Thus, parameters \(\theta\) can be given as \(\theta = \{\pi, A\}\), where \(\pi\) is the prior probability and \(A\) is the transition matrix.
@@ -744,9 +719,7 @@ We now try to understand Markov chains using some examples.
   Let us now understand the parameters for a Markov chain. We can rewrite the factorisation of the above general Markov chain as: <br><br>
 
   \(P(x_{1},x_{2},\dots,x_{T} ) = P(x_1)\displaystyle\prod_{t=2}^TP(x_t|x_{t-1})\)<br><br>
-
-  <!-- Markov chains leverage parameter sharing and instead of specifying \(P(x_t|x_{t-1})\) for each t, we assume \(P(x_t|x_{t-1})\) to be common (shared) across all time. <br><br> -->
-  Markov chains assume that the conditional probability P(xt|xt-1) doesn’t vary with time. Therefore, we can fully specify a Markov chain using two parameters as below:<br>< br>
+  Markov chains leverage parameter sharing and instead of specifying \(P(x_t|x_{t-1})\) for each t, we assume \(P(x_t|x_{t-1})\) to be common (shared) across all time. <br><br>
   To fully specify the Markov chain, we require the following two parameters:<br>
   
 
@@ -756,7 +729,7 @@ We now try to understand Markov chains using some examples.
     <ul>
       <li><b>Transition Matrix \((A)\)</b>: The transition matrix stores the probability of transition between the state i to state j. Thus, the transition matrix can be represented as a \(K\) x \(K\) matrix where the entry \(A_{ij}\) is given by \( A_{ij} = P(x_t = j \vert x_{t-1}=i)\) where \(i,j \in \{1,2 \ldots K\}\).
       </li>
-      <li><b>Prior Probability \((\pi)\)</b>: The probability of starting from one of the available states. It is denoted by 
+      <li><b>Prior Probability \((\pi)\)</b>: The probability of starting from one of the available states on the first timestamp. It is denoted by 
   \(\pi_i = P(x_1 = i)\) where \(i \in \{1,2 \ldots K\}\).</li> 
   </ul>
   
@@ -772,7 +745,7 @@ We now try to understand Markov chains using some examples.
         <br>
          Assume a scenario, where the weather of a particular place follows a Markov chain. The above diagram describes how the weather can change. In this example, we can observe the outside weather. Any sunny day is followed by a rainy day with a probability of <b>0.4</b>.
          <br><br>
-         <b>Observation</b>: Rainy/Sunny
+         <b>Observation</b>: Weather
       </p>
   </div>
 
@@ -846,8 +819,7 @@ We now try to understand Markov chains using some examples.
     </div>
 
       <p><br>
-        Below is a generation example for the Markov chain for the Sunny and Rainy example. By changing the values in the Transition matrix (\(A\)) <dt-fn>Observe that a row in the transition matrix sums to 1.</dt-fn>,  and the Prior Probability matrix (\(\pi\)) <dt-fn>Observe that the prior probability matrix sums to 1.</dt-fn>, we can see how the sequence generation is affected. 
-
+        Below is a generation example for the Markov chain for the Sunny and Rainy example. By changing the values in the Transition matrix (\(A\)),  and the Prior Probability matrix (\(\pi\)), we can see how the sequence generation is affected.
 <br><br>
 
     </p>
@@ -1019,7 +991,8 @@ Similarly, we can calculate the probability for other sequence of words.
 
 
 <h1>Hidden Markov Model</h1>
-<p>
+<p>Before we try to understand Hidden Markov models, let us revisit a previous Markov chain example. 
+  <br><br>
   Previously in our unfair coin toss example, we could observe whether the coin tossed was fair or biased. Now, consider an extension of it, where instead of showing the flipped coin, only the result of the flip was shown to us. Therefore the coin is <b>"hidden"</b>. The result of the flip is <b>"observable"</b>. A typical HMM has the following components: set of states \(z\), emissions in the hidden states, \(x\) and state transition diagram as shown below.
   <br><br>
   The "<b>observation</b>" is generated from the "<b>hidden</b>" component.<br><br>
@@ -1079,24 +1052,24 @@ Similarly, we can calculate the probability for other sequence of words.
       <p style="text-align: center;margin-top: 1em">Structure of a HMM</p>
       <br><br>
       <p>
-       It is worth noting  that the hidden component is modeled as a Markov chain and not the observations.<br><br>
+       It is worth noting that that the hidden component is modeled as a Markov chain and not the observations.<br><br>
 <!-- 
        <span style="background: gray">Nodes colored in <span style="color: #fdc6c0">pink</span> denote the observations.<br>
         Nodes colored in <span style="color: white">white</span> denote the hidden states.
        </span> -->
     </p>
 
-
+    
 
 
     <h3>Hidden Markov Model Parameters</h3>
 
-    <p>There are three parameters in the HMMs: (a) transition matrix \(A\), (b) prior probability \(\pi\) and (c) emission probability \( \phi \). Out of these three parameters, transition matrix and prior probability are similar to the ones in the markov chain. The emission probability is explained below.
+    <p>Now, we discuss the parameters in Hidden Markov model. There are three parameters in the HMMs: (a) transition matrix \(A\), (b) prior probability \(\pi\) and (c) emission probability \( \phi \). Out of these three parameters, transition matrix and prior probability are similar to the ones in the markov chain. The emission probability is explained below.
     
     <ul>
 
     <li>
-    <b>Emission Probability \( \phi \)</b>: The conditional probability of observing a value \(x\) from a state \(z\) is given as \(\phi = P(x_t \vert z_t)\)
+    <b>Emission Probability \( \phi \)</b>: The conditional probability of observing a discrete or continuous value \(x\) from a state \(z\) given the transition matrix and the prior probability is given as \(\phi = P(x_t \vert z_t)\)
     </li>
     </ul>
 </p>
@@ -1308,31 +1281,22 @@ Similarly, we can calculate the probability for other sequence of words.
         <div class="l-screen" style="">
       <div style="display: flex; justify-content: center;">
 
-      <button type="button" class="btn"  onclick="render_hmm_chain_1('resample')">Sample Next</button>
-      <button type="button" class="btn"  onclick="reset_hmm()">Reset</button>
+      <button type="button" class="btn"  onclick="render_hmm_chain_1('resample')">Resample</button>
 
       </div>
       </div>
 
       <h3>Trellis Diagrams</h3>
-      <p>The actual states that were visited in a HMM can be visualized using a Trellis Diagram. This is done by highlighting the actual states visited in a diagram showing all paths possible within the set of hiddens states. Consider the following trellis diagram showing the possible path sequence of hidden states for three timestamps for the biased-fair coin example.<br><br> In the diagram \(B\) denotes the Biased coin and \(F\) denotes the Fair coin. The highlighted red path corresponds to the state sequence. <br><br></p>
+      <p>A Trellis diagram can be used to show the hidden states path in a Hidden Markov model. Consider the following trellis diagram showing the possible path sequence of hidden states for three timestamps for the biased-fair coin example.<br><br> In the diagram \(B\) denotes the Biased coin and \(F\) denotes the Fair coin. The highlighted red path corresponds to the state sequence. <br><br></p>
       <img src="images/trellis_paths/2.svg" class="trellis_image">
       
-      <p style="text-align: center;"><small>Trellis diagram corresponding to the path \(\{z_{1}=B, z_{2}=B, z_{3}=F\}\).<br> In the diagram B denotes the Biased coin and F denotes the Fair coin. <br></small></p>
+      <p style="text-align: center;"><small>Trellis diagram corresponding to the path \(\{z_{1}=B, z_{2}=B, z_{3}=F\}\).<br> In the diagram B denotes the Biased coin and F denotes the Fair coin. <br> The highlighted red path corresponds to the state sequence</small></p>
        <!-- <p><br>Therefore, the path taken is \(z_{1}=B, z_{2}=B, z_{3}=F\). </p> -->
 
 
 
       <h1>HMM Algorithms</h1>
       <p>Now, we look at five important questions to understand HMMs<d-cite key="rabiner"></d-cite>.</p>
-      <ol style="margin-top: 1em">
-        <li>HMM Evidence Likelihood</li>
-        <li>Forward algorithm</li>
-        <li>Backward algorithm</li>
-        <li>Viterbi algorithm</li>
-        <li>Parameter learning</li>
-
-      </ol>
       <h3>HMM Evidence Likelihood</h3>
       <p>The objective is to estimate the likelihood of the observations given HMM parameters \(L(X \vert \theta)\). Mathematically this can be represented as:
         <br><br>
@@ -1587,16 +1551,13 @@ Similarly, we can calculate the probability for other sequence of words.
       </p>
       <img src="images/forward/computation_tree_full.svg" class="example-img">
       <p style="text-align: center;">Computation Tree for calculating \(L(X \vert \theta)\)</p>
-      <p><br>Some nodes are being computed multiple times and can be made efficient by avoiding the recomputation as shown below.
+      <p><br>If we observe closely, some nodes are being computed multiple times. We can avoid recomputation as shown in the tree below.
       </p>
 
       <img src="images/forward/trellis_tree.svg" class="example-img">
       <p style="text-align: center;">Optimized Computation Tree for calculating \(L(X \vert \theta)\)</p>
 
-      <p><br>
-We effectively reused the node values to reduce the number of computations on the new algorithm; we call the new efficient algorithm, the Forward Algorithm. 
-
-<!-- The above tree does not calculated the same node multiple times. Once computed, it is stored in memory and is reused whenever needed. --> <br><br>
+      <p><br>The above tree does not calculated the same node multiple times. Once computed, it is stored in memory and is reused whenever needed. <br><br>
 
         <!-- The above tree, can be reordered to look like the following.<br><br> -->
 
@@ -1605,7 +1566,7 @@ We effectively reused the node values to reduce the number of computations on th
         <!-- <p style="text-align: center;"> Trellis representation of the optimized computation tree </p> -->
         
 
-<!--         From the optimized tree, we can see that we can efficiently compute \(L(X\vert \theta)\) if we can store \(P(X_{1:t}\vert z_{t}=i)\). <br><br>Essentially this what the Forward algorithm does. We now discuss it in detail.   -->
+        From the optimized tree, we can see that we can efficiently compute \(L(X\vert \theta)\) if we can store \(P(X_{1:t}\vert z_{t}=i)\). <br><br>Essentially this what the Forward algorithm does. We now discuss it in detail.  
  </p>
 
 
@@ -3351,7 +3312,7 @@ Qljo (Rta)
       <li>The Parameter learning algorithm</li>
 
     </ul> 
-    <p>Now that we have understood every component of an HMM and the process of learning parameters of an HMM given the training data, you can now explore other variants of HMM such as:</p>
+    <p><br><br><span style="color: red">Adding the graphical diagrams for the following is remaining</span><br><br>Now that we have understood every component of an HMM and the process of learning parameters of an HMM given the training data, we can now explore other variants of HMM such as:</p>
 
     <ul>
       <li>Auto-Regressive HMMs</li>
@@ -3360,7 +3321,7 @@ Qljo (Rta)
       <li>Hierarchical HMMs</li>
     </ul>    
 
-    <p>HMMs were widely used in the 1990s especially for speech processing tasks and for other time-series models. The RNNs which are widely used today, are analogous to HMM. The concept of parameter sharing between timestamps is employed in RNNs as well. So RNNs can be considered as an advanced extension of HMMs. </p>
+    <p>HMMs were widely used in the 1990s especially for speech processing tasks and for other time-series models. The RNNs which are widely used today, are analogous to HMM. The concept of parameter sharing between timestamps is employed in RNNs as well. So, RNNs can be considered as an advanced extension of HMMs. </p>
 
   </d-article>
 
@@ -3707,7 +3668,7 @@ function change_value(slider_id,mode='hmm'){
 
 
   else{
-    reset_hmm()
+    render_hmm_chain_1()
   }
   
 
@@ -4126,20 +4087,13 @@ var hidden=true;
 
 var nodes_to_display = -1;
 
-var hmm_coins = [];
-var hmm_outputs = [];
 
 
-var hmm_t=0;
-var hmm_prev_node;
+function render_hmm_chain_1(mode='slow-sample'){
+  console.log("Rerender HMm")
+    hmm.graph.clear()
 
-function reset_hmm(){
 
-  hmm_t = 0;
-  hmm_coins = []
-  hmm_outputs = [];
-
-  hmm.graph.clear()
 
   var pi_a = parseFloat(document.getElementById('custom-range-7-probability').innerHTML)
   var pi_b = parseFloat(document.getElementById('custom-range-8-probability').innerHTML)
@@ -4161,24 +4115,14 @@ function reset_hmm(){
 
   var coin_types = ['fair','biased']
   
-  var c = ['head','tail']
-
-  
-  var x=-1;
-
-  var node = return_coin_node(-2,x,-0.25,"empty")
+  var node = return_coin_node(-1,x,-0.25,"empty")
   hmm.graph.addNode(node)
   x+=0.5
-
-
-
 
   var chosen_hidden_node;
   var previous_hidden_node;
 
   var node_id=0;
-
-
 
   for(var i=0;i<4;i++){
     if (i==0){
@@ -4194,6 +4138,29 @@ function reset_hmm(){
       }
     }
 
+
+    var node = return_coin_node(node_id,x,-0.25,coin_types[chosen_hidden_node])
+    hmm.graph.addNode(node)
+
+
+
+    if (i==0){
+
+      var edge = create_edge(-1, -1, node_id, )
+      edge.color = colors[chosen_hidden_node]
+    }
+
+
+    if (i>0){
+      var edge = create_edge(node_id, node_id-2, node_id);
+      edge.color = colors[2+2*previous_hidden_node+chosen_hidden_node]
+      
+    }
+    hmm.graph.addEdge(edge) 
+    node_id+=1;
+
+    /// Observation
+
     if (chosen_hidden_node==0){
       var observation = sample_with_probablities(coins, [f_h,f_t])
     }
@@ -4201,104 +4168,30 @@ function reset_hmm(){
       var observation = sample_with_probablities(coins, [b_h,b_t])
     }
 
-    hmm_coins.push(chosen_hidden_node)
-    hmm_outputs.push(observation)
-
-    var node = create_node(node_id,x,-0.25)
-    node.color='transparent'
-    node.label=""
+    var c = ['head','tail']
+    var node = return_coin_node(node_id, x, 0.25, c[observation])
     hmm.graph.addNode(node)
 
-    var edge = create_edge(node_id,node_id-2,node_id)
-    edge.color='transparent'
 
+    var edge = create_edge(node_id, node_id-1, node_id);
+    edge.color = colors[6+2*chosen_hidden_node+observation]
     hmm.graph.addEdge(edge)
-
-
+    x+=0.5;
     node_id+=1
-
-    
-    var node = create_node(node_id,x,0.25)
-    node.color='transparent'
-    node.label=""
-    hmm.graph.addNode(node)
-
-    
-    var edge = create_edge(node_id,node_id-1,node_id)
-    edge.color='transparent'
-
-    hmm.graph.addEdge(edge)
-
-
-    node_id+=1
-    
-    x+=0.5
-
     }
 
-hmm.refresh()
+  
+
+  hmm.refresh()
+
+
 }
 
+render_hmm_chain_1()
 
-function render_hmm_chain_1(mode='slow-sample'){
-  
-  var coin_types = ['fair','biased']
-  
-  var c = ['head','tail']
-
-  
-  if (hmm_t<4){
-
-
-
-    var i = hmm_t;
-
-    var chosen_hidden_node = hmm_coins[i];
-    var output = hmm_outputs[i];
-
-    var node1 = return_coin_node(0,0,0,coin_types[chosen_hidden_node])
-    var node2 = return_coin_node(0,0,0,c[output])
-
-    hmm.graph.nodes()[2*i+1].label = node1.label
-    hmm.graph.nodes()[2*i+1].color = node1.color
-
-
-    hmm.graph.nodes()[2*i+2].label = node2.label
-    hmm.graph.nodes()[2*i+2].color = node2.color
-    
-
-    if (i==0){
-
-      
-      hmm.graph.edges()[0].color = colors[chosen_hidden_node]
-
-    }
-
-
-    else{
-      console.log('colors')
-      console.log(hmm_t,i,hmm_prev_node, chosen_hidden_node)
-      console.log(2+2*hmm_prev_node+chosen_hidden_node)
-      hmm.graph.edges()[2*i].color = colors[2+2*hmm_prev_node+chosen_hidden_node]  
-    }
-
-
-    hmm.graph.edges()[2*i+1].color =  colors[6+2*chosen_hidden_node+output]
-
-
-    hmm_prev_node = chosen_hidden_node
-    hmm_t+=1;
-
-    hmm.refresh()
-
-    }
-}
-
-reset_hmm()
-
-// document.getElementById('resetbtn').click();
-// document.getElementById('resetbtn').click();
-// document.getElementById('resetbtn').click();
+document.getElementById('resetbtn').click();
+document.getElementById('resetbtn').click();
+document.getElementById('resetbtn').click();
 
 hmm.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1.6 });
 
