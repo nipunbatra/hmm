@@ -609,7 +609,7 @@ padding:1em;
   <h1>Sequential Modeling</h1>
 
   <p>
-    Have you ever wondered how the voice assistant in your phone works<d-cite key="hmmspeech"></d-cite>? Or, how does your smartwatch count the number of steps you take<d-cite key="hmmactivity"></d-cite>? These are applications of time-series data. In this article we explore Hidden Markov Models or HMMs which are often used for such applications. 
+    Have you ever wondered how the voice assistant in your phone works<d-cite key="hmmspeech"></d-cite>? Or, how does your smartwatch count the number of steps you take<d-cite key="hmmactivity"></d-cite>? These are applications of time-series data. In this article, we explore Hidden Markov Models or HMMs, which are often used for such applications. 
 
 
     <br><br>
@@ -618,7 +618,7 @@ padding:1em;
 
     <br><br>
 
-    In this article we discuss about Markov chains, Hidden Markov models and the key problems of Hidden Markov models.
+    In this article, we discuss  Markov chains, Hidden Markov Models, and the key problems of Hidden Markov Models.
 
       
 
@@ -642,8 +642,7 @@ Let us consider another example. Imagine that it has been raining the past few d
 
   <p>
 
- A Markov chain is one of the simplest Markov models. This chain assumes that an observation <d-math>x_{t+1}</d-math> at a future time <d-math>t+1</d-math> is only dependent on the observation <d-math>x_{t}</d-math> at the present time <d-math>t</d-math>. <br><br>In other words, 
-given the <span class="plain-color-5">present observation</span>, the <span class="plain-color-2">future</span> is independent of the <span class="plain-color-4">past</span>. 
+ A Markov chain is one of the simplest Markov models. This chain assumes that an observation <d-math>x_{t+1}</d-math> at a future time <d-math>t+1</d-math> is only dependent on the observation <d-math>x_{t}</d-math> at the current timestamp <d-math>t</d-math>. <br><br>In other words, given the <span class="plain-color-5">present observation</span>, the <span class="plain-color-2">future</span> is independent of the <span class="plain-color-4">past</span>. 
 </p>
 
 <img src="images/markov/markov-fac.svg" style="  display: block;
@@ -732,7 +731,7 @@ We now try to understand Markov chains using some examples.
 -->
   <h3>Parameters of Markov chain</h3>
   <p>
-    Each observation \(x_t\) (at time t) can take a discrete value or “state”. For example; In the case of weather, the states were <span class='italic'>Rainy</span> or <span class='italic'>Sunny</span>; In the case of coin swap, the states were <span class='italic'>Biased</span> or <span class='italic'>Fair</span>; and In the case of the air conditioner, the states were <span class='italic'>ON</span> or <span class='italic'>OFF</span>.
+    Each observation \(x_t\) (at time t) can take a discrete value or “state.” For example; In the case of weather, the states were <span class='italic'>Rainy</span> or <span class='italic'>Sunny</span>; In the case of coin swap, the states were <span class='italic'>Biased</span> or <span class='italic'>Fair</span>; and In the case of the air conditioner, the states were <span class='italic'>ON</span> or <span class='italic'>OFF</span>.
 
 
   Assume a Markov model with \(K\) states. The observation can take one of the  \(K\) states.<br><br>
@@ -741,7 +740,7 @@ We now try to understand Markov chains using some examples.
   Thus, parameters \(\theta\) can be given as \(\theta = \{\pi, A\}\), where \(\pi\) is the prior probability and \(A\) is the transition matrix.
  -->
 
-  Let us now understand the parameters for a Markov chain. We can rewrite the factorisation of the above general Markov chain as: <br><br>
+  Let us now understand the parameters for a Markov chain. We can rewrite the factorization of the above general Markov chain as: <br><br>
 
   \(P(x_{1},x_{2},\dots,x_{T} ) = P(x_1)\displaystyle\prod_{t=2}^TP(x_t|x_{t-1})\)<br><br>
 
@@ -770,7 +769,7 @@ We now try to understand Markov chains using some examples.
       <p class="example-text">Markov chain for Sunny and Rainy Weather</p>
       <p class="example-description">
         <br>
-         Assume a scenario, where the weather of a particular place follows a Markov chain. The above diagram describes how the weather can change. In this example, we can observe the outside weather. Any sunny day is followed by a rainy day with a probability of <b>0.4</b>.
+         Assume a scenario where the weather of a particular place follows a Markov chain. The above diagram describes how the weather can change. In this example, we can observe the outside weather. Any sunny day is followed by a rainy day with a probability of <b>0.4</b>.
          <br><br>
          <b>Observation</b>: Rainy/Sunny
       </p>
@@ -781,7 +780,7 @@ We now try to understand Markov chains using some examples.
       <p class="example-text">Markov chain for a Fair and a Biased coin swap</p>
       <p class="example-description"> 
 <br>
-      Assume a scenario, where your friend is swapping between a fair and a biased coin using a Markov chain. The above diagram describes how the coin your friend chooses can change. In this example, we can observe the coin chosen by your friend. Your friend can choose a biased coin again in the consecutive selection with probability <b>0.6</b>. <br><br>
+      Assume a scenario where your friend is swapping between a fair and a biased coin using a Markov chain. The above diagram describes how the coin your friend chooses can change. In this example, we can observe the coin chosen by your friend. Your friend can choose a biased coin again in the consecutive selection with probability <b>0.6</b>. <br><br>
       <b>Observation</b>: Biased/Fair coin
     </p>
   </div>
@@ -790,7 +789,7 @@ We now try to understand Markov chains using some examples.
       <p class="example-text">Markov chain for Air Conditioner state</p>
       <p class="example-description">
 <br>
-        Assume a scenario, where the compressor of an air conditioner is controlled using a Markov chain. The above diagram, describes how the state of the compressor changes. In this example, we can observe if the compressor is ON or OFF. The compressor has a probability of changing its state from ON to OFF with probability <b>0.3</b>. 
+        Assume a scenario where the compressor of an air conditioner is controlled using a Markov chain. The above diagram describes how the state of the compressor changes. In this example, we can observe if the compressor is ON or OFF. The compressor has a probability of changing its state from ON to OFF with probability <b>0.3</b>. 
       <br><br>
       <b>Observation</b>: ON/OFF state
     </p>
@@ -1020,7 +1019,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
 <h1>Hidden Markov Model</h1>
 <p>
-  Previously in our unfair coin toss example, we could observe whether the coin tossed was fair or biased. Now, consider an extension of it, where instead of showing the flipped coin, only the result of the flip was shown to us. Therefore the coin is <b>"hidden"</b>. The result of the flip is <b>"observable"</b>. A typical HMM has the following components: set of states \(z\), emissions in the hidden states, \(x\) and state transition diagram as shown below.
+  Previously in our unfair coin toss example, we could observe whether the coin tossed was fair or biased. Now, consider an extension of it, where instead of showing the flipped coin, only the result of the flip was shown to us. <br><br>Therefore the coin is <b>"hidden."</b> The result of the flip is <b>"observable."</b> A typical HMM has the following components: set of states \(z\), emissions in the hidden states, \(x\) and state transition diagram as shown below.
   <br><br>
   The "<b>observation</b>" is generated from the "<b>hidden</b>" component.<br><br>
   Now, we explore more examples to understand this <b>"hidden"</b> state.
@@ -1032,7 +1031,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <p class="example-text">HMM for Sunny and Rainy Weather</p>
       <p class="example-description">
         <br>
-         Assume that you are sitting in your room and you have no means to know about the outside weather. Your roommate goes outside every day. You keep on observing your roommate's shoes for a sequence of days as denoted by the above diagram. Given, the sequence of observations you try to estimate the outside weather.
+         Assume that you are sitting in your room, and you have no means to know about the outside weather. Your roommate goes outside every day. You keep on observing your roommate's shoes for a sequence of days, as denoted by the above diagram. Given the sequence of observations, you try to estimate the outside weather.
          <br><br>
          <b>Observation</b>: Wet shoe/ Dry shoe<br>
          <b>Hidden State</b>: Outside weather<br>
@@ -1055,7 +1054,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <p class="example-text">HMM for an Air Conditioner state</p>
       <p class="example-description">
         <br>
-         You have access to the power consumption data of your air conditioner. When the compressor is turned off, the appliance uses very low power (~0 units with some observation noise), whereas when ithe compressor is turned on, it consumes high power (~100 units with some variance). Given the power consumed by the appliance, you have to estimate whether your compressor was switched ON or OFF.
+         You have access to the power consumption data of your air conditioner. When the compressor is turned off, the appliance uses very low power (~0 units with some observation noise), whereas when the compressor is turned on, it consumes high power (~100 units with some variance). Given the power consumed by the appliance, you have to estimate whether your compressor was switched ON or OFF.
         <br><br>
         <b>Observation</b>: Power consumed<br>
         <b>Hidden State</b>: State of the compressor (ON/OFF)
@@ -1069,7 +1068,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
     <p>
       
-      In an HMM, an observation is generated from a hidden component which is modelled as a Markov chain. The observation at time t (shown in shaded pink) is denoted by \(x_t\) and the hidden state at time t (unshaded) is denoted by \(z_t\).
+      In an HMM, an observation is generated from a hidden component, which is modeled as a Markov chain. The observation at time t (shown in shaded pink) is denoted by \(x_t\), and the hidden state at time t (unshaded) is denoted by \(z_t\).
       <br>
       <br>
     </p>
@@ -1091,7 +1090,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
     <h3>Hidden Markov Model Parameters</h3>
 
-    <p>There are three parameters in the HMMs: (a) transition matrix \(A\), (b) prior probability \(\pi\) and (c) emission probability \( \phi \). Out of these three parameters, transition matrix and prior probability are similar to the ones in the markov chain. The emission probability is explained below.
+    <p>There are three parameters in the HMMs: (a) transition matrix \(A\), (b) prior probability \(\pi\), and (c) emission probability \( \phi \). Out of these three parameters, the transition matrix and prior probability are similar to the ones in the Markov chain. The emission probability is explained below.
     
     <ul>
 
@@ -1118,7 +1117,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <p class="example-text">HMM for Sunny and Rainy Weather</p>
       <p class="example-description">
         <br>
-         On a sunny day your roommate's shoes can be wet with a probability of <b>0.2</b>(maybe due to a sprinkler). On a rainy day, the shoes can be wet with a probability of <b>0.9</b>. <br><br>
+         On a sunny day, your roommate's shoes can be wet with a probability of <b>0.2</b>(maybe due to a sprinkler). On a rainy day, the shoes can be wet with a probability of <b>0.9</b>. <br><br>
          <b>Observation</b>: Shoe<br>
          <b>Hidden State</b>: Weather<br>
 
@@ -1140,7 +1139,7 @@ Similarly, we can calculate the probability for other sequence of words.
       <p class="example-text">HMM for an Air Conditioner state</p>
       <p class="example-description">
         <br>
-         If the compressor is in an OFF state, then the output follows a Gaussian distribution \(\mathcal{N}(10,5)\). If the compressor is in ON state  then the output follows a Gaussian distribution \(\mathcal{N}(100,5)\). <br><br>
+         If the compressor is in an OFF state,  the output follows a Gaussian distribution \(\mathcal{N}(10,5)\). If the compressor is in ON state,  then the output follows a Gaussian distribution \(\mathcal{N}(100,5)\). <br><br>
          <b>Observation</b>: Total power consumed by the appliance<br>
          <b>Hidden State</b>: Compressor ON/OFF<br>
        </p>
@@ -1168,7 +1167,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
     </p> -->
 
-    <p>Given the parameters of a Hidden Markov model \(A\), \(\pi\) and \(\phi\) we can generate sequences from it. First, we sample a hidden state from the prior probability matrix \(\pi\). Next, we sample an observation using the Emission probability matrix \(\phi\) conditioned on the sampled state. 
+    <p>Given the parameters of a Hidden Markov model \(A\), \(\pi\), and \(\phi\), we can generate sequences from it. First, we sample a hidden state from the prior probability matrix \(\pi\). Next, we sample an observation using the Emission probability matrix \(\phi\) conditioned on the sampled state. 
       <br><br>Iteratively, we sample a new hidden state from the transition matrix \(A\) conditioned on the previously sampled hidden state. For each sampled state, we sample an observation using Emission probability matrix \(\phi\).</p>    
 
   <!-- <p>
@@ -1205,7 +1204,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
     </div>
 
-<p><br><br>Below is a generation example for the Hidden Markov model for the Fair coin and Biased coin example. By changing the values in the Transition matrix (\(A\)), Emission Probability matrix (\(\phi\)) and the Prior Probability matrix (\(\pi\)), we can see how the sequence generation is affected.<br><br></p>
+<p><br><br>Below is a generation example for the Hidden Markov model for the Fair coin and Biased coin example. By changing the values in the Transition matrix (\(A\)), Emission Probability matrix (\(\phi\)), and the Prior Probability matrix (\(\pi\)), we can see how the sequence generation is affected.<br><br></p>
 <div class='l-screen' style="background: #eaeaea">
   <h3>Sampling from a Hidden Markov model for Fair and Biased coin example</h3>
     <div id="hmm" style="width: 100%;height: 15em;"></div>
@@ -1315,16 +1314,20 @@ Similarly, we can calculate the probability for other sequence of words.
       </div>
 
       <h3>Trellis Diagrams</h3>
-      <p>The actual states that were visited in a HMM can be visualized using a Trellis Diagram. This is done by highlighting the actual states visited in a diagram showing all paths possible within the set of hiddens states. Consider the following trellis diagram showing the possible path sequence of hidden states for three timestamps for the biased-fair coin example.<br><br> In the diagram \(B\) denotes the Biased coin and \(F\) denotes the Fair coin. The highlighted red path corresponds to the state sequence. <br><br></p>
+      <p>The actual states that were visited in an HMM can be visualized using a Trellis Diagram. This is done by highlighting the actual states visited in a diagram showing all paths possible within the set of hidden states. Consider the following trellis diagram showing the possible path sequence of hidden states for three timestamps for the biased-fair coin example.
+        
+        <br><br>
+        
+        In the diagram, \(B\) denotes the Biased coin, and \(F\) denotes the Fair coin. The highlighted red path corresponds to the state sequence. <br><br></p>
       <img src="images/trellis_paths/2.svg" class="trellis_image">
       
-      <p style="text-align: center;"><small>Trellis diagram corresponding to the path \(\{z_{1}=B, z_{2}=B, z_{3}=F\}\).<br> In the diagram B denotes the Biased coin and F denotes the Fair coin. <br></small></p>
+      <p style="text-align: center;"><small>Trellis diagram corresponding to the path \(\{z_{1}=B, z_{2}=B, z_{3}=F\}\).<br> In the diagram B denotes the Biased coin, and F denotes the Fair coin. <br></small></p>
        <!-- <p><br>Therefore, the path taken is \(z_{1}=B, z_{2}=B, z_{3}=F\). </p> -->
 
 
 
       <h1>HMM Algorithms</h1>
-      <p>Now, we look at five important questions to understand HMMs<d-cite key="rabiner"></d-cite>.</p>
+      <p>Now, we look at five critical questions to understand HMMs<d-cite key="rabiner"></d-cite>.</p>
       <ol style="margin-top: 1em">
         <li>HMM Evidence Likelihood</li>
         <li>Forward algorithm</li>
@@ -1345,11 +1348,11 @@ Similarly, we can calculate the probability for other sequence of words.
     <br><br>
      -->
 
-    \(L(X \vert \theta)\) is the likelihood of observing sequence \(X\) occurring given the parameters \(\theta\) of a HMM.<br><br>
+    \(L(X \vert \theta)\) is the likelihood of observing sequence \(X\) occurring given the parameters \(\theta\) of an HMM.<br><br>
 
 
 
-    <!-- In general, the probablity of observing the sequence \(x_{1},\dots,x_{T}\) with the hidden state sequence \(z_{1},\dots,z_{T}\) is given by  <br><br>
+    <!-- In general, the probability of observing the sequence \(x_{1},\dots,x_{T}\) with the hidden state sequence \(z_{1},\dots,z_{T}\) is given by  <br><br>
 
     \(
     \begin{align}
@@ -1361,7 +1364,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
     
 
-    Before we compute this likelihood, let us work out a simpler problem based on Biased(B) and Fair(F) coin flip with observations Heads (H) and Tails (T). <br><br>Given a series of observations \(\{H,H,H\}\), what is the probability of observing this sequence given \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)?<br><br>
+    Before we compute this likelihood, let us work out a simpler problem based on Biased(B) and Fair(F) coin flip with observations Heads (H) and Tails (T). <br><br>Given a series of observations \(\{H, H, H\}\), what is the probability of observing this sequence given \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\)?<br><br>
 
     <!-- The following is the trellis diagram corresponding to the state sequence \(\{z_{1}=B, z_{2}=B, z_{3}=B\}\).<br><br> -->
     <br>
@@ -1373,7 +1376,7 @@ Similarly, we can calculate the probability for other sequence of words.
     <p>\(P(HHH\vert BBB)\) can be written as a product of:
     <br>
     <ul style="margin-left: 1em">
-      <li class="plain-color-1">Prior probability of observing B</li>
+      <li class="plain-color-1">The Prior probability of observing B</li>
       <li class="plain-color-2">Emission probability of Heads given state B at time t=1</li>
       <li class="plain-color-3">Transition probability from B to B at time t=1</li>
       <li class="plain-color-4">Emission probability of Heads given state B at time t=2</li>
@@ -1530,7 +1533,7 @@ Similarly, we can calculate the probability for other sequence of words.
       </tbody>
     </table> -->
 
-  In the above example, we have \(T=3\) and \(K=2\), we have a total of \(2^{3} = 8\) possible paths. \(L(HHH \vert \theta)\) is the sum of probabilities across all these \(2^{3}\) paths. <br><br>In general, when we have \(K\) states and \(T\) timestamps, there are a total of \(K^{T}\) paths. Hence, the time complexity of estimating the likelihood is exponential in \(K\).<br><br>
+  In the above example, we have \(T=3\) and \(K=2\). We have a total of \(2^{3} = 8\) possible paths. \(L(HHH \vert \theta)\) is the sum of probabilities across all these \(2^{3}\) paths. <br><br>In general, when we have \(K\) states and \(T\) timestamps, there are a total of \(K^{T}\) paths. Hence, the time complexity of estimating the likelihood is exponential in \(K\).<br><br>
 
   Assume a scenario where \(K=10\) and \(T=100\). When computing likelihood, this leads to \(10^{100}\) paths, which is greater than the total number of atoms in the universe!
 
@@ -1579,7 +1582,7 @@ Similarly, we can calculate the probability for other sequence of words.
       \(P(HHH \vert z_{3}=F) = \Big[P(HH \vert z_{2}=F)*A_{FF}+P(HH \vert z_{2}=B)*A_{BF}\Big] \phi(H \vert F)\)
       <br><br>
 
-      Similarly to the above we can compute \(P(HHH \vert z_{3}=B),P(HH \vert z_{2}=F)\) and \(P(HH \vert z_{2}=B)\). <br><br>Finally, we need to compute \(P(H \vert z_{1}=F)\) and \(P(H \vert z_{1}=B)\)<br><br>
+      Similarly to the above, we can compute \(P(HHH \vert z_{3}=B), P(HH \vert z_{2}=F)\), and \(P(HH \vert z_{2}=B)\). <br><br>Finally, we need to compute \(P(H \vert z_{1}=F)\) and \(P(H \vert z_{1}=B)\)<br><br>
       \( P(H \vert z_{1}=F) = \pi_{F} *\phi(H \vert F) \)<br><br>
       \( P(H \vert z_{1}=B) = \pi_{B} *\phi(H \vert B) \)<br><br>
     
@@ -1587,7 +1590,7 @@ Similarly, we can calculate the probability for other sequence of words.
       </p>
       <img src="images/forward/computation_tree_full.svg" class="example-img">
       <p style="text-align: center;">Computation Tree for calculating \(L(X \vert \theta)\)</p>
-      <p><br>Some nodes are being computed multiple times and can be made efficient by avoiding the recomputation as shown below.
+      <p><br>Some nodes are being computed multiple times and can be made efficient by avoiding the recomputation, as shown below.
       </p>
 
       <img src="images/forward/trellis_tree.svg" class="example-img">
@@ -1632,13 +1635,13 @@ We effectively reused the node values to reduce the number of computations on th
       <br>
       <img src="images/forward/forward-equation.svg" style="width: 40%;height: auto;"><br>
       <br>
-      it is the probability of being in state '<span class="plain-color-3">i</span>' at the time '<span class="plain-color-2">t</span>' given the '<span style="color: red;">observations till time t</span>'.<br><br></p>
+      It is the probability of being in state '<span class="plain-color-3">i</span>' at the time '<span class="plain-color-2">t</span>' given the '<span style="color: red;">observations till time t</span>'.<br><br></p>
 
       <img src="images/forward/forward-trellis.svg" class="half-img">
       <p style="text-align: center;">Relation between \(\alpha_{t}\) and \(\alpha_{t+1}\)</p>
       <p>
         <br>
-      We can end up in state \(j\) at time \(t+1\) from each of the \(K\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\phi_j(x_{t+1})\). <br><br>
+      We can end up in state \(j\) at time \(t+1\) from each of the \(K\) paths starting at the previous timestamp of \(\alpha_t(i)\) of the state \('i'\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\phi_j(x_{t+1})\). <br><br>
       Thus, generally we can write:
 <br><br>
 
@@ -1682,7 +1685,7 @@ We effectively reused the node values to reduce the number of computations on th
       <p>
 
         <br>
-      Likelihood of a sequence \(L(X \vert \theta )\)can be calculated using the following formula.<br><br>
+      The Likelihood of a sequence \(L(X \vert \theta )\)can be calculated using the following formula.<br><br>
 <!-- 
 The sequence \(X\) has observations \(\{x_{1},x_{2},\dots,x_{T}\}\) and the Hidden Markov model has \(K\) states. At the timestamp \(T\) each of those states can be used to generate the observation \(x_{T}\) which  is determined by \(\alpha_{T}(i)\) where \(i \in \{1,2,\dots,K\}\)<br><br> -->
 
@@ -1696,7 +1699,7 @@ The sequence \(X\) has observations \(\{x_{1},x_{2},\dots,x_{T}\}\) and the Hidd
 
 <br>
 <br>
-Computing the likelihood of a sequence \(L(X \vert \theta)\) using forward algorithm is \(O(TK^{2})\).
+Computing the likelihood of a sequence \(L(X \vert \theta)\) using the forward algorithm is \(O(TK^{2})\).
 </p>
 
 <!-- <h3 class="div-show-btn" onclick="show_hmm_filtering()">HMM Filtering</h3> -->
@@ -2043,7 +2046,7 @@ Having studied the forward procedure, we will now understand the backward proced
 <p>
    <br><br>
 
-  Now, we move on to the third important problem for understanding HMM which is the Backward algorithm. The Backward algorithm plays a key role in Baum-Welch algorithm, which is used for learning parameters of HMMs.
+  Now, we move on to the third important problem for understanding HMM, which is the Backward algorithm. The Backward algorithm plays a key role in the parameter learning algorithm of the HMMs.
 
 
   <br><br>Assume we want to compute the probability of a future observation sequence conditioned on the present state.
@@ -2068,7 +2071,7 @@ Having studied the forward procedure, we will now understand the backward proced
 <br><br> -->
 <!-- \(\beta_{t}(i)\) is the probability of the  future sequence \(X_{t+1:T}\) conditioned on the current state \(z_{t}\).<br><br> -->
 
-How can we calculate it efficiently? Similar to the forward algorithm, we can use dynamic programming to calculate it efficiently. This procedure is called the Backward algorithm.<br>
+How can we calculate it efficiently? Similar to the forward algorithm, we can use dynamic programming to compute it efficiently. This procedure is called the Backward algorithm.<br>
 </p>
 
   <h3 class="div-show-btn" onclick="show_backward_motivation()">Intuition behind Backward Algorithm<span style="float: right">+</span></h3>
@@ -2089,7 +2092,7 @@ The computation tree looks like the following:<br>
 
 <img src="images/backward/full_computation_tree.svg" class="example-img">
 <p style="text-align: center;">Computation tree for calculating \(L(X \vert \theta)\)</p>
-<p><br><br>Similar to the forward algorithm, several nodes are being recomputed. So, if we avoid recomputation, the tree looks like the following:</p> 
+<p><br>Similar to the forward algorithm, several nodes are being recomputed. So, if we avoid recomputation, the tree looks like the following:</p> 
 
 <img src="images/backward/trellis_tree.svg" class="example-img">
 <p style="text-align: center;">Optimized computation tree for calculating \(L(X\vert \theta)\)</p>
@@ -2108,7 +2111,7 @@ The computation tree looks like the following:<br>
 
 <p>
   <br>
-Let us assume a general case, where we have \(K\) states. We can end up in state \(i\) at time t from each of the \(K\) paths starting at the next timestamp of 
+Let us assume a general case, where we have \(K\) states. We can end up in state \('i'\) at time t from each of the \(K\) paths starting at the next timestamp of 
   \(\beta_{t+1}(j)\). 
 
  <!-- For the path from state   multiplied with the transition probability \(A_{ij}\)  and emission probability \(\phi_{j} (x_{t+1})\)  -->
@@ -2249,7 +2252,7 @@ $$
 </p>
 </div> -->
 <p>
-<br><br>The next problem in HMM is to determine the <b>‘optimal’</b> sequence of hidden states given the parameters and the observed sequence. We explain this problem in detail in the next section.
+<br><br>The next problem in HMM is determining the <b>‘optimal’</b> sequence of hidden states given the parameters and the observed sequence. We explain this problem in detail in the next section.
 </p>
 <h3>Sequence Assignment - Viterbi Algorithm</h3>
 <p>
@@ -2301,7 +2304,11 @@ Given the parameters and the sequence of observations, what is the most probable
 <br><br>
 In simple terms, what is the sequence of hidden states that maximizes \(P(z_{1:T} \vert x_{t:T})\)?
 <br><br>
-Let us again understand the above with the Biased coin and Fair coin example <br><br>Find out the hidden state sequence which has the highest probability of generating the observation sequence \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\)<br><br>
+Let us again understand the above with the Biased coin and Fair coin example.
+
+<br><br>
+
+Find out the hidden state sequence, which has the highest probability of generating the observation sequence \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\).<br><br>
 <table>
 
   <thead>
@@ -2365,7 +2372,7 @@ Let us again understand the above with the Biased coin and Fair coin example <br
 </p>
 <p>
 So, the hidden state sequence is \(z_{1}=B,z_{2}=B,z_{3}=B\).<br><br>
-In general can find the sequence that maximizes \(P(z_{1:T} \vert x_{t:T})\) by finding the probability across all the \(K^{T}\) paths. But, this is exponential in terms of time complexity.<br><br> Could we do better like we did in forward algorithm? <b>Yes, we can!</b> <br><br>The idea, like in the case of forward algorithm is to use dynamic programming and reuse computations. 
+In general can find the sequence that maximizes \(P(z_{1:T} \vert x_{t:T})\) by finding the probability across all the \(K^{T}\) paths. But, this is exponential in terms of time complexity.<br><br> Could we do better as we did in the forward algorithm? <b>Yes, we can!</b> <br><br>The idea, like in the case of the forward algorithm is to use dynamic programming and reuse computations. 
 
 <br><br>
 </p>
@@ -2378,16 +2385,16 @@ In general can find the sequence that maximizes \(P(z_{1:T} \vert x_{t:T})\) by 
       
 
 <p>
-Let us revisit our Fair coin and Biased coin example. We wish to find out the hidden state sequence which was most likely to generate the observation sequence \(\{x_{1}=H, x_{2}=H, x_{3}=H\}\)<br><br>
+Let us revisit our Fair coin and Biased coin example. We wish to find out the hidden state sequence, which was most likely to generate the observation sequence \(\{x_{1}=H, x_{2}=H, x_{3}=H\}\).<br><br>
 
 The optimal state sequence can have either Fair(F) or Biased(B) in the final timestamp as the hidden state. Whichever state maximizes the probability is chosen.<br><br>
 
 \(P(z_{3}^{*}) = \text{MAX}\Bigg[\hspace{5pt} P(HHH\vert @@F), \hspace{5pt}  P(HHH\vert @@B) \Bigg]\)
 
 <br><br>
-In the above equation, \(@\) denotes that the state can be either Fair(F) or Biased(B). \(z_{3}^{*}\) denotes the optimal sequence for generating the observations till the \(3^{rd}\) timestamp.<br><br>
+In the above equation, \(@\) denotes that the state can be either Fair(F) or Biased(B). \(z_{3}^{*}\) denotes the optimal sequence for generating the observations until the \(3^{rd}\) timestamp.<br><br>
 
-\(P(HHH\vert @@F)\) denotes the hidden state sequence such that \(z_{3}=F\) which has the highest probablity of generating the given observation sequence. When we are trying to compute the above, we can reach \(z_{3}=F\) via \(z_{2}=F\) and \(z_{2}=B\). <br><br>
+\(P(HHH\vert @@F)\) denotes the hidden state sequence such that \(z_{3}=F\), which has the highest probability  of generating the given observation sequence. When we are trying to compute the above, we can reach \(z_{3}=F\) via \(z_{2}=F\) and \(z_{2}=B\). <br><br>
 
 \(
   \begin{align}
@@ -2400,8 +2407,8 @@ In the above equation, \(@\) denotes that the state can be either Fair(F) or Bia
 \)
 <br><br>
 
-In the above equation, \(P(HH \vert @F)\) denotes the highest probablity of observing \(\{x_{1}=H \text{ and } x_{2}=H\}\) such that \(z_{2}=F\). <br><br>
-Similarly,  \(P(HH \vert @B)\) denotes the highest probablity of observing \(\{x_{1}=H \text{ and } x_{2}=H\}\) such that \(z_{2}=B\). <br><br>
+In the above equation, \(P(HH \vert @F)\) denotes the highest probability of observing \(\{x_{1}=H \text{ and } x_{2}=H\}\) such that \(z_{2}=F\). <br><br>
+Similarly,  \(P(HH \vert @B)\) denotes the highest probability of observing \(\{x_{1}=H \text{ and } x_{2}=H\}\) such that \(z_{2}=B\). <br><br>
 
 Similarly, we can compute \(P(HH\vert @B)\), \(P(H\vert F)\) and \(P(H\vert B)\)
 <br><br>
@@ -2409,12 +2416,12 @@ Similarly, we can compute \(P(HH\vert @B)\), \(P(H\vert F)\) and \(P(H\vert B)\)
 The computation tree looks like the following:
 <img src="images/viterbi/viterbi_tree.svg" class="example-img">
 <p style="text-align: center;"> Computation tree for calculating \(P(z_{3}^{*})\) </p>
-<br><br>
-Clearly, several nodes are being recomputed. The optimized computation tree looks like the following:
+<br>
+We can observe that several nodes are being recomputed. The optimized computation tree looks like the following:
 <img src="images/viterbi/viterbi_trellis.svg" class="example-img">
 <p style="text-align: center;"> Optimized Computation tree for calculating \(P(z_{3}^{*})\) </p>
-<br><br>
-So, if we can store the highest probability at time \(t\) for each of the \(K\) states, we can efficiently compute the best score for  each of the \(K\) states at time \(t+1\) . 
+<br>
+If we can store the highest probability at time \(t\) for each of the \(K\) states, we can efficiently compute the best score for  each of the \(K\) states at time \(t+1\). 
 </p>
 
 </div>
@@ -2490,7 +2497,7 @@ We can compute the same quantity for the next timestamp by considering all \(K\)
 <br>
 <br>
 
-For each \(t\) and \(j\), we also need to store the argument 'i' which maximized the above equation in \( \psi_{t}(j) \). This is later used to retrace the path, which leads to maximization of \(P(z_{1:T} \vert x_{t:T})\).
+For each \(t\) and \(j\), we also need to store the argument 'i', which maximized the above equation in \( \psi_{t}(j) \). This is later used to retrace the path, which leads to the maximization of \(P(z_{1:T} \vert x_{t:T})\).
 
 </p>
 
@@ -2533,7 +2540,7 @@ For each \(t\) and \(j\), we also need to store the argument 'i' which maximized
           </div>
 </div>
 <p><br><b>Viterbi Example</b><br>
-<br>The following shows the viterbi calculation for estimating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\). <br><br></p>
+<br>The following shows the Viterbi calculation for estimating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\). <br><br></p>
 <img  class="example-img delta" src="images/viterbi_gif/1.svg">
 <img  class="example-img delta" src="images/viterbi_gif/2.svg" style="display: none">
 <img  class="example-img delta" src="images/viterbi_gif/3.svg" style="display: none">
@@ -2645,7 +2652,7 @@ Qljo (Rta)
       <br><br> -->
 
     <p><br>The following section shows the \(\delta_{t}(i)\) and \(\psi_{t}(i)\) calculation for the \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\) example.<br><br></p>
-    <div class="l-screen" >
+    <div class="l-screen" style="display: none;">
       <h1>Viterbi Visualization</h1>
       <div class="one-third-div">
         <h3>Prior Probability \(\pi\)</h3>
@@ -2849,7 +2856,7 @@ Qljo (Rta)
   <h3>Parameter Learning</h3>
   <p>The objective is to learn the parameters of an HMM, given a set of observations.<br><br>
 
-      First, we consider an easier version of the problem, which is the process of parameter estimation, given the observed sequences and the corresponding hidden state sequences. <br><br>
+    First, we consider a more relaxed version of the problem, which is parameter estimation, given the observed sequences and the corresponding hidden state sequences. <br><br>
 
       <p><b>Parameter learning given fully observed hidden sequences</b><br><br>
       Let us assume we have the labeled hidden sequences and observations for N examples. The below diagram denotes the \(i^{th}\) example.<br><br></p>
@@ -2867,13 +2874,13 @@ Qljo (Rta)
       
 
       <br>
-      In general the examples look like the following: <br><br>
+      In general, the examples look like the following: <br><br>
       \( x_{11},x_{12},\dots,x_{1T_{1}} \)<br>
       \( x_{21},x_{22},\dots,x_{2T_{2}} \)<br>
       \(\vdots\)<br>
       \( x_{n1},x_{n2},\dots,x_{nT_{n}} \)<br> 
       <br>
-      <b>Note that sequences can be of different lengths</b><br>
+      <b>Note that sequences can be of different lengths.</b><br>
       <br>
       We use the principle of Maximum Likelihood Estimation (MLE) to estimate the parameters. The parameters can be estimated using the following:<br><br>
       <!-- \(\pi_{i} = \frac{\sum_{q=1}^{N} V(z_{q1}, z_{i})}{N}\) -->
@@ -2918,7 +2925,7 @@ Qljo (Rta)
 
     <p style="margin-top: 2em"><b><br>Calculating \(A\)</b></p>
 
-    <p><br>The diagrams below show the above examples with color-coding for a better understanding We wish to compute \(A\).</p>
+    <p><br>The diagrams below show the above examples with color-coding for a better understanding. We wish to compute \(A\).</p>
 
     <div class="l-screen">
       <div class="one-third-div">
@@ -2936,7 +2943,7 @@ Qljo (Rta)
 
     <p style="margin-top: 2em"><b><br>Calculating \(\phi\)</b></p>
 
-    <p><br>The diagrams below show the above examples with color-coding for a better understanding We wish to compute \(\phi\).</p>
+    <p><br>The diagrams below show the above examples with color-coding for a better understanding. We wish to compute \(\phi\).</p>
 
     <div class="l-screen">
       <div class="one-third-div">
@@ -2958,7 +2965,7 @@ Qljo (Rta)
       The next section discusses the procedure to estimate the parameters when the hidden sequences are not provided. <br><br>
 
       <b>Parameter learning without fully labeled hidden sequences</b><br><br>
-      Let us assume we only the observations for N examples. The below diagram denotes the obsrvations for the \(i^{th}\) example.<br><br>
+      Let us assume we only the observations for N examples. The below diagram denotes the observations  for the \(i^{th}\) example.<br><br>
 
       <img src="images\parameter_not_fully_observed\example-hmm.svg" class="example-img">
       
@@ -2972,7 +2979,7 @@ Qljo (Rta)
 
       
        -->
-       We have seen the procedure to calculate the optimal parameters given the hidden state sequence. However, it is common that the hidden state sequence is unknown. In such a case, we first try to "estimate" the "expected" state sequence based on some initial estimates of parameters. Then, we use the principles of MLE for observed state sequence to refine the parameters. We apply these two steps iteratively via an algorithm called Expectatio-Maximization
+       We have seen the procedure to calculate the optimal parameters given the hidden state sequence. However, it is common that the hidden state sequence is unknown. In such a case, we first try to "estimate" the "expected" state sequence based on some initial estimates of parameters. Then, we use the principles of MLE for the observed state sequence to refine the parameters. We apply these two steps iteratively via an algorithm called Expectation-Maximization.
       <br><br>
       
 
@@ -3002,10 +3009,10 @@ Qljo (Rta)
       <p>We now discuss both of the above steps in more detail.<br><br></p>
       <p><b>Expectation Step</b><br><br>
 
-      In this step, we try to estimate the hidden states based on the parameters. We can compute the expected state sequence. But, from our earlier MLE computations, we know that we only care about the number of transitions from state \(i\) to state \(j\) and number of emissions from state \(i\) to observation \(j\).<br><br>
+      In this step, we try to estimate the hidden states based on the parameters. We can compute the expected state sequence. But, from our earlier MLE computations, we know that we only care about the number of transitions from state \(i\) to state \(j\) and the number of emissions from state \(i\) to observation \(j\).<br><br>
 
 
-      We need to define \(\epsilon_{t}(i,j)\) which is an Expected Sufficient Stats(ESS).<br><br>
+      We need to define \(\epsilon_{t}(i,j)\), which is an Expected Sufficient Stats(ESS).<br><br>
        </p>
       <p>\(\epsilon_{t}(i,j)\): Expected number of transitions from state \(i\) to state \(j\) at time \(t\)</p>
 <!-- 
@@ -3123,7 +3130,7 @@ Qljo (Rta)
 
       \(S_{1} : \{H,T,H,H\}\)<br><br>
 
-      We wish to compute the parameters using the EM algorithm<br><br>
+      We wish to compute the parameters using the EM algorithm.<br><br>
 
       
         Assume that \(K=2\): Fair coin and Biased coin.<br><br>
@@ -3342,7 +3349,7 @@ Qljo (Rta)
 
 
     <h1>Conclusion</h1>
-    <p>In the article, we understood about the Hidden Markov models and the learning procedure. First, we looked at the Markov chain and we looked at each of the individual components. Similarly, we understood the components of a Hidden Markov model. Later, we defined and understood the key problems of an HMM:<br><br>
+    <p>In the article, we understood about the Hidden Markov models and the learning procedure. First, we looked at the Markov chain, and we looked at each of the individual components. Similarly, we understood the components of a Hidden Markov model. Later, we defined and understood the key problems of an HMM:<br><br>
     </p>
     <ul>
       <li>The Forward algorithm</li>
@@ -3360,7 +3367,7 @@ Qljo (Rta)
       <li>Hierarchical HMMs</li>
     </ul>    
 
-    <p>HMMs were widely used in the 1990s especially for speech processing tasks and for other time-series models. The RNNs which are widely used today, are analogous to HMM. The concept of parameter sharing between timestamps is employed in RNNs as well. So RNNs can be considered as an advanced extension of HMMs. </p>
+    <p>HMMs were widely used in the 1990s, especially for speech processing tasks and for other time-series models. The RNNs, which are widely used today, are analogous to HMM. The concept of parameter sharing between timestamps is employed in RNNs as well. So RNNs can be considered as an advanced extension of HMMs. </p>
 
   </d-article>
 
