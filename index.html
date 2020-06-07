@@ -729,7 +729,8 @@ We now try to understand Markov chains using some examples.
   <img src="images/mm-2-order.svg" style="width: 100%;height: auto">
 
 -->
-  <h3>Parameters of Markov chain</h3>
+  
+  <h2>Parameters of Markov chain</h2>
   <p>
     Each observation \(x_t\) (at time t) can take a discrete value or “state.” For example; In the case of weather, the states were <span class='italic'>Rainy</span> or <span class='italic'>Sunny</span>; In the case of coin swap, the states were <span class='italic'>Biased</span> or <span class='italic'>Fair</span>; and In the case of the air conditioner, the states were <span class='italic'>ON</span> or <span class='italic'>OFF</span>.
 
@@ -816,7 +817,7 @@ We now try to understand Markov chains using some examples.
 
     </p>
  -->
-    <h3>Markov chain Sampling</h3>
+    <h2>Markov chain Sampling</h2>
       <p>
       
       Given the parameters of a Markov chain \(A\) and \(\pi\), we can generate sequences from it. First, we sample an initial state using the \(\pi\) matrix. Then iteratively, we sample a new state from the previous state using the \(A\) matrix. </p>
@@ -1088,7 +1089,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
 
 
-    <h3>Hidden Markov Model Parameters</h3>
+    <h2>Hidden Markov Model Parameters</h2>
 
     <p>There are three parameters in the HMMs: (a) transition matrix \(A\), (b) prior probability \(\pi\), and (c) emission probability \( \phi \). Out of these three parameters, the transition matrix and prior probability are similar to the ones in the Markov chain. The emission probability is explained below.
     
@@ -1149,7 +1150,7 @@ Similarly, we can calculate the probability for other sequence of words.
 </div>
 
 
-      <h3>Hidden Markov Model Sampling</h3>
+      <h2>Hidden Markov Model Sampling</h2>
       <div>
       <!-- <p>
       The objective of Hidden Markov Model Sampling is to generate a sequence of observation \(\{x_1, x_2 \ldots x_n\}\) and a sequence of states \(\{z_1, z_2 \ldots z_n\}\) given the parameters, prior probability \(\pi\), transition matrix \(A\) and emission matrix \(\phi\). The algorithm for HMM sampling is as stated below.
@@ -1313,7 +1314,7 @@ Similarly, we can calculate the probability for other sequence of words.
       </div>
       </div>
 
-      <h3>Trellis Diagrams</h3>
+      <h2>Trellis Diagrams</h2>
       <p>The actual states that were visited in an HMM can be visualized using a Trellis Diagram. This is done by highlighting the actual states visited in a diagram showing all paths possible within the set of hidden states. Consider the following trellis diagram showing the possible path sequence of hidden states for three timestamps for the biased-fair coin example.
         
         <br><br>
@@ -1326,7 +1327,7 @@ Similarly, we can calculate the probability for other sequence of words.
 
 
 
-      <h1>HMM Algorithms</h1>
+      <h2>HMM Algorithms</h2>
       <p>Now, we look at five critical questions to understand HMMs<d-cite key="rabiner"></d-cite>.</p>
       <ol style="margin-top: 1em">
         <li>HMM Evidence Likelihood</li>
@@ -1336,7 +1337,7 @@ Similarly, we can calculate the probability for other sequence of words.
         <li>Parameter learning</li>
 
       </ol>
-      <h3>HMM Evidence Likelihood</h3>
+      <h2>HMM Evidence Likelihood</h2>
       <p>The objective is to estimate the likelihood of the observations given HMM parameters \(L(X \vert \theta)\). Mathematically this can be represented as:
         <br><br>
 
@@ -1627,7 +1628,7 @@ We effectively reused the node values to reduce the number of computations on th
       <br><br>
       In the above example in order to compute \(P(HHH \vert z_{3}=F)\) we were considering only 2 paths.<br><br>
     In general, if we can store the results of the previous timestamp, the results at the next timestamp can be considering the \(K\) paths from the previous timestamp that lead to the next timestamp. This provides the motivation for the forward algorithm.</p> -->
-      <h3>Forward Algorithm</h3>
+      <h2>Forward Algorithm</h2>
 
       <p>
       The Forward algorithm is a dynamic programming based approach using which we can efficiently compute the likelihood of observation \(P(X \vert \theta)\). <br><br>Previously, we discussed that we need to compute \(P(X_{1:t}\vert z_{t}=i)\).<br><br> This quantity is denoted by \(\alpha_{t}(i)\).
@@ -2099,7 +2100,7 @@ The computation tree looks like the following:<br>
 
 
 </div>
-<h3>Backward Algorithm</h3>
+<h2>Backward Algorithm</h2>
 
 <p>The Backward algorithm is a dynamic programming based approach using which we can efficiently calculate \(P(X_{t+1:T} \vert z_{t}=i)\)<br>.</p>
 <img src="images/backward/backward_equation.svg" style="width: 40%;height: auto"><br><br>
@@ -2254,7 +2255,7 @@ $$
 <p>
 <br><br>The next problem in HMM is determining the <b>‘optimal’</b> sequence of hidden states given the parameters and the observed sequence. We explain this problem in detail in the next section.
 </p>
-<h3>Sequence Assignment - Viterbi Algorithm</h3>
+<h2>Sequence Assignment - Viterbi Algorithm</h2>
 <p>
 Given the parameters and the sequence of observations, what is the most probable sequence of states that resulted in the observations?<br></p>
   <!-- <h4>Optimality Definition 1</h4>
@@ -2305,9 +2306,11 @@ Given the parameters and the sequence of observations, what is the most probable
 In simple terms, what is the sequence of hidden states that maximizes \(P(z_{1:T} \vert x_{t:T})\)?
 <br><br>
 Let us again understand the above with the Biased coin and Fair coin example.
-
-<br><br>
-
+<br>
+<br>
+<img src="images/fair_biased_images/hmm.svg" class="example-img" style="width:50%;display: block; margin:0 auto;">
+<br>
+<br>
 Find out the hidden state sequence, which has the highest probability of generating the observation sequence \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\).<br><br>
 <table>
 
@@ -2322,49 +2325,49 @@ Find out the hidden state sequence, which has the highest probability of generat
       <td>Fair</td>
       <td>Fair</td>
       <td>Fair</td>
-      <td>0.1</td>
+      <td>0.0367</td>
     </tr>
     <tr>
       <td>Fair</td>
       <td>Fair</td>
       <td>Biased</td>
-      <td>0.1</td>
+      <td>0.0252</td>
     </tr>
     <tr>
       <td>Fair</td>
       <td>Biased</td>
       <td>Fair</td>
-      <td>0.1</td>
+      <td>0.0144</td>
     </tr>
     <tr>
       <td>Fair</td>
       <td>Biased</td>
       <td>Biased</td>
-      <td>0.1</td>
+      <td>0.0345</td>
     </tr>
 <tr>
       <td>Biased</td>
       <td>Fair</td>
       <td>Fair</td>
-      <td>0.1</td>
+      <td>0.0224</td>
     </tr>
     <tr>
       <td>Biased</td>
       <td>Fair</td>
       <td>Biased</td>
-      <td>0.1</td>
+      <td>0.0153</td>
     </tr>
     <tr>
       <td>Biased</td>
       <td>Biased</td>
       <td>Fair</td>
-      <td>0.1</td>
+      <td>0.0307</td>
     </tr>
     <tr>
       <td>Biased</td>
       <td>Biased</td>
       <td>Biased</td>
-      <td>0.1</td>
+      <td><b>0.0737</b></td>
     </tr>
 
   </tbody>
@@ -2474,7 +2477,8 @@ We can compute the same quantity for the next timestamp by considering all \(K\)
 
 </p>
  -->
-<p><b><br>Relation between \(\delta_{t}(i)\) and \(\delta_{t+1}(j)\) </b> <br></p>
+<!-- <p><b><br>Relation between \(\delta_{t}(i)\) and \(\delta_{t+1}(j)\) </b> <br></p> -->
+<h3>Relation between \(\delta_{t}(i)\) and \(\delta_{t+1}(j)\)</h3>
 
 <ul>
   <li>
@@ -2501,7 +2505,8 @@ For each \(t\) and \(j\), we also need to store the argument 'i', which maximize
 
 </p>
 
-<p><br><br><b>Viterbi Algorithm</b></p>
+<!-- <p><br><br><b>Viterbi Algorithm</b></p> -->
+<h3>Viterbi Algorithm</h3>
 <p><br>Viterbi algorithm is a dynamic programming based algorithm which is used to calculate \(\delta_{t}(i)\) efficiently. The algorithm is as follows:<br><br></p>
 
         <div > 
@@ -2539,8 +2544,10 @@ For each \(t\) and \(j\), we also need to store the argument 'i', which maximize
             
           </div>
 </div>
-<p><br><b>Viterbi Example</b><br>
+<!-- <p><br><b>Viterbi Example</b><br> -->
+  <h3>Viterbi Example</h3>
 <br>The following shows the Viterbi calculation for estimating the hidden sequences for \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\). <br><br></p>
+<br>
 <img  class="example-img delta" src="images/viterbi_gif/1.svg">
 <img  class="example-img delta" src="images/viterbi_gif/2.svg" style="display: none">
 <img  class="example-img delta" src="images/viterbi_gif/3.svg" style="display: none">
@@ -2651,7 +2658,7 @@ Qljo (Rta)
       <!-- <span style="font-style: italic;  letter-spacing: 2px;"> P(x<sub>1</sub> = H) </span>
       <br><br> -->
 
-    <p><br>The following section shows the \(\delta_{t}(i)\) and \(\psi_{t}(i)\) calculation for the \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\) example.<br><br></p>
+    <!-- <p><br>The following section shows the \(\delta_{t}(i)\) and \(\psi_{t}(i)\) calculation for the \(\{x_{1}=H,x_{2}=H,x_{3}=H\}\) example.<br><br></p> -->
     <div class="l-screen" style="display: none;">
       <h1>Viterbi Visualization</h1>
       <div class="one-third-div">
@@ -2759,7 +2766,7 @@ Qljo (Rta)
         </div>
         
       
-        <h4 style="margin-bottom:0px;">Backt3racking</h4>
+        <h4 style="margin-bottom:0px;">Backtracking</h4>
           <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" id="backtracking-loop">FOR \(t\) in \(T-1\) to \(1\):</p>
           <div style="margin-left: 4em; padding:2em!important; margin-bottom:0px; border: solid; border-color: transparent;" id="backtracking-content">
             <p style="margin-bottom:0px;"><span style="background: blue;padding: 1em">\(z_{t}^{*} \)</span> = <span style="background: orange;padding: 1em">\(\psi_{t+1}\)</span><span style="background: red;padding: 1em">\((z^{*}_{t+1})\)</span></p>
@@ -2853,12 +2860,13 @@ Qljo (Rta)
     
 
   <!-- Next, we move on the fifth problem in Hidden Markov models, which is the problem of parameter learning given a series of observations. -->
-  <h3>Parameter Learning</h3>
+  <h2>Parameter Learning</h2>
   <p>The objective is to learn the parameters of an HMM, given a set of observations.<br><br>
 
     First, we consider a more relaxed version of the problem, which is parameter estimation, given the observed sequences and the corresponding hidden state sequences. <br><br>
 
-      <p><b>Parameter learning given fully observed hidden sequences</b><br><br>
+      <!-- <p><b>Parameter learning given fully observed hidden sequences</b><br><br> -->
+        <h3>Parameter learning given fully observed hidden sequences</h3>
       Let us assume we have the labeled hidden sequences and observations for N examples. The below diagram denotes the \(i^{th}\) example.<br><br></p>
 
       <img src="images\parameter_learning_fully_observed\sample_example.svg" class="example-img">
@@ -2890,6 +2898,7 @@ Qljo (Rta)
 
       Let us try to understand the above with an example.<br><br>
 
+      <h3>Parameter learning Example: Given fully labelled sequences</h3>
       Assume, we were provided with three training examples like the ones shown below:<br><br>
       </p>
 
@@ -2964,7 +2973,10 @@ Qljo (Rta)
 
       The next section discusses the procedure to estimate the parameters when the hidden sequences are not provided. <br><br>
 
-      <b>Parameter learning without fully labeled hidden sequences</b><br><br>
+    </p>
+
+    <h3>Parameter learning without fully labeled hidden sequences</h3>
+    <p>
       Let us assume we only the observations for N examples. The below diagram denotes the observations  for the \(i^{th}\) example.<br><br>
 
       <img src="images\parameter_not_fully_observed\example-hmm.svg" class="example-img">
@@ -3124,12 +3136,15 @@ Qljo (Rta)
         <br>
       By repeating the Expectation and Maximization steps till convergence, we get a set of sub-optimal parameters. Since many local minima exist, it is  hard to reach the global maxima.<br><br>
 
-      <b>EM Example</b><br><br>
+      
+      
+      <br><br>
 
       Assume, we have the observations for a single example in our training set from the Fair and Biased coin HMM like the following:<br><br>
 
       \(S_{1} : \{H,T,H,H\}\)<br><br>
 
+      <h3>Parameter learning Example: Without fully labelled sequences</h3>
       We wish to compute the parameters using the EM algorithm.<br><br>
 
       
