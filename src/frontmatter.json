@@ -1,27 +1,52 @@
-{
-	"title": "Distill Example",
-	"description": "An example project using Webpack, Babel, and Svelte.",
-	"password": "svgs",
-	"authors": [
-		{
-			"author": "Ludwig Schubert",
-			"authorURL": "https://schubert.io/",
-			"affiliation": "OpenAI",
-			"affiliationURL": "https://openai.com"
-		}
-	],
-	"katex": {
-		"delimiters": [
-			{
-				"left": "$",
-				"right": "$",
-				"display": false
-			},
-			{
-				"left": "$$",
-				"right": "$$",
-				"display": true
-			}
-		]
-	}
-}
+ {
+        "title": "Exploring Hidden Markov Model",
+        "description": "Hidden Markov Model - An interactive illustration",
+        "authors": [{
+            "author": "Kukunuri Rithwik",
+            "authorURL": "https://rithwikksvr.github.io/",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          },
+          {
+            "author": "Rishiraj Adhikary",
+            "authorURL": "https://rishi.github.io/",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          },
+          {
+            "author": "Mahika Om Jaguste",
+            "authorURL": "",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          },
+          {
+            "author": "Nipun Batra",
+            "authorURL": "https://nipunbatra.github.io/",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          },
+          {
+            "author": "Ashish Tendulkar",
+            "authorURL": "https://research.google/people/105469/",
+            "affiliations": [{
+              "name": "Google Research",
+              "affiliationURL": "https://research.google/"
+            }]
+          }
+        ],
+        "katex": {
+          "delimiters": [{
+            "left": "$$",
+            "right": "$$",
+            "display": false
+          }]
+        }
+      }
