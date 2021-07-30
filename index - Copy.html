@@ -1,0 +1,3196 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exploring Hidden Markov Models</title>
+  <script defer src="js/template.v2.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+  <script type="text/bibliography">
+  </script>
+
+
+
+<!-- START SIGMA IMPORTS -->
+<script src="sigma.js/src/sigma.core.js"></script>
+<script src="sigma.js/src/conrad.js"></script>
+<script src="sigma.js/src/utils/sigma.utils.js"></script>
+<script src="sigma.js/src/utils/sigma.polyfills.js"></script>
+<script src="sigma.js/src/sigma.settings.js"></script>
+<script src="sigma.js/src/classes/sigma.classes.dispatcher.js"></script>
+<script src="sigma.js/src/classes/sigma.classes.configurable.js"></script>
+<script src="sigma.js/src/classes/sigma.classes.graph.js"></script>
+<script src="sigma.js/src/classes/sigma.classes.camera.js"></script>
+<script src="sigma.js/src/classes/sigma.classes.quad.js"></script>
+<script src="sigma.js/src/classes/sigma.classes.edgequad.js"></script>
+<script src="sigma.js/src/captors/sigma.captors.mouse.js"></script>
+<script src="sigma.js/src/captors/sigma.captors.touch.js"></script>
+<script src="sigma.js/src/renderers/sigma.renderers.canvas.js"></script>
+<script src="sigma.js/src/renderers/sigma.renderers.webgl.js"></script>
+<script src="sigma.js/src/renderers/sigma.renderers.svg.js"></script>
+<script src="sigma.js/src/renderers/sigma.renderers.def.js"></script>
+<script src="sigma.js/src/renderers/webgl/sigma.webgl.nodes.def.js"></script>
+<script src="sigma.js/src/renderers/webgl/sigma.webgl.nodes.fast.js"></script>
+<script src="sigma.js/src/renderers/webgl/sigma.webgl.edges.def.js"></script>
+<script src="sigma.js/src/renderers/webgl/sigma.webgl.edges.fast.js"></script>
+<script src="sigma.js/src/renderers/webgl/sigma.webgl.edges.arrow.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.labels.def.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.hovers.def.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.nodes.def.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.edges.def.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.edges.curve.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.edges.arrow.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.edgehovers.def.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.edgehovers.curve.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.edgehovers.arrow.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.extremities.def.js"></script>
+<script src="sigma.js/src/renderers/svg/sigma.svg.utils.js"></script>
+<script src="sigma.js/src/renderers/svg/sigma.svg.nodes.def.js"></script>
+<script src="sigma.js/src/renderers/svg/sigma.svg.edges.def.js"></script>
+<script src="sigma.js/src/renderers/svg/sigma.svg.edges.curve.js"></script>
+<script src="sigma.js/src/renderers/svg/sigma.svg.labels.def.js"></script>
+<script src="sigma.js/src/renderers/svg/sigma.svg.hovers.def.js"></script>
+<script src="sigma.js/src/middlewares/sigma.middlewares.rescale.js"></script>
+<script src="sigma.js/src/middlewares/sigma.middlewares.copy.js"></script>
+<script src="sigma.js/src/misc/sigma.misc.animation.js"></script>
+<script src="sigma.js/src/misc/sigma.misc.bindEvents.js"></script>
+<script src="sigma.js/src/misc/sigma.misc.bindDOMEvents.js"></script>
+<script src="sigma.js/src/misc/sigma.misc.drawHovers.js"></script>
+<script src="sigma.js/src/misc/sigma.misc.drawHovers.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.edges.curve.js"></script>
+<script src="sigma.js/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js"></script>
+<script src="functions.js"></script>
+
+
+
+<style type="text/css">
+  
+  .border-disabled{
+    border-top:none;
+    border-left: none;
+    border-right: none;
+  }  
+
+  .border-enabled{
+    border: solid!important;;
+  }
+
+  .red{
+
+    color: orange;
+  }
+
+
+table td {
+    text-align: center;
+    vertical-align: middle;
+
+    position: relative;
+}
+
+
+table{
+    table-layout: fixed; 
+    overflow-x:auto;
+}
+
+
+td{
+  display: table-cell;
+}
+
+th{
+  display: table-cell;
+}
+.orange{
+  background: orange
+}
+
+p{
+  margin-top: 1em
+}
+
+.btn{
+
+  float:clear;font-size: 1em;background: #4d6bff;color: white;width:30%;padding:1em!important; margin: 1em;
+  z-index: 1000;
+
+}
+
+  body {
+
+    font-family: Roboto!important;
+
+  }
+
+
+  canvas{
+    position: relative!important;
+  }
+
+  table{
+    margin: auto;
+    width: 100%;
+  }
+
+  table th{
+
+    width: 33%;
+
+  }
+
+  l-screen{
+    padding: 2em;
+  }
+
+  .pi-div th{
+    width: 50%!important;
+  }
+
+  button{
+    cursor: pointer!important;
+  }
+
+
+  svg{
+    z-index: -1;
+  }
+
+  th{
+    text-align: center!important;
+  }
+
+
+  td{
+    text-align: center!important
+  }
+
+
+  .custom-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;  
+  background: white ;
+  outline: none;
+  opacity: 1;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: black;
+  cursor: pointer;
+}
+
+.custom-range::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+}
+
+
+.half-div{
+
+   /*display: inline-block;vertical-align: top;width: 50%;padding: 1rem;*/
+   float: left; width: 50% 
+}
+
+.one-third-div{
+
+   /*display: inline-block;vertical-align: top;width: 50%;padding: 1rem;*/
+   float: left; width: 33% 
+}
+
+
+.small-padding{
+  padding: 1em;
+}
+
+
+
+.color-0{
+  background :transparent;
+padding:1em;
+}
+
+
+
+.color-1{
+  background :rgb(31,119,180);
+padding:1em;
+}
+.color-2{
+  background :rgb(255,127,14);
+padding:1em;
+}
+
+
+.color-3{
+  background :rgb(44,160,44);
+padding:1em;
+}
+
+.color-4{
+  background :rgb(214,39,40);
+padding:1em;
+}
+
+.color-5{
+  background :rgb(148,103,189);
+padding:1em;
+}
+
+.color-6{
+  background :rgb(140,86,75);
+padding:1em;
+}
+
+.color-7{
+  background :rgb(227,119,194);
+padding:1em;
+}
+
+.color-8{
+  background :rgb(127,127,127);
+padding:1em;
+}
+
+.color-9{
+  background :rgb(188,189,34);
+padding:1em;
+}
+
+.color-10{
+  background :rgb(158,218,229);
+  padding:1em;
+}
+
+
+</style>
+
+
+  <script>
+
+  </script>
+
+
+
+<script type="text/javascript">
+MathJax.Hub.Register.StartupHook("TeX color Ready", function() {
+     MathJax.Extension["TeX/color"].colors["somecolor"] = 'green';
+});
+
+
+</script>
+
+
+</head>
+
+<body>
+
+  <d-front-matter>
+    <script id='distill-front-matter' type="text/json">
+      {
+        "title": "Exploring Hidden Markov Models",
+        "description": "Hidden Markov Models - An interactive illustration",
+        "authors": [{
+            "author": "Kukunuri Rithwik",
+            "authorURL": "https://rithwikksvr.github.io/",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          },
+          {
+            "author": "Rishiraj Adhikary",
+            "authorURL": "https://rishi.github.io/",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          },
+          {
+            "author": "Nipun Batra",
+            "authorURL": "https://nipunbatra.github.io/",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Gandhinagar",
+              "affiliationURL": "https://www.iitgn.ac.in/"
+            }]
+          },
+                    {
+            "author": "Ashish Tendulkar",
+            "authorURL": "https://research.google/people/105469/",
+            "affiliations": [{
+              "name": "Google Research",
+              "affiliationURL": "https://research.google/"
+            }]
+          }
+        ],
+        "katex": {
+          "delimiters": [{
+            "left": "$$",
+            "right": "$$",
+            "display": false
+          }]
+        }
+      }
+    </script>
+  </d-front-matter>
+
+  <d-title style="padding-bottom: 0">
+    <p>Hidden Markov Models - An interactive illustration</p>
+  </d-title>
+
+  <d-byline></d-byline>
+
+  <d-article style="overflow-x: unset;">
+
+
+
+
+  <h1>Towards an Intuitive Understanding of Hidden Markov Model</h1>
+
+  <p>Ever wondered how the voice assistant in your phone works? or how does speech tagging in sentences takes place? or how your smartwatch or smart wristband counts the number of steps you have taken? Each of these are examples of time-series machine learning. Hidden Markov Model (HMM) are a popular machine learning model for time-series data and have been used for various time series applications. We look at intuitive and visual ways of understanding how these powerful algorithms work. The Hidden Markov Model is based on the idea that most things in the physical world are clearly dependent on prior outcomes, such as our life expectancy or the weather today.
+  <br>
+
+  </p>
+
+  <h1>Sequential Model</h1>
+
+  <p>Imagine that it has been raining since the past few days and someone asks you - “How likely is it that it will rain tomorrow”? What is your guess? You might say that, "Given that it has been raining since the last few days, I think it will rain tomorrow". The premise behind your answer may be that once it rains, it usually rains for a few days in succession, and there is a seasonal and continuity phenomenon attached with rainfall. We might have a sequence of events as shown below.
+  
+  <br><br>
+
+  <img src="images/img0.png" style="  display: block;
+  width: 100%; height: auto">
+  <br><br>
+
+  If we simply use a classification model which does not take into account the notion of time, then we are effectively saying that today's weather will be independent of the weather of the past few days. Thus, effectively we are assuming that our data is independent and identically distributed (IID).
+
+  <br><br>
+
+  Instead if we use a system that utilizes the time series component, we can build a model that considers the past days weather for predicting today's weather.
+
+  </p>
+
+  <h1>The Markov Model</h1>
+
+  <p>
+
+ A Markov Model considers that the future data (or predicted output) is dependent on the past and the present. When the future prediction depends only on the present then we define the Markov Model as a first order markov chain. 
+
+  <br><br>
+  Mathematically, we define the conditional probability of future prediction \(x_{t+1}\), given the past observation \(x_1, x_2 \dots x_{t-1}\) and the present \(x_t\)  as \(P(x_{t+1}\vert x_1, x_2, \ldots x_t) = P(x_{t+1} \vert x_t)\)
+
+  <br><br>
+  Joint Probability is calculated using the formula specified below \(P(x_{t+1} \vert x_t, x_{t-1}) = P(x_1)*P(x_2 \vert x_1) P(x_3 \vert x_2) \dots P(x_T \vert x_{T-1})\)
+
+  <br><br>
+
+  </p>
+<!-- 
+  <div id="unrolled-markov-trellis" style="width: 100%;height: 10em;">
+    
+  </div> -->
+
+  <img src="images/mm.svg" style="width: 100%;height: auto">
+
+  <p>
+
+  Similarly, a second order Markov chain is the one where the conditional probability of future prediction for observation of \(x_{t+1}\), is dependent on the present \(x_t\) and one timestamp on the past \(x_{t-1}\). Thus, we can represent the joint probability distribution of second order markov chain can be written as \(P(x_{t+1}\vert x_1, x_2, \ldots x_t) = P(x_{t+1} \vert x_t, x_{t-1})\).
+
+  <br><br>
+  Joint Probability is calculated using the formula specified below  \(P(x_{t+1} \vert x_t, x_{t-1}) = P(x_1)*P(x_2 \vert x_1) \prod_{t=3}^{t=T} P(x_t \vert x_{t-1},x_{t-2})\)
+  <br><br>
+  Here, \(t=T\) represents the last observations made in the time series.
+    
+  </p>
+
+  <img src="images/mm-2-order.svg" style="width: 100%;height: auto">
+
+
+  <h1>  Parameters of First Order Markov Chain</h1>
+
+  <p>
+
+  To estimate the joint probability in the first order markov chain, we need to know \(K(K-1)\) parameters (assuming that there are a total of \(K\) states in the chain). These parameters are the transition probability \(P(x_j \vert x_i)\) of moving from one state to another. There are \(K^2\) possible transitions from \(i\) to \(j\) with \(1 \leq i, j \leq K\). Since \(\sum{}{} P(x_i \vert x_j) = 1\), thus we need to estimate \(k(K-1)\) only. Another parameter we are concerned about is the prior probability \(P(x_{k})\) which can also be stated as the the probability of starting with the \(k^{th}\) state at the first timestamp.
+
+  Thus, parameters \(\theta\) can be given as \(\theta = \{\pi, A\}\), where \(\pi\) is the prior probability and \(A\) is the transition matrix.
+
+  </p>
+
+
+  <h1>Transition Matrix</h1>
+
+  <p>
+  Let us assume that \(x_t\) can take one of the \(k\) possible states, the probability of going from state \(j\) to state \(k\) is given by \(P(x_t = k \vert x_{t-1}=j)\) where \(j,k = \{1,2 \ldots k\}\). The finite state diagram can represent a two state transition matrix as shown below.
+  </p>
+
+  <h1>Prior Probability</h1>
+  
+  <p>
+  Prior probability is simply the probability of the very first observation and is represented by \(\pi\). Thus, \(\pi_k = P(z_1 = k)\), here we are using \(z_x\) to represent the state \(x\).
+  </p>
+
+  <h1>Interactive Example of Markov Chain</h1>
+
+
+<!--     <div class='l-screen'>
+      <div id="fsm" style="height: 14em;"></div>
+    </div>
+ --><!--     <div class='l-screen' style="">
+
+    </div> -->
+    
+    <div class="l-screen" style="z-index: 1000; ">
+
+      <div style="float: left; width: 40%">
+      <table class="" style="">          
+        <thead>
+                  <tr>
+                    <th>Pi</th>
+                    <th>Coin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fair</td>
+                    <td><p id="custom-range-1-probability">0.5</p> <input type="range" id="custom-range-1" min="0" max="100" class="custom-range"></td>
+                   
+                  </tr>
+                  <tr>
+                    <td>Biased</td>
+                    <td><p id="custom-range-2-probability">0.5</p> <input type="range" id="custom-range-2" min="0" max="100" class="custom-range"></td>
+                   
+                  </tr>
+                  
+                </tbody>
+              </table>
+
+      <table class="" style="">
+          <thead>
+            <tr>
+              <th>Transition Matrix</th>
+              <th>Fair</th>
+              <th>Biased</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-3-probability">0.5</p> <input type="range" id="custom-range-3" min="0" max="100" class="custom-range"></td>
+              <td><p id="custom-range-4-probability">0.5</p> <input type="range" id="custom-range-4" min="0" max="100" class="custom-range"></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-5-probability">0.5</p> <input type="range" id="custom-range-5" min="0" max="100" class="custom-range"></td>
+              <td><p id="custom-range-6-probability">0.5</p> <input type="range" id="custom-range-6" min="0" max="100" class="custom-range"></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+
+      <div style="float: left; width: 60%">
+          <div id="fsm" style="height: 14em;"></div>
+
+          <div id="markov-chain-1"  style="height: 12em;">
+          </div>
+
+      </div>
+
+
+    </div>
+
+    <div class="l-screen" style="">
+      <div style="display: flex; justify-content: center;">
+
+        <button type="button" class="btn"  onclick="render_markov_chain_1()">Sample Next</button>
+        <button type="button" id="resetbtn" class="btn" onclick="reset_markov_chain()">Reset</button>
+      </div>
+      </div>
+    
+    <h1>Text Generation using Markov Chains</h1>
+    <p>
+      Our objective is to generate a p-word line given a paragraph. A Markov model of order one, predicts that each word occurs with a fixed probability, but that probability depends on the previous one word. Let’s start with an example. Suppose we have a short paragraph which reads, 
+      <br><br>
+    </p>
+      <span style="text-align: center;">“Learning is fun.<br> Fun is cool.<br> Learning cool”<br></span>
+<p>
+<br>
+Sure, the paragraph does not make sense but it is good enough to demonstrate the concept of text generation using markov chain. Since we are generating text, we need to determine the markov chain parameters. The prior probability for each word is given as the fraction of the count of number of occurance of the word by the total words in the paragraph. That is, \(P(Learning) = \frac{1}{4}, P(is) = \frac{1}{4}, P(cool) = \frac{1}{8}\) and so on.
+
+<br><br>
+The second parameter we are interested in is the emission probability. For example, the Probability of seeing the word “is” given that we saw the word “learning” is given by the count of “is” followed by “learning”, which in this case is 1, divided by the count of all the words that is followed by the word “learning” which in this case is 2. Mathematically,
+<br><br>
+\(P(w_i|w_{i-1}) = \cfrac{count(w_i,w_{i-1})}{count(w_i)}\)
+<br><br>
+The table below shows the calculated emission probabilities.
+<table>
+  <thead>
+  <tr>
+    <td></td>
+    <td class="orange">learning</td>
+    <td class="orange">is</td>
+    <td class="orange">fun</td>
+    <td class="orange">cool</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td class="orange">learning</td>
+    <td>\(0\)</td>
+    <td>\(\frac{1}{2}\)</td>
+    <td>\(0\)</td>
+    <td>\(\frac{1}{2}\)</td>
+  </tr>
+  <tr>
+    <td class="orange">is</td>
+    <td>\(0\)</td>
+    <td>\(0\)</td>
+    <td>\(\frac{1}{2}\)</td>
+    <td>\(\frac{1}{2}\)</td>
+  </tr>
+  <tr>
+    <td class="orange">fun</td>
+    <td>\(0\)</td>
+    <td>\(0\)</td>
+    <td>\(0\)</td>
+    <td>\(0\)</td>
+  </tr>
+  <tr>
+    <td class="orange">cool</td>
+    <td>\(0\)</td>
+    <td>\(0\)</td>
+    <td>\(0\)</td>
+    <td>\(0\)</td>
+  </tr>
+  </tbody>
+</table>
+
+</p>
+<br>
+<p>
+Now, we estimate the probability of observing the sentence “learning is cool”. Let us represent each word of this sentence as , \(w_i = ``learning"\), \(w_{i+1} = ``is"\), \(w_{i+2} = ``cool"\). Thus, \(P(w_i, w_{i+1}, w_{i+2}) = P(w_i)P(w_{i+1} \vert w_{i}) P(w_{i+2} \vert w_{i+1})
+= \frac{2}{8}.\frac{1}{2}.\frac{1}{2} = 0.0625\)
+<br><br>
+Similarly, we can calculate the probability for other sequence of words.
+
+
+
+    </p>
+    <div class="l-screen">
+      <div id="text_generation-diagram" style="max-height: 40em">
+
+      </div>
+    </div>
+    <p id="generated_text" style="background: orange; color: white;min-height: 4em;padding:1em;"></p>
+
+<h1>What is hidden in a hidden markov model?</h1>
+
+    <p>
+      We will understand this hidden component by taking an example of two coins. One of the coin is fair with the same probability of head and tail i.e. 0.5. The other coin is biased towards head by a probability of 0.7. The sequence of observation which we observe is \(\{H,T \ldots\}\) but what we do not know is which coin was responsible for the observation at a timestamp \(t\). We will use the notation \(x_t\) to represent the observations (which in this case is Head or Tail), \(Z_t\) to represent the states (which in this case is Fair or Biased coin).
+      <br><br>
+      See the diagram below. It is worth noting that there is a link between the states but not between the observations.
+    </p>
+
+    <img src="images/hmm.svg" style="width: 100%;height: auto">
+
+
+    <h1>Hidden Markov Model Parameters</h1>
+
+    <p>In this section we summarize the parameters we have observed so far.
+
+    <ol>
+
+      <li><b>Transition Matrix A</b>: The conditional probability \(A_{jk}\) of moving to state \(k\) from state \(j\) is given by: \(A_{jk} = P(z_t=k \vert z_{t-1}=j)\)
+      </li>
+      <li>
+    <b>Prior Probability \(\pi\)</b>: The probability of starting from one of the \(k\) available state on the first timestamp i.e. \(t=1\) given by \(\pi_k = P(z_1=k)\)</li>
+      <li>
+    <b>Emission Probability \( \phi \)</b>: The conditional probability of observing a discrete or continuous value \(x\) from a state \(z\) given the transition matrix and the prior probability is given as \(\phi_t = P(x_t \vert z_t, A, \pi)\)
+</li>
+    </ol>
+  
+</p>
+
+<div class='l-screen' >
+    <div id="hmm" style="width: 100%;height: 15em;"></div>
+</div>
+
+
+  <div class='l-screen' style="z-index: 1000">
+      <div class="">
+      <table class="table text-center pi-div" style="">          
+        <thead>
+                  <tr>
+                    <th>Pi</th>
+                    <th>Coin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fair</td>
+                    <td><p id="custom-range-7-probability">0.5</p> <input type="range" id="custom-range-7" min="0" max="100" class="custom-range"></td>
+                   
+                  </tr>
+                  <tr>
+                    <td>Biased</td>
+                    <td><p id="custom-range-8-probability">0.5</p> <input type="range" id="custom-range-8" min="0" max="100" class="custom-range"></td>                 
+                  </tr>
+                </tbody>
+              </table>
+      </div>
+
+
+    <div class="one-third-div">
+      <table class="table text-center" style="">
+          <thead>
+            <tr>
+              <th>A</th>
+              <th>Fair</th>
+              <th>Biased</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-9-probability">0.5</p> <input type="range" id="custom-range-9" min="0" max="100" class="custom-range"></td>
+              <td><p id="custom-range-10-probability">0.5</p> <input type="range" id="custom-range-10" min="0" max="100" class="custom-range"></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-11-probability">0.5</p> <input type="range" id="custom-range-11" min="0" max="100" class="custom-range"></td>
+              <td><p id="custom-range-12-probability">0.5</p> <input type="range" id="custom-range-12" min="0" max="100" class="custom-range"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+ 
+
+    <div class="one-third-div">
+      <table class="table text-center" style="">
+          <thead>
+            <tr>
+              <th>Phi</th>
+              <th>Head</th>
+              <th>Tails</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-13-probability">0.5</p> <input type="range" id="custom-range-13" min="0" max="100" class="custom-range"></td>
+              <td><p id="custom-range-14-probability">0.5</p> <input type="range" id="custom-range-14" min="0" max="100" class="custom-range"></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-15-probability">0.5</p> <input type="range" id="custom-range-15" min="0" max="100" class="custom-range"></td>
+              <td><p id="custom-range-16-probability">0.5</p> <input type="range" id="custom-range-16" min="0" max="100" class="custom-range"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+</div>
+<!-- <div style="margin:0 auto">
+  
+        <button type="button" class="btn" style=";margin-top:1em;font-size: 1.5em;background: #4d6bff;color: white" onclick="render_hmm_chain_1()">Element Wise-Sampling</button>
+              <button type="button" class="btn" style="margin-top:1em;font-size: 1.5em;background: #4d6bff;color: white" onclick="render_hmm_chain_1()">b</button>
+
+</div>
+ -->
+<!--       <button type="button" class="btn" style="margin:0 auto;display:block;margin-top:1em;font-size: 1.5em;background: #4d6bff;color: white" onclick="render_hmm_chain_1('slow-sample')">Slow Sampling</button>
+ -->
+
+<!--       <button type="button" class="btn" style="margin-top:1em;font-size: 1.5em;background: #4d6bff;color: white" onclick="render_hmm_chain_1('resample')">Resample</button>
+    
+     -->
+
+        <div class="l-screen" style="">
+      <div style="display: flex; justify-content: center;">
+
+      <button type="button" class="btn"  onclick="render_hmm_chain_1('resample')">Resample</button>
+
+      </div>
+      </div>
+
+
+      <h1>Hidden Markov Model Sampling</h1>
+      <p>
+      The objective of Hidden Markov Model Sampling is to generate a sequence of observation \(\{x_1, x_2 \ldots x_n\}\) and a sequence of states \(\{z_1, z_2 \ldots z_n\}\) given the parameters, prior probability \(\pi\), transition matrix \(A\) and emission matrix \(\phi\). The algorithm for HMM sampling is as stated below.
+
+      <ul style="margin-left: 3em">
+      <li>Choose \(z_1\) as per \(\pi\)</li>
+      <li>Sample \(x_1\) using \(\phi\) and \(z_1\)</li>
+      
+      <li>For each value of \(n = 2:N\)</li>
+        <ul style="margin-left: 3em">
+          <li>Sample \(Z_n\) from \(Z_{n-1}\) using \(A\) and \(Z_{n-1}\)</li>
+          <li>      Sample \(x_n\) from \(z_n\) using \(\phi\) and \(z_n\)</li>
+        </ul>
+      </ul>
+
+</p>
+
+  <p>
+    
+      Observe that to calculate the hidden sequence we do not consider the observation sequence. But to calculate the observation sequence, we do need the hidden sequence
+      <br><br><br>
+      
+      The next problem in HMM is the likelihood of the evidence. The evidence is the sequence of observation that we have i.e. \(\{x_1, x_2 \ldots x_T\}\), \(T\) here represents the last observation at the end of time \(T\). 
+      </p>
+
+
+      <h1>Hidden Markov Model Evidence Likelihood</h1>
+
+      <p>The objective is to estimate the most probable observations given the set of parameters i.e \(A\) (Transition Matrix), \(\phi\) (Emission Matrix) and \(\pi\) (Prior Probability). Mathematically this can be represented as:
+        <br><br>
+
+    Given \(X=\{x_1, x_2 \ldots x_n\}\), \( \theta = \{\pi, A, \phi \}\), what is the likelihood, \(L(X \vert \theta)\)?
+    <br><br>
+    Likelihood = \(L(X \vert \theta)\) = \(P(X \vert \theta)\) = \(Likelihood = \) \(L(X \vert \theta)\) \( = P(X \vert \theta) = \sum_{z}^{} P(x,z \vert \theta)\)
+    <br><br>
+    where \(\sum_{z}^{} P(x,z \vert \theta) \) is the marginalization.
+    <br><br>
+    Now, imagine if we had a long sequence of observation, \(X = \{H, H \ldots x_T\}\), the trellis diagram would look something like
+    </p>
+
+    <h1>Time complexity of estimating the likelihood</h1>
+    <p>
+    In the example above we have only two states. But in general there could be \(k\) possible states and the sequence of observation is \(T\) timestamps long.
+
+    <table>
+      <thead>
+        <th>S.No</th>
+        <th>t=1</th>
+        <th>t=2</th>
+        <th>\(\dots\)</th>
+        <th>t=T</th>
+        <th>Probability</th>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>\(z_{1}\)</td>
+          <td>\(z_{1}\)</td>
+          <td>\(\dots\)</td>
+          <td>\(z_{1}\)</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>\(z_{1}\)</td>
+          <td>\(z_{1}\)</td>
+          <td>\(\dots\)</td>
+          <td>\(z_{2}\)</td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>\(\vdots\)</td>
+          <td>\(\vdots\)</td>
+          <td>\(\vdots\)</td>
+          <td>\(\vdots\)</td>
+          <td>\(\vdots\)</td>
+          <td>\(\vdots\)</td>
+        </tr>
+
+        <tr>
+          <td>\(k^{T}\)</td>
+          <td>\(z_{k}\)</td>
+          <td>\(z_{k}\)</td>
+          <td>\(z_{k}\)</td>
+          <td>\(z_{k}\)</td>
+          <td></td>
+        </tr>
+          
+      
+            
+      </tbody>
+    </table>
+  </p>
+  <p>
+    
+     In that, the number of possible path would be \(k^T\) to evaluate \(P(x \vert \theta)\). In our case, \(k=2\) and \(T=2\) which resulted into four paths.
+    <br><br>
+    Let us also assume that the number of multiplication in a path is of \(O(T)\), since we have a sequence \(T\) timestamps long. Thus the overall time complexity of estimating the likelihood of observation is \(O(T*k^T)\). Can we do better?
+    <br><br>
+    We will now use dynamic programming to improve upon this time complexity. To solve the problem above with dynamic programming, we would look into something known as forward procedure.
+    <br><br>
+    </p>
+
+      </p>
+
+      <h1>Forward Algorithm</h1>
+
+      <p>
+      Forward procedure is defined as the joint probability of being in state \(i\) at time \(t\) and observation \(x_{1:t}\). <br><br>Mathematically, \(\alpha_t(i) = P(x_{1:t},z_t=i)\).
+
+      Building upon the two state (Bias and Fair) coin example that we saw before, we see that: 
+
+        </p>
+
+      <div class='l-screen' style="z-index: 1000">
+      <div class="one-third-div">
+      <table class="table text-center" style="">          
+        <thead>
+                  <tr>
+                    <th>Pi</th>
+                    <th>Coin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fair</td>
+                    <td><p id="custom-range-17-probability">0.4</p></td>
+
+                  </tr>
+                  <tr>
+                    <td>Biased</td>
+                    <td><p id="custom-range-18-probability">0.6</p></td>
+                  </tr>
+                </tbody>
+              </table>
+      </div>
+
+
+    <div class="one-third-div">
+      <table class="table text-center" style="">
+          <thead>
+            <tr>
+              <th>A</th>
+              <th>Fair</th>
+              <th>Biased</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-19-probability">0.9</p></td>
+              <td><p id="custom-range-20-probability">0.1</p></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-21-probability">0.1</p></td>
+              <td><p id="custom-range-22-probability">0.9</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+ 
+
+    <div class="one-third-div">
+      <table class="table text-center" style="">
+          <thead>
+            <tr>
+              <th>Phi</th>
+              <th>Head</th>
+              <th>Tails</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fair</td>
+              <td><p id="custom-range-23-probability">0.5</p></td>
+              <td><p id="custom-range-24-probability">0.5</p></td>
+            </tr>
+            <tr>
+              <td>Biased</td>
+              <td><p id="custom-range-25-probability">0.7</p></td>
+              <td><p id="custom-range-26-probability">0.3</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+</div>
+<div class="l-screen" style="margin-top: 1em"> 
+
+      <p>
+      
+      \( \alpha_1(F) = P(x_{1},z_1=F) \) = <span class="color-1">\(\pi_{F}\)</span> X <span class="color-7">\(P(x_1=H \vert z_1=F)\)</span> = <span class="color-1">0.4</span> X <span class="color-7">0.5</span> = 0.20
+      <br><br>
+      
+      \( \alpha_1(B) =  P(x_{1},z_1=B) \) = <span class="color-2">\(\pi_{B}\)</span>  X <span class="color-9">\(P(x_1=H \vert z_1=B)\)</span> = <span class="color-2">0.6</span> X <span class="color-9">0.7</span> = 0.42    
+      
+      </p>
+
+      <p>
+        <br><br><br>
+        \(\alpha_2(B) = P(x_{1}=H,x_{2}=H, z_2=B) \) = <span>\(\Big[P(x_1=H,z_1=B)\)</span> . <span class="color-6">\(A_{BB}\)</span><span >\(\Big]\)</span><span class="color-9">\(P(H \vert B)\)</span> + <span>\(\Big[P(x_1=H,z_1=F)\)</span> . <span class="color-4">\(A_{FB}\)</span><span >\(\Big]\)</span><span class="color-9">\(P(H \vert B)\)</span>
+
+        <br><br><br><br>
+
+        \(\alpha_2(B) \) = 
+        <span>\(\alpha_1(B)\)</span> . <span class="color-6">\(A_{BB}\)</span><span class="color-9">\(P(H \vert B)\)</span> + 
+        <span>\(\alpha_1(F)\)</span> . <span class="color-4">\(A_{FB}\)</span><span class="color-9">\(P(H \vert B)\)</span>
+        <br><br><br><br>
+        
+
+        \(\alpha_2(B) \) = 
+        <span>\(0.42\)</span> X <span class="color-6">\(0.9\)</span> X <span class="color-9">\(0.7\)</span> + 
+        <span>\(0.2\)</span> X <span class="color-4">\(0.1\)</span> X <span class="color-9">\(0.7\)</span>
+        <br><br><br><br>
+
+        \(\alpha_2(B) \) =  0.28
+
+      </p>
+
+</div>
+
+<p>
+  <img src="images/trellis-1.png" style="  display: block;
+  margin-left: auto;
+  margin-right: auto;width: 100%;height: auto">
+
+
+  Observe that there are two path that could lead to the second state \(z_B\)
+  <br><br>
+
+Thus, generally we can write:
+<br><br>
+$$\alpha_{t+1}(j) = \{\sum_{i}^{} \alpha_{t}(i).A_{ij}\} \phi_{j}(x_{t+1})$$
+<br><br>
+We can end up in state \(j\) at time \(t+1\) from each of the \(k\) paths starting at the previous timestamp of \(\alpha_t(i)\) of state \(i\) multiplied with the transition probability \(A_{ij}\) and emission probability \(\theta_j(x_{t+1})\). For the two state markov model (Fair and Biased Coin) with two discrete emission (Head and Tail), the complete trellis diagram is as shown below.
+
+<!--   <img src="images/trellis-2.png" style="  display: block;
+  margin-left: auto;
+  margin-right: auto;width: 100%;height: auto"> -->
+
+
+Recall that our objective was to find the probability of observing the data given the markov model parameters that we have been representing as \(\theta = \{\pi, A, \phi\}\). To answer this question, let us write the forward equation for the last observation in the observation sequence i.e.
+<br><br>
+
+$$\alpha_T(B) = P(x_{1:T}, z_T=B)$$
+$$\alpha_T(F) = P(x_{1:T}, z_T=F)$$
+$$\therefore P(x_{1:T}) = \alpha_T(B) + \alpha_T(F)$$
+<br>
+In general, we can write:
+<br>
+$$P(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)$$
+
+$$L(x_{1:T} \vert \theta) = \sum_{i}^{} \alpha_T(i)$$
+
+<br>
+
+The third problem in Hidden Markov Model which is an extension of the second problem is to compute the belief state or we ask, what is the probability of ending up in a state \(z_j\) given that we have observed the data \(X={x_1, x_2 \ldots x_3}\). We define this third problem in this series as hidden markov model filtering.
+
+
+
+</p>
+
+<h1>HMM Filtering</h1>
+<p>As stated above, the third problem in HMM i.e  to find the probability of ending up in a state \(z_j\) given that we have observed the data \(X={x_1, x_2 \ldots x_3}\) can be mathematically stated as \(P(z_t \vert x_{1:t})\).
+<br><br>
+The above is a conditional probability which can be defined as:
+$$
+  P(z_t \vert x_{1:t}) = \frac{P(z_t,x_{1:t})}{P(x_{1:t})} = \frac{\alpha_t(i)}{\sum_{i}^{}\alpha_t(i)}
+$$
+<br>
+We can plug in the numbers from our coin example to the above equation to find the probability of ending up in either Bias state or Fair state for the first state, i.e.
+$$
+\frac{\alpha_t(Bias)}{\sum_{i}^{}\alpha_t(i)} = \frac{\alpha_t(Bias)}{\alpha_t(Bias)+\alpha_t(Fair)} = \frac{0.42}{0.62}
+$$
+
+$$
+
+\frac{\alpha_t(Fair)}{\sum_{i}^{}\alpha_t(i)} = \frac{\alpha_t(Fair)}{\alpha_t(Bias)+\alpha_t(Fair)} = \frac{0.20}{0.62}
+
+$$
+
+Having studied the forward procedure, we will now understand the backward procedure for HMMs. 
+
+</p>
+<h1>Backward Algorithm</h1>
+<p>The probability of observing the sequence \(x_{t+1:T}\), at \(t^{th}\) time instance (i.e. the observation starts at the timestamp \(t+1\) and ends at the last timestamp \(T\).) given that the state (z) at timestamp \(t\) is \(i\) is denoted by \(\beta_{t}(i)\) which is given as,
+
+\(\beta_{t}(i) = P(x_{t+1:T} \vert z_t = i)\).
+
+Recall that in the forward algorithm, we defined \(\alpha_{t+1}\) in terms of \(\alpha_t\) but here in the backward procedure, we define \(\beta_{t}\) in terms of \(\beta_{t+1}\)
+
+<br><br>
+
+Let us assume a general case, where we have \(k\) states. The trellis diagram shows that if at \(t\) time, we were in state \(i\) then we could be in any of the \(k\) states at time \(t+1\). Hence to find the probability \(\beta_{t}(i)\), we have to consider all the possible states, Mathematically, 
+
+$$
+
+
+  \begin{align}
+    \beta_{t}(i) = P(x_{t+1:T} \vert z_t = i) = & P(x_{t+2:T}\vert z_{t+1}=1).A_{i1}.\phi_1(x_{t+1}) + \\
+      & P(x_{t+2:T}\vert z_{t+1}=2).A_{i2}.\phi_2(x_{t+1}) + \\
+      & \vdots \\
+      & P(x_{t+2:T}\vert z_{t+1}=k).A_{ik}.\phi_k(x_{t+1})
+      
+
+  \end{align}
+
+
+
+$$
+
+Thus, the general form for the backward procedure can be mathematically represented as a recurrence of the form:
+<br><br>
+$$
+\begin{align}
+  \beta_{t}(i) &= P(x_{t+1:T} \vert z_t = i)\\
+  &= \sum_{j=1}^{k} \beta_{t+1}(j).A_{ij}.\phi_{j}(x_{t+1})
+\end{align}
+$$
+
+<img src="images/backward.svg" style="width: 100%; height: auto">
+
+<img src="images/backward-2.svg" style="width: 100%; height: auto">
+
+Thus, the general form for the backward procedure can be mathematically represented as a recurrence of the form:
+
+$$
+\beta_{t}(i) = P(x_{t+1:T} \vert z_t = i) = \\
+\sum_{j=1}^{k} \beta_{t+1}(j).A_{ij}.\phi_{j}(x_{t+1})
+$$
+
+To define all the \(\beta_{t}\) parameters we first need to define \(\beta\) for the last time stamp i.e. \(T (\beta_{t})\), and then we can run a loop going backwards from \(t=T-1, T-2 \dots 1\). 
+<br><br>
+Thus, \(\beta_{T}(i) = 1 \forall i \in \{1,2 \ldots k\}\) (Arbitrarily defined). Now we take an example to make backward algorithm more intuitive
+
+
+</p>
+
+
+<h1>Coin Observation Example For Backward Algorithm</h1>
+<p>
+ We continue with the same example as given in the forward algorithm. Given, the observation \(x = \{H,H,H\}\), our objective is to find \(\beta_{1}, \beta_{2}, \beta_{3}\). We arbitrarily define \(\beta_{B}=\beta_{F}=1\). Here ‘H’ means a Head, and B,F means biased and fair coin respectively. Now we define \(\beta_{2}(B)\),
+
+$$
+\begin{align}
+\beta_{2}(B) &= \sum_{j=\{B,F\}}^{} \beta_{3}(j).A_{Bj}.\phi_{j}(H)\\
+&= \beta_{3}(B).A_{BB}.\phi_{B}(H) + \beta_{3}(F).A_{BF}.\phi_{F}(H)\\
+&= 1.(0.9).(0.7) + 1.(0.1).(0.5) = 0.68
+\end{align}
+$$
+
+Similarly we can calculate \(\beta_{2}(F)\),
+$$
+\begin{align}
+\beta_{2}(F) &= \beta_{3}(B).A_{FB}.\phi_{B}(H) + \beta_{3}(F).A_{FF}.\phi_{F}(H) \\
+ &= 1.(0.1).(0.7) + 1.(0.9).(0.5) = 0.58
+\end{align}
+$$
+
+
+Now, that we have \(\beta_{2}(i)\), we can go ahead and calculate \(\beta_{1}(i)\) as follows,
+$$
+\begin{align}
+\beta_{1}(B) &= \beta_{2}(B).A_{BB}.\phi_{B}(H) + \beta_{2}(F).A_{BF}.\phi_{F}(H) \\
+&= (0.62).(0.9).(0.7) + (0.52).(0.1).(0.5) = 0.4544
+\end{align}
+$$
+
+$$
+\begin{align}
+\beta_{1}(F) &= \beta_{2}(B).A_{FB}.\phi_{B}(H) + \beta_{2}(F).A_{FF}.\phi_{F}(H) \\
+&= (0.62).(0.1).(0.7) + (0.52).(0.9).(0.5) = 0.2816
+
+\end{align}
+$$
+
+
+
+The next problem in HMM is to determine ‘optimal’ sequence of states given model and observation. We explain this problem in detail in the next section.
+
+</p>
+
+<h1>
+What do we mean by the optimal set of states?
+<br><br>
+Optimality Definition #1:
+</h1>
+<p>
+Choose state \(z_{t}\) which is individually most likely. What we are trying to determine is also called sequence of marginally most probable states (MPM). Mathematically, this can be given as,
+<br><br>
+
+$$\hat{z} = (argmax_{z_1} P(z_1 \vert x_{1:T}), argmax_{z_2} P(z_2 \vert x_{1:T}) \dots argmax_{z_T} P(z_T \vert x_{1:T}))$$
+
+<br><br>
+The probability \(P(z_t \vert x_{1:t})\:where\:t \in \{1,2, \dots T\}\) can be represented formally as, \(\gamma_{t}(i) = P(z_t \vert x_{1:t})\), this is the first instance where we define \(\gamma_{t}(i)\). We will now break down \(\gamma_t(i)\) in terms of \(\alpha_t(i)\) and \(\beta_t(i)\). We can represent \(\gamma_{t}(i)\) as, 
+<br><br>
+$$\gamma_{t}(i) = P(z_t = i \vert x_{1:T}) \propto P(z_t = i \vert x_{1:t}).\:P(x_{t+1:T}\vert z_{t}=i, x_{1:t} )$$
+<br><br>
+Which is equivalent to
+<br><br>
+$$
+\begin{align}
+\gamma_{t}(i) = P(z_t = i \vert x_{1:T}) &\propto P(z_t = i \vert x_{1:t}).\:P(x_{t+1:T}\vert z_{t}=i, x_{1:t} ) \\ 
+                                        &\propto P(z_t = i \vert x_{1:t}).\:P(x_{t+1:T}\vert z_{t}=i )
+\end{align}
+$$
+<br><br>
+Because \(x_{t+1:T}\) does not depend on \(x_{1:t}\), thus conditionally independent. Therefore, we can write down the above equation as,
+<br><br>
+$$
+\gamma_{t}(i)  \propto \alpha_{t}(i).\:\beta_{t}(i)
+$$
+<br><br>
+But, looking back at the forward procedure \(\alpha_{t}\) was defined as, \(\alpha_{t} = P(x_{i:t}, z_t=i) \) which is a joint probability distribution instead of conditional probability. But, since we are dealing with proportionality, we do not care about the normalization constant.
+
+The normalization constant is summation across all the states, i.e.
+$$
+\gamma_{t}(i)  \propto \alpha_{t}(i).\:\beta_{t}(i)
+ $$
+ $$
+\gamma_{t}(i)  = \frac{\alpha_{t}(i).\:\beta_{t}(i)}{\sum_{i}\alpha_{t}(i).\:\beta_{t}(i)}
+$$
+
+Thus now it makes sense to say that the solution to optimal sequence of states is nothing but the forward backward algorithm.
+
+</p>
+
+<h1>Optimality Definiton #2</h1>
+<p>
+According to this definition, we choose the most probable sequence of states given the parameters and observations.
+
+$$ Z_{T}^{*} = \underset{ Z_{1:T}}  \arg\max  P(Z_{1:T} \vert x_{t:T})  $$
+
+
+
+
+First, let us define the following
+
+<br><br>
+
+<!-- \( \begin{equation}
+\begin{split}
+\delta_{t} (i) = \underset{Z_{1}, Z_{2}, \dots, Z_{t-1}} \max P[ & Z_{1}, Z_{2}, \dots, Z_{t-1}, \\ 
+                                                                 & Z_{t}=i, \\
+                                                                 & x_{1},x_{2},\dots,x_{t} \vert \theta ]
+
+\end{split}
+\end{equation}
+\)
+ -->
+
+ 
+\(\delta_{t} (i) = \) <span class="color-1">\(\underset{Z_{1}, Z_{2}, \dots, Z_{t-1}} \max \) </span> \(  P [ \)  <span class="color-1"> \(Z_{1}, Z_{2}, \dots, Z_{t-1} \) </span> , 
+                                                                  <span class="color-3">\( Z_{t}=i \)</span> , 
+                                                                  <span class="color-4">\(x_{1},x_{2},\dots,x_{t} \) </span> \(\vert \theta ]
+
+\)
+
+
+<br><br>
+</p>
+<p style="  line-height: 3;">
+<span class="color-1">Best score (highest prob) along a single path at time \(t\)</span>, which accounts for<br> <span class="color-4"> first \(t\) observations</span> and ends in <span class="color-3">\(Z_{t}=i\)</span>
+
+</p>
+
+<h1>Difference between \(\alpha_{t}(i)\) and \(\delta_{t}(i)\)</h1>
+<p>
+
+
+ 
+$$
+\delta_{t} (i) = \underset{Z_{1}, Z_{2}, \dots, Z_{t-1}} \max P[  Z_{1}, Z_{2}, \dots, Z_{t-1}, 
+                                                                  Z_{t}=i, 
+                                                                  x_{1},x_{2},\dots,x_{t} \vert \theta ]
+
+$$
+
+$$
+\alpha_t(i) = P(x_{1:t},z_t=i)
+
+$$
+
+\(\delta_{t} (i)\) focuses on the most probable sequence whereas \(\alpha_{t}(i)\) focuses on the most likely state at time 't'
+
+</p>
+
+<h1>Relation between \(\delta_{t}(i)\) and \(\delta_{t+1}(j)\)  </h1>
+
+<ul>
+  <li>
+  We could reach \(Z_{t+1}=j\) from any \(i \in \{ 1, \dots, K\}\) via transition probability \(A_{ij}\)</li>
+  <li>
+    Once we reach \(Z_{t+1}=j\), probability of observing \(x_{t+1}\) is \(\phi_{j} (x_{t+1})\)
+  </li>
+
+
+
+</ul>
+
+<img src="images/viterbi.svg" style="width: 100%; height: auto">
+
+$$
+    \delta_{t+1}(j) = \Bigg( \underset{ i \in 1 \dots K} \max \bigg( \delta_{t}(i) * A_{ij} \bigg) * \phi_{j}(x_{t+1})  \Bigg)  
+$$
+<p>
+For each \(t\) and \(j\), we also need to store argument 'i' which which maximized above equation in \( \psi_{t}(j) \)
+
+</p>
+
+<h1>Viterbi Algorithm</h1>
+<p>This can be solved using the Viterbi algorithm. The algorithm is as follows.</p>
+
+        <div > 
+        <div>
+        <h4 style="margin-bottom:0px;">Initialization</h4>
+        <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >FOR \(i\) in 1 to \(K\):</p>
+        <div style="margin-left: 4em; padding:0.25em!important; margin-bottom:0px; border: solid; border-color: transparent;" >
+          <p style="margin-bottom:0px;">\(\delta_{1}(i) = \pi_{i} * \phi_{1}(x_{1})\)</p>
+          <p style="margin-bottom:0px;">\(\psi_{1}(i) = 0\)</p>
+        </div>
+      </div>
+        <h4 style="margin-bottom:0px;">Recursion</h4>
+          <div style="margin-left: 2em;padding:0.25em!important;  margin-bottom:0px;">
+          <p style="margin-left: 0em;padding:0.25em!important;  margin-bottom:0px;;border: solid; border-color: transparent;"  >FOR \(t\) in 2 to \(T\):</p>
+            <p style="margin-left: 2em;padding:0.25em!important;margin-bottom:0px;  ;border: solid; border-color: transparent;" >FOR \(j\) in 1 to \(K\):</p>
+            <div  style="padding:0.25em!important; margin-bottom:0px; border: solid; border-color: transparent;">
+                <p style="margin-left: 4em;margin-bottom:0px;" >\(\delta_{t}(j) = \Bigg( \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \Bigg) * \phi_{j}(x_{t})\)</p>
+                <p style="margin-left: 4em;margin-bottom:0px;">\(\psi_{t}(j) =  \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \)</p>
+            </div>
+         </div>   
+    </div>    
+  <div >
+        <h4 style="margin-bottom:0px;">Termination</h4>
+        <div style="border: solid; border-color: transparent;">
+          <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >\(P^{*} = \underset{ i \in 1 \dots K}  \max \delta_{T}(i) \)</p>
+          <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >\(Z_{T}^{*} = \underset{ i \in 1 \dots K}  \arg\max \delta_{T}(i) \)</p>
+
+        </div>
+        
+      
+        <h4 style="margin-bottom:0px;">BackTracking</h4>
+          <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >FOR \(t\) in \(T-1\) to \(1\):</p>
+          <div style="margin-left: 4em; padding:1em!important; margin-bottom:0px; border: solid; border-color: transparent;" >
+            <p style="margin-bottom:0px;"><span style="background: ;padding: ">\(Z_{t}^{*} \)</span> = <span style="background: ;padding: ">\(\psi_{t+1}\)</span><span style="background: ;padding: ">\((Z^{*}_{t+1})\)</span></p>
+            
+          </div>
+</div>
+
+<!-- * 
+i C- {I ,
+-K3wia
+a transition with prob.
+Aij
+* Once me reach zz+i=j , pros .
+of observing at-11 is
+Qljo (Rta)
+ -->
+<!--       <div class="l-screen">
+
+      <br><br>
+     \( \alpha_2(B) = P(x_{1}=H,x_{2}=H, z_2=B)= [P(x_1=H,z_1=B).A_{BB}]P(H \vert B)+[P(x_1=H,z_1=F).A_{FB}]P(H \vert B) \)
+      <br><br>
+     \( \alpha_2(B) = P(x_{1}=H,x_{2}=H, z_2=B) \) = <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> + <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> X <span class="elem" id="elem-3">0.6</span> = 0.28
+     </div>
+ -->
+      <!-- <span style="font-style: italic;  letter-spacing: 2px;"> P(x<sub>1</sub> = H) </span>
+      <br><br> -->
+
+      
+    <div class="l-screen">
+      
+      <h1>Viterbi Visualization</h1>
+      <div style="float: left; width: 50% ; text-align: left;padding-left: 3em; padding-right: 3em; ">
+        <div id='viterbi_1'> 
+        <div>
+        <h4 style="margin-bottom:0px;">Initialization</h4>
+        <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" id="for-loop-1">FOR \(i\) in \([Fair, Biased]\):</p>
+        <div style="margin-left: 4em; padding:0.25em!important; margin-bottom:0px; border: solid; border-color: transparent;" id="for-loop-1-content">
+          <p style="margin-bottom:0px;">\(\delta_{1}(i) = \pi_{i} * \phi_{1}(x_{1})\)</p>
+          <p style="margin-bottom:0px;">\(\psi_{1}(i) = 0\)</p>
+        </div>
+      </div>
+        <h4 style="margin-bottom:0px;">Recursion</h4>
+          <div style="margin-left: 2em;padding:0.25em!important;  margin-bottom:0px;">
+          <p style="margin-left: 0em;padding:0.25em!important;  margin-bottom:0px;;border: solid; border-color: transparent;" id="for-loop-2" >FOR \(t\) in 2 to \(T\):</p>
+            <p style="margin-left: 2em;padding:0.25em!important;margin-bottom:0px;  ;border: solid; border-color: transparent;" id="for-loop-3" >FOR \(j\) in \([Fair, Biased]\):</p>
+            <div id="for-loop-3-content" style="padding:0.25em!important; margin-bottom:0px; border: solid; border-color: transparent;">
+                <p style="margin-left: 4em;margin-bottom:0px;" >\(\delta_{t}(j) = \Bigg( \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \Bigg) * \phi_{j}(x_{t})\)</p>
+                <p style="margin-left: 4em;margin-bottom:0px;">\(\psi_{t}(j) =  \underset{ i \in 1 \dots K} \arg\max \bigg( \delta_{t-1}(i) * A_{ij} \bigg) \)</p>
+            </div>
+         </div>   
+    </div>    
+  <div id='viterbi_2'>
+        <h4 style="margin-bottom:0px;">Termination</h4>
+        <div id="termination" style="border: solid; border-color: transparent;">
+          <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >\(P^{*} = \underset{ i \in 1 \dots K}  \max \delta_{T}(i) \)</p>
+          <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" >\(Z_{T}^{*} = \underset{ i \in 1 \dots K}  \arg\max \delta_{T}(i) \)</p>
+
+        </div>
+        
+      
+        <h4 style="margin-bottom:0px;">BackTracking</h4>
+          <p style="margin-left: 2em; padding:0.25em!important;  margin-bottom:0px;border: solid; border-color: transparent;" id="backtracking-loop">FOR \(t\) in \(T-1\) to \(1\):</p>
+          <div style="margin-left: 4em; padding:2em!important; margin-bottom:0px; border: solid; border-color: transparent;" id="backtracking-content">
+            <p style="margin-bottom:0px;"><span style="background: blue;padding: 1em">\(Z_{t}^{*} \)</span> = <span style="background: orange;padding: 1em">\(\psi_{t+1}\)</span><span style="background: red;padding: 1em">\((Z^{*}_{t+1})\)</span></p>
+            
+          </div>
+</div>
+          <button type="button" id="next_viterbi_button" class="btn" onclick="viterbi_next()">Next Step</button>
+          <button type="button" id="backtracking_button" class="btn" onclick="termination_backtracking_psuedo_code_highlighter()">Next Step</button>
+
+    
+         </div>   
+
+
+
+  <div style="float: left; width: 50%;">
+        <div  style="padding: 1em; width: 100%%; " >
+        <table id="viterbi-table" >
+            <thead>
+            <tr>
+              <th></th>
+              <th>\( \delta_{t}(Fair) \)</th>
+              <th>\( \delta_{t}(Biased) \)</th>
+              <th>\( \psi_{t}(Fair) \)</th>
+              <th>\( \psi_{t}(Biased) \)</th>
+              <th>\(Z_{t}^{*}\)</th>
+            </tr>
+          </thead>
+
+        </table>
+        </div>
+
+<!-- 
+        <div style="padding: 1em; width: 33%; float: left;">
+        <table id="psi-table" >
+            <thead>
+            <tr>
+              <th></th>
+              
+            </tr>
+          </thead>
+
+        </table>
+        </div>
+
+
+        <div style="padding: 1em; width: 33%; float: left;">
+        <table id="z-star-table" >
+            <thead>
+            <tr>
+              <th>t</th>
+              
+            </tr>
+          </thead>
+          
+
+        </table>
+        </div>
+ -->
+        <div >
+          <div id="variables" style=" clear: both">
+
+          </div>
+          <div id="explanation-1" style="clear: both; margin: 1em;text-align: left; padding-top: 1em">
+
+
+            <!-- <p>Solution = <span class="elem" id="elem-1" >0.4</span> X <span class='elem' id="elem-2">0.5</span> = 0.20 </p> -->
+          </div>
+
+          <div id="explanation-2" style="clear: both; margin: 1em;text-align: left; padding-top: 1em">
+
+          </div>
+
+        </div>
+
+          
+        </div>
+
+      </div>
+    </div>
+
+    <div class="l-screen" style="padding-left: 20em;padding-right: 20em;">
+      <div style="display: flex; justify-content: center;">
+
+      <!-- <button type="button" class="btn"  onclick="viterbi_previous()">Previous Step</button> -->
+    
+      </div>
+      </div>
+
+<!-- 
+      <button type="button" class="btn" style="float:clear;font-size: 1em;background: #4d6bff;color: white;width: 60%;padding:1em!important; margin: 0 auto;z-index: 100;" onclick="render_hmm_chain_1('resample')">Resample using above</button> -->
+    
+    
+
+  </d-article>
+
+ 
+
+</body>
+
+</html>
+
+
+
+<script>
+/**
+ * This is a basic example on how to instantiate sigma. A random graph is
+ * generated and stored in the "graph" variable, and then sigma is instantiated
+ * directly with the graph.
+ *
+ * The simple instance of sigma is enough to make it render the graph on the on
+ * the screen, since the graph is given directly to the constructor.
+ */
+
+
+var main_dict = {}
+
+var colors = ['rgb(31,119,180)',
+              'rgb(255,127,14)',
+              'rgb(44,160,44)',
+              'rgb(214,39,40)',
+              'rgb(148,103,189)',
+              'rgb(140,86,75)',
+              'rgb(227,119,194)',
+              'rgb(127,127,127)',
+              'rgb(188,189,34)',
+              'rgb(158,218,229)',
+              ]
+
+// var sheet = window.document.styleSheets[0];
+// for(var i=1;i<colors.length+1;i++){
+//     sheet.insertRule('.color'+i+': { color:' + colors[i]+ ' ; }', sheet.cssRules.length);  
+// }
+
+
+
+
+var g = {
+      nodes: [],
+      edges: []
+    };
+
+
+
+
+// graph_1 = new sigma({
+//   graph: g,
+//   container: 'unrolled-markov-trellis-label',
+//   renderer: {
+//     container: document.getElementById('unrolled-markov-trellis-label'),
+//     type: sigma.renderers.canvas
+//   },
+//   settings : {
+//         minArrowSize: 10,
+//         maxNodeSize: 32,
+//         mouseEnabled:false,
+
+        
+//   }
+// });
+
+
+// var node_1 = create_node(0, -1, 2)
+
+// node_1.color= 'orange'
+// node_1.label = "Biased"
+
+// var node_2 = create_node(1, 1, 2)
+
+// node_2.color = 'pink'
+// node_2.label = "Fair"
+
+// graph_1.graph.addNode(node_1)
+
+// graph_1.graph.addNode(node_2)
+
+// graph_1.refresh()
+
+
+
+// graph_2 = new sigma({
+//   graph: g,
+//   container: 'unrolled-markov-trellis',
+//   renderer: {
+//     container: document.getElementById('unrolled-markov-trellis'),
+//     type: sigma.renderers.canvas
+//   },
+//   settings : {
+//         minArrowSize: 10,
+//         maxNodeSize: 32,
+//         mouseEnabled:false,
+//   }
+// });
+
+
+// var x = -3;
+
+
+// var node = create_node(-1, x, 2)
+// node.color= 'rgb(148,103,189)'
+// node.label = "x_0"
+// graph_2.graph.addNode(node)
+// x+=1
+
+
+// var node = create_node(0, x, 2)
+// node.color= 'rgb(148,103,189)'
+// node.label = "x_1"
+// graph_2.graph.addNode(node)
+// x+=1
+
+
+// var node = create_node(1, x, 2)
+// node.color= 'rgb(148,103,189)'
+// node.label = "x_2"
+// graph_2.graph.addNode(node)
+// x+=1
+
+// var node = create_node(2, x, 2)
+// node.color= 'rgb(148,103,189)'
+// node.label = "...."
+// graph_2.graph.addNode(node)
+// x+=1
+
+
+// var node = create_node(3, x, 2)
+// node.color= 'rgb(148,103,189)'
+// node.label = "...."
+// graph_2.graph.addNode(node)
+// x+=1
+
+// var node = create_node(4, x, 2)
+// node.color= 'rgb(148,103,189)'
+// node.label = "x_t-1"
+// graph_2.graph.addNode(node)
+// x+=1
+
+
+// var node = create_node(5, x, 2)
+// node.color= 'rgb(148,103,189)'
+// node.label = "x_t"
+// graph_2.graph.addNode(node)
+// x+=1
+
+
+// var edge = create_edge(-1,-1,0,'arrow')
+// graph_2.graph.addEdge(edge)
+// graph_2.refresh()
+
+
+// var edge = create_edge(0,0,1,'arrow')
+// graph_2.graph.addEdge(edge)
+// graph_2.refresh()
+
+
+// var edge = create_edge(2,1,2,'arrow')
+// graph_2.graph.addEdge(edge)
+// graph_2.refresh()
+
+
+// var edge = create_edge(3,2,3,'arrow')
+// graph_2.graph.addEdge(edge)
+// graph_2.refresh()
+
+
+// var edge = create_edge(4,3,4,'arrow')
+// graph_2.graph.addEdge(edge)
+// graph_2.refresh()
+
+// var edge = create_edge(5,4,5,'arrow')
+// graph_2.graph.addEdge(edge)
+// graph_2.refresh()
+
+
+
+
+
+
+fsm = new sigma({
+  graph: g,
+  container: 'fsm',
+  renderer: {
+    container: document.getElementById('fsm'),
+    type: sigma.renderers.canvas
+  },
+  settings : {
+        minArrowSize: 10,
+        maxNodeSize: 32,
+        maxEdgeSize: 4,
+        minEdgeSize: 0,
+        mouseEnabled:false,
+  }
+});
+
+var node_1 = return_coin_node(0, -1, 0 , 'fair')
+
+
+var node_2 = return_coin_node(1, 1, 0 , 'biased')
+
+
+fsm.graph.addNode(node_1)
+fsm.graph.addNode(node_2)
+
+
+
+var edge = create_edge(0, 0, 0 )
+edge.color = colors[2]
+fsm.graph.addEdge(edge)
+
+var edge = create_edge(1, 0, 1 )
+edge.color = colors[3]
+fsm.graph.addEdge(edge)
+
+var edge = create_edge(2, 1, 0 )
+edge.color = colors[4]
+fsm.graph.addEdge(edge)
+
+var edge = create_edge(3, 1, 1 )
+edge.color = colors[5]
+fsm.graph.addEdge(edge)
+
+
+
+fsm.refresh()
+
+// function set_color(elem, color_index){
+//   console.log("ind: ",elem)
+//   elem.style.background = colors[color_index-1];
+//   elem.style.padding = '1em';
+// }
+
+
+// for(var i=1;i<11;i++){
+//   var elements = document.getElementsByClassName('color-'+i);
+//   console.log("Elem: ",elements)
+//   for (var elem in elements){
+//     set_color(elem, i)
+//   }
+
+// }
+
+// set_color('elem-5',2)
+// set_color('elem-6',9)
+// set_color('elem-',2)
+
+
+
+function change_value(slider_id,mode='hmm'){
+
+  console.log(slider_id)
+
+  var other_slider_id;
+
+  var splits = slider_id.split("-");
+
+  var num = parseInt(splits[splits.length - 1])
+
+  other_slider_id = "custom-range-"
+  if (num%2==0){
+    other_slider_id+=(num-1);
+  }
+  else{
+    other_slider_id+=(num+1)
+  }
+  // if (slider_id=="custom-range-1"){
+  //   other_slider_id="custom-range-2"
+  // }
+
+  // if (slider_id=="custom-range-2"){
+  //   other_slider_id="custom-range-1"
+  // }
+  
+
+  // if (slider_id=="custom-range-3"){
+  //   other_slider_id="custom-range-4"
+  // }
+  
+
+  // if (slider_id=="custom-range-4"){
+  //   other_slider_id="custom-range-3"
+  // }
+
+  // if (slider_id=="custom-range-5"){
+  //   other_slider_id="custom-range-6"
+  // }
+
+
+  // if (slider_id=="custom-range-6"){
+  //   other_slider_id="custom-range-5"
+  // }
+
+
+    
+  var main_slider = document.getElementById(slider_id)
+  var other_slider = document.getElementById(other_slider_id)
+
+
+
+  other_slider.value = 100 - parseInt(main_slider.value)
+
+  var entry_1 = document.getElementById(slider_id+'-probability')
+  var entry_2 = document.getElementById(other_slider_id+'-probability')
+
+  entry_1.innerHTML= (parseFloat(main_slider.value)/100).toFixed(2)
+  entry_2.innerHTML= (parseFloat(other_slider.value)/100).toFixed(2)
+
+
+  // console.log(main_slider, other_slider_id, parseInt(main_slider.value))
+
+  if (mode=='mm'){
+
+    change_fsm()
+
+  }
+
+
+  else{
+    render_hmm_chain_1()
+  }
+  
+
+}
+
+
+
+
+
+
+
+var slider_1 = document.getElementById('custom-range-1')
+
+var slider_2 = document.getElementById('custom-range-2')
+
+var slider_3 = document.getElementById('custom-range-3')
+
+var slider_4 = document.getElementById('custom-range-4')
+
+var slider_5 = document.getElementById('custom-range-5')
+
+var slider_6 = document.getElementById('custom-range-6')
+
+var slider_7 = document.getElementById('custom-range-7')
+
+var slider_8 = document.getElementById('custom-range-8')
+
+var slider_9 = document.getElementById('custom-range-9')
+
+var slider_10 = document.getElementById('custom-range-10')
+
+var slider_11 = document.getElementById('custom-range-11')
+
+var slider_12 = document.getElementById('custom-range-12')
+
+var slider_13 = document.getElementById('custom-range-13')
+
+var slider_14 = document.getElementById('custom-range-14')
+
+var slider_15 = document.getElementById('custom-range-15')
+
+var slider_16 = document.getElementById('custom-range-16')
+
+
+
+slider_1.oninput = function() {
+  change_value('custom-range-1','mm')
+}
+
+
+slider_2.oninput = function() {
+  change_value('custom-range-2','mm')
+}
+
+
+slider_3.oninput = function() {
+  change_value('custom-range-3','mm')
+}
+
+slider_4.oninput = function() {
+  change_value('custom-range-4','mm')
+}
+
+
+slider_5.oninput = function() {
+  change_value('custom-range-5','mm')
+}
+
+
+slider_6.oninput = function() {
+  change_value('custom-range-6','mm')
+}
+
+slider_7.oninput = function() {
+  change_value('custom-range-7')
+}
+
+slider_8.oninput = function() {
+  change_value('custom-range-8')
+}
+
+slider_9.oninput = function() {
+  change_value('custom-range-9')
+}
+
+slider_10.oninput = function() {
+  change_value('custom-range-10')
+}
+
+slider_11.oninput = function() {
+  change_value('custom-range-11')
+}
+
+slider_12.oninput = function() {
+  change_value('custom-range-12')
+}
+
+slider_13.oninput = function() {
+  change_value('custom-range-13')
+}
+
+slider_14.oninput = function() {
+  change_value('custom-range-14')
+}
+
+
+slider_15.oninput = function() {
+  change_value('custom-range-15')
+}
+
+
+slider_16.oninput = function() {
+  change_value('custom-range-16')
+}
+
+
+for(var q=1;q<7;q++){
+
+  var elem  = document.getElementById('custom-range-'+q+"-probability")
+
+  elem.parentElement.style.background = colors[q-1];
+}
+
+
+for(var q=1;q<11;q++){
+
+  var elem  = document.getElementById('custom-range-'+(q+6)+"-probability")
+
+  elem.parentElement.style.background = colors[q-1];
+}
+
+for(var q=17;q<27;q++){
+
+  var elem  = document.getElementById('custom-range-'+(q)+"-probability")
+
+  elem.parentElement.style.background = colors[q-17];
+}
+
+
+
+
+function reset_markov_chain(){
+  markov_chain_1.graph.clear();
+  markov_chain_1.refresh()
+  markov_chain_pos=-1;
+  render_markov_chain_1();
+}
+
+function change_fsm(){
+    var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
+  var pi_b = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
+
+  var a_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
+  var a_b  = parseFloat(document.getElementById('custom-range-4-probability').innerHTML)
+
+  var b_a  = parseFloat(document.getElementById('custom-range-5-probability').innerHTML)
+  var b_b  = parseFloat(document.getElementById('custom-range-6-probability').innerHTML)
+
+  var size = 4;
+
+  edges_sizes = [a_a*size, a_b*size, b_a*size, b_b*size]
+
+  console.log(edges_sizes)
+
+  for(var i=0;i<4;i++){
+    if (edges_sizes[i]==0){
+      fsm.graph.edges()[i].hidden=true;
+    }
+    else{
+     fsm.graph.edges()[i].hidden=false;
+     fsm.graph.edges()[i].size=edges_sizes[i]; 
+    }
+  }
+
+
+  fsm.refresh()
+}
+
+function render_markov_chain_1(){
+
+  change_fsm()
+
+      var pi_a = parseFloat(document.getElementById('custom-range-1-probability').innerHTML)
+  var pi_b = parseFloat(document.getElementById('custom-range-2-probability').innerHTML)
+
+  var a_a  = parseFloat(document.getElementById('custom-range-3-probability').innerHTML)
+  var a_b  = parseFloat(document.getElementById('custom-range-4-probability').innerHTML)
+
+  var b_a  = parseFloat(document.getElementById('custom-range-5-probability').innerHTML)
+  var b_b  = parseFloat(document.getElementById('custom-range-6-probability').innerHTML)
+
+
+  // console.log(document.getElementById('custom-range-5-probability').innerHTML)
+  // console.log(pi_a)
+  
+  // markov_chain_1.graph.clear()
+
+  var coin_types = ['fair','biased']
+
+  var coins = [0,1]
+
+  var prev_index;
+
+  var x = -6;
+
+  var node_id = 0;
+
+  var prev_node;
+
+
+  // var node = return_coin_node(-1,x,2,"empty")
+
+  // markov_chain_1.graph.addNode(node)
+
+  // x+=2;
+
+if (markov_chain_pos==-1){
+  
+  var node = return_coin_node(-1,x,2,"empty")
+  markov_chain_1.graph.addNode(node)
+  x+=2;
+  for(var i=0;i<6;i++){
+    var node = create_node(i, x, 2, "")
+    node.color="transparent"
+    node.label=""
+    markov_chain_1.graph.addNode(node)
+    x+=2;
+  }
+
+  for(var i=-1;i<5;i++){
+    var edge = create_edge(i,i,i+1)
+    edge.color='transparent'
+    edge.label=""
+    markov_chain_1.graph.addEdge(edge)
+  }
+}
+
+  
+  var i = markov_chain_pos;
+
+
+    if (i==-1){
+      var q=0;
+
+    }
+
+    else{
+      if (i==0){
+      chosen_index = sample_with_probablities(coins, [pi_a,pi_b])
+    }
+    else{
+      prev_index = chosen_index;
+      if (prev_index==0){
+        chosen_index = sample_with_probablities(coins, [a_a,a_b])
+      }
+
+      else{
+        chosen_index = sample_with_probablities(coins, [b_a,b_b])
+      }
+    }
+    // console.log(chosen_index)
+    var node = return_coin_node(node_id,x,2,coin_types[chosen_index])
+    console.log(markov_chain_1.graph.nodes(), i+1)
+    markov_chain_1.graph.nodes()[i+1].color = node.color
+    markov_chain_1.graph.nodes()[i+1].label = node.label
+    }
+    
+    // markov_chain_1.graph.nodes[i].color = node.color
+
+    if (i==0){
+
+      var edge = create_edge(-1, -1, node_id, )
+      edge.color = colors[chosen_index]
+      markov_chain_1.graph.edges()[i].color = edge.color      
+    }
+
+
+    if (i>0){
+      var edge = create_edge(node_id, node_id-1, node_id);
+      edge.color = colors[2+2*prev_index+chosen_index]
+      markov_chain_1.graph.edges()[i].color = edge.color      
+    }
+
+
+
+    node_id+=1
+    x+=2;
+
+  
+
+  // markov_chain_1.graph.nodes()[i].color = node.color; 
+  // markov_chain_1.graph.nodes()[i].label = node.label; 
+
+  // console.log(markov_chain_1.graph.nodes())
+  markov_chain_1.refresh()
+  markov_chain_pos+=1;
+
+}
+
+markov_chain_1 = new sigma({
+  graph: g,
+  container: 'markov-chain-1',
+  renderer: {
+    container: document.getElementById('markov-chain-1'),
+    type: sigma.renderers.canvas
+  },
+  settings : {
+        minArrowSize: 10,
+        maxNodeSize: 32,
+        maxEdgeSize: 4,
+        mouseEnabled:false,
+  }
+});
+
+markov_chain_1.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 1.1 });
+
+
+var markov_chain_pos=-1;
+
+reset_markov_chain();
+reset_markov_chain();
+reset_markov_chain();
+reset_markov_chain();
+
+
+
+// $.getJSON("https://raw.githubusercontent.com/nipunbatra/hmm/master/trans_mat.json?token=AGJEY4QTOCBOY2NO55ES2SS6T4XRY", function(json) {
+//     console.log(json); // this will show the info it in firebug console
+// });
+
+
+var trans_mat;
+
+var pi_mat;
+
+
+// var xmlhttp = new XMLHttpRequest();
+// xmlhttp.onreadystatechange = function() {
+//   console.log('inside')
+//   if (this.readyState == 4 && this.status == 200) {
+//     if (this.responseText=="https://raw.githubusercontent.com/nipunbatra/hmm/master/trans_mat.json?token=AGJEY4QTOCBOY2NO55ES2SS6T4XRY"){
+//       trans_mat = JSON.parse(this.responseText);
+//       console.log('transmat')
+//       console.log(trans_mat)  
+//     }
+//     else{
+//       console.log('pimat')
+//       pi_mat = JSON.parse(this.responseText)
+//       console.log(pi_mat)
+//     }
+//     // console.log(myObj)
+//   }
+// };
+// xmlhttp.open("GET", "https://raw.githubusercontent.com/nipunbatra/hmm/master/trans_mat.json?token=AGJEY4QTOCBOY2NO55ES2SS6T4XRY", true);
+// xmlhttp.send();
+
+
+// console.log("hehe")
+
+
+hmm = new sigma({
+  graph: g,
+  container: 'hmm',
+  renderer: {
+    container: document.getElementById('hmm'),
+    type: sigma.renderers.canvas
+  },
+  settings : {
+        minArrowSize: 10,
+        maxNodeSize: 12,
+        maxEdgeSize: 1,        
+        mouseEnabled:false,
+  
+  }
+});
+
+
+
+var pos=-1;
+var x=-1.5;
+var hidden=true;
+
+
+var nodes_to_display = -1;
+
+
+
+function render_hmm_chain_1(mode='slow-sample'){
+  console.log("Rerender HMm")
+    hmm.graph.clear()
+
+
+
+  var pi_a = parseFloat(document.getElementById('custom-range-7-probability').innerHTML)
+  var pi_b = parseFloat(document.getElementById('custom-range-8-probability').innerHTML)
+
+  var a_a  = parseFloat(document.getElementById('custom-range-9-probability').innerHTML)
+  var a_b  = parseFloat(document.getElementById('custom-range-10-probability').innerHTML)
+
+  var b_a  = parseFloat(document.getElementById('custom-range-11-probability').innerHTML)
+  var b_b  = parseFloat(document.getElementById('custom-range-12-probability').innerHTML)
+
+  var f_h  = parseFloat(document.getElementById('custom-range-13-probability').innerHTML)
+  var f_t  = parseFloat(document.getElementById('custom-range-14-probability').innerHTML)
+
+  var b_h  = parseFloat(document.getElementById('custom-range-15-probability').innerHTML)
+  var b_t  = parseFloat(document.getElementById('custom-range-16-probability').innerHTML)
+
+
+  var coins = [0,1]
+
+  var coin_types = ['fair','biased']
+  
+  var node = return_coin_node(-1,x,-0.25,"empty")
+  hmm.graph.addNode(node)
+  x+=0.5
+
+  var chosen_hidden_node;
+  var previous_hidden_node;
+
+  var node_id=0;
+
+  for(var i=0;i<6;i++){
+    if (i==0){
+      chosen_hidden_node = sample_with_probablities(coins, [pi_a,pi_b])
+    }
+    else{
+      previous_hidden_node = chosen_hidden_node;
+      if (previous_hidden_node==0){
+        chosen_hidden_node = sample_with_probablities(coins, [a_a,a_b])
+      }
+      else{
+        chosen_hidden_node = sample_with_probablities(coins, [b_a,b_b])
+      }
+    }
+
+
+    var node = return_coin_node(node_id,x,-0.25,coin_types[chosen_hidden_node])
+    hmm.graph.addNode(node)
+
+
+
+    if (i==0){
+
+      var edge = create_edge(-1, -1, node_id, )
+      edge.color = colors[chosen_hidden_node]
+    }
+
+
+    if (i>0){
+      var edge = create_edge(node_id, node_id-2, node_id);
+      edge.color = colors[2+2*previous_hidden_node+chosen_hidden_node]
+      
+    }
+    hmm.graph.addEdge(edge) 
+    node_id+=1;
+
+    /// Observation
+
+    if (chosen_hidden_node==0){
+      var observation = sample_with_probablities(coins, [f_h,f_t])
+    }
+    else{
+      var observation = sample_with_probablities(coins, [b_h,b_t])
+    }
+
+    var c = ['head','tail']
+    var node = return_coin_node(node_id, x, 0.25, c[observation])
+    hmm.graph.addNode(node)
+
+
+    var edge = create_edge(node_id, node_id-1, node_id);
+    edge.color = colors[6+2*chosen_hidden_node+observation]
+    hmm.graph.addEdge(edge)
+    x+=0.5;
+    node_id+=1
+    }
+
+  
+
+  hmm.refresh()
+
+
+}
+
+render_hmm_chain_1()
+
+document.getElementById('resetbtn').click();
+document.getElementById('resetbtn').click();
+document.getElementById('resetbtn').click();
+
+hmm.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: .8 });
+
+
+// var x = -3;
+
+// var node = create_node(-1, x, -0.5)
+// node.color= 'rgb(148,103,189)'
+// node.label = "x_0"
+// graph_2.graph.addNode(node)
+// x+=1
+
+
+var generated_text=  document.getElementById('generated_text')
+
+// var words = ["John","is","a ",'good','boy']
+
+// var cnt = 0;
+
+// window.setInterval(function(){
+  
+//   if (cnt==10){
+//     cnt=0;
+//     generated_text.innerHTML=" ";
+//   }  
+//   else{
+//     cnt+=1;
+//     generated_text.innerHTML+=words[Math.floor(Math.random()*5)]+' '
+//   }
+
+
+
+// }, 1000);
+
+
+
+var T = 5;
+
+for(var i=0;i<5;i++){
+
+  var table = document.getElementById("viterbi-table");
+  
+  var row = table.insertRow(i+1);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  var cell3 = row.insertCell(2);
+  var cell4 = row.insertCell(3);
+  var cell5 = row.insertCell(4);
+  var cell6 = row.insertCell(5);
+
+
+
+  cell1.innerHTML = "t="+(i+1);//"\( \delta_{ "+ (i+1) + " }\)";
+  cell2.id = "probability-of-"+(i+1)+"-"+"fair"
+  cell3.id = "probability-of-"+(i+1)+"-"+"biased"
+  cell4.id = "psi-of-"+(i+1)+"-"+"fair"
+  cell5.id = "psi-of-"+(i+1)+"-"+"biased"
+  cell6.id="z-star-"+(i+1)
+  
+
+  
+
+
+}
+  
+
+function viterbi_next(){
+  
+  psuedo_code_highlighter();
+
+}
+
+function viterbi_previous(){
+  
+  psuedo_code_highlighter()
+}
+
+
+function change_variable(name, value){
+  var elem = document.getElementById('variable-'+name)
+  elem.innerHTML = "var " +name + " = "+value
+}
+
+function add_variable(name,value, color=''){
+    
+  var div = document.getElementById('variables')
+  var para = document.createElement("button");
+  para.innerHTML ="var " +name + " = " + value;
+  para.id="variable-"+name;
+  para.classList.add("btn");
+  para.style.width='20%';;
+  para.style.background = color;  
+  
+  div.appendChild(para);
+
+}
+
+function create_span_tag(value, color){
+
+  var span = document.createElement("span");
+  span.innerHTML = value;
+  span.style.padding = "0.5em";
+  span.style.background = color;
+  return span;
+ 
+
+}
+
+
+function show_output(t,s){
+
+  var t_ = t;
+  var s_ = s;
+
+
+  var main_elem = document.getElementById('explanation-1');
+
+  main_elem.innerHTML=""
+
+  var main_elem_2 = document.getElementById('explanation-2')
+
+  main_elem_2.innerHTML=""
+
+
+
+
+  var pi_a = parseFloat(document.getElementById('custom-range-17-probability').innerHTML)
+  var pi_b = parseFloat(document.getElementById('custom-range-18-probability').innerHTML)
+
+  var a_a  = parseFloat(document.getElementById('custom-range-19-probability').innerHTML)
+  var a_b  = parseFloat(document.getElementById('custom-range-20-probability').innerHTML)
+
+  var b_a  = parseFloat(document.getElementById('custom-range-21-probability').innerHTML)
+  var b_b  = parseFloat(document.getElementById('custom-range-22-probability').innerHTML)
+
+  var f_h  = parseFloat(document.getElementById('custom-range-23-probability').innerHTML)
+  var f_t  = parseFloat(document.getElementById('custom-range-24-probability').innerHTML)
+
+  var b_h  = parseFloat(document.getElementById('custom-range-25-probability').innerHTML)
+  var b_t  = parseFloat(document.getElementById('custom-range-26-probability').innerHTML)
+
+  var coin_type = s_-1;
+
+  var out;
+
+  var phi_dict_colors = {};
+
+  var phi_dict_values = {};
+
+  var pi_dict_values = {};
+
+  var pi_dict_colors = {};
+
+  var trans_dict_values = {};
+
+  var trans_dict_colors = {};
+
+  pi_dict_colors[0] = colors[0];
+  pi_dict_colors[1] = colors[1];
+
+  pi_dict_values[0] = pi_a;
+  pi_dict_values[1] = pi_b;
+
+
+  trans_dict_colors[0] = colors[2]
+  trans_dict_colors[1] = colors[3]
+  trans_dict_colors[2] = colors[4]
+  trans_dict_colors[3] = colors[5]
+
+  trans_dict_values[0] = a_a;
+  trans_dict_values[1] = a_b;
+  trans_dict_values[2] = b_a;
+  trans_dict_values[3] = b_b;
+
+
+
+  phi_dict_colors[0] = colors[6]
+  phi_dict_colors[1] = colors[7]
+  phi_dict_colors[2] = colors[8]
+  phi_dict_colors[3] = colors[9]
+
+  phi_dict_values[0] = f_h;
+  phi_dict_values[1] = f_t;
+  phi_dict_values[2] = b_h;
+  phi_dict_values[3] = b_t;
+
+
+
+  if (sequence[t-1]=="H"){
+    out=0
+  }
+
+  else{
+    out=1
+  }
+
+  console.log(coin_type, out)
+
+  var multiply_operator = create_span_tag("X",'transparent');
+  var addition_operator = create_span_tag("+",'transparent');
+  var equal_operator = create_span_tag("=",'transparent');
+  var max_begin_operator = create_span_tag("MAX ( ",'transparent');
+  var max_end_operator = create_span_tag(")",'transparent');
+  var comma_operator = create_span_tag(",","transparent")
+  
+  var max_begin_operator_2 = create_span_tag("MAX ( ",'transparent');
+  var max_end_operator_2 = create_span_tag(")",'transparent');
+  var comma_operator_2 = create_span_tag(",","transparent")
+
+  console.log(phi_dict_colors)
+  console.log(phi_dict_values)
+
+
+
+
+  // console.log(phi_dict_values[coin_type,out])
+  // console.log()
+
+  var types_of_coins = ['fair','biased']
+
+  var key_value = 2*coin_type+out
+
+  var type_of_coin = types_of_coins[coin_type];
+
+  if(t_==1){
+
+    
+
+    console.log(key_value)
+      
+    var elem_1 = create_span_tag(pi_dict_values[coin_type], pi_dict_colors[coin_type])
+    var elem_2 = create_span_tag(phi_dict_values[key_value], phi_dict_colors[key_value])
+    var result = create_span_tag(phi_dict_values[key_value] * pi_dict_values[coin_type], 'transparent')
+
+
+    main_elem.appendChild(elem_1)
+    main_elem.appendChild(multiply_operator)
+    main_elem.appendChild(elem_2)
+    main_elem.appendChild(equal_operator)
+    main_elem.appendChild(result)
+
+    
+
+    var elem = document.getElementById('probability-of-'+t+'-'+type_of_coin)
+    elem.innerHTML = phi_dict_values[key_value] * pi_dict_values[coin_type];
+
+
+    var elem = document.getElementById('psi-of-'+t+'-'+type_of_coin)
+    elem.innerHTML = 0;
+
+  }
+
+  else{
+
+    var state_key_1 = coin_type;
+    var state_key_2 = 2+coin_type;
+
+
+    var output_prob_elem = create_span_tag(phi_dict_values[key_value],phi_dict_colors[key_value])
+
+
+    var elem_1 = create_span_tag(trans_dict_values[state_key_1], trans_dict_colors[state_key_1])
+    var prev_result_1 = parseFloat(document.getElementById('probability-of-'+(t_-1)+'-'+'fair').innerHTML).toFixed(6)
+    var prev_result_1_elem = create_span_tag(prev_result_1,'transparent')
+
+    var result_1 = (prev_result_1 * trans_dict_values[state_key_1] ).toFixed(6)
+    var result_1_elem = create_span_tag(result_1,'transparent')
+
+    var elem_2 = create_span_tag(trans_dict_values[state_key_2], trans_dict_colors[state_key_2])
+    var prev_result_2 = parseFloat(document.getElementById('probability-of-'+(t_-1)+'-'+'biased').innerHTML).toFixed(6)
+    var prev_result_2_elem = create_span_tag(prev_result_2,'transparent')
+
+    var result_2 = (prev_result_2 * trans_dict_values[state_key_2]).toFixed(6)
+    var result_2_elem = create_span_tag(result_2,'transparent')
+
+    var multiply_operator_1 = create_span_tag("X",'transparent');
+    var multiply_operator_2 = create_span_tag("X",'transparent');
+    var multiply_operator_3 = create_span_tag("X",'transparent');
+
+
+    main_elem.appendChild(max_begin_operator)
+    main_elem.appendChild(prev_result_1_elem)
+    main_elem.appendChild(multiply_operator_1)
+    main_elem.appendChild(elem_1)
+    main_elem.appendChild(comma_operator)
+    main_elem.appendChild(prev_result_2_elem)
+    main_elem.appendChild(multiply_operator_2)
+    main_elem.appendChild(elem_2)
+    main_elem.appendChild(max_end_operator)
+    main_elem.appendChild(multiply_operator_3)
+    main_elem.appendChild(output_prob_elem)
+
+    console.log(trans_dict_values[state_key_2]);
+
+    var multiply_operator_4 = create_span_tag("X",'transparent');
+
+    var output_prob_elem_2 = create_span_tag(phi_dict_values[key_value],phi_dict_colors[key_value])
+
+    main_elem_2.appendChild(max_begin_operator_2)
+    main_elem_2.appendChild(result_1_elem)
+    main_elem_2.appendChild(comma_operator_2)
+
+    main_elem_2.appendChild(result_2_elem)
+    main_elem_2.appendChild(max_end_operator_2)
+    main_elem_2.appendChild(multiply_operator_4)
+    main_elem_2.appendChild(output_prob_elem_2)
+    main_elem_2.appendChild(equal_operator)
+
+
+
+    var final_result;
+    var final_index;
+    
+    if (result_1>result_2){
+      final_index="Fair";
+
+      final_result = phi_dict_values[key_value] * result_1
+      
+    }
+    else{
+      final_index="Biased"
+      final_result = phi_dict_values[key_value] * result_2
+
+    }
+
+    final_result = final_result.toFixed(6)
+
+    var final_result_elem = create_span_tag(final_result, "transparent")
+    main_elem_2.appendChild(final_result_elem)
+
+
+    var elem = document.getElementById('probability-of-'+t+'-'+type_of_coin)
+    elem.innerHTML = final_result;
+
+
+    var elem = document.getElementById('psi-of-'+t+'-'+type_of_coin)
+    elem.innerHTML = final_index;
+
+
+    
+    // console.log(trans_dict_values)
+    // console.log(state_key_1)
+    // console.log(state_key_2)
+
+    // console.log(prev_result_1)
+    // console.log(trans_dict_values[state_key_1])
+
+    // console.log(prev_result_2)
+    // console.log(trans_dict_values[state_key_2])
+    
+
+    // console.log(result_1)
+    // console.log(result_2)
+    // console.log(Math.max(result_1,result_2))
+
+
+
+
+
+
+  }
+
+
+
+
+}
+
+function disable_background(id){
+  var elem = document.getElementById(id);
+  elem.style.background = 'white';
+}
+
+function enable_background(id){
+  var elem = document.getElementById(id);
+  elem.style.background = '#7171d680';
+}
+
+
+
+function disable_all_backgrounds(){
+    for(var q=1;q<T+1;q++){
+    for(var r=1;r<3;r++){
+        var coin_type = coins[r-1];
+        
+        disable_background("probability-of-"+q+"-"+coin_type)     
+        disable_background("psi-of-"+q+"-"+coin_type)     
+
+
+    }
+
+  }
+    
+}
+
+
+
+function change_background(elem_id, color){
+  document.getElementById(elem_id).style.background = color
+}
+
+function termination_backtracking_psuedo_code_highlighter(){
+
+  var color1 = 'orange'
+  var color2 = 'pink'
+  if(t==5){
+    if (mode==0){
+      enable_borders('termination');     
+      change_background('probability-of-5-fair',color1)
+      change_background('probability-of-5-biased',color2)
+      
+      change_background('psi-of-5-fair',color1)
+      change_background('psi-of-5-biased',color2)
+   
+
+      var v1 = parseFloat(document.getElementById('probability-of-5-fair').innerHTML);
+      var v2 = parseFloat(document.getElementById('probability-of-5-biased').innerHTML);
+
+      var the_best_coin;
+      if (v1>v2){
+        
+        the_best_coin = 'Fair';
+      }
+      else{
+        
+        the_best_coin ='Biased'
+      }
+
+      change_background('z-star-5','#7171d680');
+      document.getElementById('z-star-5').innerHTML = the_best_coin;
+
+    }
+    t-=1;
+  }
+  else{
+
+    if(t>=1){
+      console.log("current t",t)
+      disable_borders('termination'); 
+
+      var new_c_1 = 'red';
+      var new_c_2 = 'orange'
+      var new_c_3 = 'blue'
+
+      for(var u=1;u<6;u++){
+        disable_background('probability-of-'+(u)+'-fair')
+        disable_background('probability-of-'+(u)+'-biased')  
+        disable_background('psi-of-'+(u)+'-fair')
+        disable_background('psi-of-'+(u)+'-biased')
+        disable_background('z-star-'+(u))
+
+
+      }
+      
+
+
+      if (mode==0){
+        enable_borders('backtracking-loop')
+        disable_borders('backtracking-content')
+        mode=1;
+      }
+
+      else{
+        disable_borders('backtracking-loop')
+        enable_borders('backtracking-content')
+        console.log(t)
+
+        change_background('z-star-'+t,new_c_3)
+
+        var next_coin_type = document.getElementById('z-star-'+(t+1)).innerHTML;
+
+        console.log('psi-of-'+(t+1)+'-'+next_coin_type)
+        if (next_coin_type=="Fair"){
+          change_background('z-star-'+(t+1),new_c_1);
+          change_background('psi-of-'+(t+1)+'-fair',new_c_2);
+             
+        }
+        else{
+          change_background('z-star-'+(t+1),new_c_1);
+          change_background('psi-of-'+(t+1)+'-biased',new_c_2);
+        }
+        
+        document.getElementById('z-star-'+t).innerHTML = next_coin_type;
+
+        mode=0;
+        t-=1;
+      }
+
+
+   }
+
+   else{
+
+      for(var u=1;u<6;u++){
+        disable_background('probability-of-'+(u)+'-fair')
+        disable_background('probability-of-'+(u)+'-biased')  
+        disable_background('psi-of-'+(u)+'-fair')
+        disable_background('psi-of-'+(u)+'-biased')
+        disable_background('z-star-'+(u))
+
+
+      }
+              disable_borders('backtracking-content')
+    
+   }
+
+
+  }
+
+
+}
+
+function psuedo_code_highlighter(){
+
+  var main_elem = document.getElementById('explanation-1');
+
+  main_elem.innerHTML=""
+
+  var main_elem_2 = document.getElementById('explanation-2')
+
+  main_elem_2.innerHTML=""
+
+
+  if(t>5){
+    console.log("done everything")
+    document.getElementById('viterbi_1').style.display='none';
+    document.getElementById('viterbi_2').style.display='block';
+          for(var q=1;q<T+1;q++){
+            for(var r=1;r<3;r++){
+                var coin_type = coins[r-1];
+                disable_background("probability-of-"+q+"-"+coin_type)     
+                disable_background("psi-of-"+q+"-"+coin_type)     
+          }
+        }
+
+    
+    var main_elem = document.getElementById('explanation-1');
+
+    main_elem.innerHTML=""
+
+    var main_elem_2 = document.getElementById('explanation-2')
+
+    main_elem_2.innerHTML=""
+
+    var elem = document.getElementById('variables')
+    elem.innerHTML = "";
+
+    document.getElementById('backtracking_button').style.display='block'
+    document.getElementById('next_viterbi_button').style.display='none'
+
+    t = 5;
+
+    mode=0;
+
+  }
+  else{
+ 
+
+
+  // console.log(t,s,algo_mode)
+
+
+  if(t==1 && s<3){
+    if (algo_mode==0){
+      
+      enable_borders('for-loop-1');
+      disable_borders('for-loop-1-content')
+      disable_all_backgrounds()
+
+      if(s==1){
+        add_variable('i',1,"#fd8000")
+      }
+      if(s==2){
+        change_variable('i',2) 
+      }
+      algo_mode=1;
+    }
+
+    else if(algo_mode==1){
+
+      disable_borders('for-loop-1');
+      enable_borders('for-loop-1-content')
+
+      if(s==1){
+        
+       [s,t] =  viterbi(1,1)
+
+       
+      algo_mode=0;
+      }
+
+      else{
+           
+       [s,t] =  viterbi(2,1)
+        algo_mode=0;
+
+        }
+    
+    }
+  }
+
+  else if (t==1 && s==3){
+    t=2;
+    s=1;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if(t!=1){
+
+    if(t==2 && s==3){
+      s=1;
+    }
+
+    
+    if(t==2){
+
+        if (algo_mode==0){
+          var elem = document.getElementById('variables')
+          elem.innerHTML = "";
+          add_variable('t',t,'#fd8000')    
+        }
+
+        else if(algo_mode==1 && s==1){
+
+             add_variable('j',s,'#fd8000')
+        }
+       
+        else if (algo_mode==1 && s==2){
+
+            change_variable('j',s)
+
+        }
+    }
+
+
+
+    else{
+
+      if (algo_mode==0){
+        change_variable('t',t)
+      }
+
+      if (algo_mode==1){
+        change_variable('j',s)
+      }
+
+    }
+
+
+
+
+
+
+      if(algo_mode==0){
+          enable_borders('for-loop-2');
+          disable_borders('for-loop-1-content')
+          disable_borders('for-loop-3')
+          disable_borders('for-loop-3-content')
+          disable_all_backgrounds()
+          algo_mode=1
+      }
+
+      else if(algo_mode==1){
+          disable_borders('for-loop-2');
+          disable_borders('for-loop-1-content')
+          enable_borders('for-loop-3')
+          disable_borders('for-loop-3-content')
+          disable_all_backgrounds()
+          algo_mode=2
+      }
+      else if(algo_mode==2){
+          disable_borders('for-loop-2');
+          disable_borders('for-loop-1-content')
+          disable_borders('for-loop-3')
+          enable_borders('for-loop-3-content')
+          var res= viterbi(s,t)
+          s = res[0];
+          t = res[1];
+          algo_mode=1
+      }
+
+
+    if (s==3){
+        algo_mode=0;
+        s=1;
+        t+=1;
+
+    }
+
+
+
+
+    }
+
+
+    
+    }
+
+
+}
+
+function viterbi(s,t){
+
+  show_output(t,s)
+// console.log(t,s)
+
+  if(t<1){
+    t+=1;
+  }
+
+  else{
+      
+        // console.log("coin ",s)      
+        var coin_type = coins[s-1];
+        disable_all_backgrounds()
+        enable_background("probability-of-"+t+"-"+coin_type)     
+        enable_background("psi-of-"+t+"-"+coin_type)     
+
+
+        s+=1;
+
+
+  }
+
+
+
+return [s,t]
+
+
+  
+}
+
+var algo_mode=0;
+var t=1;
+var s = 1;
+var sequence = ["H","H","H","H","H"]
+
+
+
+// for(var t=1;t<T+1;t++){
+//   for(var s=1;s<3;s++){
+//     var type;
+//     if (s==1){
+//       type= 'fair'
+//     }
+//     else{
+//       type= 'biased'
+//     }
+//       var elem = document.getElementById("probability-of-"+t+"-"+type);
+//       elem.style.bordorColor = 'green'
+//       elem.style.border= 'solid'
+
+//   }
+// }
+
+function disable_borders(id){
+
+  var elem = document.getElementById(id)
+  elem.style.border = "solid";
+  elem.style.borderTopColor = 'transparent';
+  elem.style.borderLeftColor = 'transparent';
+  elem.style.borderRightColor = 'transparent';
+  elem.style.borderBottomColor = 'transparent';
+}
+
+function enable_borders(id){
+  // console.log(id)
+
+  var elem = document.getElementById(id)
+  elem.style.border = "solid";
+  elem.style.borderTopColor = 'black';
+  elem.style.borderLeftColor = 'black';
+  elem.style.borderRightColor = 'black';
+  elem.style.borderBottomColor = 'black';
+}
+
+
+
+var coins = ['fair','biased']
+
+
+
+
+
+// window.setInterval(function(){
+//   // console.log('yo',t,s)
+
+  
+
+
+
+
+// }, 2000);
+
+
+
+
+
+
+</script>
+
+<script type="text/javascript">
+  
+
+trans_mat = {"the": {"the": 0.0, "great": 0.22, "stark": 0.03, "lannister": 0.03, "cersei": 0.0, "tywin": 0.0, "king": 0.33, "lord": 0.21, "robert": 0.0, "arya": 0.0, "queen": 0.17}, "great": {"the": 0.06, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.06, "lord": 0.33, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "stark": {"the": 0.15, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.08, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "lannister": {"the": 0.2, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.07, "robert": 0.0, "arya": 0.0, "queen": 0.07}, "cersei": {"the": 0.07, "great": 0.0, "stark": 0.0, "lannister": 0.7, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "tywin": {"the": 0.03, "great": 0.0, "stark": 0.0, "lannister": 0.81, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "king": {"the": 0.04, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.83, "arya": 0.0, "queen": 0.0}, "lord": {"the": 0.0, "great": 0.0, "stark": 0.04, "lannister": 0.0, "cersei": 0.0, "tywin": 0.89, "king": 0.0, "lord": 0.0, "robert": 0.04, "arya": 0.0, "queen": 0.0}, "robert": {"the": 0.44, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "arya": {"the": 0.4, "great": 0.0, "stark": 0.27, "lannister": 0.0, "cersei": 0.0, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}, "queen": {"the": 0.0, "great": 0.0, "stark": 0.0, "lannister": 0.0, "cersei": 0.71, "tywin": 0.0, "king": 0.0, "lord": 0.0, "robert": 0.0, "arya": 0.0, "queen": 0.0}}
+
+
+
+var words = []
+
+for(var i in trans_mat){
+  words.push(i)
+}
+
+
+
+var sentence_length = 0;
+
+var prev_word;
+var chosen_word;
+
+
+
+var individual_probabilities = {};
+for(var i in trans_mat){
+  var prob_sum = 0;
+  for(var j in trans_mat[i]){
+    prob_sum+= trans_mat[i][j];
+  }
+  individual_probabilities[i] = prob_sum;
+}
+
+window.setInterval(function(){
+
+  if(sentence_length==0){
+    chosen_word = words[Math.floor(Math.random()*words.length)];
+  }
+  
+  else{
+    
+    var probabilities = [];
+    words = [];
+    for(var i in trans_mat[prev_word]){
+      probabilities.push(trans_mat[prev_word][i]);
+      words.push(i)
+    }
+
+    console.log(prev_word,words,probabilities)
+    chosen_word = sample_with_probablities(words, probabilities)
+    generated_text.innerHTML+=chosen_word+' ';
+  }
+
+
+  if (sentence_length==10){
+    sentence_length=-1;
+    generated_text.innerHTML=" ";
+  }  
+
+  prev_word = chosen_word;
+  sentence_length+=1;
+
+
+}, 1000);
+
+
+text_generation_graph = new sigma({
+  graph: g,
+  container: 'text_generation-diagram',
+  renderer: {
+    container: document.getElementById('text_generation-diagram'),
+    type: sigma.renderers.canvas
+  },
+  settings : {
+        minArrowSize: 10,
+        maxNodeSize: 32,
+        maxEdgeSize: 4,
+        mouseEnabled:false,
+  }
+});
+
+
+
+var radius = 2;
+
+var theta = 0;
+var sector_size = 360/(words.length-1);
+
+for(var q=0;q<words.length;q++){
+
+  var node = create_node(q, radius * Math.sin(theta), radius * Math.cos(theta))
+  node.color = "orange"
+  node.label = words[q]
+
+  theta+=sector_size;
+
+  text_generation_graph.graph.addNode(node)
+
+  console.log()
+}
+
+
+
+var edge_cnt = 0;
+
+for(var q1=0;q1<words.length;q1++){
+  for(var q2=0;q2<words.length;q2++){
+
+    if(trans_mat[words[q1]][words[q2]]!=0){
+      // console.log()
+      var edge = create_edge(edge_cnt, q1, q2)
+      edge.size = 4*(trans_mat[words[q1]][words[q2]])/individual_probabilities[words[q1]]
+      console.log(words[q1],words[q2], edge.size)
+      text_generation_graph.graph.addEdge(edge)
+      edge_cnt+=1;
+    }
+
+  }
+}
+
+
+text_generation_graph.refresh()
+
+text_generation_graph.cameras[0].goTo({ x: 0, y: 0, angle: 0, ratio: 0.8 });
+
+
+document.getElementById('viterbi_2').style.display='none';
+document.getElementById('backtracking_button').style.display='none';
+
+
+</script>
