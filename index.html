@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Exploring Hidden Markov Model</title>
+  <title>Exploring Hidden Markov Models</title>
   <script defer src="js/template.v2.js"></script>
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <link rel="stylesheet" href="font_awesome/css/font-awesome.min.css">
@@ -542,7 +542,7 @@ padding:1em;
   <d-front-matter>
     <script id='distill-front-matter' type="text/json">
       {
-        "title": "Exploring Hidden Markov Model",
+        "title": "Exploring Hidden Markov Models",
         "description": "Hidden Markov Model - An interactive illustration",
         "authors": [{
             "author": "Kukunuri Rithwik",
@@ -597,7 +597,7 @@ padding:1em;
   </d-front-matter>
 
   <d-title style="padding-bottom: 0">
-    <p>Hidden Markov Model - An interactive illustration</p>
+    <p>Hidden Markov Models - An interactive illustration</p>
   </d-title>
 
   <d-byline></d-byline>
@@ -614,9 +614,9 @@ padding:1em;
 
 
     <br><br>
-
-    HMMs model the data as a sequence. Let us take an example to see why modeling as a sequence makes sense. A sentence like "I like playing …" would often be followed by "guitar," "football," etc. In  such examples, the previous word helps us better guess the next word/words. This is an example of language modeling<d-cite key="murphy"></d-cite>.
-
+    HMMs model the data as a sequence. Let us take an example to see why modeling as a sequence makes sense. A sentence like "I like playing …" would often be followed by "guitar," "football," etc. In such examples, the previous word helps us better guess the next word/words. This is an example of language modeling<d-cite key="murphy"></d-cite>. Step counting algorithms use HMM to classify stationary and moving activities<d-cite key="hmmactivity"></d-cite>. 
+    <br>
+    Markov Chains mathematically describes a sequence of possible events. The probability of each event depends on past events. 
     <br><br>
 
     In this article, we discuss  Markov chains, Hidden Markov Models, and the key problems of Hidden Markov Models.
@@ -932,20 +932,11 @@ We now rewrite our three examples by showing the values in the transition matrix
       </div>
     </div>
 
+      <div style="display: flex; justify-content: center;clear: both">
 
-    
-    <div class="l-screen" style="">
-      <div style="display: flex; justify-content: center;">
-
-        <button type="button" class="btn"  onclick="animate_markov_chain_one()">Simulate</button>
+        <button type="button" class="btn"  onclick="render_markov_chain_1()">Sample Next</button>
         <button type="button" id="resetbtn" class="btn" onclick="reset_markov_chain()">Reset</button>
-
       </div>
-      </div>
-
-
-      
-
 
     </div>
 
@@ -1321,7 +1312,7 @@ We now redraw our three HMM examples and show their parameters via the FSM repre
         <div class="l-screen" style="">
       <div style="display: flex; justify-content: center;">
 
-      <button type="button" class="btn"  onclick="animate_hmm_chain_one()">Simulate</button>
+      <button type="button" class="btn"  onclick="render_hmm_chain_1('resample')">Sample Next</button>
       <button type="button" class="btn"  onclick="reset_hmm()">Reset</button>
 
       </div>
@@ -3874,41 +3865,13 @@ for(var q=27;q<37;q++){
 
 
 
-var stop_markov_chain_one_animation=false;
-
-var stop_hmm_chain_one_animation = false;
 
 function reset_markov_chain(){
   markov_chain_1.graph.clear();
   markov_chain_1.refresh()
   markov_chain_pos=-1;
   render_markov_chain_1();
-  stop_markov_chain_one_animation=true;
 }
-
-
-
-function dummy() {
-
-  console.log("Shit");
-
-}
-
-
-var interval_1;
-var interval_2;
-
-
-function animate_markov_chain_one() {
-  stop_markov_chain_one_animation=false;
-
-  interval_1 = setInterval(function() {
-    render_markov_chain_1()
-    }, 1000);
-
-  
-}
-
 
 function change_fsm(){
   
@@ -3949,14 +3912,6 @@ function change_fsm(){
 }
 
 function render_markov_chain_1(){
-  if(stop_markov_chain_one_animation) {
-    console.log("Stopped animation")
-    clearInterval(interval_1);
-    
-  }
-  else{
-    console.log("going on with animation")
-  
 
   
 
@@ -4085,8 +4040,6 @@ if (markov_chain_pos==-1){
   markov_chain_1.refresh()
   markov_chain_pos+=1;
 
-  }
-
 }
 
 markov_chain_1 = new sigma({
@@ -4189,7 +4142,6 @@ var hmm_t=0;
 var hmm_prev_node;
 
 function reset_hmm(){
-  
 
   hmm_t = 0;
   hmm_coins = []
@@ -4293,31 +4245,10 @@ function reset_hmm(){
     }
 
 hmm.refresh()
-
-stop_hmm_chain_one_animation=true;
-clearInterval(interval_2);
-
-}
-
-
-
-
-function animate_hmm_chain_one() {
-  stop_markov_chain_one_animation=false;
-
-  interval_2 = setInterval(function() {
-    render_hmm_chain_1('resample')
-    }, 1000);
-
-  
 }
 
 
 function render_hmm_chain_1(mode='slow-sample'){
-  if (stop_markov_chain_one_animation) {
-    
-    return ;
-  }
   
   var coin_types = ['fair','biased']
   
