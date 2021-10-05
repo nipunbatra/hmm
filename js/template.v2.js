@@ -25,7 +25,7 @@
       <h3>Published</h3>
       ${e.publishedDate?`
         <p>${e.publishedMonth} ${e.publishedDay}, ${e.publishedYear}</p> `:`
-        <p><em>Not published yet.</em></p>`}
+        <p><em>IEEE VISxAI Workshop 2021.</em></p>`}
     </div>
     <div>
       <h3>DOI</h3>
